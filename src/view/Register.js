@@ -24,6 +24,7 @@ import {
 } from 'react-native';
 import PopupDialog, {DialogTitle, SlideAnimation} from 'react-native-popup-dialog';
 import Picker from 'react-native-picker';
+//import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 //const layout = require('../Layout')
 
 const layout = require('/Layout')

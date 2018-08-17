@@ -6,7 +6,8 @@ import {
   View,
   Button,
   DeviceEventEmitter,
-  SafeAreaView
+  SafeAreaView,
+  TouchableHighlight
 } from 'react-native';
 import { TabNavigator, StackNavigator, SwitchNavigator, NavigationActions, createBottomTabNavigator} from 'react-navigation';
 //import { BottomNavigation } from 'react-native-paper';
@@ -41,17 +42,27 @@ class onTopView extends Component {
     });
   }
 
+
+
   render() {
     return (
       
-      <View style = {{ height: layout.deviceHeight, backgroundColor : 'red' }}>
+      <View style = {{ height: layout.deviceHeight + 40 }}>
         
         
         <Tabs 
           
           addBtnOnClicked={ this.addBtnOnClicked }
         />
-        <View style = {{ top: -60, height: 50, width: 50,backgroundColor :'blue' }} />
+        <View style = {{ left:(layout.deviceWidth - 30 )/2, top: -70, height: 30, width: 30,backgroundColor :'blue', borderRadius:25  }} >
+          <TouchableHighlight style={{ backgroundColor: layout.touchHighlightColor, width: 30, height: 30, borderRadius: 15, justifyContent: 'center', alignItems: 'center'}} onPress={()=>{console.log('touched');}}  >
+            <Text
+              style = {{color:'white'}}
+            >
+              +
+            </Text>
+          </TouchableHighlight>
+        </View>
        
         
       </View>
@@ -63,7 +74,7 @@ const Tabs = TabNavigator({
 
   news: NewsStack,
   search: SearchStack,
-  add: SearchStack,
+  add: LessonStack,
   //lesson : LessonStack,
   //search : SearchStack,
   notice: NoticeStack,
@@ -100,7 +111,7 @@ Tabs.router.getStateForAction = (action, state) => {
   return defaultGetStateForAction(action, state)
 }
 
-export default Tabs;
+export default onTopView;
 
 
 /*

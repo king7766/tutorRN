@@ -15,7 +15,7 @@ const LessonStack = StackNavigator({
   LessonHomeView: { 
     screen:  LessonHomeView,
     navigationOptions: {
-      title: '課堂',
+      title: '',
       
       headerStyle: {
         borderBottomColor: layout.themeTextColor,

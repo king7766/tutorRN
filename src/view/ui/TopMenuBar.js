@@ -194,12 +194,15 @@ class TopMenuBar extends Component <TopMenuBarProps>{
   
   itemComponent(item, index)
   {
-    const { multiSelect } = this.props;
+    const { multiSelect, itemHeight, itemWidth } = this.props;
+    
     
     if (index == 0){
       return (
         <View
-          style = {this.borderStyle(index)}
+       
+          //style = {this.borderStyle(index)}
+          style = {{ borderColor : layout.themeTextColor,alignItems:'center', justifyContent:'center', height: itemHeight, width: itemWidth, borderWidth: 1 ,borderRadius:2,  margin: 5   }}
         >
           <Image style = {{height:20, 
             resizeMode:'contain', 
