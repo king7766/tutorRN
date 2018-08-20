@@ -33,31 +33,67 @@ import NoticeStack from './stack/NoticeStack'
 import ProfileStack from './stack/ProfileStack'
 import { action } from '../node_modules/mobx';
 
+import animatedbasic from './view/ui/animatedbasic'
+import {
+  ModalDialog,
+} from '/view/ui/UIComponent';
+
+import PopupDialog, {DialogTitle, SlideAnimation} from 'react-native-popup-dialog';
+
+const slideAnimation = new SlideAnimation({
+  slideFrom: 'bottom',
+});
 class onTopView extends Component {
+
+  constructor(props) {
+    super(props);
+    // 初始状态
+    this.state = {
+        isDialogVisible: false
+    };
+}
 
   componentDidMount() {
     this.deEmitter = DeviceEventEmitter.addListener('add', (a) => {
         //alert('收到通知：' + a);
         console.log('addBtnOnClicked !!!!')
+        this.showDialog()
     });
   }
 
+  addBtnOnClick(){
+    console.log('addBtnOnClick')
+    this.showDialog()
+    //this.popupDialog.show()
+  }
 
+  showDialog(){
+    this.setState({isDialogVisible:true});
+  }
+
+  hideDialog(){
+    this.setState({isDialogVisible:false});
+  }
+  
 
   render() {
     return (
       
       <View style = {{ height: layout.deviceHeight + 40 }}>
-        
-        
+        <ModalDialog
+          _dialogVisible={this.state.isDialogVisible}
+          _dialogLeftBtnAction={()=> {this.hideDialog()}}
+          _dialogRightBtnAction={()=>{this.hideDialog()}}
+        />
         <Tabs 
           
           addBtnOnClicked={ this.addBtnOnClicked }
         />
         <View style = {{ left:(layout.deviceWidth - 30 )/2, top: -70, height: 30, width: 30,backgroundColor :'blue', borderRadius:25  }} >
-          <TouchableHighlight style={{ backgroundColor: layout.touchHighlightColor, width: 30, height: 30, borderRadius: 15, justifyContent: 'center', alignItems: 'center'}} onPress={()=>{console.log('touched');}}  >
+          <TouchableHighlight style={{ backgroundColor: layout.touchHighlightColor, width: 30, height: 30, borderRadius: 15, borderWidth:1, borderColor:layout.touchHighlightColor ,alignItems: 'center'}} onPress={()=>{this.addBtnOnClick()}}  >
             <Text
-              style = {{color:'white'}}
+              style = {{color:'white', fontSize : 20, fontWeight:'bold' }}
+              
             >
               +
             </Text>
@@ -74,6 +110,7 @@ const Tabs = TabNavigator({
 
   news: NewsStack,
   search: SearchStack,
+  //search:animatedbasic,
   add: LessonStack,
   //lesson : LessonStack,
   //search : SearchStack,
