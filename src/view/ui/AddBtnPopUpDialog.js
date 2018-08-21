@@ -10,9 +10,12 @@ import {
     StyleSheet,
     BackAndroid,
     Animated,
-    Image
+    Image,
+    ScrollView,
+    DeviceEventEmitter
 } from 'react-native';
 
+import PopupDialog, {DialogTitle, SlideAnimation} from 'react-native-popup-dialog';
 import Assets from '/view/ui/Assets';
 import animatedbasic from '/view/ui/animatedbasic'
 const layout = require('/Layout')
@@ -21,6 +24,9 @@ let Dimensions = require('Dimensions');
 let SCREEN_WIDTH = Dimensions.get('window').width;//宽
 let SCREEN_HEIGHT = Dimensions.get('window').height;//高
 
+import {
+  CreateLessonView,
+} from '/view/ui/UIComponent';
 
 class MovingView extends Component {
   // 构造
@@ -46,6 +52,7 @@ class MovingView extends Component {
 
   _dialogLeftBtnAction(){
     console.log('_dialogLeftBtnAction')
+    
   }
   
   render() {
@@ -75,7 +82,7 @@ class MovingView extends Component {
                 alignItems:'center', 
                 borderRadius: 15,
                 borderColor: 'white',
-                borderColor: '1',
+                
             
               }} 
               source = {Assets.actions.trytry} 
@@ -93,7 +100,7 @@ class MovingView extends Component {
   }
 }
 
-export default class ModalDialog extends Component {
+class AddBtnPopUpDialog extends Component<Props> {
 
     // 构造
     constructor(props) {
@@ -104,8 +111,8 @@ export default class ModalDialog extends Component {
         }
     }
 
-    omponentDidMount() {
-      
+    componentDidMount() {
+      console.log('12312313')
       Animated.timing(                  // Animate over time
         this.state.fadeAnim,            // The animated value to drive
         {
@@ -143,9 +150,15 @@ export default class ModalDialog extends Component {
         _dialogVisible: false,
     }
 
-    
+    //this.refs.scrollView.scrollTo(0)
    
-
+    hihi()
+    {
+      console.log('jihihihi')
+      //this.refs._scrollView.scrollTo(SCREEN_WIDTH)
+      //this.defaultAnimationDialog.show();
+      DeviceEventEmitter.emit('add', {name:'John', age:23});
+    }
     
 
     render() {
@@ -169,10 +182,23 @@ export default class ModalDialog extends Component {
                 transparent={true}
                 onRequestClose={() => {}} //如果是Android设备 必须有此方法
             >
-              <TouchableHighlight underlayColor = {'transparent'} onPress={this.props._dialogLeftBtnAction}>
+
+              <TouchableHighlight underlayColor = {'transparent'} onPress={this.hihi}>
                 <View style={styles.bg}>
+                  <ScrollView
+                    horizontal = {true}
+                    ref='_scrollView'
+                    
+                    style = {{ width: SCREEN_WIDTH,
+                      height: SCREEN_HEIGHT, flex:1, flexDirection:'row'}}
+                  >
                 
-                  <MovingView 
+
+                  <View
+                    style = {{height:SCREEN_HEIGHT, width: SCREEN_WIDTH}}
+                  >
+                      
+                   <MovingView 
                     style={{position: 'absolute', bottom: 0, width: 250, height: 50,left:20}}
                     move={-250}
                     title = {'新增課堂'}
@@ -190,15 +216,20 @@ export default class ModalDialog extends Component {
                   />
 
                   <View style = {{ position: 'absolute',left:(layout.deviceWidth - 30 )/2, height: 30, width: 30,bottom: 30, backgroundColor :'white', borderRadius:15,alignItems:'center', justifyContent:'center'  }} >
+                
                       <Text
                         style = {{color:'gray', fontSize : 20, fontWeight:'bold' }}
                       >
                         x
                       </Text>
+                    
                   </View>
+                    </View>
+                    <CreateLessonView style ={{height: SCREEN_HEIGHT, width:SCREEN_WIDTH, left: SCREEN_WIDTH, position:'absolute'}}/>
+                 
 
                   
-                  
+                  </ScrollView>
                 </View>
               </TouchableHighlight>
             </Modal>
@@ -282,7 +313,7 @@ const styles = StyleSheet.create({
     }
 });
 
-
+export default AddBtnPopUpDialog;
 /*
 
 <Image style = {{

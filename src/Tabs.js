@@ -35,7 +35,8 @@ import { action } from '../node_modules/mobx';
 
 import animatedbasic from './view/ui/animatedbasic'
 import {
-  ModalDialog,
+  AddBtnPopUpDialog,
+  CreateLessonView,
 } from '/view/ui/UIComponent';
 
 import PopupDialog, {DialogTitle, SlideAnimation} from 'react-native-popup-dialog';
@@ -56,8 +57,10 @@ class onTopView extends Component {
   componentDidMount() {
     this.deEmitter = DeviceEventEmitter.addListener('add', (a) => {
         //alert('收到通知：' + a);
-        console.log('addBtnOnClicked !!!!')
-        this.showDialog()
+        console.log('hihihi !!!!')
+        //this.showDialog()
+        this.hideDialog()
+        this.defaultAnimationDialog.show()
     });
   }
 
@@ -80,11 +83,29 @@ class onTopView extends Component {
     return (
       
       <View style = {{ height: layout.deviceHeight + 40 }}>
-        <ModalDialog
+        <AddBtnPopUpDialog
           _dialogVisible={this.state.isDialogVisible}
           _dialogLeftBtnAction={()=> {this.hideDialog()}}
           _dialogRightBtnAction={()=>{this.hideDialog()}}
         />
+        <PopupDialog
+              //style = {{position:'absolute', top: 10}}
+              dialogTitle={<DialogTitle title="新增課堂" />}
+              //height= {350}
+              //height= {layout.deviceHeight * 2 / 3}
+              //dialogStyle={{marginTop:-300}} 
+              dialogStyle={{ position:'absolute', top: layout.deviceWidth/3}} 
+              
+              //ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+
+              // <TouchableHighlight underlayColor = {'transparent'} onPress={() => { this.refs._scrollView.scrollTo({x:SCREEN_WIDTH}) }}>
+              ref={(defaultAnimationDialog) => {
+                this.defaultAnimationDialog = defaultAnimationDialog;
+              }}
+            >
+              
+            <CreateLessonView/>
+        </PopupDialog>
         <Tabs 
           
           addBtnOnClicked={ this.addBtnOnClicked }
@@ -93,7 +114,6 @@ class onTopView extends Component {
           <TouchableHighlight style={{ backgroundColor: layout.touchHighlightColor, width: 30, height: 30, borderRadius: 15, borderWidth:1, borderColor:layout.touchHighlightColor ,alignItems: 'center'}} onPress={()=>{this.addBtnOnClick()}}  >
             <Text
               style = {{color:'white', fontSize : 20, fontWeight:'bold' }}
-              
             >
               +
             </Text>

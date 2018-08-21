@@ -4,7 +4,8 @@ import TutorSelectCell from '/view/ui/TutorSelectCell'
 import SegmentControl from '/view/ui/SegmentControl'
 import Avatar from '/view/ui/Avatar'
 import FilteringToolsBar from '/view/ui/FilteringToolsBar'
-import ModalDialog from '/view/ui/ModalDialog'
+import AddBtnPopUpDialog from '/view/ui/AddBtnPopUpDialog'
+import CreateLessonView from '/view/CreateLessonView'
 
 import Assets from '/view/ui/Assets'
 
@@ -16,5 +17,6 @@ export {
   TutorSelectCell,
   SegmentControl,
   FilteringToolsBar,
-  ModalDialog,
+  AddBtnPopUpDialog,
+  CreateLessonView,
 };
