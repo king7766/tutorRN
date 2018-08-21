@@ -52,6 +52,7 @@ class MovingView extends Component {
 
   _dialogLeftBtnAction(){
     console.log('_dialogLeftBtnAction')
+    DeviceEventEmitter.emit('add', {name:'John', age:23});
     
   }
   
@@ -157,7 +158,7 @@ class AddBtnPopUpDialog extends Component<Props> {
       console.log('jihihihi')
       //this.refs._scrollView.scrollTo(SCREEN_WIDTH)
       //this.defaultAnimationDialog.show();
-      DeviceEventEmitter.emit('add', {name:'John', age:23});
+      
     }
     
 

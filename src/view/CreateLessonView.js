@@ -289,7 +289,7 @@ class CreateLessonView extends Component<Props> {
 
           
             <View style = {styles.submitButtonBackground}>
-            <TouchableHighlight onPress={this.showResultBtnOnClick}>
+            <TouchableHighlight style = {styles.submitHighlightStyle} onPress={this.showResultBtnOnClick}>
               <View style={styles.submitButton}>
                 <Text style = {styles.submitButtonText}>
                   提交
@@ -373,6 +373,14 @@ const styles = StyleSheet.create({
     alignItems:'center'  
 
   },
+
+  submitHighlightStyle:{
+    backgroundColor : layout.themeTextColor,
+    borderColor: layout.themeTextColor,
+    borderRadius:10,
+    borderWidth: 1,
+  },
+
   submitButtonText:{
     color: 'white',
     fontWeight: 'bold',
