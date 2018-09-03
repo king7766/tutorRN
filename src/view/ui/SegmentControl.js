@@ -10,8 +10,7 @@ import {
    TouchableHighlight
 } from 'react-native';
 
-//const layout = require('../../Layout')
-const layout = require('/Layout')
+const layout = require('../../Layout')
 import Dimensions from 'Dimensions';
 
 class SegmentControl extends React.Component{

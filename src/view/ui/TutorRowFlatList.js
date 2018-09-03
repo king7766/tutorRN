@@ -68,7 +68,7 @@ class TutorRowFlatList extends React.Component{
         >
           <Avatar
             onPress={() => {
-              this.AvatarOnClicked()
+              //this.AvatarOnClicked()
             }}
             size = {70}
             //type = 'edit'

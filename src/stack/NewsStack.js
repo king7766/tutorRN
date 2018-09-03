@@ -11,7 +11,13 @@ const NewsStack = StackNavigator({
 
   NewsHomeView: {
     screen: NewsHomeView ,
+    
+    
+
     navigationOptions: {
+      
+      //header:{ visible:false },
+      header: null,
       tabBarVisible: true,
       tabBarIcon: ({ tintColor }) => (
         <Image
@@ -24,6 +30,7 @@ const NewsStack = StackNavigator({
       title:'',
       activeTintColor: '#e91e63',
       headerLeft: null,
+      headerVisible: false,
       //navBarBackgroundColor: '#f7f7f7',
       headerStyle: {
         borderBottomColor: layout.themeTextColor,
@@ -31,8 +38,10 @@ const NewsStack = StackNavigator({
         backgroundColor: 'white',
       },
 
-    },
+    }
+    
   }
+
 
 });
 

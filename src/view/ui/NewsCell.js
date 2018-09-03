@@ -59,7 +59,7 @@ class NewsCell extends Component{
             style = {styles.contentStyle}
             numberOfLines={2}
           >
-            {this.props.news.news_content}
+            {this.props.news.description}
           </Text>
           <View
             style = {styles.tagStyle}

@@ -33,11 +33,14 @@ import NoticeStack from './stack/NoticeStack'
 import ProfileStack from './stack/ProfileStack'
 import { action } from '../node_modules/mobx';
 
-import animatedbasic from './view/ui/animatedbasic'
+import PopUpView from './view/PopUpView'
+
+
 import {
   AddBtnPopUpDialog,
   CreateLessonView,
-} from '/view/ui/UIComponent';
+} from './view/ui/UIComponent';
+
 
 import PopupDialog, {DialogTitle, SlideAnimation} from 'react-native-popup-dialog';
 
@@ -66,27 +69,38 @@ class onTopView extends Component {
 
   addBtnOnClick(){
     console.log('addBtnOnClick')
+
     this.showDialog()
-    //this.popupDialog.show()
+    //this.defaultAnimationDialog.show()
   }
 
   showDialog(){
     this.setState({isDialogVisible:true});
   }
+  
 
-  hideDialog(){
+  hideDialog(index){  
     this.setState({isDialogVisible:false});
   }
-  
+
+  popUpDialogBtnOnClickWithIndex (index)
+  {
+    this.setState({isDialogVisible:false});
+    this.defaultAnimationDialog.show()
+  }
+
 
   render() {
     return (
       
       <View style = {{ height: layout.deviceHeight + 40 }}>
+        
         <AddBtnPopUpDialog
           _dialogVisible={this.state.isDialogVisible}
           _dialogLeftBtnAction={()=> {this.hideDialog()}}
           _dialogRightBtnAction={()=>{this.hideDialog()}}
+          onPress = {(index)=>{this.popUpDialogBtnOnClickWithIndex(index)}}
+          closeView = {()=>{this.hideDialog()}}
         />
         <PopupDialog
               //style = {{position:'absolute', top: 10}}
@@ -119,7 +133,7 @@ class onTopView extends Component {
             </Text>
           </TouchableHighlight>
         </View>
-       
+          
         
       </View>
     )
@@ -138,7 +152,36 @@ const Tabs = TabNavigator({
   profile : ProfileStack,
 
   },{
-  lazy: true
+    lazy: true,
+    tabBarOptions: {
+      tinColor: '#fff',
+      activeTintColor: '#eee',
+      inactiveTintColor: '#fff',
+      showIcon: true,
+      showLabel: true,
+      lazyLoad: true,
+      upperCaseLabel: false,
+      indicatorStyle: {
+        backgroundColor: 'transparent'
+      },
+      style: {
+        backgroundColor: 'rgba(22, 22, 22, 0.3)',
+        borderTopWidth: 3,
+        //borderTopColor: '#996600',
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        bottom: 0
+      }
+    }
+
+    /*
+    navigationOptions: {
+      header: <View 
+        style = {{height:500, width:500, backgroundColor:'red'}}
+      />
+      }
+    */
   }
 
   
@@ -169,6 +212,7 @@ Tabs.router.getStateForAction = (action, state) => {
 }
 
 export default onTopView;
+//export default Tabs;
 
 
 /*

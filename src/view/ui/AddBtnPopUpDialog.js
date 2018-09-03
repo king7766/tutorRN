@@ -50,10 +50,8 @@ class MovingView extends Component {
     
   }
 
-  _dialogLeftBtnAction(){
-    console.log('_dialogLeftBtnAction')
-    DeviceEventEmitter.emit('add', {name:'John', age:23});
-    
+  itemOnClicked( index ){
+    this.props.onClicked( index )
   }
   
   render() {
@@ -70,7 +68,8 @@ class MovingView extends Component {
         <TouchableHighlight  
           //style = {{...this.props.style}}
           underlayColor = {'transparent'}
-          onPress={this._dialogLeftBtnAction} 
+          //onPress={this._dialogLeftBtnAction} 
+          onPress={ ()=>this.itemOnClicked(this.props.index)}
         >
           <View
             style = {{flexDirection:'row', alignItems:'center'}}
@@ -110,10 +109,11 @@ class AddBtnPopUpDialog extends Component<Props> {
           fadeAnim: new Animated.Value(0),
           
         }
+        this.itemOnClick = this.itemOnClick.bind(this)
+        this.closeView = this.closeView.bind(this)
     }
 
     componentDidMount() {
-      console.log('12312313')
       Animated.timing(                  // Animate over time
         this.state.fadeAnim,            // The animated value to drive
         {
@@ -150,17 +150,19 @@ class AddBtnPopUpDialog extends Component<Props> {
         _dialogRightBtnTitle: '确定',
         _dialogVisible: false,
     }
-
-    //this.refs.scrollView.scrollTo(0)
-   
-    hihi()
-    {
-      console.log('jihihihi')
-      //this.refs._scrollView.scrollTo(SCREEN_WIDTH)
-      //this.defaultAnimationDialog.show();
-      
-    }
     
+    itemOnClick(index)
+    {
+      console.log('itemOnClick : ' + index)
+
+      //back to parent view
+      this.props.onPress(index)
+    }
+
+    closeView ()
+    {
+      this.props.closeView()
+    }
 
     render() {
         // onPress事件直接与父组件传递进来的属性挂接
@@ -184,7 +186,7 @@ class AddBtnPopUpDialog extends Component<Props> {
                 onRequestClose={() => {}} //如果是Android设备 必须有此方法
             >
 
-              <TouchableHighlight underlayColor = {'transparent'} onPress={this.hihi}>
+              <TouchableHighlight underlayColor = {'transparent'} onPress={this.closeView}>
                 <View style={styles.bg}>
                   <ScrollView
                     horizontal = {true}
@@ -199,21 +201,27 @@ class AddBtnPopUpDialog extends Component<Props> {
                     style = {{height:SCREEN_HEIGHT, width: SCREEN_WIDTH}}
                   >
                       
-                   <MovingView 
+                  <MovingView 
                     style={{position: 'absolute', bottom: 0, width: 250, height: 50,left:20}}
                     move={-250}
                     title = {'新增課堂'}
+                    index = {1}
+                    onClicked ={ this.itemOnClick}
                   />
                   
                   <MovingView 
                     style={{position: 'absolute', bottom: 0, width: 250, height: 50,left:20}}
                     move={-175}
                     title = {'評分'}
+                    index = {2}
+                    onClicked ={ this.itemOnClick}
                   />
                   <MovingView 
                     style={{position: 'absolute', bottom: 0, width: 250, height: 50,left:20, flexDirection:'row', alignItems:'center'}}
                     move={-100}
                     title = {'新增課堂'}
+                    index = {3}
+                    onClicked ={ this.itemOnClick}
                   />
 
                   <View style = {{ position: 'absolute',left:(layout.deviceWidth - 30 )/2, height: 30, width: 30,bottom: 30, backgroundColor :'white', borderRadius:15,alignItems:'center', justifyContent:'center'  }} >

@@ -47,6 +47,14 @@ export default class newsVM{
 		return this.refArray
 	}
 
+	getNewsWithID(newsID)
+	{
+		var selectedNewsItem = this.refArray[this.refArray.map(function (item) { return item.id; }).indexOf(newsID)];
+		
+		return selectedNewsItem
+		//console.log(selectedData)
+	}
+
 	//@action
 	callAPI()
 	{

@@ -6,7 +6,7 @@ export class newsModel{
    id : integer 
    news_title : string = ''
    news_short_desc : string = ''
-   news_content : string = ''
+   description : string = ''
    news_thumb : string = ''
    news_publish_start_date : string  = ''
    news_publish_end_date : string = ''
@@ -27,7 +27,7 @@ export class newsModel{
             id: this.id
             news_title: this.news_title
             news_short_desc: this.news_short_desc
-            news_content: this.news_content
+            description: this.description
             news_thumb: this.news_thumb
             news_publish_start_date: this.news_publish_start_date
             news_publish_end_date: this.news_publish_end_date
@@ -42,7 +42,7 @@ export class newsModel{
         model.id = jsonObject.id
         model.news_title = jsonObject.title
         model.news_short_desc = jsonObject.template
-        model.news_content = jsonObject.description
+        model.description = jsonObject.description
         model.news_thumb = jsonObject.image[0].medium.url
         model.news_publish_start_date = jsonObject.publish_datetime
         model.tags = jsonObject.tags

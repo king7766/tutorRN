@@ -322,33 +322,48 @@ class Register extends Component<Props> {
   
 
   renderItem = ({item, index}) =>
+    <TouchableHighlight onPress={()=>this.selectedPhoto(index)}>
+      <View style={{
+        flex: 1,
+        margin: 5,
+        //minWidth: 170,
+        //maxWidth: 223,
+        //width: 50,
+        width: (layout.deviceWidth- 20)/2,
+        maxWidth: (layout.deviceWidth- 20)/2,
+        height: (layout.deviceWidth- 20)/2,
+        maxHeight: (layout.deviceWidth- 20)/2,
+        backgroundColor: '#CCC',
+      }}>
+        <Image
+          style = {{height:(layout.deviceWidth- 20)/2, width:(layout.deviceWidth- 20)/2}}
+          //source={{ uri: item.node.image.uri }}
+          source={ item.node ? { uri: item.node.image.uri } : item}
+        />
+      </View>
+    </TouchableHighlight>
+  
+  /*
+  <Text style = {{margin:10, color:'rgb(231,121,98)', fontWeight:'bold'}}>排序</Text>
 
-    //var itemWidth = (layout.deviceWidth - 15 )/2
+          <FilteringToolsBar />
 
-    //return 
-    <TouchableHighlight onPress={()=>this.selectedPhoto(index)}><View style={{
-      flex: 1,
-      margin: 5,
-      //minWidth: 170,
-      //maxWidth: 223,
-      //width: 50,
-      width: (layout.deviceWidth- 20)/2,
-      maxWidth: (layout.deviceWidth- 20)/2,
-      height: (layout.deviceWidth- 20)/2,
-      maxHeight: (layout.deviceWidth- 20)/2,
-      backgroundColor: '#CCC',
-    }}>
-      
-      <Image
-        style = {{height:(layout.deviceWidth- 20)/2, width:(layout.deviceWidth- 20)/2}}
-        //source={{ uri: item.node.image.uri }}
-        source={ item.node ? { uri: item.node.image.uri } : item}
-      />
-      
-    </View></TouchableHighlight>
-  //}
+          <Text style = {{margin:10, color:'rgb(231,121,98)', fontWeight:'bold'}}>篩選</Text>
+        
+          <TutorRowFlatList
+            title = '熱門推介'
+            height = {120}
+            data = {this.state.tutorRowData}
+          />
 
+          <TutorRowFlatList
+            title = '優惠'
+            height = {120}
+            data = {this.state.tutorRowData}
+          />
+          */
   render() {
+    
     return (
       <SafeAreaView
         styles = {{flex:1}}
@@ -386,23 +401,7 @@ class Register extends Component<Props> {
         
 
         <ScrollView>
-          <Text style = {{margin:10, color:'rgb(231,121,98)', fontWeight:'bold'}}>排序</Text>
-
-          <FilteringToolsBar />
-
-          <Text style = {{margin:10, color:'rgb(231,121,98)', fontWeight:'bold'}}>篩選</Text>
-        
-          <TutorRowFlatList
-            title = '熱門推介'
-            height = {120}
-            data = {this.state.tutorRowData}
-          />
-
-          <TutorRowFlatList
-            title = '優惠'
-            height = {120}
-            data = {this.state.tutorRowData}
-          />
+          
           
        
           <View style={{ height:40, justifyContent: 'center'}}>

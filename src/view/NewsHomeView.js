@@ -20,15 +20,26 @@ import {
   TouchableHighlight,
   ScrollView,
   AsyncStorage,
-  RefreshControl
+  RefreshControl,
+  DeviceEventEmitter
 
 } from 'react-native';
 
 //import Navigator from 'react-native-deprecated-custom-components'
 import NewsCell from './ui/NewsCell'
+import NewsVideoCell from './ui/NewsVideoCell'
 import newsVM from '../VM/newsVM'
+import NewsDetailView from '/view/NewsDetailView'
+import AddBtnPopUpDialog from '/view/ui/AddBtnPopUpDialog'
+import PopupDialog, {DialogTitle, SlideAnimation, DialogButton, FadeAnimation, ScaleAnimation} from 'react-native-popup-dialog';
+
 const layout = require('../Layout')
 const viewModel = newsVM.getInstance()
+
+const slideAnimation = new SlideAnimation({ slideFrom: 'bottom',useNativeDriver: true });
+const scaleAnimation = new ScaleAnimation();
+const fadeAnimation = new FadeAnimation({ animationDuration: 150 });
+
 
 @observer
 class NewsHomeView extends Component<Props> {
@@ -37,53 +48,10 @@ class NewsHomeView extends Component<Props> {
     super(props);
     // /this.handleFacebookLogin = this.handleFacebookLogin.bind(this)
     this.state = {
-      newsVM: viewModel.getNews()
+      newsVM: viewModel.getNews(),
+      selectedIndex: 0
     }
-
-    //console.log('data = ' + this.state.data)
-
-    /*
-    this.state = {
-      data: [
-        {
-          'image': 'https://static.appledaily.hk/images/e-paper/vdo/20180427/720pix/1524815968_d8fd.jpg',
-          'title': '標題標題標題標題標題標題標題標題標題標題標題標題標題',
-          'content': '內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容',
-          'id': '1'
-        },
-        {
-          'image': 'https://static.appledaily.hk/images/e-paper/vdo/20180427/720pix/1524815968_d8fd.jpg',
-          'title': '標題標題標題標題標題標題標題標題標題標題標題標題標題',
-          'content': '內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容',
-          'id': '2'
-        },
-        {
-          'image': 'https://static.appledaily.hk/images/e-paper/vdo/20180427/720pix/1524815968_d8fd.jpg',
-          'title': '標題標題標題標題標題標題標題標題標題標題標題標題標題',
-          'content': '內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容',
-          'id': '3'
-        },
-        {
-          'image': 'https://static.appledaily.hk/images/e-paper/vdo/20180427/720pix/1524815968_d8fd.jpg',
-          'title': '標題標題標題標題標題標題標題標題標題標題標題標題標題',
-          'content': '內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容',
-          'id': '4'
-        },
-        {
-          'image': 'https://static.appledaily.hk/images/e-paper/vdo/20180427/720pix/1524815968_d8fd.jpg',
-          'title': '標題標題標題標題標題標題標題標題標題標題標題標題標題',
-          'content': '內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容',
-          'id': '5'
-        },
-        {
-          'image': 'https://static.appledaily.hk/images/e-paper/vdo/20180427/720pix/1524815968_d8fd.jpg',
-          'title': '標題標題標題標題標題標題標題標題標題標題標題標題標題',
-          'content': '內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容',
-          'id': '6'
-        }
-      ]
-    };
-    */
+    this.cellItemOnClicked = this.cellItemOnClicked.bind(this)
 
   }
 
@@ -114,26 +82,85 @@ class NewsHomeView extends Component<Props> {
   }
 
   _signOutAsync = async () => {
+    console.log('_signOutAsync')
     await AsyncStorage.clear();
     this.props.navigation.navigate('Auth');
+    DeviceEventEmitter.emit('logout', {name:'John', age:23});
   };
 
-  refresh ()
+  cellItemOnClicked (newsID)
   {
-    console.log('refresh')
+    //console.log('cellItemOnClicked = ' + newsID)
+    //console.log(viewModel.getNewsWithID(newsID))
+    this.setState({selectedNewsID: newsID})
+
+    // Required to bind to this component first, otherwise cant find method
+    this.defaultAnimationDialog.show()
   }
 
-  selectedIndex (index)
-  {
-    console.log('index = ' + index)
-  }
+  
+  
+  /*
+  <NewsDetailView
+              news = {this.state.newsVM[this.state.selectedIndex]}
+            />
+            */
+
+  
 
   render() {
    
+   
+   
+
     return (
       <View>
-      
+        {
+          
+          
+        <PopupDialog
+          //dialogTitle={<DialogTitle title= "123" />}
+              dialogTitle={<DialogTitle title= {viewModel.getNewsWithID(this.state.selectedNewsID) ? viewModel.getNewsWithID(this.state.selectedNewsID).news_title :"新聞標題"} />}
+              //height= {350}
+              height= {layout.deviceHeight * 2 / 3}
+              dialogStyle = {{position:'absolute', top:70}}
+              dialogAnimation={slideAnimation}
+              //dialogButton = {<DialogButton text={'TEXTEXT'}/>}
+              //dialogStyle={{marginTop:-300}} 
+              //dialogStyle={{ position:'absolute', top: layout.deviceWidth/3}} 
+              //dialogAnimation = {fadeAnimation}
+              //ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+
+              actions={[
+                <DialogButton
+                  text="DISMISS"
+                  onPress={() => {
+                    this.defaultAnimationDialog.dismiss();
+                  }}
+                  key="button-1"
+                />
+              ]}
+
+              ref={(defaultAnimationDialog) => {
+                this.defaultAnimationDialog = defaultAnimationDialog;
+              }}
+
+              
+              // <TouchableHighlight underlayColor = {'transparent'} onPress={() => { this.refs._scrollView.scrollTo({x:SCREEN_WIDTH}) }}>
+              //ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+            >
+         
+            
+              <NewsDetailView
+                news = {viewModel.getNewsWithID(this.state.selectedNewsID)}
+              />
+              
+          
+            
+        </PopupDialog>
+        }
         <ScrollView
+
           /*
           refreshControl={
             <RefreshControl
@@ -143,16 +170,20 @@ class NewsHomeView extends Component<Props> {
           }
           */
         >
+        
         {
           this.state.newsVM.map((item, index) =>
             (
+              
+              
               <NewsCell
                 key = {index}
                 news = {item}
-                onClicked = {this.selectedIndex }
+                onClicked = {this.cellItemOnClicked }
                 
               />
-
+            
+              
             )
           )
         }
