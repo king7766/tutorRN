@@ -56,7 +56,7 @@ class SearchHomeView extends Component<Props> {
 
     this.state = {
       //locationData : viewModel.getDistrictList(),
-      locationData : ['香港', '九龍', '新界', '離島'],
+      //locationData : ['香港', '九龍', '新界', '離島'],
       districtData : ['中西區', '灣仔', '東區','南區','油尖旺', '深水埗', '九龍城','黃大仙','觀塘', '葵青', '荃灣', '屯門','元朗','北區','大埔','沙田','西貢','離島'],
       currentDistrictData:['中西區', '灣仔', '東區','南區'],
       educationData : ['小學', '中學', '大學以上'],
@@ -272,9 +272,9 @@ class SearchHomeView extends Component<Props> {
   {
 
     console.log('handleSettingsPress ' + rowData +', ' + sectionID +', ' + rowID +', ' + higlightRow)
+    console.log(rowData);
 
-
-    console.log(this.state.locationData[0])
+    //console.log(this.state.locationData[0])
     
 
     /*

@@ -36,7 +36,7 @@ class NewsDetailView extends Component {
 
   render() {
 
-    console.log('NewsDetailView')
+    //console.log('NewsDetailView')
     if ( this.props.news ){
       console.log('title = ' + this.props.news.news_title)
     }

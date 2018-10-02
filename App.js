@@ -15,7 +15,7 @@ import {
 import AuthStack from './src/stack/AuthStack'
 import Tabs from './src/Tabs'
 
-import AuthLoadingScreen from '/view/AuthLoadingScreen'
+import AuthLoadingScreen from '/AuthLoadingScreen'
 
 import { StackNavigator, SwitchNavigator } from 'react-navigation'; // Version can be specified in package.json
 

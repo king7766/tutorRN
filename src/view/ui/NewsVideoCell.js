@@ -41,6 +41,8 @@ class NewsVideoCell extends Component{
     this.state = {
       hiddenCover: false,
       hiddenUI: false,
+ 
+
     }
 
 
@@ -80,12 +82,12 @@ class NewsVideoCell extends Component{
             
             <Image style = {{height: 30, width: 30, borderRadius:15, borderColor:'white'  , borderWidth:2,  position: 'absolute', top : layout.deviceHeight * 0.05, left:10}} source = {{uri: this.props.item.profilePic}}/>
 
-            <View style = {{position: 'absolute', top : layout.deviceHeight * 0.8, left:10 , height: 30, width: layout.deviceWidth* 0.8, justifyContent:'center', alignItems:'center', backgroundColor:'rgba(0, 0, 0, 0.5)'}}>
+            <View style = {{position: 'absolute', top : layout.deviceHeight * 0.8 - 30  , height: 30, width: layout.deviceWidth, paddingLeft:layout.deviceWidth*0.1, paddingRight:layout.deviceWidth*0.1, justifyContent:'center', alignItems:'center', backgroundColor:'rgba(0, 0, 0, 0.5)'}}>
               <Text style = {{ color:'white', fontWeight:'bold',  }} >{this.props.item.news_title}</Text>
             </View>
 
-            <View style = {{position: 'absolute', top : layout.deviceHeight * 0.8 + 30 , left:10 ,  width: layout.deviceWidth* 0.8, justifyContent:'center', alignItems:'center', backgroundColor:'rgba(0, 0, 0, 0.5)'}}>
-              <Text style = {{ color:'white', fontWeight:'bold' }}  numberOfLines= {3} >{this.props.item.news_content}</Text>
+            <View style = {{position: 'absolute', top : layout.deviceHeight * 0.8  ,  width: layout.deviceWidth, paddingLeft:layout.deviceWidth*0.1, paddingRight:layout.deviceWidth*0.1, paddingTop:10, paddingBottom: 10,  justifyContent:'center', alignItems:'center', backgroundColor:'rgba(0, 0, 0, 0.5)'}}>
+              <Text style = {{ color:'white',lineHeight: 20 }}  numberOfLines= {3} >{this.props.item.news_content}</Text>
             </View>
 
         </View>
@@ -106,7 +108,10 @@ class NewsVideoCell extends Component{
   {
     return (
       //<Image source={{uri: 'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/3a7803bf022db91704584b7297b38bc6.jpg' }} style={styles.fullViewStyle} /> 
-      <PhotoSlideView/>
+      <PhotoSlideView
+        onReady = { this.onLoad }
+        onPress = { this.videoOnClick }
+      />
     )
   }
 
@@ -131,6 +136,7 @@ class NewsVideoCell extends Component{
             ignoreSilentSwitch={'ignore'}
             progressUpdateInterval={250.0}
             style = {{width: layout.deviceWidth, height: layout.deviceHeight}}
+            //onLoad = {()=>this.setState({hiddenCover:true})}
             onLoad={this.onLoad}       
             //style={{width: this.state.videoWidth, height: this.state.videoHeight}}
             //<View style = {{ position: 'absolute', backgroundColor: 'rgba(0, 0, 0, 0.5)', top : 0, height: (layout.deviceHeight * 0.05), width: 100 }} />
@@ -156,7 +162,8 @@ class NewsVideoCell extends Component{
               showFullscreenButton = {true}
               //modestbranding = {true}
             
-              onReady={e => this.setState({hiddenCover:true})}
+              //onReady={e => this.setState({hiddenCover:true})}
+              onReady = {this.onLoad}
               //onReady={e => this.setState({ isReady: true })}
               //onChangeState={e => this.setState({ status: e.state })}
               onChangeState={e => console.log('onChange State = ' + e.state)}
@@ -174,6 +181,7 @@ class NewsVideoCell extends Component{
   
   onLoad()
   {
+    //return
     this.setState({
       hiddenCover: true
     })
@@ -183,7 +191,7 @@ class NewsVideoCell extends Component{
   {
     console.log('videoOnClick')
 
-    this.props.onClicked()
+    this.props.onClicked( this.props.index )
 
     var getUIState = this.state.hiddenUI
     this.setState({
@@ -203,14 +211,17 @@ class NewsVideoCell extends Component{
     if ( index == this.props.showingIndex )
     {
       // viewable view -> show video
+      /*
       return (
         this.showPhotoVideo()
       )
+      */
 
       return (
         <View>  
         {
-          !this.state.hiddenCover &&
+          !this.state.hiddenCover && // for video 
+          //this.state.hiddenCover &&
           <Image 
             //ref={(ref) => this.coverView = ref}
             source={{uri: this.props.item.cover }} 
@@ -224,8 +235,9 @@ class NewsVideoCell extends Component{
           >
           {
             1 ? (
-              //this.showPhotoVideo()
-              this.showVideoView()
+              
+              this.showPhotoVideo()
+              //this.showVideoView()
             ) : (
               this.showVideoByYoutube()
             )

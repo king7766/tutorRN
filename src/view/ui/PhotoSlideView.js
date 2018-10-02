@@ -7,7 +7,8 @@ import {
    ScrollView ,
    TouchableHighlight,
    Animated,
-   Easing
+   Easing,
+   ActivityIndicator
 } from 'react-native';
 import Dimensions from 'Dimensions';
 //import Hyperlink from 'react-native-hyperlink'
@@ -39,9 +40,11 @@ class ImageLoader extends Component {
         'http://www.modern.edu.hk/ext/asset/tutor/5b6e6da28b03b_norm.jpg',
 
       ],
-      displayImage : 'http://www.modern.edu.hk/ext/asset/tutor/5b6e6da28b03b_norm.jpg',
       displayingIndex : 0,
-      
+      landscape : false,
+      imageHeight: 0,
+      imageWidth: 0,
+      loading : true,
       //displayContent : this.displayContent.bind(this)
     }
 
@@ -65,14 +68,48 @@ class ImageLoader extends Component {
     ).start();                        // Starts the animation
     */
 
-    this.animate()
+    //this.animate()
+    this.preloadImageSize()
+   
    
   }
 
+  preloadImageSize ()
+  {
+    Image.getSize(this.state.data[this.state.displayingIndex], (width, height) =>{
+      //console.log('height : ' + imageHeight)
+      //console.log('width : ' + imageWidth)
+      var landscape = false
+      if ( height < width)
+      {
+        landscape = true
+        
+      }
+      //console.log('landscape = ' + landscape)
+      //this.setState({imageHeight , imageWidth, landscape})
+      
+      this.setState({
+        imageHeight : height,
+        imageWidth: width,
+        landscape: landscape,
+        loading : false
+      })
+      
+      this.animate()
 
-  onLoad = (index) => {
-    console.log('onLoad = ' + index)
+    }, (error) =>{
+      console.log(error)
+    })
+  }
 
+
+  //onLoad = (index) => {
+  onLoad ( event ){
+
+    
+
+    //console.log('onLoad = ' + event.nativeEvent.height)
+    
     /*
     Animated.sequence([
       Animated.timing(this.state.opacity,{
@@ -103,7 +140,7 @@ class ImageLoader extends Component {
 
   animationFinishWithIndex(index)
   {
-    console.log('now displaying = ' + index)
+    //console.log('now displaying = ' + index)
     if ( index < this.props.data.length )
     {
       index = index + 1
@@ -113,20 +150,23 @@ class ImageLoader extends Component {
       index = 0 
     }
     
-    console.log('coming display = ' + index)
+    //console.log('coming display = ' + index)
 
     this.setState({
       displayingIndex: index,
-      //displayImage : 'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/3a7803bf022db91704584b7297b38bc6.jpg'
+      loading: true,
     })
-    this.animate()
+    //this.animate()
+
+    // load next image 
+    this.preloadImageSize()
   
   
   }
 
   animate () {
 
-    if ( 1 )
+    if ( this.state.landscape )
     {
       Animated.sequence([
         Animated.timing(
@@ -176,13 +216,27 @@ class ImageLoader extends Component {
 
   animateImageStyle ()
   {
-    return {
-      height: layout.deviceHeight * 1/3,
-      width: (layout.deviceHeight * 1/3 )* 1.78,
-      position:'absolute',
-      top: layout.deviceHeight * 1/3, 
-
+    if ( this.state.landscape )
+    {
+      return {
+        height: layout.deviceHeight * 1/3,
+        width: (layout.deviceHeight * 1/3 )* 1.78,
+        position:'absolute',
+        top: layout.deviceHeight * 1/3, 
+  
+      }
     }
+    else
+    {
+      return {
+        height: layout.deviceHeight,
+        width: layout.deviceWidth,
+        position:'absolute',
+        //top: layout.deviceHeight * 1/3, 
+  
+      }
+    }
+    
   }
 
 
@@ -199,8 +253,9 @@ class ImageLoader extends Component {
       <View
         style = {styles.fullViewStyle}
       >
-         
-    
+
+
+     
 
       <Image 
           style = {styles.backgroundStyle}
@@ -212,20 +267,23 @@ class ImageLoader extends Component {
 
           <Animated.Image
         //onLoad={this.onLoad(this.state.displayingIndex)}
+        //onLoad={this.onLoad(0)}
+        onLoad = {evt => this.onLoad(evt)}
         //{...this.props}
         resizeMode = 'stretch'
         source = {{uri : this.state.data[this.state.displayingIndex]}}
-        //source = {{uri : this.state.displayImage}}
+        //source = {{uri : this.state.data[0]}}
         style={[
           {
             
-            //opacity: this.state.opacity,
+            //opacity: this.state.imageHeight > this.state.imageWidth ? this.state.opacity : 1, 
+            opacity: this.state.landscape ?  1 : this.state.opacity , 
             
               
-                left:this.state.move.interpolate({
+                left: this.state.landscape ?  this.state.move.interpolate({
                   inputRange:[-1,1],
-                  outputRange:[-150,0]
-                })
+                  outputRange:[-150,0] 
+                }) : 0 ,
               
             
             /*
@@ -246,7 +304,8 @@ class ImageLoader extends Component {
         ]}
       />
 
-     
+      
+      
        
       
       </View>
@@ -278,12 +337,14 @@ class PhotoSlideView extends Component{
   }
   componentWillMount(){
     this.mounted = true
+    this.props.onReady()
   } 
 
-  onClicked()
+  slideOnClick()
   {
-    console.log('onClicked')
-    //this.props.onClicked()
+    
+    console.log('PhotoSlideView on slideOnClick')
+    this.props.onPress()
   }
 
   render (){
@@ -301,7 +362,8 @@ class PhotoSlideView extends Component{
     return(
 
       <TouchableHighlight 
-        onPress={ ()=>this.onClicked()}
+        onPress = { ()=> this.slideOnClick() }
+        //onPress={ ()=>this.onClicked()}
         //underlayColor = {layout.touchHighlightColor}
       >
         

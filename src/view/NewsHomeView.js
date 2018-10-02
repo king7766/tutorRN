@@ -152,13 +152,13 @@ class NewsHomeView extends Component<Props> {
 
   cellOnPressed(index)
   {
-    console.log('cell OnPressed')
+    console.log('cell OnPressed ' + index)
     //console.log(locationViewModel.getLocationListFromDistrict(1) );
     //console.log(locationViewModel.getDistrictList() )
 
-    console.log(categoryViewModel.getCategory() )
-    console.log(categoryViewModel.getSubCategory() )
-    console.log(categoryViewModel.getSubCatFromCat(1))
+    //console.log(categoryViewModel.getCategory() )
+    //console.log(categoryViewModel.getSubCategory() )
+    //console.log(categoryViewModel.getSubCatFromCat(1))
 
   }
 
@@ -221,10 +221,7 @@ class NewsHomeView extends Component<Props> {
               />*/
             >
          
-              <NewsDetailView
-                news = {viewModel.getNewsWithID(this.state.selectedNewsID)}
-              />
- 
+              <View/>
               
           
             
