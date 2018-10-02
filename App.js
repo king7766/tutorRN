@@ -15,6 +15,8 @@ import {
 import AuthStack from './src/stack/AuthStack'
 import Tabs from './src/Tabs'
 
+import AuthLoadingScreen from '/view/AuthLoadingScreen'
+
 import { StackNavigator, SwitchNavigator } from 'react-navigation'; // Version can be specified in package.json
 
 import { YellowBox } from 'react-native';
@@ -84,41 +86,6 @@ class OtherScreen extends React.Component {
   };
 }
 
-class AuthLoadingScreen extends React.Component {
-  constructor() {
-    super();
-    this._bootstrapAsync();
-  }
-
-  // Fetch the token from storage then navigate to our appropriate place
-  _bootstrapAsync = async () => {
-    console.log('_bootstrapAsync');
-    const userToken = await AsyncStorage.getItem('userToken');
-
-    // This will switch to the App screen or Auth screen and this loading
-    // screen will be unmounted and thrown away.
-    this.props.navigation.navigate(userToken ? 'App' : 'Auth');
-  };
-
-  // Render any loading content that you like here
-  render() {
-    return (
-      <View style={styles.container}>
-        <ActivityIndicator />
-        <StatusBar barStyle="default" />
-      </View>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
 //const AppStack = StackNavigator({ Home: HomeScreen, Other: OtherScreen });
 //const AuthStack = StackNavigator({ SignIn: SignInScreen });
 
@@ -138,7 +105,6 @@ class onTopView extends Component {
   render() {
     return (
       
-    
         <Tabs 
           //style={{ zIndex: 0}}
           addBtnOnClicked={ this.addBtnOnClicked }

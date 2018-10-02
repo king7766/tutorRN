@@ -4,8 +4,8 @@ import { View,Image,StyleSheet } from 'react-native';
 
 import { TabNavigator, StackNavigator } from 'react-navigation';
 
-import NewsHomeView from '../view/NewsHomeView';
-const layout = require('../Layout')
+import NewsHomeView from '/view/NewsHomeView';
+const layout = require('/Layout')
 
 const NewsStack = StackNavigator({
 
@@ -18,7 +18,8 @@ const NewsStack = StackNavigator({
       
       //header:{ visible:false },
       header: null,
-      tabBarVisible: true,
+      //tabBarVisible: true,
+      title:'新聞',
       tabBarIcon: ({ tintColor }) => (
         <Image
           source={require('../image/icon-math.png')}
@@ -26,8 +27,9 @@ const NewsStack = StackNavigator({
           style={[layout.styles.icon, { tintColor: tintColor }]}
         />
       ),
-      //title:'新聞',
-      title:'',
+      /*
+      title:'新聞',
+      //title:'',
       activeTintColor: '#e91e63',
       headerLeft: null,
       headerVisible: false,
@@ -37,7 +39,7 @@ const NewsStack = StackNavigator({
         borderBottomWidth: 1,
         backgroundColor: 'white',
       },
-
+      */
     }
     
   }

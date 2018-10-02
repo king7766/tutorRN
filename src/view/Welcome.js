@@ -21,16 +21,26 @@ import {
   AsyncStorage
 } from 'react-native';
 
-import userVM from '../VM/userVM'
+import userVM from '/VM/userVM'
+
+
+import * as Membership from '/service/membership';
+import * as Strings from '/service/strings';
+
+
 //import { LoginManager } from 'react-native-fbsdk'
 const FBSDK = require('react-native-fbsdk');
+const {LoginButton, ShareDialog, AccessToken, GraphRequest,
+  GraphRequestManager,} = FBSDK;
+//const FBSDK = require('react-native-fbsdk');
 const {
   LoginManager,
 } = FBSDK;
 
 
 const layout = require('../Layout')
-const viewModel = userVM.getInstance()
+
+const userViewModel = userVM.getInstance()
 
 class Welcome extends Component<Props> {
 
@@ -38,6 +48,9 @@ class Welcome extends Component<Props> {
     super(props);
 
     
+    this.loginFinished = this.loginFinished.bind(this)
+    this.logoutFinished = this.logoutFinished.bind(this)
+
     //userVM.getInstance()
     
     // /this.handleFacebookLogin = this.handleFacebookLogin.bind(this)
@@ -45,6 +58,58 @@ class Welcome extends Component<Props> {
 
   componentWillMount() {
     this.mounted = true
+    AccessToken.getCurrentAccessToken().then((data) => {
+      const { accessToken } = data
+      if ( accessToken )
+      {
+        this.initUser()
+      }
+      
+    })
+  }
+
+  loginFinished(result )
+  {
+    console.log('loginFinished')
+    console.log(result)
+    this.initUser()
+    
+   
+    
+  }
+
+  logoutFinished()
+  {
+    console.log('logoutFinished')
+  }
+
+  initUser() {
+
+    console.log('initUser')
+
+    const infoRequest = new GraphRequest(
+      'me/videos?type=uploaded&fields=title,description,thumbnails',
+      
+      //'/me/videos?type=uploaded&field=file_size,title,description',
+      //624073744/videos?type=uploaded
+      //'/me?fields=name,picture,email',
+      //'/me/videos',
+      null,
+      this._responseInfoCallback
+    );
+    // Start the graph request.
+    new GraphRequestManager().addRequest(infoRequest).start();
+
+  }
+
+  _responseInfoCallback = (error, result) => {
+    if (error) {
+      alert('Error fetching data: ' + error.toString());
+    } else {
+      console.log('facebook result : ')
+      console.log(result)
+      //this.setState({name: result.name, pic:result.picture.data.url, email : result.email});
+    }
   }
 
   guestInAction = async() => {
@@ -74,8 +139,39 @@ class Welcome extends Component<Props> {
   }
 
   loginAction = async() =>{
+  //async loginAction(){
 
-    this.props.navigation.navigate('Register')
+    //const res = Membership.login('123','pw')
+
+
+    try {
+
+      const res = await userViewModel.login('kevin', 'qwer1234%T')
+      
+      if ( res.data.verify_status == 'success' )
+      {
+        //console.log(userViewModel.getUser() )
+        this.props.navigation.navigate('Register')
+
+      }
+      else
+      {
+        console.log( 'error = ' + res.data)
+      }
+
+    }
+    catch ( error ){
+      console.warn('Error !!' + error );
+    }
+    
+    /*
+    login( (id) => {
+      Actions.editor({ storyId: id })
+    });
+    */
+
+    //this.props.navigation.navigate('Register')
+
     return
 
     console.log('loginAction' + AsyncStorage.getItem('userToken'))
@@ -125,7 +221,7 @@ class Welcome extends Component<Props> {
             style = {{paddingLeft : 5, paddingRight : 5, backgroundColor: 'rgba(255, 255, 255, 1.0)', height: '100%'}}
             //style={{height: 40, borderColor: 'gray', borderWidth: 1}}
             onChangeText={(text) => this.setState({text})}
-            placeholder = '電郵地址'
+            placeholder = {Strings.emailPlaceHolder}
             //value={this.state.text}
             />
           </View>
@@ -137,7 +233,7 @@ class Welcome extends Component<Props> {
             style = {{paddingLeft : 5, paddingRight : 5, backgroundColor: 'rgba(255, 255, 255, 1.0)', height: '100%'}}
             //style={{height: 40, borderColor: 'gray', borderWidth: 1}}
             onChangeText={(text) => this.setState({text})}
-            placeholder = '密碼'
+            placeholder = {Strings.passwordPlaceHolder}
             //value={this.state.text}
             />
           </View>
@@ -145,7 +241,7 @@ class Welcome extends Component<Props> {
           <TouchableHighlight onPress={this.loginAction}>
             <View style={styles.loginButton}>
               <Text style = {styles.loginText}>
-                登入
+                {Strings.loginText}
               </Text>
             </View>
           </TouchableHighlight>
@@ -158,6 +254,43 @@ class Welcome extends Component<Props> {
               </Text>
             </View>
           </TouchableHighlight>
+          <LoginButton 
+            readPermissions={[
+              "public_profile",
+              "email",
+              "user_friends",
+              "user_hometown",
+              "user_location",
+              "user_birthday",
+              "user_likes",
+              "user_photos",
+              "user_posts",
+              "user_tagged_places",
+              "user_videos",
+              "user_events",
+              'pages_show_list',
+              'user_videos',
+              //161110067273366
+              //'manage_pages',
+            ]}
+            onLoginFinished = {
+              (error, result) => {
+
+              if (error) {
+                //alert("login has error: " + result.error);
+              } else if (result.isCancelled) {
+                //alert("login is cancelled.");
+              } else {
+                this.loginFinished(result)
+              }
+            }}
+            onLogoutFinished = {
+              //console.log('hihi')
+              this.logoutFinished
+            }
+            
+
+          />
         </View>
       </View>
 
@@ -230,7 +363,7 @@ const styles = StyleSheet.create({
 
   ButtonContainer: {
     flexDirection: 'column',
-    backgroundColor: 'green',
+    //backgroundColor: 'green',
     position: 'absolute',
     top: layout.deviceHeight - 200,
     width: layout.deviceWidth,

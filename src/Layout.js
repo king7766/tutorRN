@@ -9,9 +9,9 @@ let themeTextColor = 'rgba(225,19,101,1)'
 
 const styles = StyleSheet.create({
 	icon: {
-	  marginTop: 15,
-	  width: 30,
-	  height: 30,
+	  marginTop: 10,
+	  width: 20,
+	  height: 20,
 	},
 });
 

@@ -6,6 +6,7 @@
 
 
 import React, { Component } from 'react';
+import {observer} from 'mobx-react'
 import {
   Platform,
   StyleSheet,
@@ -28,11 +29,24 @@ import {
   TopMenuBar,
 } from '/view/ui/UIComponent';
 
+//import locationVM from '../VM/locationVM'
+
+import categoryVM from '/VM/categoryVM'
+
 const layout = require('../Layout')
 const numberOfItem = 4
 
 
 
+
+
+const categoryViewModel = categoryVM.getInstance()
+
+
+
+
+
+@observer
 class SearchHomeView extends Component<Props> {
 
   constructor(props) {
@@ -41,6 +55,7 @@ class SearchHomeView extends Component<Props> {
     var ds = new  ListView.DataSource({rowHasChanged:(r1,r2) => r1 !== r2});
 
     this.state = {
+      //locationData : viewModel.getDistrictList(),
       locationData : ['香港', '九龍', '新界', '離島'],
       districtData : ['中西區', '灣仔', '東區','南區','油尖旺', '深水埗', '九龍城','黃大仙','觀塘', '葵青', '荃灣', '屯門','元朗','北區','大埔','沙田','西貢','離島'],
       currentDistrictData:['中西區', '灣仔', '東區','南區'],
@@ -48,7 +63,7 @@ class SearchHomeView extends Component<Props> {
       subjectData : [
         {
           image:require('../image/icon-math.png'),
-          name:'中文'
+          name:'中文2'
         },
         {
           image:require('../image/icon-math.png'),
@@ -169,7 +184,7 @@ class SearchHomeView extends Component<Props> {
       Arr.push(
         {                   
           image: require('../image/icon-math.png'),
-          price:'中文'                
+          price:'中文1'                
         }            
       )        
     }        
@@ -258,14 +273,11 @@ class SearchHomeView extends Component<Props> {
 
     console.log('handleSettingsPress ' + rowData +', ' + sectionID +', ' + rowID +', ' + higlightRow)
 
-    /*
-    this.props.navigation.navigate('SearchTutorView',{
-      
 
-      }
-    );
-    */
+    console.log(this.state.locationData[0])
     
+
+    /*
     this.props.navigation.navigate('SearchTutorView',{
       location : this.state.locationData[this.state.locationSelected],
       district : this.state.districtData[this.state.districtSelected],
@@ -273,7 +285,7 @@ class SearchHomeView extends Component<Props> {
       subject : this.state.subjectData[this.state.subjectSelected].name,
       }
     );
-    
+    */
   }
 
   /*
@@ -303,7 +315,9 @@ class SearchHomeView extends Component<Props> {
   render() {
 
     var ds = new  ListView.DataSource({rowHasChanged:(r1,r2) => r1 !== r2});
-    var dataSource= ds.cloneWithRows(this.state.subjectData)
+    //var dataSource= ds.cloneWithRows(this.state.subjectData)
+
+    var dataSource = ds.cloneWithRows(categoryViewModel.getCategory() )
 
     return (
       <ScrollView style = {{backgroundColor:'rgba(233,233,233,1)'}}>

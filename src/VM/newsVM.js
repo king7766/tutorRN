@@ -2,9 +2,14 @@ import {newsModel} from '../Model/newsModel'
 import React from 'react';
 import {observable, action, computed} from 'mobx'
 
+/*
 import {
   	getResponseFromApi
 } from '../URLConfig';
+*/
+import * as Urlconfig from '/URLConfig'
+import * as C from 'tutorRN/src/service/connection'
+import * as E from 'tutorRN/src/service/env-config'
 
 const API = 'http://api.news.tvb.com/news/v2.1.1/entry?profile=app&category=focus&page=0'
 
@@ -30,16 +35,12 @@ export default class newsVM{
 		/**** init all props here ****/
 
 		this.load()
-		
-		
 	}
 
 	//@action
 	load()
 	{
-
 		this.callAPI ()
-
 	}
 
 	getNews()
@@ -57,11 +58,41 @@ export default class newsVM{
 
 	//@action
 	callAPI()
-	{
-		getResponseFromApi(API).then( (json ) =>{
+	{	//http://laravel50.com/admin/add
+		//{tab:'type', name:345, seq:100} 
+		//{token:'xRW8DwqoIxZBSlF83b2P'}
+
+		/*
+		C.getResponseFromApi('http://laravel50.com/admin/add', 'POST', {tab:'type', name:345, seq:100}  ).then( (json ) =>{
+			
+		})
+		*/
+		
+		C.getResponseFromApi(E.get_news, 'POST', {token:'xRW8DwqoIxZBSlF83b2P'} ).then( (json ) =>{
+		//C.getResponseFromApi(E.get_news, 'POST', 'token=xRW8DwqoIxZBSlF83b2P' ).then( (json ) =>{	
+			if( json.statusCode == 200)	
+         	{
+				
+				
+				for ( var i = 0; i < json.data.length; i ++)
+				//for ( var i = 0; i < json.data.items.length; i ++)
+				{
+					this.refArray.push(newsModel.deserialize( json.data[i] ) )						
+				}
+         	}
+         	else
+         	{
+             		
+         	}
+			
+		})
+
+		/*
+		C.getResponseFromApi(API, 'GET', 'aaa').then( (json ) =>{
 			if( json.statusCode == 200)	
          	{
 				for ( var i = 0; i < json.data.items.length; i ++)
+				//for ( var i = 0; i < 1; i ++)
 				{
 					this.refArray.push(newsModel.deserialize(json.data.items[i]))	
 				}
@@ -72,8 +103,19 @@ export default class newsVM{
          	
          		
          	}
-
+			
 		})
+		*/
+
+		/*
+		C.getResponseFromApi('http://laravel50.com/admin/add', 'POST', {tab:'type', name:345, seq:100} ).then ( (json) => {
+			if ( json.statusCode == 200)
+			{
+				console.log('2000000')
+			}
+			
+		})
+		*/
 
 	}
 

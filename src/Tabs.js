@@ -15,22 +15,22 @@ import { TabNavigator, StackNavigator, SwitchNavigator, NavigationActions, creat
 
 import Welcome from './view/Welcome'
 
-const layout = require('./Layout')
+const layout = require('/Layout')
 
 // Tab 1
-import NewsStack from './stack/NewsStack'
+import NewsStack from '/stack/NewsStack'
 
 // Tab 2
-import LessonStack from './stack/LessonStack'
+import LessonStack from '/stack/LessonStack'
 
 // Tab 3
-import SearchStack from './stack/SearchStack'
+import SearchStack from '/stack/SearchStack'
 
 // Tab 4
-import NoticeStack from './stack/NoticeStack'
+import NoticeStack from '/stack/NoticeStack'
 
 // Tab 5
-import ProfileStack from './stack/ProfileStack'
+import ProfileStack from '/stack/ProfileStack'
 import { action } from '../node_modules/mobx';
 
 import PopUpView from './view/PopUpView'
@@ -47,6 +47,19 @@ import PopupDialog, {DialogTitle, SlideAnimation} from 'react-native-popup-dialo
 const slideAnimation = new SlideAnimation({
   slideFrom: 'bottom',
 });
+
+class onTopView2 extends TabNavigator{
+
+  constructor (props){
+    super(props);
+
+  }
+
+  render(){
+    return <Tabs/>
+  }
+}
+
 class onTopView extends Component {
 
   constructor(props) {
@@ -60,9 +73,8 @@ class onTopView extends Component {
   componentDidMount() {
     this.deEmitter = DeviceEventEmitter.addListener('add', (a) => {
         //alert('收到通知：' + a);
-        console.log('hihihi !!!!')
         //this.showDialog()
-        this.hideDialog()
+        //this.hideDialog()
         this.defaultAnimationDialog.show()
     });
   }
@@ -93,7 +105,7 @@ class onTopView extends Component {
   render() {
     return (
       
-      <View style = {{ height: layout.deviceHeight + 40 }}>
+      <View style = {{ height: layout.deviceHeight + 30 }}>
         
         <AddBtnPopUpDialog
           _dialogVisible={this.state.isDialogVisible}
@@ -136,6 +148,7 @@ class onTopView extends Component {
           
         
       </View>
+      
     )
   }
 }
@@ -154,8 +167,10 @@ const Tabs = TabNavigator({
   },{
     lazy: true,
     tabBarOptions: {
+      selectedTabFontSize: 12,
       tinColor: '#fff',
-      activeTintColor: '#eee',
+      //activeTintColor: '#eee',
+      activeTintColor: 'red',
       inactiveTintColor: '#fff',
       showIcon: true,
       showLabel: true,
@@ -211,6 +226,7 @@ Tabs.router.getStateForAction = (action, state) => {
   return defaultGetStateForAction(action, state)
 }
 
+//export default onTopView2;
 export default onTopView;
 //export default Tabs;
 

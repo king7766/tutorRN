@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 import { ScrollView} from 'react-native';
 
 import { TabNavigator, StackNavigator } from 'react-navigation';
@@ -16,6 +16,13 @@ const SearchStack = StackNavigator({
     screen:  SearchHomeView,
     navigationOptions: {
       title: '搜尋',
+      tabBarIcon: ({ tintColor }) => (
+        <Image
+          source={require('../image/icon-math.png')}
+          //style={[styles.icon, { tintColor: tintColor }]}
+          style={[layout.styles.icon, { tintColor: tintColor }]}
+        />
+      ),
       headerStyle: {
         borderBottomColor: layout.themeTextColor,
         borderBottomWidth: 1,

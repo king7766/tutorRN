@@ -4,7 +4,7 @@
  * @flow
  */
 
-
+import {observer} from 'mobx-react'
 import React, { Component } from 'react';
 import {
   Platform,
@@ -24,6 +24,9 @@ import {
 } from 'react-native';
 import PopupDialog, {DialogTitle, SlideAnimation} from 'react-native-popup-dialog';
 import Picker from 'react-native-picker';
+
+import locationVM from '/VM/locationVM'
+
 //import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 //const layout = require('../Layout')
 
@@ -36,6 +39,7 @@ import TutorRowFlatList from '/view/ui/TutorRowFlatList';
 import FilteringToolsBar from '/view/ui/FilteringToolsBar';
 */
 
+const locationViewModel = locationVM.getInstance()
 
 import {
   Avatar,
@@ -43,9 +47,9 @@ import {
   //TopMenuBar,
   TutorRowFlatList,
   FilteringToolsBar,
-} from 'view/ui/UIComponent';
+} from '/view/ui/UIComponent';
 
-
+@observer
 class Register extends Component<Props> {
 
   constructor(props) {
@@ -71,7 +75,8 @@ class Register extends Component<Props> {
       rowTitle:['電郵地址 / 電話', '密碼', '名稱', '性別', '職業', '學歷', '出生日期', '地區'],
 
       genderSelectArray: ['男', '女'],
-      locationSelectArray : ['中西區', '灣仔', '東區','南區','油尖旺', '深水埗', '九龍城','黃大仙','觀塘', '葵青', '荃灣', '屯門','元朗','北區','大埔','沙田','西貢','離島'],
+      //locationSelectArray : ['中西區', '灣仔', '東區','南區','油尖旺', '深水埗', '九龍城','黃大仙','觀塘', '葵青', '荃灣', '屯門','元朗','北區','大埔','沙田','西貢','離島'],
+      locationSelectArray : [],
       eductionSelectArray :['小學', '中學', '大學以上'],
       jobSelectArray :['文員', '運輸','教學', '體育' ],
 
@@ -105,6 +110,22 @@ class Register extends Component<Props> {
 
   componentWillMount() {
     this.mounted = true
+
+    var tmp = []
+    for ( var i = 0; i < locationViewModel.getFullList().length ; i ++)
+    {
+      tmp.push ('=== ' + locationViewModel.getDistrict()[i].district_name  + ' ===')
+  
+      for (var j = 0 ; j < locationViewModel.getLocationListFromDistrict(i).length ; j ++ )
+      {
+        var item = locationViewModel.getLocationListFromDistrict(i)[j].location_name
+        tmp.push(item)
+      }
+    }
+
+    this.setState({
+      locationSelectArray: tmp,
+    })
   }
 
   textInputStyle(index)

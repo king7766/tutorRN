@@ -18,7 +18,9 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   ScrollView,
-  ListView
+  ListView,
+  AsyncStorage,
+  DeviceEventEmitter
 } from 'react-native';
 
 import SegmentControl from './ui/SegmentControl'
@@ -61,10 +63,42 @@ class ProfileHomeView extends Component<Props> {
     //this.tabOnClicked = this.tabOnClicked.bind(this)
   }
 
+  static navigationOptions = ({ navigation }) => {
+    const params = navigation.state.params || {};
+
+    return {
+      //headerLeft:<Button title="Info" onPress = {params.leftBtnOnClick}/>,
+      headerRight: (
+
+        //<Button onPress={params.increaseCount} title="Info" />
+        <TouchableHighlight 
+          onPress={params.leftBtnOnClick}
+          //onPress={params.increaseCount}
+          underlayColor = {layout.touchHighlightColor}
+        >
+          <View style = {{height: 30, width: 100, justifyContent: 'center', flexDirection: 'row'}}>
+            <Image source={require('../image/exit-100.png')} style={{height: 30, width: 30, marginLeft:10}} /> 
+          </View>
+
+        </TouchableHighlight>
+      ),
+    };
+  };
+  
   componentWillMount() {
-
+    this.props.navigation.setParams({ leftBtnOnClick: this._signOutAsync });
   }
-
+ 
+  _signOutAsync = async () => {
+    console.log('_signOutAsync from ProfileHome')
+    //await AsyncStorage.clear();
+    //this.props.navigation.navigate('Auth');
+    await AsyncStorage.clear();
+    //this.props.navigation.navigate('Auth');
+    //DeviceEventEmitter.emit('logout', {name:'John', age:23});
+    DeviceEventEmitter.emit('signOut', {});
+    //DeviceEventEmitter.emit('logout', {name:'John', age:23});
+  };
 
   render() {
 

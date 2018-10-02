@@ -18,6 +18,63 @@ export const HI = 'https://itunes.apple1.com/hk/rss/topfreeapplications/limit=10
 
 const token = 'xRW8DwqoIxZBSlF83b2P'
 
+
+export async function hihi()
+{
+    //console.log('hihi')
+
+    //if( method === 'POST')
+    if( 1 )
+    {
+        fetch('http://laravel50.com/admin/add', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                tab: 'type',
+                name: 345,
+                seq: 100,
+            })
+        })
+        .then(async (response) => {
+    	    const statusCode = await response.status;
+            const data = await response.json();
+            return Promise.all([statusCode, data]);
+        })
+        .then(res => {  
+            
+            return {statusCode:res[0], data:res[1]} 
+        }) 
+        .then(json => { 
+       	    console.log("reponse :", json);
+            return json;
+        })
+        .catch(error => {
+
+            console.log ('error = ' + error);
+        })
+        .done();
+
+        /*
+        //.then((response) => response.json() )
+        .then((responseData) => {
+            if (responseData) {
+                // 接到 Data
+                console.log('responseData = ' + responseData);
+            } 
+        })
+        .catch((error) => {
+            console.warn('error = ' + error);
+        })
+        .done();  
+        */
+    }
+    else{
+        //getRequest(url);
+    }
+}
 /*
 export async function getResponseFromApi (method, url)
 {
@@ -52,6 +109,9 @@ export async function getResponseFromApi (method, url)
    
 }
 */
+
+
+
 export async function getRequest (url){
     
     console.log('URL = ' + url)
@@ -82,6 +142,7 @@ export async function getRequest (url){
 export async function getResponseFromApi (input_url){
     
     console.log('URL = ' + input_url)
+    //hihi()
 
     return fetch(input_url)
         .then(async (response) => {

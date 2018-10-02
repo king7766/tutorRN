@@ -17,6 +17,7 @@ const LessonStack = StackNavigator({
     navigationOptions: {
       title: '',
       
+      
       headerStyle: {
         borderBottomColor: layout.themeTextColor,
         borderBottomWidth: 1,
