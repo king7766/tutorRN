@@ -22,6 +22,9 @@ import PhotoSlideView from '/view/ui/PhotoSlideView'
 const layout = require('tutorRN/src/Layout')
 
 
+// https://developers.facebook.com/tools/explorer/?method=GET&path=me%2Fvideos%3Ftype%3Duploaded%26fields%3Dtitle%2Cdescription%2Cthumbnails&version=v3.1
+// https://developers.facebook.com/tools/explorer/?method=GET&path=me%3Flocale%3Den_US%26fields%3Dname%2Cemail%2Cfriends%2Cage&version=v3.1
+
 const TouchableIcon = ({ index, children }) => {
   return (
     <TouchableHighlight onPress={ this.favouriteOnClick}>
