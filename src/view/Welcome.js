@@ -21,11 +21,12 @@ import {
   AsyncStorage
 } from 'react-native';
 
-import userVM from '/VM/userVM'
+import userVM from 'tutorRN/src/VM/userVM'
 
 
-import * as Membership from '/service/membership';
-import * as Strings from '/service/strings';
+import * as Membership from 'tutorRN/src/service/membership';
+import * as Strings from 'tutorRN/src/service/strings';
+import * as N from 'tutorRN/src/service/navigation';
 
 
 //import { LoginManager } from 'react-native-fbsdk'
@@ -38,7 +39,7 @@ const {
 } = FBSDK;
 
 
-const layout = require('../Layout')
+const layout = require('tutorRN/src/Layout')
 
 const userViewModel = userVM.getInstance()
 
@@ -90,10 +91,10 @@ class Welcome extends Component<Props> {
     const infoRequest = new GraphRequest(
       'me/videos?type=uploaded&fields=title,description,thumbnails',
       
-      //'/me/videos?type=uploaded&field=file_size,title,description',
+      //'tutorRN/src/me/videos?type=uploaded&field=file_size,title,description',
       //624073744/videos?type=uploaded
-      //'/me?fields=name,picture,email',
-      //'/me/videos',
+      //'tutorRN/src/me?fields=name,picture,email',
+      //'tutorRN/src/me/videos',
       null,
       this._responseInfoCallback
     );
@@ -114,7 +115,8 @@ class Welcome extends Component<Props> {
 
   guestInAction = async() => {
 
-    await AsyncStorage.setItem('userToken', 'guest');
+    N.loginAction('guest');
+    //await AsyncStorage.setItem('userToken', 'guest');
     this.props.navigation.navigate('App');
     return 
     
@@ -211,7 +213,7 @@ class Welcome extends Component<Props> {
 
     return (
       <View style = {styles.background}>  
-        <Image source={require('../image/background.jpg')} style={styles.image} /> 
+        <Image source={require('tutorRN/src/image/background.jpg')} style={styles.image} /> 
         <View style = {styles.ButtonContainer}>
 
           <View 

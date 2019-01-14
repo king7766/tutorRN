@@ -25,12 +25,12 @@ import {
 import PopupDialog, {DialogTitle, SlideAnimation} from 'react-native-popup-dialog';
 import Picker from 'react-native-picker';
 //const layout = require('../Layout')
-const layout = require('/Layout')
-import Avatar from '/view/ui/Avatar';
-import Assets from '/view/ui/Assets';
-import TopMenuBar from '/view/ui/TopMenuBar';
-import TutorRowFlatList from '/view/ui/TutorRowFlatList';
-import FilteringToolsBar from '/view/ui/FilteringToolsBar';
+const layout = require('tutorRN/src/Layout')
+import Avatar from 'tutorRN/src/view/ui/Avatar';
+import Assets from 'tutorRN/src/view/ui/Assets';
+import TopMenuBar from 'tutorRN/src/view/ui/TopMenuBar';
+import TutorRowFlatList from 'tutorRN/src/view/ui/TutorRowFlatList';
+import FilteringToolsBar from 'tutorRN/src/view/ui/FilteringToolsBar';
 
 
 class SearchFilteringView extends Component<Props> {
@@ -70,7 +70,7 @@ class SearchFilteringView extends Component<Props> {
       '其他'],
 
 
-      rowData :['','','','','','','',''],
+      rowData :[' ',' ',' ',' ',' ',' ',' ',' '],
 
       tutorRowData:[
         {
@@ -227,10 +227,13 @@ class SearchFilteringView extends Component<Props> {
 
   render() {
     return (
+      
+      /*
       <SafeAreaView
         styles = {{flex:1}}
       >
-        
+      */
+      <View>
 
         <ScrollView
           scrollEnabled={false}
@@ -267,8 +270,9 @@ class SearchFilteringView extends Component<Props> {
                       <TextInput
                         ref= {"index" + index}
                         style = {{ paddingRight:10, color:'rgb(231,121,98)' }}
+                        value={this.state.rowData[index]}
                       >
-                        {this.state.rowData[index]}
+                        
                       </TextInput> 
                       
                     </View>
@@ -290,7 +294,7 @@ class SearchFilteringView extends Component<Props> {
             </View>
           </TouchableHighlight>
         </ScrollView>
-      </SafeAreaView>
+      </View>
     );
   }
 }

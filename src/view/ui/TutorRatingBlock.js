@@ -13,7 +13,7 @@ import Dimensions from 'Dimensions';
 //import Hyperlink from 'react-native-hyperlink'
 import ParsedText from 'react-native-parsed-text';
 
-const layout = require('../../Layout')
+const layout = require('tutorRN/src/Layout')
 let starSize = 15
 
 class TutorRatingBlock extends Component{
@@ -105,7 +105,7 @@ class TutorRatingBlock extends Component{
           >
             <Image 
               style = {{ flex: 1,width: 30, height: 30}}
-              source= {require('../../image/left_arrow_icon_100.png')}
+              source= {require('tutorRN/src/image/left_arrow_icon_100.png')}
               resizeMode =  'contain'
             />
           </TouchableHighlight>
@@ -122,7 +122,7 @@ class TutorRatingBlock extends Component{
             >
             {
               this.state.rating.map((item, index) =>
-                <Image source={require('../../image/star-503.png')} style={{width: starSize, height: starSize}} />
+                <Image source={require('tutorRN/src/image/star-503.png')} style={{width: starSize, height: starSize}} />
               )
             }
             
@@ -159,7 +159,7 @@ class TutorRatingBlock extends Component{
             >
             <Image 
               style = {{ flex: 1,width: 30, height: 30}}
-              source= {require('../../image/right_arrow_icon_100.png')}
+              source= {require('tutorRN/src/image/right_arrow_icon_100.png')}
               resizeMode =  'contain'
             />
           </TouchableHighlight>

@@ -13,7 +13,7 @@ import {
 import Dimensions from 'Dimensions';
 //import Hyperlink from 'react-native-hyperlink'
 import ParsedText from 'react-native-parsed-text';
-const layout = require('../../Layout')
+const layout = require('tutorRN/src/Layout')
 
 
 
@@ -333,18 +333,26 @@ class PhotoSlideView extends Component{
   constructor (props){
     super(props);
 
-
+    this.sliderOnPress = this.sliderOnPress.bind(this)
   }
   componentWillMount(){
     this.mounted = true
     this.props.onReady()
   } 
 
+  setNativeProps = (nativeProps) => {
+    this._root.setNativeProps(nativeProps);
+  }
+
+  sliderOnPress() {
+    console.log('hihihi')
+  }
+
   slideOnClick()
   {
     
     console.log('PhotoSlideView on slideOnClick')
-    this.props.onPress()
+    //this.props.onPress()
   }
 
   render (){
@@ -361,18 +369,20 @@ class PhotoSlideView extends Component{
 
     return(
 
-      <TouchableHighlight 
-        onPress = { ()=> this.slideOnClick() }
+      //<TouchableHighlight 
+        //onPress = { this.sliderOnPress }
+        //onPress = { ()=>this.sliderOnPress() }
+        //onPress = { ()=> this.slideOnClick() }
         //onPress={ ()=>this.onClicked()}
         //underlayColor = {layout.touchHighlightColor}
-      >
+      //>
         
         <ImageLoader
           style={styles.image}
           data = {data}
           //source={{ uri: 'https://images.unsplash.com/photo-1485832329521-e944d75fa65e?auto=format&fit=crop&w=1000&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D' }}
         />
-      </TouchableHighlight>
+      //</TouchableHighlight>
 
     )
   }

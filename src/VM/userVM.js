@@ -1,12 +1,12 @@
-import {userModel} from '../Model/userModel'
+import {userModel} from 'tutorRN/src/Model/userModel'
 import React from 'react';
 import {observable, action, computed} from 'mobx'
 
 import {
   	getResponseFromApi
-} from '../URLConfig';
+} from 'tutorRN/src/URLConfig';
 
-//import * as C from '/service/connection'
+//import * as C from 'tutorRN/src/service/connection'
 
 import * as C from 'tutorRN/src/service/connection'
 import * as E from 'tutorRN/src/service/env-config'

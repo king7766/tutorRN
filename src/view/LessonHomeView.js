@@ -21,7 +21,7 @@ import {
   AsyncStorage
 } from 'react-native';
 
-//import segmentedControl from '../segmentedControlMain'
+//import segmentedControl from 'tutorRN/src/segmentedControlMain'
 
 //import NewsCell from './ui/NewsCell'
 import LessonCell from './ui/LessonCell'
@@ -29,7 +29,7 @@ import SegmentControl from './ui/SegmentControl'
 
 import Welcome from './Welcome'
 
-const layout = require('../Layout')
+const layout = require('tutorRN/src/Layout')
 
 
 class LessonHomeView extends Component<Props> {
@@ -145,7 +145,7 @@ class LessonHomeView extends Component<Props> {
           underlayColor = {layout.touchHighlightColor}
         >
           <View style = {{height: 30, width: 100, justifyContent: 'center', flexDirection: 'row'}}>
-            <Image source={require('../image/inbox-filled-100.png')} style={{height: 30, width: 30, marginLeft:10}} /> 
+            <Image source={require('tutorRN/src/image/inbox-filled-100.png')} style={{height: 30, width: 30, marginLeft:10}} /> 
           </View>
 
         </TouchableHighlight>
@@ -175,7 +175,7 @@ class LessonHomeView extends Component<Props> {
         //underlayColor = {layout.touchHighlightColor}
         underlayColor = {layout.touchHighlightColor}
         >
-      <Image source={require('../image/inbox-filled-100.png')} style={{height: 30, width: 30, marginLeft:10}} /> 
+      <Image source={require('tutorRN/src/image/inbox-filled-100.png')} style={{height: 30, width: 30, marginLeft:10}} /> 
       
         
       

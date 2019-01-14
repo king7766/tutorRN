@@ -29,7 +29,7 @@ import TutorProfileBlock from './ui/TutorProfileBlock'
 import TutorProfileTextBlock from './ui/TutorProfileTextBlock'
 import TutorRatingBlock from './ui/TutorRatingBlock'
 
-const layout = require('../Layout')
+const layout = require('tutorRN/src/Layout')
 const numberOfItem = 4
 
 
@@ -77,7 +77,7 @@ class ProfileHomeView extends Component<Props> {
           underlayColor = {layout.touchHighlightColor}
         >
           <View style = {{height: 30, width: 100, justifyContent: 'center', flexDirection: 'row'}}>
-            <Image source={require('../image/exit-100.png')} style={{height: 30, width: 30, marginLeft:10}} /> 
+            <Image source={require('tutorRN/src/image/exit-100.png')} style={{height: 30, width: 30, marginLeft:10}} /> 
           </View>
 
         </TouchableHighlight>

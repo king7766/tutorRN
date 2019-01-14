@@ -13,7 +13,7 @@ import Dimensions from 'Dimensions';
 //import Hyperlink from 'react-native-hyperlink'
 import ParsedText from 'react-native-parsed-text';
 
-const layout = require('../../Layout')
+const layout = require('tutorRN/src/Layout')
 
 
 class NoticeCell extends Component{

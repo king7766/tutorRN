@@ -4,12 +4,12 @@ import { ScrollView} from 'react-native';
 
 import { TabNavigator, StackNavigator } from 'react-navigation';
 
-import SearchHomeView from '../view/SearchHomeView';
-import SearchTutorView from '../view/SearchTutorView';
-import SearchTutorDetailView from '../view/SearchTutorDetailView';
-import SearchFilteringView from '/view/SearchFilteringView';
+import SearchHomeView from 'tutorRN/src/view/SearchHomeView';
+import SearchTutorView from 'tutorRN/src/view/SearchTutorView';
+import SearchTutorDetailView from 'tutorRN/src/view/SearchTutorDetailView';
+import SearchFilteringView from 'tutorRN/src/view/SearchFilteringView';
 
-const layout = require('../Layout')
+const layout = require('tutorRN/src/Layout')
 
 const SearchStack = StackNavigator({
   SearchHomeView: { 
@@ -18,7 +18,7 @@ const SearchStack = StackNavigator({
       title: '搜尋',
       tabBarIcon: ({ tintColor }) => (
         <Image
-          source={require('../image/icon-math.png')}
+          source={require('tutorRN/src/image/icon-math.png')}
           //style={[styles.icon, { tintColor: tintColor }]}
           style={[layout.styles.icon, { tintColor: tintColor }]}
         />

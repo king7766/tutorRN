@@ -5,7 +5,6 @@ import android.app.Application;
 import com.facebook.react.ReactApplication;
 import com.inprogress.reactnativeyoutube.ReactNativeYouTube;
 import com.brentvatne.react.ReactVideoPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
 import com.beefe.picker.PickerViewPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.react.ReactNativeHost;
@@ -30,15 +29,9 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new ReactNativeYouTube(),
             new ReactVideoPackage(),
-            new VectorIconsPackage(),
             new PickerViewPackage(),
             new FBSDKPackage()
       );
-    }
-
-    @Override
-    protected String getJSMainModuleName() {
-      return "index";
     }
   };
 

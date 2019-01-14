@@ -22,7 +22,7 @@ import {
 } from 'react-native';
 
 import SegmentControl from './ui/SegmentControl'
-const layout = require('../Layout')
+const layout = require('tutorRN/src/Layout')
 const numberOfItem = 4
 
 
@@ -51,7 +51,7 @@ class LessonDetailSelectView extends Component<Props> {
     for(var i = 1; i < 16; i++){           
       Arr.push(
         {                   
-          image: require('../image/icon-math.png'),
+          image: require('tutorRN/src/image/icon-math.png'),
           price:'中文'                
         }            
       )        

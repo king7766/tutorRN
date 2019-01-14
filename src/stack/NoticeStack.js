@@ -4,11 +4,11 @@ import { ScrollView} from 'react-native';
 
 import { TabNavigator, StackNavigator } from 'react-navigation';
 
-import NoticeHomeView from '../view/NoticeHomeView';
+import NoticeHomeView from 'tutorRN/src/view/NoticeHomeView';
 
 
 
-const layout = require('../Layout')
+const layout = require('tutorRN/src/Layout')
 
 const NoticeStack = StackNavigator({
 

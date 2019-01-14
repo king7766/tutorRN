@@ -17,8 +17,11 @@ import ParsedText from 'react-native-parsed-text';
 
 import Video from 'react-native-video';
 
-import PhotoSlideView from '/view/ui/PhotoSlideView'
+import PhotoSlideView from 'tutorRN/src/view/ui/PhotoSlideView'
+//import navigation from 'tutorRN/src/service/navigation'
 
+//const navigation = require ('tutorRN/src/service/navigation')
+import * as N from 'tutorRN/src/service/navigation'
 const layout = require('tutorRN/src/Layout')
 
 
@@ -29,7 +32,7 @@ const TouchableIcon = ({ index, children }) => {
   return (
     <TouchableHighlight onPress={ this.favouriteOnClick}>
     
-      <Image  style = {{position: 'absolute', top: layout.deviceHeight/2 + (index * 50), left : layout.deviceWidth - 50, height: 40,width: 40,}} source={require('../../image/heart.png')} />
+      <Image  style = {{position: 'absolute', top: layout.deviceHeight/2 + (index * 50), left : layout.deviceWidth - 50, height: 40,width: 40,}} source={require('tutorRN/src/image/heart.png')} />
       <Text> {children}</Text>
     </TouchableHighlight>
   
@@ -55,6 +58,13 @@ class NewsVideoCell extends Component{
     this.onLoad = this.onLoad.bind(this)
     this.videoOnClick = this.videoOnClick.bind(this)
   }
+
+  /*
+  setNativeProps = (nativeProps) => {
+    this._root.setNativeProps(nativeProps);
+  }
+  */
+
   componentWillMount(){
     //this.mounted = true
   } 
@@ -77,7 +87,9 @@ class NewsVideoCell extends Component{
           <Image  style = {{position: 'absolute', top: layout.deviceHeight/2, left : layout.deviceWidth - 50, height: 40,width: 40,}} source={require('tutorRN/src/image/heart.png')} />
         </TouchableHighlight>
 
-            <Image  style = {{ top: layout.deviceHeight/2 + 50, left : layout.deviceWidth - 50, height: 40,width: 40}} source={require('tutorRN/src/image/chat.png')} />
+        <TouchableHighlight onPress={ this.favouriteOnClick}>
+          <Image  style = {{ top: layout.deviceHeight/2 + 50, left : layout.deviceWidth - 50, height: 40,width: 40}} source={require('tutorRN/src/image/chat.png')} />
+        </TouchableHighlight>
 
             <View style = {{position: 'absolute', top : layout.deviceHeight * 0.05, left:45, height: 30, width: 100, justifyContent:'center', alignItems:'center'}}>
               <Text style = {{ color:'white', fontWeight:'bold',  }} >Elvira Tang</Text>
@@ -101,20 +113,23 @@ class NewsVideoCell extends Component{
   {
     return (
      
-      <Image source={{uri: this.props.item.news_thumb }} style={styles.fullViewStyle} /> 
+      //<Image source={{uri: this.props.item.news_thumb }} style={styles.fullViewStyle} /> 
       //<Image source={{uri: this.props.item.cover }} style={styles.fullViewStyle} /> 
-      //<Image source={{uri:'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/5895592a166f19435e4e127ae1b1f336.jpg'}} style={styles.fullViewStyle} /> 
+      <Image source={{uri:'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/5895592a166f19435e4e127ae1b1f336.jpg'}} style={styles.fullViewStyle} /> 
     )
   }
 
   showPhotoVideo()
   {
     return (
+      //<View/>
       //<Image source={{uri: 'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/3a7803bf022db91704584b7297b38bc6.jpg' }} style={styles.fullViewStyle} /> 
+      
       <PhotoSlideView
         onReady = { this.onLoad }
         onPress = { this.videoOnClick }
       />
+      
     )
   }
 
@@ -128,7 +143,7 @@ class NewsVideoCell extends Component{
 
             //source={{uri: this.props.item.video }}
             source = {{uri: 'https://d33os2r86a346n.cloudfront.net/vodfile/_definst_/smil:amazons3/sportxmbr/2018/8/20/20180820_upower_alexfong.smil/playlist.m3u8' }}
-            //source={require('/image/video_demo.mp4')}
+            //source={require('tutorRN/src/image/video_demo.mp4')}
             //rate={1.0}
             repeat = {true}
             volume={1.0}
@@ -204,13 +219,14 @@ class NewsVideoCell extends Component{
 
   favouriteOnClick()
   {
-    console.log('favouriteOnClick')
+    console.log('favouriteOnClick, going to logout ')
+    N.logoutAction();
   }
 
   displayViewLogic(index)
   {
   
-
+    //if (0)
     if ( index == this.props.showingIndex )
     {
       // viewable view -> show video
@@ -221,6 +237,11 @@ class NewsVideoCell extends Component{
       */
 
       return (
+        <TouchableHighlight 
+            onPress={ this.videoOnClick}
+            //onPress={params.increaseCount}
+            underlayColor = {layout.touchHighlightColor}
+        >
         <View>  
         {
           !this.state.hiddenCover && // for video 
@@ -231,11 +252,7 @@ class NewsVideoCell extends Component{
             style={styles.fullViewStyle} 
           />
         }
-          <TouchableHighlight 
-            onPress={ this.videoOnClick}
-            //onPress={params.increaseCount}
-            underlayColor = {layout.touchHighlightColor}
-          >
+          
           {
             1 ? (
               
@@ -245,13 +262,16 @@ class NewsVideoCell extends Component{
               this.showVideoByYoutube()
             )
           } 
-          </TouchableHighlight>
+          
           
         {
           !this.state.hiddenUI && this.showUI()
         }
         </View>  
+
+        </TouchableHighlight>
       )
+      
       
       
     }
@@ -263,6 +283,9 @@ class NewsVideoCell extends Component{
         <View>
         {
           this.showCoverView()
+        }
+        {
+          this.showUI()
         }
         </View>
         

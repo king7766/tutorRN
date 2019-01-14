@@ -13,7 +13,7 @@ import Dimensions from 'Dimensions';
 //import Hyperlink from 'react-native-hyperlink'
 import ParsedText from 'react-native-parsed-text';
 
-const layout = require('../../Layout')
+const layout = require('tutorRN/src/Layout')
 
 
 class TutorProfileBlock extends Component{
@@ -77,7 +77,7 @@ class TutorProfileBlock extends Component{
             >
             <Image 
               style = {{ flex: 1,width: 30, height: 30}}
-              source= {require('../../image/right_arrow_icon_100.png')}
+              source= {require('tutorRN/src/image/right_arrow_icon_100.png')}
               resizeMode =  'contain'
             />
           </TouchableHighlight>

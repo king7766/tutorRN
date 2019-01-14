@@ -5,8 +5,8 @@ import SegmentControl from 'tutorRN/src/view/ui/SegmentControl'
 import Avatar from 'tutorRN/src/view/ui/Avatar'
 import FilteringToolsBar from 'tutorRN/src/view/ui/FilteringToolsBar'
 import AddBtnPopUpDialog from 'tutorRN/src/view/ui/AddBtnPopUpDialog'
-import CreateLessonView from '/view/CreateLessonView'
-import Assets from '/view/ui/Assets'
+import CreateLessonView from 'tutorRN/src/view/CreateLessonView'
+import Assets from 'tutorRN/src/view/ui/Assets'
 
 //import * as V from 'tutorRN/src/view/ui'
 

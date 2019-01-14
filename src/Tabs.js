@@ -15,22 +15,22 @@ import { TabNavigator, StackNavigator, SwitchNavigator, NavigationActions, creat
 
 import Welcome from './view/Welcome'
 
-const layout = require('/Layout')
+const layout = require('tutorRN/src/Layout')
 
 // Tab 1
-import NewsStack from '/stack/NewsStack'
+import NewsStack from 'tutorRN/src/stack/NewsStack'
 
 // Tab 2
-import LessonStack from '/stack/LessonStack'
+import LessonStack from 'tutorRN/src/stack/LessonStack'
 
 // Tab 3
-import SearchStack from '/stack/SearchStack'
+import SearchStack from 'tutorRN/src/stack/SearchStack'
 
 // Tab 4
-import NoticeStack from '/stack/NoticeStack'
+import NoticeStack from 'tutorRN/src/stack/NoticeStack'
 
 // Tab 5
-import ProfileStack from '/stack/ProfileStack'
+import ProfileStack from 'tutorRN/src/stack/ProfileStack'
 import { action } from '../node_modules/mobx';
 
 import PopUpView from './view/PopUpView'

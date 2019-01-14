@@ -20,12 +20,12 @@ import {
   ScrollView
 } from 'react-native';
 
-//import segmentedControl from '../segmentedControlMain'
+//import segmentedControl from 'tutorRN/src/segmentedControlMain'
 
 //import NewsCell from './ui/NewsCell'
 import NoticeCell from './ui/NoticeCell'
 import SegmentControl from './ui/SegmentControl'
-const layout = require('../Layout')
+const layout = require('tutorRN/src/Layout')
 
 
 class NoticeHomeView extends Component<Props> {

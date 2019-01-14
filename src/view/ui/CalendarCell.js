@@ -14,7 +14,7 @@ import Dimensions from 'Dimensions';
 import ParsedText from 'react-native-parsed-text';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
-const layout = require('../../Layout')
+const layout = require('tutorRN/src/Layout')
 
 
 class CalendarCell extends Component{
@@ -165,7 +165,7 @@ class CalendarCell extends Component{
               >
                 <Image 
                   style = {{ width: 30, height: 30}}
-                  source= {require('../../image/left_arrow_icon_100.png')}
+                  source= {require('tutorRN/src/image/left_arrow_icon_100.png')}
                   resizeMode =  'contain'
                 />
               </TouchableHighlight>

@@ -1,13 +1,13 @@
-import {newsModel} from '../Model/newsModel'
+import {newsModel} from 'tutorRN/src/Model/newsModel'
 import React from 'react';
 import {observable, action, computed} from 'mobx'
 
 /*
 import {
   	getResponseFromApi
-} from '../URLConfig';
+} from 'tutorRN/src/URLConfig';
 */
-import * as Urlconfig from '/URLConfig'
+import * as Urlconfig from 'tutorRN/src/URLConfig'
 import * as C from 'tutorRN/src/service/connection'
 import * as E from 'tutorRN/src/service/env-config'
 

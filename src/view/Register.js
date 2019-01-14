@@ -25,18 +25,18 @@ import {
 import PopupDialog, {DialogTitle, SlideAnimation} from 'react-native-popup-dialog';
 import Picker from 'react-native-picker';
 
-import locationVM from '/VM/locationVM'
+import locationVM from 'tutorRN/src/VM/locationVM'
 
 //import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
-//const layout = require('../Layout')
+//const layout = require('tutorRN/src/Layout')
 
-const layout = require('/Layout')
+const layout = require('tutorRN/src/Layout')
 /*
-import Avatar from '/view/ui/Avatar';
-import Assets from '/view/ui/Assets';
-import TopMenuBar from '/view/ui/TopMenuBar';
-import TutorRowFlatList from '/view/ui/TutorRowFlatList';
-import FilteringToolsBar from '/view/ui/FilteringToolsBar';
+import Avatar from 'tutorRN/src/view/ui/Avatar';
+import Assets from 'tutorRN/src/view/ui/Assets';
+import TopMenuBar from 'tutorRN/src/view/ui/TopMenuBar';
+import TutorRowFlatList from 'tutorRN/src/view/ui/TutorRowFlatList';
+import FilteringToolsBar from 'tutorRN/src/view/ui/FilteringToolsBar';
 */
 
 const locationViewModel = locationVM.getInstance()
@@ -47,7 +47,7 @@ import {
   //TopMenuBar,
   TutorRowFlatList,
   FilteringToolsBar,
-} from '/view/ui/UIComponent';
+} from 'tutorRN/src/view/ui/UIComponent';
 
 @observer
 class Register extends Component<Props> {

@@ -30,7 +30,7 @@ import TutorProfileTextBlock from './ui/TutorProfileTextBlock'
 import TutorRatingBlock from './ui/TutorRatingBlock'
 
 
-const layout = require('../Layout')
+const layout = require('tutorRN/src/Layout')
 
 
 class SearchTutorDetailView extends Component<Props> {

@@ -85,7 +85,7 @@ export class ApiConfigServiceImpl implements T.ApiConfigService {
       const recommendationHost = env.recommendationHost;
   
       let membershipApi: T.MembershipApi = {
-        deviceAccess: concatWithHost(hostFromMembership, '/devices/access'),
+        deviceAccess: concatWithHost(hostFromMembership, 'tutorRN/src/devices/access'),
 */
 
 /*

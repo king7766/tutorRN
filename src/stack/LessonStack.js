@@ -4,11 +4,11 @@ import { ScrollView} from 'react-native';
 
 import { TabNavigator, StackNavigator } from 'react-navigation';
 
-import LessonHomeView from '../view/LessonHomeView';
+import LessonHomeView from 'tutorRN/src/view/LessonHomeView';
 
 
 
-const layout = require('../Layout')
+const layout = require('tutorRN/src/Layout')
 
 const LessonStack = StackNavigator({
 

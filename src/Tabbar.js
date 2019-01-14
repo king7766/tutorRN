@@ -30,7 +30,7 @@ import NoticeStack from './stack/NoticeStack'
 
 // Tab 5
 import ProfileStack from './stack/ProfileStack'
-import { action } from '../node_modules/mobx';
+import { action } from 'tutorRN/src/node_modules/mobx';
 import * as React from 'react';
 import { BottomNavigation } from 'react-native-paper';
 

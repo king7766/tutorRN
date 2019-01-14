@@ -4,11 +4,11 @@ import { ScrollView} from 'react-native';
 
 import { TabNavigator, StackNavigator } from 'react-navigation';
 
-import ProfileHomeView from '../view/ProfileHomeView';
+import ProfileHomeView from 'tutorRN/src/view/ProfileHomeView';
 
 
 
-const layout = require('../Layout')
+const layout = require('tutorRN/src/Layout')
 
 const ProfileStack = StackNavigator({
 

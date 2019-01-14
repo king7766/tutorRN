@@ -25,6 +25,14 @@ class AuthLoadingScreen extends React.Component {
       //this.props.navigation.navigate(userToken ? 'App' : 'Auth');
     });
 
+    DeviceEventEmitter.addListener('signIn', (token) => {
+      //alert('收到通知：' + a);
+      console.log('signIn Action with ', token);
+      this.props.navigation.navigate('App');
+      
+    });
+
+
     //const userToken = AsyncStorage.getItem('userToken');
     // This will switch to the App screen or Auth screen and this loading
     // screen will be unmounted and thrown away.

@@ -6,12 +6,13 @@
 
 
 import React, { Component } from 'react';
+//import SafeAreaView from 'react-native';
+import SafeAreaView from 'react-navigation';
 import {
   Platform,
   StyleSheet,
   Text,
-  View,
-  SafeAreaView,
+  View,   
   Button,
   Image,
   TouchableHighlight,
@@ -24,15 +25,15 @@ import {
 } from 'react-native';
 import Picker from 'react-native-picker';
 //import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
-//const layout = require('../Layout')
+//const layout = require('tutorRN/src/Layout')
 
-const layout = require('/Layout')
+const layout = require('tutorRN/src/Layout')
 /*
-import Avatar from '/view/ui/Avatar';
-import Assets from '/view/ui/Assets';
-import TopMenuBar from '/view/ui/TopMenuBar';
-import TutorRowFlatList from '/view/ui/TutorRowFlatList';
-import FilteringToolsBar from '/view/ui/FilteringToolsBar';
+import Avatar from 'tutorRN/src/view/ui/Avatar';
+import Assets from 'tutorRN/src/view/ui/Assets';
+import TopMenuBar from 'tutorRN/src/view/ui/TopMenuBar';
+import TutorRowFlatList from 'tutorRN/src/view/ui/TutorRowFlatList';
+import FilteringToolsBar from 'tutorRN/src/view/ui/FilteringToolsBar';
 */
 
 
@@ -42,7 +43,7 @@ import {
   //TopMenuBar,
   TutorRowFlatList,
   FilteringToolsBar,
-} from 'view/ui/UIComponent';
+} from 'tutorRN/src/view/ui/UIComponent';
 
 
 class CreateLessonView extends Component<Props> {
@@ -234,6 +235,13 @@ class CreateLessonView extends Component<Props> {
 
   render() {
     return (
+      <View/>
+    )
+  }
+}
+
+/*
+
       <SafeAreaView
         styles = {{flex:1}}
       >
@@ -300,9 +308,7 @@ class CreateLessonView extends Component<Props> {
           
         </View>
       </SafeAreaView> 
-    )
-  }
-}
+      */
 
 const styles = StyleSheet.create({
 

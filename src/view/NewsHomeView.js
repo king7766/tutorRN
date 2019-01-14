@@ -31,14 +31,14 @@ import {
 //import Navigator from 'react-native-deprecated-custom-components'
 import NewsCell from './ui/NewsCell'
 import NewsVideoCell from './ui/NewsVideoCell'
-import newsVM from '../VM/newsVM'
+import newsVM from 'tutorRN/src/VM/newsVM'
 import NewsDetailView from './NewsDetailView'
 import PhotoSlideView from './ui/PhotoSlideView'
 
-import locationVM from '/VM/locationVM'
-import categoryVM from '/VM/categoryVM'
+import locationVM from 'tutorRN/src/VM/locationVM'
+import categoryVM from 'tutorRN/src/VM/categoryVM'
 
-//import AddBtnPopUpDialog from '/view/ui/AddBtnPopUpDialog'
+//import AddBtnPopUpDialog from 'tutorRN/src/view/ui/AddBtnPopUpDialog'
 import PopupDialog, {DialogTitle, SlideAnimation, DialogButton, FadeAnimation, ScaleAnimation} from 'react-native-popup-dialog';
 
 const layout = require('tutorRN/src/Layout')
@@ -102,7 +102,7 @@ class NewsHomeView extends Component<Props> {
           underlayColor = {layout.touchHighlightColor}
         >
           <View style = {{height: 30, width: 100, justifyContent: 'center', flexDirection: 'row'}}>
-            <Image source={require('../image/exit-100.png')} style={{height: 30, width: 30, marginLeft:10}} /> 
+            <Image source={require('tutorRN/src/image/exit-100.png')} style={{height: 30, width: 30, marginLeft:10}} /> 
           </View>
 
         </TouchableHighlight>

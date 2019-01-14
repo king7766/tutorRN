@@ -27,10 +27,10 @@ import {
   SegmentControl,
   TutorSelectCell,
   TopMenuBar
-} from '/view/ui/UIComponent';
+} from 'tutorRN/src/view/ui/UIComponent';
 
 
-const layout = require('../Layout')
+const layout = require('tutorRN/src/Layout')
 
 
 class SearchTutorView extends Component<Props> {

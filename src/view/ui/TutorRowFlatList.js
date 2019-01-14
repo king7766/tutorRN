@@ -10,11 +10,11 @@ import {
    TouchableHighlight
 } from 'react-native';
 
-const layout = require('../../Layout')
-//const layout = require('/Layout')
+const layout = require('tutorRN/src/Layout')
+//const layout = require('tutorRN/src/Layout')
 import Dimensions from 'Dimensions';
-import Avatar from '/view/ui/Avatar';
-import Assets from '/view/ui/Assets';
+import Avatar from 'tutorRN/src/view/ui/Avatar';
+import Assets from 'tutorRN/src/view/ui/Assets';
 
 class TutorRowFlatList extends React.Component{
 

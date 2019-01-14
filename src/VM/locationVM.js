@@ -1,5 +1,5 @@
-import {locationModel} from '../Model/locationModel'
-import {districtModel} from '../Model/districtModel'
+import {locationModel} from 'tutorRN/src/Model/locationModel'
+import {districtModel} from 'tutorRN/src/Model/districtModel'
 
 import React from 'react';
 import {observable, action, computed} from 'mobx'
@@ -7,9 +7,9 @@ import {observable, action, computed} from 'mobx'
 /*
 import {
   	getResponseFromApi
-} from '../URLConfig';
+} from 'tutorRN/src/URLConfig';
 */
-import * as Urlconfig from '/URLConfig'
+import * as Urlconfig from 'tutorRN/src/URLConfig'
 import * as C from 'tutorRN/src/service/connection'
 import * as E from 'tutorRN/src/service/env-config'
 

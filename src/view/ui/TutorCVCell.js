@@ -16,7 +16,7 @@ import ParsedText from 'react-native-parsed-text';
 import TutorProfileBlock from './TutorProfileBlock'
 import TutorProfileTextBlock from './TutorProfileTextBlock'
 
-const layout = require('../../Layout')
+const layout = require('tutorRN/src/Layout')
 
 
 class TutorCVCell extends Component{

@@ -4,11 +4,11 @@ import { ScrollView} from 'react-native';
 
 import { TabNavigator, StackNavigator } from 'react-navigation';
 
-import Welcome from '../view/Welcome';
-import Register from '../view/Register';
+import Welcome from 'tutorRN/src/view/Welcome';
+import Register from 'tutorRN/src/view/Register';
 //import SearchTutorDetailView from './view/SearchTutorDetailView';
 
-const layout = require('../Layout')
+const layout = require('tutorRN/src/Layout')
 
 const AuthStack = StackNavigator({
 

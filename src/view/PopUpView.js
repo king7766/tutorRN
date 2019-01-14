@@ -16,9 +16,9 @@ import {
 } from 'react-native';
 
 import PopupDialog, {DialogTitle, SlideAnimation} from 'react-native-popup-dialog';
-import Assets from '/view/ui/Assets';
-import animatedbasic from '/view/ui/animatedbasic'
-const layout = require('/Layout')
+import Assets from 'tutorRN/src/view/ui/Assets';
+import animatedbasic from 'tutorRN/src/view/ui/animatedbasic'
+const layout = require('tutorRN/src/Layout')
 
 let Dimensions = require('Dimensions');
 let SCREEN_WIDTH = Dimensions.get('window').width;//宽
@@ -27,7 +27,7 @@ let SCREEN_HEIGHT = Dimensions.get('window').height;//高
 import {
   AddBtnPopUpDialog,
   CreateLessonView,
-} from '/view/ui/UIComponent';
+} from 'tutorRN/src/view/ui/UIComponent';
 
 
 class PopUpView extends Component<Props> {

@@ -13,13 +13,13 @@ import Dimensions from 'Dimensions';
 //import Hyperlink from 'react-native-hyperlink'
 import ParsedText from 'react-native-parsed-text';
 
-const layout = require('../../Layout')
+const layout = require('tutorRN/src/Layout')
 
 
 const leftArrow = (props) => {
   return <Image 
                     style = {{ width: 30, height: 30}}
-                    source= {require('../../image/left_arrow_icon_100.png')}
+                    source= {require('tutorRN/src/image/left_arrow_icon_100.png')}
                     //resizeMode =  'center'
                     resizeMode =  'contain'
                   />
@@ -56,7 +56,7 @@ class TutorProfileTextBlock extends Component{
             >
             <Image 
               style = {{ flex: 1,width: 30, height: 30}}
-              source= {require('../../image/left_arrow_icon_100.png')}
+              source= {require('tutorRN/src/image/left_arrow_icon_100.png')}
               resizeMode =  'contain'
             />
           </TouchableHighlight>
@@ -78,7 +78,7 @@ class TutorProfileTextBlock extends Component{
             >
             <Image 
               style = {{ flex: 1,width: 30, height: 30}}
-              source= {require('../../image/right_arrow_icon_100.png')}
+              source= {require('tutorRN/src/image/right_arrow_icon_100.png')}
               resizeMode =  'contain'
             />
           </TouchableHighlight>

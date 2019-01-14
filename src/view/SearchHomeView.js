@@ -27,13 +27,13 @@ import SegmentControl from './ui/SegmentControl'
 import {
   TutorRowFlatList,
   TopMenuBar,
-} from '/view/ui/UIComponent';
+} from 'tutorRN/src/view/ui/UIComponent';
 
-//import locationVM from '../VM/locationVM'
+//import locationVM from 'tutorRN/src/VM/locationVM'
 
-import categoryVM from '/VM/categoryVM'
+import categoryVM from 'tutorRN/src/VM/categoryVM'
 
-const layout = require('../Layout')
+const layout = require('tutorRN/src/Layout')
 const numberOfItem = 4
 
 
@@ -62,35 +62,35 @@ class SearchHomeView extends Component<Props> {
       educationData : ['小學', '中學', '大學以上'],
       subjectData : [
         {
-          image:require('../image/icon-math.png'),
+          image:require('tutorRN/src/image/icon-math.png'),
           name:'中文2'
         },
         {
-          image:require('../image/icon-math.png'),
+          image:require('tutorRN/src/image/icon-math.png'),
           name:'中文'
         },
         {
-          image:require('../image/icon-math.png'),
+          image:require('tutorRN/src/image/icon-math.png'),
           name:'中文'
         },
         {
-          image:require('../image/icon-math.png'),
+          image:require('tutorRN/src/image/icon-math.png'),
           name:'中文'
         },
         {
-          image:require('../image/icon-math.png'),
+          image:require('tutorRN/src/image/icon-math.png'),
           name:'中文'
         },
         {
-          image:require('../image/icon-math.png'),
+          image:require('tutorRN/src/image/icon-math.png'),
           name:'中文'
         },
         {
-          image:require('../image/icon-math.png'),
+          image:require('tutorRN/src/image/icon-math.png'),
           name:'中文'
         },
         {
-          image:require('../image/icon-math.png'),
+          image:require('tutorRN/src/image/icon-math.png'),
           name:'中文'
         }
       ],
@@ -183,7 +183,7 @@ class SearchHomeView extends Component<Props> {
     for(var i = 1; i < 16; i++){           
       Arr.push(
         {                   
-          image: require('../image/icon-math.png'),
+          image: require('tutorRN/src/image/icon-math.png'),
           price:'中文1'                
         }            
       )        

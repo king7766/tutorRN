@@ -15,12 +15,12 @@ import {
 import AuthStack from './src/stack/AuthStack'
 import Tabs from './src/Tabs'
 
-import AuthLoadingScreen from '/AuthLoadingScreen'
+import AuthLoadingScreen from 'tutorRN/src/AuthLoadingScreen'
 
 import { StackNavigator, SwitchNavigator } from 'react-navigation'; // Version can be specified in package.json
 
 import { YellowBox } from 'react-native';
-YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
+//YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
 
 
 class SignInScreen extends React.Component {
