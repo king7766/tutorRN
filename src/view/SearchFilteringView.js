@@ -37,6 +37,8 @@ class SearchFilteringView extends Component<Props> {
 
   constructor(props) {
     super(props);
+
+    this.showResultBtnOnClick = this.showResultBtnOnClick.bind(this)
     // /this.handleFacebookLogin = this.handleFacebookLogin.bind(this)
     //this.next = this.next.bind(this)
   
@@ -103,6 +105,7 @@ class SearchFilteringView extends Component<Props> {
 
   showResultBtnOnClick(){
     console.log('showResultBtnOnClick')
+    //this.props.navigation.navigate('SearchFilteringView',{})
     
     this.props.navigation.navigate('SearchTutorView',{
       location : '尖沙咀' ,
@@ -111,6 +114,7 @@ class SearchFilteringView extends Component<Props> {
       subject : '小提琴',
       }
     );
+    
   }
 
   textInputStyle(index)
@@ -228,12 +232,12 @@ class SearchFilteringView extends Component<Props> {
   render() {
     return (
       
-      /*
-      <SafeAreaView
-        styles = {{flex:1}}
-      >
-      */
+      
+      //<SafeAreaView
+      //  styles = {{flex:1}}
+      //>
       <View>
+      
 
         <ScrollView
           scrollEnabled={false}

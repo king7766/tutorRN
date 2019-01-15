@@ -386,10 +386,10 @@ class Register extends Component<Props> {
   render() {
     
     return (
-      <SafeAreaView
-        styles = {{flex:1}}
-      >
-        
+      //<SafeAreaView
+      //  styles = {{flex:1}}
+      //>
+      <View>
         <PopupDialog
           //style = {{position:'absolute', top: 10}}
           dialogTitle={<DialogTitle title="請選取頭像圖片" />}
@@ -504,8 +504,9 @@ class Register extends Component<Props> {
                       <TextInput
                         ref= {"index" + index}
                         style = {{ paddingRight:10 }}
+                        value = {this.state.rowData[index]}
                       >
-                        {this.state.rowData[index]}
+                        
                       </TextInput> 
                     </View>
                   </TouchableHighlight>
@@ -538,7 +539,7 @@ class Register extends Component<Props> {
             </View>
           </TouchableHighlight>
         </ScrollView>
-      </SafeAreaView>
+      </View>
     );
   }
 }

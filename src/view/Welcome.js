@@ -117,7 +117,7 @@ class Welcome extends Component<Props> {
 
     N.loginAction('guest');
     //await AsyncStorage.setItem('userToken', 'guest');
-    this.props.navigation.navigate('App');
+    //this.props.navigation.navigate('App');
     return 
     
     /*
@@ -152,7 +152,7 @@ class Welcome extends Component<Props> {
       
       if ( res.data.verify_status == 'success' )
       {
-        //console.log(userViewModel.getUser() )
+        console.log('success : ' + userViewModel.getUser() )
         this.props.navigation.navigate('Register')
 
       }

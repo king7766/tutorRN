@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Platform,
+  Modal,
   StyleSheet,
   Text,
   View,
@@ -14,6 +14,9 @@ import { TabNavigator, StackNavigator, SwitchNavigator, NavigationActions, creat
 
 
 import Welcome from './view/Welcome'
+
+import RNCameraRollPicker from 'tutorRN/src/Libs/RNCameraRollPicker'
+import RNImagePicker from 'tutorRN/src/Libs/RNImagePicker'
 
 const layout = require('tutorRN/src/Layout')
 
@@ -66,9 +69,14 @@ class onTopView extends Component {
     super(props);
     // 初始状态
     this.state = {
-        isDialogVisible: false
-    };
-}
+        isDialogVisible: false,
+        modalVisible: false
+    };  
+  }
+
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  }
 
   componentDidMount() {
     this.deEmitter = DeviceEventEmitter.addListener('add', (a) => {
@@ -77,11 +85,19 @@ class onTopView extends Component {
         //this.hideDialog()
         this.defaultAnimationDialog.show()
     });
+
+    DeviceEventEmitter.addListener('popUp', (popUpInfo)=>{
+      this.setModalVisible(popUpInfo.flag)
+      //console.log(popUpInfo);
+    })
+
   }
 
   addBtnOnClick(){
     console.log('addBtnOnClick')
 
+    DeviceEventEmitter.emit('popUp', {flag:true, age:23});
+    return ; //test
     this.showDialog()
     //this.defaultAnimationDialog.show()
   }
@@ -103,10 +119,19 @@ class onTopView extends Component {
 
 
   render() {
+    //const UploadScreen = RNImagePicker;
+    const UploadScreen = RNCameraRollPicker;
+
     return (
       
       <View style = {{ height: layout.deviceHeight + 30 }}>
-        
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.modalVisible}
+        >
+          <UploadScreen />
+        </Modal>
         <AddBtnPopUpDialog
           _dialogVisible={this.state.isDialogVisible}
           _dialogLeftBtnAction={()=> {this.hideDialog()}}
@@ -136,6 +161,7 @@ class onTopView extends Component {
           
           addBtnOnClicked={ this.addBtnOnClicked }
         />
+        
         <View style = {{ left:(layout.deviceWidth - 30 )/2, top: -70, height: 30, width: 30,backgroundColor :'blue', borderRadius:25  }} >
           <TouchableHighlight style={{ backgroundColor: layout.touchHighlightColor, width: 30, height: 30, borderRadius: 15, borderWidth:1, borderColor:layout.touchHighlightColor ,alignItems: 'center'}} onPress={()=>{this.addBtnOnClick()}}  >
             <Text
