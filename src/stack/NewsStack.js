@@ -19,7 +19,7 @@ const NewsStack = StackNavigator({
       //header:{ visible:false },
       header: null,
       //tabBarVisible: true,
-      title:'新聞',
+      //title:'新聞1',
       tabBarIcon: ({ tintColor }) => (
         <Image
           source={require('tutorRN/src/image/icon-math.png')}

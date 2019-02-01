@@ -82,13 +82,17 @@ class NewsHomeView extends Component<Props> {
     this.cellItemOnClicked = this.cellItemOnClicked.bind(this)
     this.onScrollEnd = this.onScrollEnd.bind(this)
 
-    
-      
-      
-
   }
 
+  
+  static navigationOptions = ({ navigation }) => ({
+    title: '123',
+  });
+  
+
+  /*
   static navigationOptions = ({ navigation }) => {
+   
     const params = navigation.state.params || {};
 
     return {
@@ -109,6 +113,7 @@ class NewsHomeView extends Component<Props> {
       ),
     };
   };
+  */
 
   componentWillMount() {
     this.props.navigation.setParams({ leftBtnOnClick: this._signOutAsync });

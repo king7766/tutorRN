@@ -24,9 +24,11 @@ import {
 import userVM from 'tutorRN/src/VM/userVM'
 
 
-import * as Membership from 'tutorRN/src/service/membership';
-import * as Strings from 'tutorRN/src/service/strings';
-import * as N from 'tutorRN/src/service/navigation';
+import * as Membership from 'tutorRN/src/service/membership'
+import * as Strings from 'tutorRN/src/service/strings'
+import * as N from 'tutorRN/src/service/navigation'
+import * as C from 'tutorRN/src/service/connection'
+import * as E from 'tutorRN/src/service/env-config'
 
 
 //import { LoginManager } from 'react-native-fbsdk'
@@ -48,8 +50,19 @@ class Welcome extends Component<Props> {
   constructor(props) {
     super(props);
 
+    this.state = {
+      // loginMethod
+      // 0 = email
+      // 1 = facebook
+      // 2 = wechat
+
+      loginMethod : 0,
+      accountID: '',
+      password: '',
+    };
+
     
-    this.loginFinished = this.loginFinished.bind(this)
+    //this.getFacebookData = this.getFacebookData.bind(this)
     this.logoutFinished = this.logoutFinished.bind(this)
 
     //userVM.getInstance()
@@ -59,24 +72,54 @@ class Welcome extends Component<Props> {
 
   componentWillMount() {
     this.mounted = true
-    AccessToken.getCurrentAccessToken().then((data) => {
-      const { accessToken } = data
-      if ( accessToken )
-      {
-        this.initUser()
-      }
-      
-    })
+    this.getFacebookData()
+    
   }
 
-  loginFinished(result )
+  facebookFetchingFinished(result )
   {
-    console.log('loginFinished')
-    console.log(result)
-    this.initUser()
+    console.log('facebookFetchingFinished ' + result)
     
+    this.getFacebookData()
+  }
+
+  getFacebookData ()
+  {
+
+    const infoRequest = new GraphRequest(
+      'me?fields=address,first_name,last_name,name,email,location,photos,picture,public_key,birthday,gender,about,posts',
+      null,
+      this.facebookDataCallback
+    );
+    // Start the graph request.
+    new GraphRequestManager().addRequest(infoRequest).start();
+
+    /*
+    AccessToken.getCurrentAccessToken().then((data) => {
+      //const { accessToken } = data
+      
+      console.log('FBSDK data = ' + data)
+
+      var newArr = Object.keys(data);
+      var mappedArr = newArr.map(function(i) {
+        return [i, data[i]];
+      });
+      console.log(mappedArr);
    
-    
+
+      if ( data )
+      {
+        
+        
+        //N.loginAction(data.accessToken);
+        //this.initUser()
+      }
+      else
+      {
+
+      }
+    })
+    */
   }
 
   logoutFinished()
@@ -89,8 +132,8 @@ class Welcome extends Component<Props> {
     console.log('initUser')
 
     const infoRequest = new GraphRequest(
-      'me/videos?type=uploaded&fields=title,description,thumbnails',
-      
+      //'me/videos?type=uploaded&fields=title,description,thumbnails',
+      'me?fields=address,first_name,last_name,name,email,location,photos,picture,public_key,birthday,gender,about,posts',
       //'tutorRN/src/me/videos?type=uploaded&field=file_size,title,description',
       //624073744/videos?type=uploaded
       //'tutorRN/src/me?fields=name,picture,email',
@@ -103,12 +146,61 @@ class Welcome extends Component<Props> {
 
   }
 
-  _responseInfoCallback = (error, result) => {
+  facebookDataCallback = (error, result) => {
+
     if (error) {
-      alert('Error fetching data: ' + error.toString());
+      console.log('Error fetching data: ' + error.toString());
     } else {
       console.log('facebook result : ')
-      console.log(result)
+      console.log(result.name + ' ' + result.id)
+
+      this.setState({
+        loginMethod: 1,
+      });
+
+     
+
+      var data = {
+        token : E.token,
+        //login : result.id,
+        login : result.id + '1',
+        password : 'abcd1234',
+        nickname : result.name,
+        sex : 'null',
+        occupation : 'null',
+        education : 'null',
+        birth : result.birthday,
+        location : result.location.name,
+        thumb : result.picture.data.url,
+      }
+
+      this.loginAction(data.login, data.password, data)
+
+      //register_user
+      //login_auth
+      /*
+      C.getResponseFromApi(E.login_auth, 'POST', data)
+      .then( (json ) =>{
+        if( json.statusCode == 200)	
+        {
+          if ( isNaN(json.data) )
+          {
+            
+            console.log(' Login success with id = ' +  json.data.user_id);
+            N.loginAction(json.data.user_id);
+          }
+          else
+          {
+            // something wrong, should be json
+            console.log('this is error code : ' + json.data);
+            //console.log(' Login success with id = ' +  json.data.user_id);
+          }
+          
+        }
+      })
+      */
+
+
       //this.setState({name: result.name, pic:result.picture.data.url, email : result.email});
     }
   }
@@ -140,6 +232,48 @@ class Welcome extends Component<Props> {
 
   }
 
+  async loginAction (id, password, info)
+  {
+    console.log('loginAction : ' + id  )
+    console.log('loginAction : ' + password  )
+    const res = await userViewModel.login(id , password)
+
+    if ( res.data.verify_status == 'success')
+    {
+      console.log('success : ' + userViewModel.getUser() )
+      //this.props.navigation.navigate('Register')
+    }
+    else
+    {
+      console.log('login fail')
+      this.registerAction()
+
+      
+    }
+  }
+
+  async registerAction ()
+  {
+    if ( this.state.loginMethod == 0 )
+    {
+      // register account by email
+      console.log('register account by email')
+      const res = await userViewModel.register(info);
+      if ( res )
+      {
+        N.loginAction(json.data.user_id);
+      }
+
+    }
+    else if ( this.state.loginMethod == 1)
+    {
+
+      // register account by facebook 
+      console.log('register account by facebook ')
+    }
+  }
+
+  /*
   loginAction = async() =>{
   //async loginAction(){
 
@@ -166,11 +300,11 @@ class Welcome extends Component<Props> {
       console.warn('Error !!' + error );
     }
     
-    /*
-    login( (id) => {
-      Actions.editor({ storyId: id })
-    });
-    */
+    
+    //login( (id) => {
+    //  Actions.editor({ storyId: id })
+    //});
+    
 
     //this.props.navigation.navigate('Register')
 
@@ -189,7 +323,7 @@ class Welcome extends Component<Props> {
       this.props.navigation.navigate('App');
     }
   }
-  
+  */
   /*
   handleFacebookLogin () {
 
@@ -222,7 +356,7 @@ class Welcome extends Component<Props> {
             <TextInput
             style = {{paddingLeft : 5, paddingRight : 5, backgroundColor: 'rgba(255, 255, 255, 1.0)', height: '100%'}}
             //style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-            onChangeText={(text) => this.setState({text})}
+            onChangeText={(text) => this.setState({accountID: text})}
             placeholder = {Strings.emailPlaceHolder}
             //value={this.state.text}
             />
@@ -234,13 +368,13 @@ class Welcome extends Component<Props> {
             <TextInput
             style = {{paddingLeft : 5, paddingRight : 5, backgroundColor: 'rgba(255, 255, 255, 1.0)', height: '100%'}}
             //style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-            onChangeText={(text) => this.setState({text})}
+            onChangeText={(text) => this.setState({password: text})}
             placeholder = {Strings.passwordPlaceHolder}
             //value={this.state.text}
             />
           </View>
 
-          <TouchableHighlight onPress={this.loginAction}>
+          <TouchableHighlight onPress={()=>this.loginAction(this.state.accountID, this.state.password, null)}>
             <View style={styles.loginButton}>
               <Text style = {styles.loginText}>
                 {Strings.loginText}
@@ -279,11 +413,24 @@ class Welcome extends Component<Props> {
               (error, result) => {
 
               if (error) {
-                //alert("login has error: " + result.error);
+
+                // must use FacebookSDKs-iOS-4.38.0 sdk , else will be cannot connect
+
+                console.log("login has error: " + error + ", " + result);
+                //console.log("login has error: " + result);
+
+                var newArr = Object.keys(error);
+                var mappedArr = newArr.map(function(i) {
+                  return [i, error[i]];
+                });
+                console.log(mappedArr);
+
+
               } else if (result.isCancelled) {
+                console.log("login has isCancelled: " );
                 //alert("login is cancelled.");
               } else {
-                this.loginFinished(result)
+                this.facebookFetchingFinished(result)
               }
             }}
             onLogoutFinished = {

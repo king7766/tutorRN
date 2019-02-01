@@ -52,15 +52,46 @@ export default class userVM{
 		return this.userProfile
 	}
 
+	async register (data)
+	{
+		return this.callRegister (data)
+	}
+
 	async login( login , password )
 	{
-		
-		
+		return  this.callLoginAPI(login, password)
+	}
 
-		return  this.callAPI(login, password)
+	async callRegister(data)
+	{
+		//register_user
+      	//login_auth
+      
+    	return C.getResponseFromApi(E.register_user, 'POST', data)
+      	.then( (json ) =>{
+			if( json.statusCode == 200)
+			{
+				if ( isNaN(json.data) ){
+					
+					console.log(' Login success with id = ' +  json.data.user_id);
+					this.userProfile = userModel.deserialize(json.data)
+					return json
+            
+            		
+            		//N.loginAction(json.data.user_id);
+          		}
+				else
+			  	{
+            		// something wrong, should be json
+            		console.log('this is error code : ' + json.data);
+            		//console.log(' Login success with id = ' +  json.data.user_id);
+          		}
+			}
+		})
+
 	}
 	
-	async callAPI( login, password)
+	async callLoginAPI( login, password)
 	{
 
 		

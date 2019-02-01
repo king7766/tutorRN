@@ -32,6 +32,8 @@ import {
 //import locationVM from 'tutorRN/src/VM/locationVM'
 
 import categoryVM from 'tutorRN/src/VM/categoryVM'
+//import strings from '../service/strings';
+import strings from 'tutorRN/src/service/strings'
 
 const layout = require('tutorRN/src/Layout')
 const numberOfItem = 4
@@ -130,6 +132,10 @@ class SearchHomeView extends Component<Props> {
   componentWillMount() {
 
   }
+
+  static navigationOptions = ({ navigation }) => ({
+    title: strings.home,
+  });
 
 
   tabOnClicked(index, key ){
@@ -368,7 +374,7 @@ class SearchHomeView extends Component<Props> {
         <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
 
         <TutorRowFlatList
-          title = '熱門推介'
+          title = {strings.hotSearch}
           height = {120}
           data = {this.state.tutorRowData}
         />
@@ -376,7 +382,7 @@ class SearchHomeView extends Component<Props> {
         <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
 
         <TutorRowFlatList
-          title = '優惠'
+          title = {strings.promotion}
           height = {120}
           data = {this.state.tutorRowData}
         />

@@ -31,6 +31,8 @@ import Assets from 'tutorRN/src/view/ui/Assets';
 import TopMenuBar from 'tutorRN/src/view/ui/TopMenuBar';
 import TutorRowFlatList from 'tutorRN/src/view/ui/TutorRowFlatList';
 import FilteringToolsBar from 'tutorRN/src/view/ui/FilteringToolsBar';
+//import strings from '../service/strings';
+import strings from 'tutorRN/src/service/strings'
 
 
 class SearchFilteringView extends Component<Props> {
@@ -55,7 +57,7 @@ class SearchFilteringView extends Component<Props> {
       brithday:'',
       location: '',
       photos : [],
-      rowTitle:['區域', '類別', '項目'],
+      rowTitle:[strings.area, strings.category, strings.level],
 
       genderSelectArray: ['男', '女'],
       locationSelectArray : ['中西區', '灣仔', '東區','南區','油尖旺', '深水埗', '九龍城','黃大仙','觀塘', '葵青', '荃灣', '屯門','元朗','北區','大埔','沙田','西貢','離島'],
@@ -104,10 +106,16 @@ class SearchFilteringView extends Component<Props> {
   }
 
   showResultBtnOnClick(){
-    console.log('showResultBtnOnClick')
-    //this.props.navigation.navigate('SearchFilteringView',{})
+
+    // Each time you call push we add a new route to the navigation stack. When you call navigate it first tries to find an existing route with that name, and only pushes a new route if there isn't yet one on the stack.
     
-    this.props.navigation.navigate('SearchTutorView',{
+    //this.props.navigation.push('SearchHomeView',{})
+    //this.props.navigator.navigate('SearchHomeView',{});
+    //this.props.navigation.popToTop()
+
+    //return ;
+
+    this.props.navigation.push('SearchTutorView',{
       location : '尖沙咀' ,
       district :  '九龍',
       education : '音樂',
@@ -161,9 +169,9 @@ class SearchFilteringView extends Component<Props> {
       
       Picker.init({
         pickerData: tempArray,
-        pickerTitleText:'請選擇',
-        pickerConfirmBtnText:'確定',
-        pickerCancelBtnText: '取消',
+        pickerTitleText: strings.pleaseChoose,
+        pickerConfirmBtnText: strings.confirm,
+        pickerCancelBtnText: strings.cancel,
         selectedValue: tempArray,
         onPickerConfirm: pickedValue => {
             console.log('area', pickedValue);
@@ -242,11 +250,11 @@ class SearchFilteringView extends Component<Props> {
         <ScrollView
           scrollEnabled={false}
         >
-          <Text style = {{margin:10, color:'rgb(231,121,98)', fontWeight:'bold'}}>排序</Text>
+          <Text style = {{margin:10, color:'rgb(231,121,98)', fontWeight:'bold'}}>{strings.order}</Text>
 
           <FilteringToolsBar />
 
-          <Text style = {{margin:10, color:'rgb(231,121,98)', fontWeight:'bold'}}>篩選</Text>
+          <Text style = {{margin:10, color:'rgb(231,121,98)', fontWeight:'bold'}}>{strings.filter}</Text>
           
           
 
@@ -292,7 +300,7 @@ class SearchFilteringView extends Component<Props> {
             <View style = {styles.submitButtonBackground}>
               <View style={styles.submitButton}>
                 <Text style = {styles.submitButtonText}>
-                  顯示所有結果
+                  {strings.listAllResult}
                 </Text>
               </View>
             </View>

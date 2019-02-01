@@ -37,7 +37,8 @@ import ProfileStack from 'tutorRN/src/stack/ProfileStack'
 import { action } from '../node_modules/mobx';
 
 import PopUpView from './view/PopUpView'
-
+import alert from 'tutorRN/src/service/alert'
+import * as C from 'tutorRN/src/service/connection'
 
 import {
   AddBtnPopUpDialog,
@@ -91,6 +92,13 @@ class onTopView extends Component {
       //console.log(popUpInfo);
     })
 
+    DeviceEventEmitter.addListener('alert', (info)=>{
+      //console.log('alert : ' +info.error);
+      alert.getInstance().showAlert(info);
+    })
+
+    //C.networkStatus()
+    //const ccc = netInfo.getInstance().netInfo()
   }
 
   addBtnOnClick(){
@@ -190,9 +198,16 @@ const Tabs = TabNavigator({
   notice: NoticeStack,
   profile : ProfileStack,
 
-  },{
+  },
+  {
     lazy: true,
     tabBarOptions: {
+      navigationOptions: ({ navigation }) => ({
+        tabBarOnPress: (scene) => {
+          console.log('onPress:', scene.route);
+          //jumpToIndex(scene.index);
+        },
+      }),
       selectedTabFontSize: 12,
       tinColor: '#fff',
       //activeTintColor: '#eee',

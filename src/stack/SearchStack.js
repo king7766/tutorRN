@@ -9,13 +9,17 @@ import SearchTutorView from 'tutorRN/src/view/SearchTutorView';
 import SearchTutorDetailView from 'tutorRN/src/view/SearchTutorDetailView';
 import SearchFilteringView from 'tutorRN/src/view/SearchFilteringView';
 
+//import * as Strings from 'tutorRN/src/service/strings'
+import strings from 'tutorRN/src/service/strings'
+
 const layout = require('tutorRN/src/Layout')
 
-const SearchStack = StackNavigator({
+var SearchStack = StackNavigator({
+
   SearchHomeView: { 
     screen:  SearchHomeView,
     navigationOptions: {
-      title: '搜尋',
+      title: strings.search,
       tabBarIcon: ({ tintColor }) => (
         <Image
           source={require('tutorRN/src/image/icon-math.png')}
@@ -33,21 +37,21 @@ const SearchStack = StackNavigator({
   SearchTutorView: { 
     screen: SearchTutorView,
     navigationOptions: {
-      title: '搜尋',
+      //title: '搜尋22',
     },
   },
 
   SearchTutorDetailView: { 
     screen: SearchTutorDetailView,
     navigationOptions: {
-      title: '搜尋',
+      //title: '搜尋33',
     },
   },
 
   SearchFilteringView:{
     screen: SearchFilteringView,
     navigationOptions:{
-      title: '搜尋',
+      //title: '搜尋44',
     },
   }
 });

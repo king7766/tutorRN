@@ -22,6 +22,10 @@ import PhotoSlideView from 'tutorRN/src/view/ui/PhotoSlideView'
 
 //const navigation = require ('tutorRN/src/service/navigation')
 import * as N from 'tutorRN/src/service/navigation'
+
+import YoutubePlayer from 'tutorRN/src/view/ui/component/YoutubePlayer'
+import VideoPlayer from 'tutorRN/src/view/ui/component/VideoPlayer'
+
 const layout = require('tutorRN/src/Layout')
 
 
@@ -56,7 +60,7 @@ class NewsVideoCell extends Component{
     //this.showVideoView = this.showVideoView.bind(this)
     //this.showCoverView = this.showCoverView.bind(this)
     this.onLoad = this.onLoad.bind(this)
-    this.videoOnClick = this.videoOnClick.bind(this)
+    this.displayViewOnClick = this.displayViewOnClick.bind(this)
   }
 
   /*
@@ -127,7 +131,7 @@ class NewsVideoCell extends Component{
       
       <PhotoSlideView
         onReady = { this.onLoad }
-        onPress = { this.videoOnClick }
+        onPress = { this.displayViewOnClick }
       />
       
     )
@@ -136,29 +140,16 @@ class NewsVideoCell extends Component{
   showVideoView()
   {
     return (
-      <Video
-            ref={(ref) => this.videoPlayer = ref}
-            //poster = 'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/5895592a166f19435e4e127ae1b1f336.jpg'
-            //source={{uri: 'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/c2828d98dc07f8caffa0a6db1642fc24.mp4'}}
-
-            //source={{uri: this.props.item.video }}
-            source = {{uri: 'https://d33os2r86a346n.cloudfront.net/vodfile/_definst_/smil:amazons3/sportxmbr/2018/8/20/20180820_upower_alexfong.smil/playlist.m3u8' }}
-            //source={require('tutorRN/src/image/video_demo.mp4')}
-            //rate={1.0}
-            repeat = {true}
-            volume={1.0}
-            muted={true}
-            resizeMode={'cover'}
-            //playWhenInactive={true}
-            //playInBackground={false}
-            ignoreSilentSwitch={'ignore'}
-            progressUpdateInterval={250.0}
-            style = {{width: layout.deviceWidth, height: layout.deviceHeight}}
-            //onLoad = {()=>this.setState({hiddenCover:true})}
-            onLoad={this.onLoad}       
-            //style={{width: this.state.videoWidth, height: this.state.videoHeight}}
-            //<View style = {{ position: 'absolute', backgroundColor: 'rgba(0, 0, 0, 0.5)', top : 0, height: (layout.deviceHeight * 0.05), width: 100 }} />
-          />
+      <VideoPlayer
+        //source = {{uri: 'https://d33os2r86a346n.cloudfront.net/vodfile/_definst_/smil:amazons3/sportxmbr/2018/8/20/20180820_upower_alexfong.smil/playlist.m3u8' }}
+        //source = {{uri : 'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8'}}
+        //source = {{uri :'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8'}}
+        //source = {{uri : 'http://yt-dash-mse-test.commondatastorage.googleapis.com/media/car-20120827-86.mp4'}}
+        //source = {{ uri : 'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_2mb.mp4'}}
+        //source = {{uri : 'https://www.steppublishers.com/sites/default/files/step.mov'}}
+        source = {{ uri: 'https://cinelerra-cv.org/footage/prpol-rerender2.mov'}}
+        onReady = {this.onLoad}
+      />
     )
   }
 
@@ -167,47 +158,30 @@ class NewsVideoCell extends Component{
 
     //624073744/videos?type=uploaded
     return (
-      <YouTube
-       
-              //ref={(component) => { this._youTubePlayer = component }}
-              videoId="vzPmI0GCDPM"           // The YouTube video ID
-              //playlist="PLF797E961509B4EB5"   // A playlist's ID, overridden by `videoId`
-              play={true}                     // control playback of video with true/false
-              playsInline={true}              // control whether the video should play full-screen or inline
-              loop={true}   
-              showinfo = {false}                 // control whether the video should loop when ended
-              //control = {2}
-              showFullscreenButton = {true}
-              //modestbranding = {true}
-            
-              //onReady={e => this.setState({hiddenCover:true})}
-              onReady = {this.onLoad}
-              //onReady={e => this.setState({ isReady: true })}
-              //onChangeState={e => this.setState({ status: e.state })}
-              onChangeState={e => console.log('onChange State = ' + e.state)}
-              //onChangeQuality={e => this.setState({ quality: e.quality })}
-              onError={e => console.log('onError ' + e.error )}
-              //onError={e => this.setState({ error: e.error })}
-              //onProgress={e => this.setState({ currentTime: e.currentTime, duration: e.duration })}
-            
-              //style={{ alignSelf: 'stretch', height: 300, width: 300, backgroundColor: 'black', marginVertical: 10 }}
-              style = {{height: layout.deviceHeight, width: layout.deviceWidth}}
-      />
+      
+      
+        <YoutubePlayer
+          videoId = 'vzPmI0GCDPM'
+          onReady = {this.onLoad}
+        />
+      
+      
+      
     )
     
   }
   
   onLoad()
   {
-    //return
+    console.log('NewsVideoCell onLoad');
     this.setState({
       hiddenCover: true
     })
   }
 
-  videoOnClick()
+  displayViewOnClick()
   {
-    console.log('videoOnClick')
+    console.log('displayViewOnClick')
 
     this.props.onClicked( this.props.index )
 
@@ -238,7 +212,7 @@ class NewsVideoCell extends Component{
 
       return (
         <TouchableHighlight 
-            onPress={ this.videoOnClick}
+            onPress={ this.displayViewOnClick}
             //onPress={params.increaseCount}
             underlayColor = {layout.touchHighlightColor}
         >

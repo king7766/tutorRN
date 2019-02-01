@@ -13,6 +13,9 @@ import {
 import CameraRollPicker from 'react-native-camera-roll-picker';
 
 import futch from '../api';
+import * as C from 'tutorRN/src/service/connection'
+import * as E from 'tutorRN/src/service/env-config'
+import strings from 'tutorRN/src/service/strings'
 
 export default class RNCameraRollPicker extends Component {
   constructor(props) {
@@ -60,9 +63,12 @@ export default class RNCameraRollPicker extends Component {
   {
     console.log('confirmBtnOnClick')
     
-    DeviceEventEmitter.emit('popUp', {flag:false, age:23});
+    //DeviceEventEmitter.emit('popUp', {flag:false, age:23});
+    
+
+    this.uploadImage()
+
     return;
-    //this.uploadImage()
 
     const photos = this.state.selected;
     const data = new FormData();
@@ -73,6 +79,8 @@ export default class RNCameraRollPicker extends Component {
       type: 'image/jpeg',
       name: 'testPhotoName'
     });
+
+    
     /*
     photos.forEach((photo, index) => {
       data.append('file', {
@@ -88,12 +96,24 @@ export default class RNCameraRollPicker extends Component {
     console.log(data)
 
 
-    fetch('http://tutor.ho2find.com/upload_file.php',{
+    fetch(E.upload_file,{
+    //fetch('http://tutor.ho2find.com/get_category.php',{
       method: 'POST',
       headers: {
-        'Content-Type': 'multipart/form-data',
+        "Content-Type": "application/x-www-form-urlencoded"
       },
-      body: data
+      //headers: {
+      //  'Content-Type': 'multipart/form-data',
+      //},
+      body: this.parseParams({
+        'token':'xRW8DwqoIxZBSlF83b2P', 
+        'user_id':'1',
+        'file': {
+          uri: this.state.selected[0].uri,
+          type: 'image/jpeg',
+          name: 'testPhotoName'
+        } 
+      })
     }).then(async (response) => {
       const statusCode = await response.status;
       const data = await response.json();
@@ -112,20 +132,30 @@ export default class RNCameraRollPicker extends Component {
       return {error: error};
     })
     
-    
-    /*.then(response => {
-      console.log("image uploaded")
-    }).catch(err => {
-      console.log(err)
-    })  
-    */
-    
   }
 
   uploadImage ()
   {
-    
-    
+    if ( this.state.selected.length == 0 || typeof this.state.selected == 'undefined' )
+    {
+      DeviceEventEmitter.emit('popUp', {flag:false});
+      return;
+    }
+
+    C.getResponseFromApi(E.upload_file, 'POST', {
+      token:'xRW8DwqoIxZBSlF83b2P',
+      user_id:'1',
+      file: {
+        uri: this.state.selected[0].uri,
+        type: 'image/jpeg',
+        name: 'testPhotoName'
+      } 
+    }).then( (json ) =>{
+      if( json.statusCode == 200)	
+      {
+        console.log('json.data = ' + json.data.link)
+      }
+    })
   }
 
   sendServer() {
@@ -163,10 +193,10 @@ export default class RNCameraRollPicker extends Component {
         
           <View style={styles.content}>
             <Text style={styles.text}>
-              <Text style={styles.bold}> {this.state.num}  {this.state.progress} </Text> images has been selected
+              <Text style={styles.bold}> {this.state.num}  {this.state.progress} </Text> {strings.choosed}
             </Text>
             <TouchableOpacity style={styles.button} onPress={this.confirmBtnOnClick}>
-              <Text style={styles.buttonText}> 確定 </Text>
+              <Text style={styles.buttonText}> {strings.confirm} </Text>
             </TouchableOpacity>
             
           </View>

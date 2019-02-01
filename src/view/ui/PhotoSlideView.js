@@ -29,22 +29,35 @@ class ImageLoader extends Component {
       move : new Animated.Value(-1),
      
       data : [
+        
+        'https://www.joinin-education.com/uploads/1/0/1/8/101845694/img-7578-web_orig.jpg',
+        
+        'https://www.joinin-education.com/uploads/1/0/1/8/101845694/img-7298-web_orig.jpg',
+        'https://www.joinin-education.com/uploads/1/0/1/8/101845694/img-7270-web_orig.jpg',
+        'https://www.joinin-education.com/uploads/1/0/1/8/101845694/img-7283-web_orig.jpg',
+        'https://www.joinin-education.com/uploads/1/0/1/8/101845694/20180630215229-img-7919_1_orig.jpg',
+        'https://www.joinin-education.com/uploads/1/0/1/8/101845694/img-7563-web_1_orig.jpg',
+        
+        /*
         'https://images.unsplash.com/photo-1485832329521-e944d75fa65e?auto=format&fit=crop&w=1000&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D',
+        */
+       /*
         'http://www.modern.edu.hk/ext/asset/tutor/5b6e6e6fcb716_norm.jpg',
         'http://www.modern.edu.hk/ext/asset/tutor/5b6e740c50d31_norm.jpg',
+        
         'http://www.modern.edu.hk/ext/asset/tutor/5b6e74320bbc3_norm.jpg',
         'http://www.modern.edu.hk/ext/asset/tutor/5b6e7214e41b5_norm.jpg',
         'http://www.modern.edu.hk/ext/asset/tutor/5b6e6f3860c1b_norm.jpg',
         'http://www.modern.edu.hk/ext/asset/tutor/5b6e6f8e9f527_norm.jpg',
         'http://www.modern.edu.hk/ext/asset/tutor/5b6e7046d2cca_norm.jpg',
         'http://www.modern.edu.hk/ext/asset/tutor/5b6e6da28b03b_norm.jpg',
-
+          */
       ],
       displayingIndex : 0,
       landscape : false,
       imageHeight: 0,
       imageWidth: 0,
-      loading : true,
+      //loading : true,
       //displayContent : this.displayContent.bind(this)
     }
 
@@ -89,10 +102,10 @@ class ImageLoader extends Component {
       //this.setState({imageHeight , imageWidth, landscape})
       
       this.setState({
-        imageHeight : height,
-        imageWidth: width,
+        //imageHeight : height,
+        //imageWidth: width,
         landscape: landscape,
-        loading : false
+        //loading : false
       })
       
       this.animate()
@@ -140,32 +153,26 @@ class ImageLoader extends Component {
 
   animationFinishWithIndex(index)
   {
-    //console.log('now displaying = ' + index)
-    if ( index < this.props.data.length )
-    {
-      index = index + 1
-    }
-    else
+    index = index + 1
+    if ( index == this.state.data.length )
     {
       index = 0 
     }
     
-    //console.log('coming display = ' + index)
+    console.log('coming display = ' + index)
 
     this.setState({
       displayingIndex: index,
-      loading: true,
+      //loading: true,
     })
-    //this.animate()
-
     // load next image 
     this.preloadImageSize()
-  
-  
+
   }
 
   animate () {
 
+    console.log('animate')
     if ( this.state.landscape )
     {
       Animated.sequence([
@@ -220,9 +227,9 @@ class ImageLoader extends Component {
     {
       return {
         height: layout.deviceHeight * 1/3,
-        width: (layout.deviceHeight * 1/3 )* 1.78,
+        width: (layout.deviceHeight * 1/3 )* 1.78 ,
         position:'absolute',
-        top: layout.deviceHeight * 1/3, 
+        top: layout.deviceHeight * 1/3 - 50, 
   
       }
     }
@@ -252,6 +259,7 @@ class ImageLoader extends Component {
 
       <View
         style = {styles.fullViewStyle}
+        //style = {{backgroundColor: 'transparent'}}
       >
 
 
@@ -323,7 +331,9 @@ class ImageLoader extends Component {
     */
     return (
       //<Image source={{uri: 'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/3a7803bf022db91704584b7297b38bc6.jpg' }} style={styles.fullViewStyle} /> 
-      this.displayContent()
+      
+        this.displayContent()
+      
     )
   }
 }
@@ -401,7 +411,7 @@ const styles = StyleSheet.create ({
     width: layout.deviceWidth,
     height: layout.deviceHeight,
     flex: 1,
-    
+    //backgroundColor: 'transparent',
     //marginLeft: movingMargin,
   },
   backgroundStyle :{

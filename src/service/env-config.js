@@ -3,9 +3,13 @@
 const domain = 'http://tutor.ho2find.com/';
 
 export const login_auth = domain + 'login_auth.php';
+export const register_user = domain + 'register_user.php';
 export const get_category = domain + 'get_category.php';
 export const get_news = domain + 'get_news.php';
 export const get_location = domain + 'get_location.php';
+export const upload_file = domain + 'upload_file.php';
+
+export const token = 'xRW8DwqoIxZBSlF83b2P';
 
 /*
 function combinWithHost(host, actionName){
