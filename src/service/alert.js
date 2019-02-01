@@ -43,7 +43,7 @@ export default class alert{
             var errorString = info.error.message
             Alert.alert( strings.errorTitle , errorString, [
                 {
-                    text: 'OK', onPress: () => {
+                    text: strings.confirm, onPress: () => {
                         this.isAlertVisible = false 
                         strings.setLanguage('zh');
                         console.log(strings.errorTitle)

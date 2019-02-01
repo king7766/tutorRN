@@ -5,7 +5,7 @@ import { ScrollView} from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 
 import ProfileHomeView from 'tutorRN/src/view/ProfileHomeView';
-
+import strings from 'tutorRN/src/service/strings'
 
 
 const layout = require('tutorRN/src/Layout')
@@ -15,7 +15,7 @@ const ProfileStack = StackNavigator({
   ProfileHomeView: { 
     screen:  ProfileHomeView,
     navigationOptions: {
-      title: '個人',
+      title: strings.profile,
       headerStyle: {
         borderBottomColor: layout.themeTextColor,
         borderBottomWidth: 1,

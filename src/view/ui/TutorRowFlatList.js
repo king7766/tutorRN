@@ -15,6 +15,7 @@ const layout = require('tutorRN/src/Layout')
 import Dimensions from 'Dimensions';
 import Avatar from 'tutorRN/src/view/ui/Avatar';
 import Assets from 'tutorRN/src/view/ui/Assets';
+import strings from 'tutorRN/src/service/strings'
 
 class TutorRowFlatList extends React.Component{
 
@@ -100,7 +101,7 @@ class TutorRowFlatList extends React.Component{
           >
             <Text
               style = {styles.seeAll}
-            >更多</Text>
+            >{strings.more}</Text>
           </TouchableHighlight>
 
 

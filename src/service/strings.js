@@ -4,7 +4,10 @@ import LocalizedStrings from 'react-native-localization';
 const strings = new LocalizedStrings({
     zh: {
         search: '搜尋',
+        profile : '個人',
         home:"zh क्या हाल है ?",
+        notice: '通知',
+        
         second:"मैं ठीक हूँ ?",
         errorTitle: '錯誤',
         hotSearch: '熱門搜尋',
@@ -20,6 +23,12 @@ const strings = new LocalizedStrings({
         level: '程度',
 
         choosed : '已選擇',
+        loginText: '登入',
+        emailPlaceHolder : '電郵地址',
+        passwordPlaceHolder : '密碼',
+        more: '更多',
+        
+
     },
     /*
 rowTitle:['區域', '類別', '項目'],
@@ -47,10 +56,10 @@ export default strings;
 
 //export const home = 'home'
 
-export const loginText = '登入'
+//export const loginText = '登入'
 
-export const emailPlaceHolder = '電郵地址'
-export const passwordPlaceHolder = '密碼'
+//export const emailPlaceHolder = '電郵地址'
+//export const passwordPlaceHolder = '密碼'
 //export const loginText = '登入'
 
 /*
