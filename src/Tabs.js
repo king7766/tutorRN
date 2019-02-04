@@ -208,13 +208,33 @@ const Tabs = TabNavigator({
           //jumpToIndex(scene.index);
         },
       }),
-      selectedTabFontSize: 12,
-      tinColor: '#fff',
-      //activeTintColor: '#eee',
-      activeTintColor: 'red',
-      inactiveTintColor: '#fff',
       showIcon: true,
-      showLabel: true,
+      showLabel: false,
+      activeTintColor: '#fff',
+      //inactiveTintColor: '#A9A9A9',
+      inactiveTintColor : '#696969',
+      
+
+      style: {
+        backgroundColor: 'rgba(22, 22, 22, 0.3)',
+        borderTopWidth: 3,
+        //borderTopColor: '#996600',
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        bottom: 0
+
+      }
+      //selectedTabFontSize: 12,
+      //tintColor: '#fff',
+      //activeTintColor: '#eee',
+      //activeTintColor: 'red',
+
+      /*
+      activeTintColor: '#fff',
+      inactiveTintColor: '#A9A9A9',
+      showIcon: true,
+      showLabel: false,
       lazyLoad: true,
       upperCaseLabel: false,
       indicatorStyle: {
@@ -229,6 +249,7 @@ const Tabs = TabNavigator({
         right: 0,
         bottom: 0
       }
+      */
     }
 
     /*

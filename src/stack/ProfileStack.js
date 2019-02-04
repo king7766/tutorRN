@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View,Image,StyleSheet } from 'react-native';
 import { ScrollView} from 'react-native';
 
 import { TabNavigator, StackNavigator } from 'react-navigation';
@@ -16,6 +16,13 @@ const ProfileStack = StackNavigator({
     screen:  ProfileHomeView,
     navigationOptions: {
       title: strings.profile,
+      tabBarIcon: ({ tintColor }) => (
+        <Image
+          source={require('tutorRN/src/image/icons8-customer-filled-100.png')}
+          //style={[styles.icon, { tintColor: tintColor }]}
+          style={[layout.styles.icon, { tintColor: tintColor }]}
+        />
+      ),
       headerStyle: {
         borderBottomColor: layout.themeTextColor,
         borderBottomWidth: 1,
@@ -30,3 +37,11 @@ const ProfileStack = StackNavigator({
 
 
 export default ProfileStack;
+
+const styles = StyleSheet.create({
+  icon: {
+    marginTop: 15,
+    width: 30,
+    height: 30,
+  },
+});

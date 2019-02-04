@@ -66,15 +66,46 @@ class NewsHomeView extends Component<Props> {
       showingIndex: 0,
       data :[
         {
-          creator:'梁景泰',
+          creator:'KingTai Leung',
           comment_count: 53,
           like_count : 24,
-          profilePic : 'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p80x80/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=831d0ee264e5772b4b15faa60c7d16c4&oe=5BD89683',
-          title : '現代教育補習班',
-          description : '現代教育補習社-提供各類型中小學補習班,包括英文補習班、數學補習班、中文補習班、通識補習班、物理補習班等. 我們的補習導師均為行內知名的星級補習名師',
+          profilePic : 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=110&_nc_ht=scontent.xx&oh=95ad2a3e8d4367d6bb6a56f8c02fa0a1&oe=5CB99BD7',
+          news_title : '現代教育補習班',
+          news_content : '現代教育補習社-提供各類型中小學補習班,包括英文補習班、數學補習班、中文補習班、通識補習班、物理補習班等. 我們的補習導師均為行內知名的星級補習名師',
           video :'https://d33os2r86a346n.cloudfront.net/vodfile/_definst_/smil:amazons3/sportxmbr/2018/8/20/20180820_upower_alexfong.smil/playlist.m3u8',
           //video:'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/c2828d98dc07f8caffa0a6db1642fc24.mp4',
-          cover : 'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/5895592a166f19435e4e127ae1b1f336.jpg'
+          //cover : 'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/5895592a166f19435e4e127ae1b1f336.jpg',
+          cover : 'https://img.youtube.com/vi/6HQvwHpEzao/0.jpg',
+          youtubeId: '6HQvwHpEzao',
+          type: 2,
+        },
+        {
+          creator:'KingTai Leung',
+          comment_count: 53,
+          like_count : 24,
+          profilePic : 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=110&_nc_ht=scontent.xx&oh=95ad2a3e8d4367d6bb6a56f8c02fa0a1&oe=5CB99BD7',
+          news_title : '現代教育補習班',
+          news_content : '現代教育補習社-提供各類型中小學補習班,包括英文補習班、數學補習班、中文補習班、通識補習班、物理補習班等. 我們的補習導師均為行內知名的星級補習名師',
+          video :'https://d33os2r86a346n.cloudfront.net/vodfile/_definst_/smil:amazons3/sportxmbr/2018/8/20/20180820_upower_alexfong.smil/playlist.m3u8',
+          //video:'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/c2828d98dc07f8caffa0a6db1642fc24.mp4',
+          //cover : 'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/5895592a166f19435e4e127ae1b1f336.jpg',
+          cover : 'https://img.youtube.com/vi/6HQvwHpEzao/0.jpg',
+          youtubeId: null,
+          type: 1,
+        },
+        {
+          creator:'KingTai Leung',
+          comment_count: 53,
+          like_count : 24,
+          profilePic : 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=110&_nc_ht=scontent.xx&oh=95ad2a3e8d4367d6bb6a56f8c02fa0a1&oe=5CB99BD7',
+          news_title : '現代教育補習班',
+          news_content : '現代教育補習社-提供各類型中小學補習班,包括英文補習班、數學補習班、中文補習班、通識補習班、物理補習班等. 我們的補習導師均為行內知名的星級補習名師',
+          video :'https://d33os2r86a346n.cloudfront.net/vodfile/_definst_/smil:amazons3/sportxmbr/2018/8/20/20180820_upower_alexfong.smil/playlist.m3u8',
+          //video:'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/c2828d98dc07f8caffa0a6db1642fc24.mp4',
+          //cover : 'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/5895592a166f19435e4e127ae1b1f336.jpg',
+          cover : 'https://img.youtube.com/vi/6HQvwHpEzao/0.jpg',
+          youtubeId: null,
+          type: 0,
         },
         
       ]
@@ -84,11 +115,11 @@ class NewsHomeView extends Component<Props> {
 
   }
 
-  
+  /*
   static navigationOptions = ({ navigation }) => ({
     title: '123',
   });
-  
+  */
 
   /*
   static navigationOptions = ({ navigation }) => {
@@ -254,8 +285,8 @@ class NewsHomeView extends Component<Props> {
         
           
         {  
-          this.state.newsVM.map((item, index) =>
-          //this.state.data.map((item, index) =>
+          //this.state.newsVM.map((item, index) =>
+          this.state.data.map((item, index) =>
             (
              /* 
               <YouTube
@@ -288,6 +319,7 @@ class NewsHomeView extends Component<Props> {
               
               
               <NewsVideoCell
+                //news = {item}
                 key = {index}
                 item = {item}
                 index = {index}

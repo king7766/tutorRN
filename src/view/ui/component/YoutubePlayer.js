@@ -41,18 +41,19 @@ class YoutubePlayer extends Component <Props>{
     //624073744/videos?type=uploaded
     return (
       <YouTube
-       
+        
               //ref={(component) => { this._youTubePlayer = component }}
               //videoId="vzPmI0GCDPM"           // The YouTube video ID
               videoId = {this.props.videoId}
               //playlist="PLF797E961509B4EB5"   // A playlist's ID, overridden by `videoId`
               play={true}                     // control playback of video with true/false
-              playsInline={true}              // control whether the video should play full-screen or inline
+              //playsInline={true}              // control whether the video should play full-screen or inline
               loop={true}   
               showinfo = {false}                 // control whether the video should loop when ended
               //control = {2}
               showFullscreenButton = {false}
               //modestbranding = {true}
+              controls ={0}
             
               //onReady={e => this.setState({hiddenCover:true})}
               //onReady = {this.onLoad}
@@ -66,7 +67,8 @@ class YoutubePlayer extends Component <Props>{
               //onProgress={e => this.setState({ currentTime: e.currentTime, duration: e.duration })}
             
               //style={{ alignSelf: 'stretch', height: 300, width: 300, backgroundColor: 'black', marginVertical: 10 }}
-              style = {{height: layout.deviceHeight, width: layout.deviceWidth}}
+              //style = {{height: layout.deviceHeight, width: layout.deviceWidth}}
+              style = {{height: 200, width: layout.deviceWidth, top: 300}}
       />
     )
     
@@ -76,7 +78,7 @@ class YoutubePlayer extends Component <Props>{
   render (){
 
     return(
-      <View>
+      <View style = {{height: layout.deviceHeight, width: layout.deviceWidth}}>
         {
           this.showVideoByYoutube()
         }

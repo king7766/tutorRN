@@ -81,7 +81,8 @@ class VideoPlayer extends Component <Props>{
             //source={{uri: this.props.item.video }}
             //source = {{uri: this.props.source.uri }}
             //source={require('tutorRN/src/image/video_demo.mp4')}
-            source={require('tutorRN/src/image/20181225145658.mp4')}
+            ////source={require('tutorRN/src/image/20181225145658.mp4')}
+            source = {{uri : this.props.source.uri}}
             //rate={1.0}
             repeat = {true}
             volume={1.0}

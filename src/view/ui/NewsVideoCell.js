@@ -96,17 +96,18 @@ class NewsVideoCell extends Component{
         </TouchableHighlight>
 
             <View style = {{position: 'absolute', top : layout.deviceHeight * 0.05, left:45, height: 30, width: 100, justifyContent:'center', alignItems:'center'}}>
-              <Text style = {{ color:'white', fontWeight:'bold',  }} >Elvira Tang</Text>
+              <Text style = {{ color:'white', fontWeight:'bold',  }} >{this.props.item.creator}</Text>
             </View>
             
             <Image style = {{height: 30, width: 30, borderRadius:15, borderColor:'white'  , borderWidth:2,  position: 'absolute', top : layout.deviceHeight * 0.05, left:10}} source = {{uri: this.props.item.profilePic}}/>
 
-            <View style = {{position: 'absolute', top : layout.deviceHeight * 0.8 - 30  , height: 30, width: layout.deviceWidth, paddingLeft:layout.deviceWidth*0.1, paddingRight:layout.deviceWidth*0.1, justifyContent:'center', alignItems:'center', backgroundColor:'rgba(0, 0, 0, 0.5)'}}>
-              <Text style = {{ color:'white', fontWeight:'bold',  }} >{this.props.item.news_title}</Text>
+            
+            <View style = {{position: 'absolute', top : layout.deviceHeight * 0.8 - 30  , height: 30, width: layout.deviceWidth, paddingLeft:10, paddingRight:layout.deviceWidth*0.1, justifyContent:'flex-start',  backgroundColor:'rgba(0, 0, 0, 0.5)'}}>
+              <Text style = {{ color:'white', fontWeight:'bold', fontSize:16,  top:10 }} >{this.props.item.news_title}</Text>
             </View>
 
-            <View style = {{position: 'absolute', top : layout.deviceHeight * 0.8  ,  width: layout.deviceWidth, paddingLeft:layout.deviceWidth*0.1, paddingRight:layout.deviceWidth*0.1, paddingTop:10, paddingBottom: 10,  justifyContent:'center', alignItems:'center', backgroundColor:'rgba(0, 0, 0, 0.5)'}}>
-              <Text style = {{ color:'white',lineHeight: 20 }}  numberOfLines= {3} >{this.props.item.news_content}</Text>
+            <View style = {{position: 'absolute', top : layout.deviceHeight * 0.8  ,  width: layout.deviceWidth, paddingLeft:10, paddingRight:layout.deviceWidth*0.1, paddingTop:10, paddingBottom: 10,  justifyContent:'flex-start',  backgroundColor:'rgba(0, 0, 0, 0.5)'}}>
+              <Text style = {{ color:'white',lineHeight: 20, fontSize:14 }}  numberOfLines= {3} >{this.props.item.news_content}</Text>
             </View>
 
         </View>
@@ -116,10 +117,11 @@ class NewsVideoCell extends Component{
   showCoverView()
   {
     return (
-     
+      //layout.deviceWidth*0.1
       //<Image source={{uri: this.props.item.news_thumb }} style={styles.fullViewStyle} /> 
-      //<Image source={{uri: this.props.item.cover }} style={styles.fullViewStyle} /> 
-      <Image source={{uri:'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/5895592a166f19435e4e127ae1b1f336.jpg'}} style={styles.fullViewStyle} /> 
+      <Image source={{uri: this.props.item.cover }} style={styles.fullViewStyle} /> 
+      //<Image source={{uri:'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/5895592a166f19435e4e127ae1b1f336.jpg'}} style={styles.fullViewStyle} /> 
+
     )
   }
 
@@ -141,13 +143,17 @@ class NewsVideoCell extends Component{
   {
     return (
       <VideoPlayer
+      
         //source = {{uri: 'https://d33os2r86a346n.cloudfront.net/vodfile/_definst_/smil:amazons3/sportxmbr/2018/8/20/20180820_upower_alexfong.smil/playlist.m3u8' }}
         //source = {{uri : 'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8'}}
         //source = {{uri :'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8'}}
         //source = {{uri : 'http://yt-dash-mse-test.commondatastorage.googleapis.com/media/car-20120827-86.mp4'}}
         //source = {{ uri : 'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_2mb.mp4'}}
         //source = {{uri : 'https://www.steppublishers.com/sites/default/files/step.mov'}}
-        source = {{ uri: 'https://cinelerra-cv.org/footage/prpol-rerender2.mov'}}
+        
+        
+        //source = {{ uri: 'https://cinelerra-cv.org/footage/prpol-rerender2.mov'}}
+        source = {{ uri: this.props.item.video }}
         onReady = {this.onLoad}
       />
     )
@@ -161,7 +167,8 @@ class NewsVideoCell extends Component{
       
       
         <YoutubePlayer
-          videoId = 'vzPmI0GCDPM'
+          //videoId = '6HQvwHpEzao'
+          videoId = {this.props.item.youtubeId}
           onReady = {this.onLoad}
         />
       
@@ -197,6 +204,7 @@ class NewsVideoCell extends Component{
     N.logoutAction();
   }
 
+  
   displayViewLogic(index)
   {
   
@@ -216,7 +224,7 @@ class NewsVideoCell extends Component{
             //onPress={params.increaseCount}
             underlayColor = {layout.touchHighlightColor}
         >
-        <View>  
+        <View style = {{backgroundColor:'black'}}>  
         {
           !this.state.hiddenCover && // for video 
           //this.state.hiddenCover &&
@@ -227,7 +235,12 @@ class NewsVideoCell extends Component{
           />
         }
           
+          
           {
+            this.props.item.type == 0 ? this.showPhotoVideo() : 
+            this.props.item.type == 1 ? this.showVideoView() : this.showVideoByYoutube()
+
+            /*
             1 ? (
               
               this.showPhotoVideo()
@@ -235,6 +248,7 @@ class NewsVideoCell extends Component{
             ) : (
               this.showVideoByYoutube()
             )
+            */
           } 
           
           

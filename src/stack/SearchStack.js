@@ -22,7 +22,7 @@ var SearchStack = StackNavigator({
       title: strings.search,
       tabBarIcon: ({ tintColor }) => (
         <Image
-          source={require('tutorRN/src/image/icon-math.png')}
+          source={require('tutorRN/src/image/icons8-search-filled-100.png')}
           //style={[styles.icon, { tintColor: tintColor }]}
           style={[layout.styles.icon, { tintColor: tintColor }]}
         />

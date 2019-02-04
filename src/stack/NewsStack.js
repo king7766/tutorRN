@@ -3,7 +3,7 @@ import { View,Image,StyleSheet } from 'react-native';
 //import { ScrollView} from 'react-native';
 
 import { TabNavigator, StackNavigator } from 'react-navigation';
-
+import strings from 'tutorRN/src/service/strings'
 import NewsHomeView from 'tutorRN/src/view/NewsHomeView';
 const layout = require('tutorRN/src/Layout')
 
@@ -19,10 +19,10 @@ const NewsStack = StackNavigator({
       //header:{ visible:false },
       header: null,
       //tabBarVisible: true,
-      //title:'新聞1',
+      title: strings.home,
       tabBarIcon: ({ tintColor }) => (
         <Image
-          source={require('tutorRN/src/image/icon-math.png')}
+          source={require('tutorRN/src/image/icons8-home-100.png')}
           //style={[styles.icon, { tintColor: tintColor }]}
           style={[layout.styles.icon, { tintColor: tintColor }]}
         />

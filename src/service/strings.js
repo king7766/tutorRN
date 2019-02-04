@@ -3,12 +3,15 @@ import LocalizedStrings from 'react-native-localization';
 
 const strings = new LocalizedStrings({
     zh: {
+        home: '主頁',
         search: '搜尋',
-        profile : '個人',
-        home:"zh क्या हाल है ?",
         notice: '通知',
+        profile : '個人',
+        //home:"zh क्या हाल है ?",
         
+
         second:"मैं ठीक हूँ ?",
+
         errorTitle: '錯誤',
         hotSearch: '熱門搜尋',
         promotion: '優惠',
