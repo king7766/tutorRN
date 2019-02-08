@@ -25,6 +25,9 @@ export default class alert{
 
     showAlert( info )
     {
+        //console.log(info)
+        //console.log(this.isAlertVisible)
+
         if ( this.isAlertVisible == true )
             return ;
 
@@ -45,16 +48,32 @@ export default class alert{
                 {
                     text: strings.confirm, onPress: () => {
                         this.isAlertVisible = false 
-                        strings.setLanguage('zh');
-                        console.log(strings.errorTitle)
-                        console.log(strings.home)
+                        //strings.setLanguage('zh');
+                        //console.log(strings.errorTitle)
+                        //console.log(strings.home)
+                    }
+                }
+            ], { cancelable: false });
+        }
+        else if ( info.error)
+        {
+            this.isAlertVisible = true
+
+            var errorString = info.error
+            Alert.alert( strings.errorTitle , errorString, [
+                {
+                    text: strings.confirm, onPress: () => {
+                        this.isAlertVisible = false 
+                        //strings.setLanguage('zh');
+                        //console.log(strings.errorTitle)
+                        //console.log(strings.home)
                     }
                 }
             ], { cancelable: false });
         }
         else
         {
-            // ignore, wrong format 
+
         }
 
     }

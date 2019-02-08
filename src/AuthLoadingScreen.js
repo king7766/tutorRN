@@ -7,6 +7,7 @@ import {
   View,
   DeviceEventEmitter,
 } from 'react-native';
+import * as M from 'tutorRN/src/service/membership'
 
 class AuthLoadingScreen extends React.Component {
   constructor(props) {
@@ -41,11 +42,41 @@ class AuthLoadingScreen extends React.Component {
 
   // Fetch the token from storage then navigate to our appropriate place
   _bootstrapAsync = async () => {
+
     const userToken = await AsyncStorage.getItem('userToken');
 
+    console.log('userToken = ' + userToken)
+    //M.facebookAccountCheck()
+
+    if ( userToken == null )
+    {
+      this.props.navigation.navigate('Auth');
+      return
+    }
+   
+
+    if( userToken == 'guest')
+    {
+      //M.facebookTokenCheck()
+      this.props.navigation.navigate('App');
+    }
+    else
+    {
+      if ( M.facebookAccountCheck() )
+      {
+        // this is facebook acc
+      }
+      else
+      {
+        // this is not facebook acc
+      }
+
+      //M.facebookCheck()
+    }
+    
     // This will switch to the App screen or Auth screen and this loading
     // screen will be unmounted and thrown away.
-    this.props.navigation.navigate(userToken ? 'App' : 'Auth');
+    //this.props.navigation.navigate(userToken ? 'App' : 'Auth');
   };
 
   // Render any loading content that you like here

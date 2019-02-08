@@ -64,7 +64,7 @@ class SearchHomeView extends Component<Props> {
       educationData : ['小學', '中學', '大學以上'],
       subjectData : [
         {
-          image:require('tutorRN/src/image/icon-math.png'),
+          image:require('tutorRN/src/image/icons8-document-100.png'),
           name:'中文2'
         },
         {
@@ -223,7 +223,8 @@ class SearchHomeView extends Component<Props> {
     width = 50
     var color 
 
-    var rand = Math.floor(Math.random() * 4) 
+    //var rand = Math.floor(Math.random() * 4) 
+    var rand = rowID
     if( rand % 4 == 0 )
     {
       color = 'rgba(194,127,115,1)'
@@ -355,7 +356,8 @@ class SearchHomeView extends Component<Props> {
                 <View style = {this.iconImageStyle(rowID)}>
                   <Image 
                     style = {{ width: 30, height: 30}}
-                    source={rowData.image}
+                    //source={rowData.image}
+                    source = {require('tutorRN/src/image/icons8-document-100.png')}
                     //resizeMode =  'center'
                     resizeMode =  'contain'
                   />

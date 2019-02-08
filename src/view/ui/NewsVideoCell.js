@@ -21,7 +21,8 @@ import PhotoSlideView from 'tutorRN/src/view/ui/PhotoSlideView'
 //import navigation from 'tutorRN/src/service/navigation'
 
 //const navigation = require ('tutorRN/src/service/navigation')
-import * as N from 'tutorRN/src/service/navigation'
+//import * as N from 'tutorRN/src/service/navigation'
+import * as M from 'tutorRN/src/service/membership'
 
 import YoutubePlayer from 'tutorRN/src/view/ui/component/YoutubePlayer'
 import VideoPlayer from 'tutorRN/src/view/ui/component/VideoPlayer'
@@ -83,16 +84,16 @@ class NewsVideoCell extends Component{
         
       }
         <TouchableHighlight onPress={ this.favouriteOnClick}>
-          <Image  style = {{position: 'absolute', top: layout.deviceHeight/2 - 50 , left : layout.deviceWidth - 50, height: 40,width: 40,}} source={require('tutorRN/src/image/sound.png')} />
+          <Image  style = {{position: 'absolute', top: layout.deviceHeight * 0.8 - 180 , left : layout.deviceWidth - 50, height: 40,width: 40,}} source={require('tutorRN/src/image/sound.png')} />
         </TouchableHighlight>
        
 
         <TouchableHighlight onPress={ this.favouriteOnClick}>
-          <Image  style = {{position: 'absolute', top: layout.deviceHeight/2, left : layout.deviceWidth - 50, height: 40,width: 40,}} source={require('tutorRN/src/image/heart.png')} />
+          <Image  style = {{position: 'absolute', top: layout.deviceHeight * 0.8 - 130, left : layout.deviceWidth - 50, height: 40,width: 40,}} source={require('tutorRN/src/image/heart.png')} />
         </TouchableHighlight>
 
         <TouchableHighlight onPress={ this.favouriteOnClick}>
-          <Image  style = {{ top: layout.deviceHeight/2 + 50, left : layout.deviceWidth - 50, height: 40,width: 40}} source={require('tutorRN/src/image/chat.png')} />
+          <Image  style = {{ top: layout.deviceHeight * 0.8 - 80, left : layout.deviceWidth - 50, height: 40,width: 40}} source={require('tutorRN/src/image/chat.png')} />
         </TouchableHighlight>
 
             <View style = {{position: 'absolute', top : layout.deviceHeight * 0.05, left:45, height: 30, width: 100, justifyContent:'center', alignItems:'center'}}>
@@ -155,6 +156,8 @@ class NewsVideoCell extends Component{
         //source = {{ uri: 'https://cinelerra-cv.org/footage/prpol-rerender2.mov'}}
         source = {{ uri: this.props.item.video }}
         onReady = {this.onLoad}
+        onEnd = {this.onEnd}
+        onPress = { this.displayViewOnClick }
       />
     )
   }
@@ -167,9 +170,12 @@ class NewsVideoCell extends Component{
       
       
         <YoutubePlayer
+
+          onPress = { this.displayViewOnClick }
           //videoId = '6HQvwHpEzao'
           videoId = {this.props.item.youtubeId}
           onReady = {this.onLoad}
+          onEnd = {this.onEnd}
         />
       
       
@@ -184,6 +190,11 @@ class NewsVideoCell extends Component{
     this.setState({
       hiddenCover: true
     })
+  }
+
+  onEnd()
+  {
+    console.log('NewsVideoCell onEnd')
   }
 
   displayViewOnClick()
@@ -201,7 +212,7 @@ class NewsVideoCell extends Component{
   favouriteOnClick()
   {
     console.log('favouriteOnClick, going to logout ')
-    N.logoutAction();
+    M.logoutAction();
   }
 
   

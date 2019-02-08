@@ -7,7 +7,8 @@ import {
   Button,
   DeviceEventEmitter,
   SafeAreaView,
-  TouchableHighlight
+  TouchableHighlight,
+  AsyncStorage
 } from 'react-native';
 import { TabNavigator, StackNavigator, SwitchNavigator, NavigationActions, createBottomTabNavigator} from 'react-navigation';
 //import { BottomNavigation } from 'react-native-paper';
@@ -47,6 +48,7 @@ import {
 
 
 import PopupDialog, {DialogTitle, SlideAnimation} from 'react-native-popup-dialog';
+import strings from './service/strings';
 
 const slideAnimation = new SlideAnimation({
   slideFrom: 'bottom',
@@ -277,13 +279,28 @@ _navigate() {
 const defaultGetStateForAction = Tabs.router.getStateForAction;
 
 Tabs.router.getStateForAction = (action, state) => {
+  
   if ((action.type === NavigationActions.NAVIGATE) && (action.routeName === 'add'))
   {
     console.log('add on pressed')
     //_navigate()
     DeviceEventEmitter.emit('add', {name:'John', age:23});
 
-    return null;
+    return null
+  }
+  
+  if ((action.type === NavigationActions.NAVIGATE) && (action.routeName === 'profile'))
+  {
+    DeviceEventEmitter.emit('alert', {error : strings.notLoginErrorMessage})
+
+    const userToken =  AsyncStorage.getItem('userToken');
+    console.log('profile on pressed : ' + userToken)
+    if ( userToken == 'guest')
+    {
+      DeviceEventEmitter.emit('alert', {error : strings.notLoginErrorMessage})
+      return null 
+    }
+    
   }
   return defaultGetStateForAction(action, state)
 }

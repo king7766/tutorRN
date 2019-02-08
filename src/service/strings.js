@@ -30,6 +30,11 @@ const strings = new LocalizedStrings({
         emailPlaceHolder : '電郵地址',
         passwordPlaceHolder : '密碼',
         more: '更多',
+
+        education :'學歷',
+        description: '簡介',
+
+        notLoginErrorMessage: '請先登入才能使用這個功能',
         
 
     },

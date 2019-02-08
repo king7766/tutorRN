@@ -229,8 +229,9 @@ class ImageLoader extends Component {
         height: layout.deviceHeight * 1/3,
         width: (layout.deviceHeight * 1/3 )* 1.78 ,
         position:'absolute',
-        top: layout.deviceHeight * 1/3 - 50, 
-  
+        //top: layout.deviceHeight * 1/3 - 50, 
+        top: 150, 
+        
       }
     }
     else

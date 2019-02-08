@@ -19,9 +19,12 @@ class YoutubePlayer extends Component <Props>{
   constructor (props){
     super(props);
   
+
     this.state = {
     
     }
+    this.playerOnCLicked = this.playerOnCLicked.bind(this)
+
   }
 
   componentWillMount(){
@@ -35,6 +38,36 @@ class YoutubePlayer extends Component <Props>{
     this.props.onReady()
   }
 
+  onEnd()
+  {
+    console.log('youtube onEnd')
+    this.props.onEnd()
+  }
+
+  playerOnCLicked()
+  {
+    //console.log('playerOnCLicked')
+    this.props.onPress()
+    this._youTubePlayer.seekTo(200)
+  }
+
+  onChangeState(e)
+  {
+    console.log('onChangeState = ' + e.state)
+    if ( e.state == 'ended' )
+    {
+      this.props.onEnd()
+    }
+    else if ( e.state == 'buffering')
+    {
+
+    }else if ( e.state == 'playing')
+    {
+
+    }
+
+  }
+
   showVideoByYoutube()
   {
 
@@ -42,33 +75,38 @@ class YoutubePlayer extends Component <Props>{
     return (
       <YouTube
         
-              //ref={(component) => { this._youTubePlayer = component }}
+              ref={(component) => { this._youTubePlayer = component }}
               //videoId="vzPmI0GCDPM"           // The YouTube video ID
               videoId = {this.props.videoId}
               //playlist="PLF797E961509B4EB5"   // A playlist's ID, overridden by `videoId`
               play={true}                     // control playback of video with true/false
               //playsInline={true}              // control whether the video should play full-screen or inline
-              loop={true}   
+              loop={false}   
               showinfo = {false}                 // control whether the video should loop when ended
               //control = {2}
               showFullscreenButton = {false}
               //modestbranding = {true}
               controls ={0}
+              //mute = {true}
             
               //onReady={e => this.setState({hiddenCover:true})}
               //onReady = {this.onLoad}
               onReady = { ()=>this.onReady() }
+              //onEnd = { this.onEnd}
               //onReady={e => this.setState({ isReady: true })}
               //onChangeState={e => this.setState({ status: e.state })}
-              onChangeState={e => console.log('onChange State = ' + e.state)}
+              //onChangeState={e => console.log('onChange State = ' + e.state)}
+              onChangeState = {(e) =>this.onChangeState(e)}
               //onChangeQuality={e => this.setState({ quality: e.quality })}
-              onError={e => console.log('onError ' + e.error )}
+              onError={e => console.log('youtubePlayer onError ' + e.error )}
               //onError={e => this.setState({ error: e.error })}
               //onProgress={e => this.setState({ currentTime: e.currentTime, duration: e.duration })}
             
               //style={{ alignSelf: 'stretch', height: 300, width: 300, backgroundColor: 'black', marginVertical: 10 }}
               //style = {{height: layout.deviceHeight, width: layout.deviceWidth}}
-              style = {{height: 200, width: layout.deviceWidth, top: 300}}
+              //height: layout.deviceWidth /1.78,
+              //width: layout.deviceWidth,
+              style = {{height: layout.deviceWidth /1.78, width: layout.deviceWidth, top: 200}}
       />
     )
     
@@ -78,11 +116,18 @@ class YoutubePlayer extends Component <Props>{
   render (){
 
     return(
-      <View style = {{height: layout.deviceHeight, width: layout.deviceWidth}}>
+      <TouchableHighlight
+        onPress={ this.playerOnCLicked}
+      >
+      <View 
+        style = {{height: layout.deviceHeight, width: layout.deviceWidth}}
+        pointerEvents="none"
+      >
         {
           this.showVideoByYoutube()
         }
       </View>
+      </TouchableHighlight>
     )
   }
 }

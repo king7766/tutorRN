@@ -285,8 +285,8 @@ class NewsHomeView extends Component<Props> {
         
           
         {  
-          //this.state.newsVM.map((item, index) =>
-          this.state.data.map((item, index) =>
+          this.state.newsVM.map((item, index) =>
+          //this.state.data.map((item, index) =>
             (
              /* 
               <YouTube

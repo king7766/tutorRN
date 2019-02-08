@@ -24,7 +24,7 @@ import {
 import userVM from 'tutorRN/src/VM/userVM'
 
 
-import * as Membership from 'tutorRN/src/service/membership'
+import * as M from 'tutorRN/src/service/membership'
 import * as Strings from 'tutorRN/src/service/strings'
 import * as N from 'tutorRN/src/service/navigation'
 import * as C from 'tutorRN/src/service/connection'
@@ -72,15 +72,16 @@ class Welcome extends Component<Props> {
 
   componentWillMount() {
     this.mounted = true
-    this.getFacebookData()
+    //this.getFacebookData()
     
   }
 
   facebookFetchingFinished(result )
   {
     console.log('facebookFetchingFinished ' + result)
+    M.facebookAccountCheck()
     
-    this.getFacebookData()
+    //this.getFacebookData()
   }
 
   getFacebookData ()
@@ -149,7 +150,7 @@ class Welcome extends Component<Props> {
   facebookDataCallback = (error, result) => {
 
     if (error) {
-      console.log('Error fetching data: ' + error.toString());
+      console.log('Error1 fetching data: ' + error.toString());
     } else {
       console.log('facebook result : ')
       console.log(result.name + ' ' + result.id)
@@ -342,8 +343,6 @@ class Welcome extends Component<Props> {
   }
   */
   render() {
-
-    
 
     return (
       <View style = {styles.background}>  

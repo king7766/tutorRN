@@ -25,9 +25,17 @@ import {
 
 import SegmentControl from './ui/SegmentControl'
 
-import TutorProfileBlock from './ui/TutorProfileBlock'
-import TutorProfileTextBlock from './ui/TutorProfileTextBlock'
-import TutorRatingBlock from './ui/TutorRatingBlock'
+import TutorProfileBlock from 'tutorRN/src/view/ui/TutorProfileBlock'
+import TutorProfileTextBlock from 'tutorRN/src/view/ui/TutorProfileTextBlock'
+import TutorRatingBlock from 'tutorRN/src/view/ui/TutorRatingBlock'
+
+import userVM from 'tutorRN/src/VM/userVM'
+import strings from '../service/strings';
+
+
+const userViewModel = userVM.getInstance()
+
+
 
 const layout = require('tutorRN/src/Layout')
 const numberOfItem = 4
@@ -102,6 +110,7 @@ class ProfileHomeView extends Component<Props> {
 
   render() {
 
+    console.log('user === ' + userViewModel.getUser())
     return (
       <ScrollView
         style = {{height: 130}}
@@ -120,7 +129,7 @@ class ProfileHomeView extends Component<Props> {
 
         <TutorProfileTextBlock
             arrowOn = {false}
-            title = '學歷'
+            title = {strings.education}
             description = {this.state.tutor.achievement}
         />
 
@@ -129,8 +138,9 @@ class ProfileHomeView extends Component<Props> {
         <TutorProfileTextBlock
           tag = {1}
           arrowOn = {false}
-          title = '課程簡介'
+          title = {strings.description}
           description = {this.state.tutor.description}
+          //description = {userViewModel.getUser().user_occupation}
           onClicked = {this.arrowOnClicked}
         />
 

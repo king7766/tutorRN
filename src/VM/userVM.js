@@ -49,6 +49,7 @@ export default class userVM{
 	
 	getUser()
 	{
+		
 		return this.userProfile
 	}
 
@@ -139,7 +140,8 @@ export default class userVM{
          	}
          	else
          	{
-         		//console.log('error ')
+				 //console.log('error ')
+				 console.log('this is error code : ' + json.data);
          	
          		
          	}

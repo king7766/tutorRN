@@ -22,6 +22,7 @@ class VideoPlayer extends Component <Props>{
     this.state = {
       landscape : false,
     }
+    this.playerOnCLicked = this.playerOnCLicked.bind(this)
   }
 
   componentWillMount(){
@@ -44,10 +45,19 @@ class VideoPlayer extends Component <Props>{
     this.props.onReady()
   }
 
+  onEnd()
+  {
+    this.props.onEnd()
+  }
+
+  playerOnCLicked()
+  {
+    console.log('playerOnCLicked')
+    this.props.onPress()
+  }
+
   videoStyle ()
   {
-    
-    console.log('videoStyle')
     if ( this.state.landscape )
     {
       return {
@@ -96,7 +106,8 @@ class VideoPlayer extends Component <Props>{
             style = {this.videoStyle()}
             //style = {this.videoStyle()}
             //onLoad = {()=>this.setState({hiddenCover:true})}
-            onLoad={ (info) => this.onReady(info) }       
+            onLoad={ (info) => this.onReady(info) }     
+            onEnd= { ()=>this.onEnd()}  
             //style={{width: this.state.videoWidth, height: this.state.videoHeight}}
             //<View style = {{ position: 'absolute', backgroundColor: 'rgba(0, 0, 0, 0.5)', top : 0, height: (layout.deviceHeight * 0.05), width: 100 }} />
           />
@@ -109,6 +120,9 @@ class VideoPlayer extends Component <Props>{
   render (){
 
     return(
+      <TouchableHighlight
+        onPress={ this.playerOnCLicked}
+      >
       <View
         style = {styles.fullViewStyle}
         backgroundColor = 'black'
@@ -117,6 +131,7 @@ class VideoPlayer extends Component <Props>{
           this.showVideo()
         }
       </View>
+      </TouchableHighlight>
     )
   }
 }
