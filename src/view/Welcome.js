@@ -22,6 +22,7 @@ import {
 } from 'react-native';
 
 import userVM from 'tutorRN/src/VM/userVM'
+import strings from 'tutorRN/src/service/strings'
 
 
 import * as M from 'tutorRN/src/service/membership'
@@ -29,6 +30,7 @@ import * as Strings from 'tutorRN/src/service/strings'
 import * as N from 'tutorRN/src/service/navigation'
 import * as C from 'tutorRN/src/service/connection'
 import * as E from 'tutorRN/src/service/env-config'
+
 
 
 //import { LoginManager } from 'react-native-fbsdk'
@@ -235,8 +237,23 @@ class Welcome extends Component<Props> {
 
   async loginAction (id, password, info)
   {
-    console.log('loginAction : ' + id  )
-    console.log('loginAction : ' + password  )
+    const res = M.loginAction(id, password, info)
+
+    /*
+    if ( res == true )
+    {
+      console.log('loginAction success : ' + userViewModel.getUser() )
+    }
+    else
+    {
+      //M.registrationAction(id, password, info)
+    }
+    */
+
+
+    /*
+    console.log('loginAction : ' + id + ', ' + password )
+  
     const res = await userViewModel.login(id , password)
 
     if ( res.data.verify_status == 'success')
@@ -251,8 +268,11 @@ class Welcome extends Component<Props> {
 
       
     }
+    */
+
   }
 
+  /*
   async registerAction ()
   {
     if ( this.state.loginMethod == 0 )
@@ -273,6 +293,7 @@ class Welcome extends Component<Props> {
       console.log('register account by facebook ')
     }
   }
+  */
 
   /*
   loginAction = async() =>{
@@ -356,7 +377,7 @@ class Welcome extends Component<Props> {
             style = {{paddingLeft : 5, paddingRight : 5, backgroundColor: 'rgba(255, 255, 255, 1.0)', height: '100%'}}
             //style={{height: 40, borderColor: 'gray', borderWidth: 1}}
             onChangeText={(text) => this.setState({accountID: text})}
-            placeholder = {Strings.emailPlaceHolder}
+            placeholder = {strings.emailPlaceHolder}
             //value={this.state.text}
             />
           </View>
@@ -368,7 +389,7 @@ class Welcome extends Component<Props> {
             style = {{paddingLeft : 5, paddingRight : 5, backgroundColor: 'rgba(255, 255, 255, 1.0)', height: '100%'}}
             //style={{height: 40, borderColor: 'gray', borderWidth: 1}}
             onChangeText={(text) => this.setState({password: text})}
-            placeholder = {Strings.passwordPlaceHolder}
+            placeholder = {strings.passwordPlaceHolder}
             //value={this.state.text}
             />
           </View>
@@ -376,7 +397,7 @@ class Welcome extends Component<Props> {
           <TouchableHighlight onPress={()=>this.loginAction(this.state.accountID, this.state.password, null)}>
             <View style={styles.loginButton}>
               <Text style = {styles.loginText}>
-                {Strings.loginText}
+                {strings.loginText}
               </Text>
             </View>
           </TouchableHighlight>
@@ -385,7 +406,7 @@ class Welcome extends Component<Props> {
           <TouchableHighlight onPress={this.guestInAction}>
             <View style={styles.facebookButton}>
               <Text style = {styles.facebookText}>
-                遊客進入
+                {strings.guestLoginText}
               </Text>
             </View>
           </TouchableHighlight>
@@ -464,18 +485,27 @@ const styles = StyleSheet.create({
   },
 
   background:{
-     flex: 1,
-     alignItems:'center', 
-     backgroundColor:'transparent'
+
+    flex: 1,
+    backgroundColor:'red',
+    
   },
 
   image: {
     flex: 1,
-    //resizeMode: 'cover',
-    resizeMode: 'contain',
+    resizeMode: 'cover',
+    //resizeMode: 'center',
     //width: undefined,
     //height: undefined,
     //backgroundColor: '#889DAD',
+
+    width: '100%',
+    height: '100%',
+    //resizeMode :'center',
+    position: 'absolute',
+    //alignItems:'center', 
+    //backgroundColor:'transparent'
+    //justifyContent: 'center',
   },
 
   loginButton:{

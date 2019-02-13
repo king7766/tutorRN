@@ -17,14 +17,17 @@ import {
   StatusBar,
   TouchableOpacity,
   TouchableHighlight,
-  ScrollView
+  ScrollView,
+  AsyncStorage,
 } from 'react-native';
 
-//import segmentedControl from 'tutorRN/src/segmentedControlMain'
+import * as M from 'tutorRN/src/service/membership'
 
 //import NewsCell from './ui/NewsCell'
 import NoticeCell from './ui/NoticeCell'
 import SegmentControl from './ui/SegmentControl'
+import strings from '../service/strings'
+
 const layout = require('tutorRN/src/Layout')
 
 
@@ -37,6 +40,7 @@ class NoticeHomeView extends Component<Props> {
 
     this.state = {
       sgData : ['所有課堂', '即將開始', '等待確認'],
+      haveLogin : false,
       data: [
         {
           'image': 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=c36a9365035e76d990a0b0ca07145494&oe=5B55A6D7',
@@ -51,7 +55,8 @@ class NoticeHomeView extends Component<Props> {
           'endTime' : '1000 am',
           'rating' : '4.5',
           'type' : 1,
-          'id': '1'
+          'id': '1',
+          'read':true,
         },
         {
           'image': 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=c36a9365035e76d990a0b0ca07145494&oe=5B55A6D7',
@@ -66,7 +71,8 @@ class NoticeHomeView extends Component<Props> {
           'endTime' : '1000 am',
           'rating' : '4.5',
           'type' : 2,
-          'id': '2'
+          'id': '2',
+          'read':true,
         },
         {
           'image': 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=c36a9365035e76d990a0b0ca07145494&oe=5B55A6D7',
@@ -81,7 +87,8 @@ class NoticeHomeView extends Component<Props> {
           'endTime' : '1000 am',
           'rating' : '4.5',
           'type' : 3,
-          'id': '3'
+          'id': '3',
+          'read':false,
         },
         {
           'image': 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=c36a9365035e76d990a0b0ca07145494&oe=5B55A6D7',
@@ -96,7 +103,8 @@ class NoticeHomeView extends Component<Props> {
           'endTime' : '1000 am',
           'rating' : '4.5',
           'type' : 1,
-          'id': '4'
+          'id': '4',
+          'read':true,
         },
         {
           'image': 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=c36a9365035e76d990a0b0ca07145494&oe=5B55A6D7',
@@ -111,7 +119,8 @@ class NoticeHomeView extends Component<Props> {
           'endTime' : '1000 am',
           'rating' : '4.5',
           'type' : 2,
-          'id': '5'
+          'id': '5',
+          'read':false,
         },
         {
           'image': 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=c36a9365035e76d990a0b0ca07145494&oe=5B55A6D7',
@@ -126,14 +135,40 @@ class NoticeHomeView extends Component<Props> {
           'endTime' : '1000 am',
           'rating' : '4.5',
           'type' : 2,
-          'id': '6'
+          'id': '6',
+          'read':true,
         },
       ]
     };
     
   }
 
+  async componentWillMount()
+  {
+    const userToken = await AsyncStorage.getItem('userToken')
+    if ( userToken == 'guest' || userToken == null)
+    {
+      // Please login
+      console.log('Notice haveLogin = no')
+      this.setState({
+        haveLogin: false
+      })
+    }
+    else
+    {
+      console.log('Notice haveLogin = YES')
+      this.setState({
+        haveLogin: true
+      })
+    }
+
+  }
+
   componentDidMount() {
+
+    
+
+
         const params = {
             right: (
                 <Button
@@ -144,40 +179,82 @@ class NoticeHomeView extends Component<Props> {
         };
         
         this.props.navigation.setParams(params);
+
+
   }
 
   tabOnClicked(index, key ){
     console.log('tabOnClicked ' + index + ' , ' + key)
   }
 
-  render() {
+  goToLogin()
+  {
+    M.logoutAction();
+  }
 
+  cellOnPressed (index)
+  {
+    console.log('onPress : '+ index)
+  }
 
-
+  displayContent()
+  {
     return (
-      <View>
-        
-        
-
-        <ScrollView>
+      <ScrollView>
         {
           this.state.data.map((item, index) =>
             (
               
               <NoticeCell
+                index = {index}
                 key = {index}
                 item = {item}
                 //lesson = {item}
-                imageURL = {item.image}
+                //imageURL = {item.image}
                 
-                title = {item.title}
-                content = {item.content}
+                //title = {item.title}
+                //content = {item.content}
+                onPress= {(index)=>this.cellOnPressed(index)}
               />
 
             )
           )
         }
         </ScrollView>
+    )
+  }
+
+  displayNonLoginContent()
+  {
+    return (
+      <View 
+        style = {{justifyContent: 'center',alignItems: 'center',flex:1 }}
+      >
+        <Text color='black'>
+          {strings.notLoginErrorMessage}
+        </Text>
+        <Button
+          onPress={this.goToLogin}
+          title= {strings.loginText}
+          color="#841584"
+          //accessibilityLabel="Learn more about this purple button"
+        />
+      </View>
+    )
+  }
+
+  render() {
+
+    return (
+      <View style = {{flex:1}}>
+
+        {
+          this.state.haveLogin == true ? this.displayContent() : this.displayNonLoginContent()
+        }
+        
+        
+
+        
       </View>
       
     );

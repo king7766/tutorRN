@@ -154,6 +154,7 @@ export default class RNCameraRollPicker extends Component {
       if( json.statusCode == 200)	
       {
         console.log('json.data = ' + json.data.link)
+        DeviceEventEmitter.emit('popUp', {flag:false});
       }
     })
   }

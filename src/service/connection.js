@@ -115,7 +115,13 @@ export function uploadFileApi ( url, method, params)
  
 export function getResponseFromApi( url, method, params )
 {
-    console.log('getResponseFromApi = ' + url )
+    //url = 'http://www.google.com'
+
+    console.log('calling APi URL : ' + url )
+
+    
+    DeviceEventEmitter.emit('loading', {flag:true })
+    //DeviceEventEmitter.emit('alert', {error : 'ror'});
     
     var dataString = parseParams(params)
 
@@ -142,6 +148,7 @@ export function getResponseFromApi( url, method, params )
                 console.log(mappedArr);
                 */
 
+                DeviceEventEmitter.emit('loading', {flag:false })
                 const statusCode = await response.status;
                 const data = await response.json();
                 

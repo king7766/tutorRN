@@ -32,8 +32,58 @@ class TutorProfileBlock extends Component{
     this.props.onClicked(index)
   }
 
+  content()
+  {
+    /*
+    <Text style = {styles.subtextStyle}>
+            {this.props.tutor.gender}
+          </Text>
+          <Text style = {styles.subtextStyle}>
+            {this.props.tutor.location}
+          </Text>
+          */
+    return (
+      <View >
+          <Text style = {styles.nameStyle}>
+            {this.props.tutor.user_nickname}
+          </Text>
+          <Text style = {styles.subtextStyle}>
+            {this.props.tutor.job}
+          </Text>
+          <Text style = {styles.subtextStyle}>
+            {this.props.tutor.title}
+          </Text>
+          <Text style = {styles.subtextStyle}>
+            {this.props.tutor.exp}
+          </Text>
+          
+          
+        </View>
+    )
+  }
+
   render (){
 
+
+    return (
+      <View style = {{flexDirection:'row', width:layout.deviceWidth, height:120,  backgroundColor:'white'}}>
+        <View style = {{flex:1, alignItems:'center', justifyContent:'center'}}>
+          <Image 
+            style = {styles.imageStyle}
+            source = {{uri: this.props.tutor.user_thumb}}
+            defaultSource = {require('tutorRN/src/image/icons8-customer-filled-100.png') }
+            rezizeMode = 'contain'
+          />
+        </View>
+        <View style = {{flex:2, backgroundColor:'white' }}>
+        {
+          this.content()
+        }
+        </View>
+        
+      </View>
+    )
+    /*
     return(
    
       <View style = {styles.background}>
@@ -43,16 +93,20 @@ class TutorProfileBlock extends Component{
         <View style = {styles.photoViewStyle}>
           <Image 
             style = {styles.imageStyle}
-            source = {{uri: this.props.tutor.image}}
+            source = {{uri: this.props.tutor.user_thumb}}
+            defaultSource = {require('tutorRN/src/image/icons8-customer-filled-100.png') }
             // cover, contain, stretch, center
             rezizeMode = 'contain'
+            //onError={(e) => 
+              //this.props.source = {require('tutorRN/src/image/icons8-customer-filled-100.png') }
+            
           />
           
         </View>
 
         <View style = {styles.tutorViewStyle}>
           <Text style = {styles.nameStyle}>
-            {this.props.tutor.name}
+            {this.props.tutor.user_nickname}
           </Text>
           <Text style = {styles.subtextStyle}>
             {this.props.tutor.job}
@@ -85,6 +139,7 @@ class TutorProfileBlock extends Component{
       </View>
 
       )
+      */
   }
 }
 
@@ -106,7 +161,7 @@ const styles = StyleSheet.create ({
     width: layout.deviceWidth,
 
     //height: 150,
-    borderTopColor: 'gray',
+    //borderTopColor: 'gray',
     borderTopWidth: 0.5,
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -122,13 +177,13 @@ const styles = StyleSheet.create ({
   },
 
   photoViewStyle:{
-    flex: 3,
+    //flex: 3,
     paddingLeft: 5,
     paddingRight: 5,
     //flexDirection: 'column',
-    //backgroundColor: 'red',
-    alignItems: 'center',
-    justifyContent: 'center'
+    backgroundColor: 'red',
+    //alignItems: 'center',
+    //justifyContent: 'center'
     
   },
 
@@ -136,17 +191,19 @@ const styles = StyleSheet.create ({
 
     //marginTop:10,
     //backgroundColor: 'rgba(61,89,148,1)',
-    //backgroundColor: 'red',
-
+    backgroundColor: 'grey',
+    //paddingTop: 10,
     height:80,
-    width: 80
+    width: 80,
+    borderRadius:40,
     
     //width:layout.deviceWidth
 
   },
 
   tutorViewStyle:{
-    flex: 6,
+    backgroundColor: 'red',
+    flex: 5,
     padding : 5,
     flexDirection: 'column',
     //alignItems: 'center'

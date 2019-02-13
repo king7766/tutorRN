@@ -25,11 +25,42 @@ export default class alert{
 
     showAlert( info )
     {
-        //console.log(info)
+        console.log('showAlert ' +info)
         //console.log(this.isAlertVisible)
 
         if ( this.isAlertVisible == true )
+        {
             return ;
+        }
+
+        // Warning message     
+        
+        if (info.message )
+        {
+            
+            this.isAlertVisible = true
+    
+            Alert.alert(
+                strings.warning , 
+                info.message, 
+                [
+                    {
+                        text: strings.confirm, onPress: () => {
+
+                            this.isAlertVisible = false 
+                        }
+                    },
+                    {
+                        text: strings.confirm, onPress: () => {
+
+                            this.isAlertVisible = false 
+                        }
+                    }
+                ], { cancelable: false }
+            );
+
+            return
+        }
 
         /*
         var newArr = Object.keys(info);
@@ -71,7 +102,7 @@ export default class alert{
                 }
             ], { cancelable: false });
         }
-        else
+        else 
         {
 
         }

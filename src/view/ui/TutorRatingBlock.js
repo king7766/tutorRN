@@ -122,7 +122,10 @@ class TutorRatingBlock extends Component{
             >
             {
               this.state.rating.map((item, index) =>
-                <Image source={require('tutorRN/src/image/star-503.png')} style={{width: starSize, height: starSize}} />
+                <Image 
+                  key = {index}
+                  source={require('tutorRN/src/image/star-503.png')} 
+                  style={{width: starSize, height: starSize}} />
               )
             }
             
@@ -133,7 +136,10 @@ class TutorRatingBlock extends Component{
           <View style = {styles.overallBG}>
           {
             this.state.rating.map((item, index) =>
-              <View style = {styles.voteBG} >
+              <View 
+                style = {styles.voteBG} 
+                key = {index}
+              >
                 <Text style = {styles.voteCount}>
                     {5 - index}
                 </Text>

@@ -6,16 +6,26 @@ const {
   LoginManager,
 } = FBSDK;
 
+import {
+    AsyncStorage,
+    DeviceEventEmitter,
+} from 'react-native';
+
+
 import userVM from 'tutorRN/src/VM/userVM'
 import * as E from 'tutorRN/src/service/env-config'
 import * as N from 'tutorRN/src/service/navigation'
+import alert from 'tutorRN/src/service/alert'
+import strings from './strings';
+
 
 const userViewModel = userVM.getInstance()
 
 export function facebookAccountCheck ()
 {
     AccessToken.getCurrentAccessToken().then((data) => {
-        console.log('FBSDK data = ' + data)
+        
+        console.log('facebookAccountCheck : '+ JSON.stringify(data))
         
         if ( data )
         {
@@ -23,8 +33,7 @@ export function facebookAccountCheck ()
             var mappedArr = newArr.map(function(i) {
                 return [i, data[i]];
             });
-            console.log(mappedArr);
-
+            
             getFacebookData()
         }
         else
@@ -32,6 +41,7 @@ export function facebookAccountCheck ()
 
             // facebook token expired
             console.log('facebook token expired')
+            return false
         }  
     })
 }
@@ -54,7 +64,12 @@ facebookDataCallback = (error, result) => {
       console.log('Error fetching data: ' + error.toString());
     } else {
 
-        console.log('facebook result : ')
+        var newArr = Object.keys(result);
+        var mappedArr = newArr.map(function(i) {
+            return [i, result[i]];
+        });
+        //console.log('facebook result : ' + mappedArr )
+        console.log('facebook result : ' + JSON.stringify(result) )
 
         var data = {
             token : E.token,
@@ -83,19 +98,30 @@ export async function loginAction(id, password, data)
     if ( res.data.verify_status == 'success')
     {
         console.log('success : ' + userViewModel.getUser().user_login )
+
+        await AsyncStorage.setItem('userToken', id );
+        await AsyncStorage.setItem('userPassword', password );
+        
         N.loginAction( userViewModel.getUser().user_login );
       
     }
     else{
 
         console.log('no this account , go to registration')
+
+        //DeviceEventEmitter.emit('alert', {message : strings.notRegisterMessage});
+
+        //alert.getInstance().showAlert({ 'message': strings.notRegisterMessage});
+
         // go registration 
+        registrationAction(id, password, data)
     }
 }
 
-export function registration()
+export function registrationAction(id, password, data)
 {
-
+    console.log('registrationAction id : ' +id +', pw : '+ password)
+    
 }
 
 export function logoutAction ()

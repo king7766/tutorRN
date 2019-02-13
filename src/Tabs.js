@@ -17,6 +17,7 @@ import { TabNavigator, StackNavigator, SwitchNavigator, NavigationActions, creat
 import Welcome from './view/Welcome'
 
 import RNCameraRollPicker from 'tutorRN/src/Libs/RNCameraRollPicker'
+import LoadingScreen from 'tutorRN/src/view/LoadingScreen'
 import RNImagePicker from 'tutorRN/src/Libs/RNImagePicker'
 
 const layout = require('tutorRN/src/Layout')
@@ -72,8 +73,11 @@ class onTopView extends Component {
     super(props);
     // 初始状态
     this.state = {
-        isDialogVisible: false,
-        modalVisible: false
+
+      isDialogVisible: false,
+      modalVisible: false,
+      loadingVisible: false,
+      listeners :[]
     };  
   }
 
@@ -81,34 +85,92 @@ class onTopView extends Component {
     this.setState({modalVisible: visible});
   }
 
+  setLoadingVisible(visible) {
+    
+    if ( visible == this.state.loadingVisible)
+    {
+      return
+    }
+    
+    this.setState({
+      loadingVisible:visible
+    })
+  }
+
+  componentWillMount()
+  {
+    console.log('Tabs componentWillMount')
+  }
+
   componentDidMount() {
+    console.log('Tabs componentDidMount')
+
+    this.state.listeners.push (DeviceEventEmitter.addListener('popUp', (popUpInfo)=>{
+      this.setModalVisible(popUpInfo.flag)
+    }))
+
+    this.state.listeners.push (DeviceEventEmitter.addListener('add', (a)=>{
+      this.defaultAnimationDialog.show()
+    }))
+
+    this.state.listeners.push (DeviceEventEmitter.addListener('alert', (info)=>{
+      alert.getInstance().showAlert(info);
+    }))
+
+    this.state.listeners.push (DeviceEventEmitter.addListener('loading', (info)=>{
+      this.setLoadingVisible(info.flag)
+    }))
+  
+
+    /*
+    
+    this.de = DeviceEventEmitter.addListener('popUp', (popUpInfo)=>{
+      this.setModalVisible(popUpInfo.flag)
+      //console.log(popUpInfo);
+    })
+    
+    
     this.deEmitter = DeviceEventEmitter.addListener('add', (a) => {
         //alert('收到通知：' + a);
         //this.showDialog()
         //this.hideDialog()
         this.defaultAnimationDialog.show()
     });
-
+    
     DeviceEventEmitter.addListener('popUp', (popUpInfo)=>{
       this.setModalVisible(popUpInfo.flag)
       //console.log(popUpInfo);
     })
-
+    
     DeviceEventEmitter.addListener('alert', (info)=>{
       //console.log('alert : ' +info.error);
       alert.getInstance().showAlert(info);
     })
 
-    //C.networkStatus()
-    //const ccc = netInfo.getInstance().netInfo()
+    DeviceEventEmitter.addListener('loading', (info)=>{
+      
+      this.setLoadingVisible(info.flag)
+      
+    })
+    */
+  }
+
+  componentWillUnmount() {
+  
+    console.log('Tabs componentWillUnmount')
+
+    this.state.listeners.map((listener ) => {
+      listener.remove()
+    });
   }
 
   addBtnOnClick(){
     console.log('addBtnOnClick')
-
-    DeviceEventEmitter.emit('popUp', {flag:true, age:23});
-    return ; //test
     this.showDialog()
+    
+    //DeviceEventEmitter.emit('popUp', {flag:true, age:23});
+    //return ; //test
+    
     //this.defaultAnimationDialog.show()
   }
 
@@ -142,6 +204,13 @@ class onTopView extends Component {
         >
           <UploadScreen />
         </Modal>
+        <Modal 
+          transparent={true}
+          visible = {this.state.loadingVisible}
+        >
+          <LoadingScreen />
+        </Modal>
+        
         <AddBtnPopUpDialog
           _dialogVisible={this.state.isDialogVisible}
           _dialogLeftBtnAction={()=> {this.hideDialog()}}
@@ -276,10 +345,30 @@ _navigate() {
 
 
 
-const defaultGetStateForAction = Tabs.router.getStateForAction;
+const defaultGetStateForAction = Tabs.router.getStateForAction
 
 Tabs.router.getStateForAction = (action, state) => {
-  
+
+  //const userToken = AsyncStorage.getItem('userToken').then
+  AsyncStorage.getItem('userToken').then((userToken) => {
+    // this work !!
+
+    if ((action.type === NavigationActions.NAVIGATE) && (action.routeName === 'profile'))
+    {
+      //DeviceEventEmitter.emit('alert', {error : strings.notLoginErrorMessage})
+
+      //const userToken =  await AsyncStorage.getItem('userToken');
+      console.log('profile on pressed : ' + userToken)
+      if ( userToken == 'guest')
+      {
+      
+        //DeviceEventEmitter.emit('alert', {error : strings.notLoginErrorMessage})
+        return null 
+      }
+
+    }
+  })
+
   if ((action.type === NavigationActions.NAVIGATE) && (action.routeName === 'add'))
   {
     console.log('add on pressed')
@@ -289,19 +378,22 @@ Tabs.router.getStateForAction = (action, state) => {
     return null
   }
   
+  /*
   if ((action.type === NavigationActions.NAVIGATE) && (action.routeName === 'profile'))
   {
-    DeviceEventEmitter.emit('alert', {error : strings.notLoginErrorMessage})
+    //DeviceEventEmitter.emit('alert', {error : strings.notLoginErrorMessage})
 
-    const userToken =  AsyncStorage.getItem('userToken');
+    //const userToken =  await AsyncStorage.getItem('userToken');
     console.log('profile on pressed : ' + userToken)
     if ( userToken == 'guest')
     {
       DeviceEventEmitter.emit('alert', {error : strings.notLoginErrorMessage})
       return null 
     }
-    
+
   }
+  */
+  //return Tabs.router.getStateForAction( action, state)
   return defaultGetStateForAction(action, state)
 }
 

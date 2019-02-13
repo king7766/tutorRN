@@ -44,8 +44,9 @@ class AuthLoadingScreen extends React.Component {
   _bootstrapAsync = async () => {
 
     const userToken = await AsyncStorage.getItem('userToken');
+    const userPassword = await AsyncStorage.getItem('userPassword');
 
-    console.log('userToken = ' + userToken)
+    console.log('userToken = ' + userToken + ' , password = ' + userPassword)
     //M.facebookAccountCheck()
 
     if ( userToken == null )
@@ -53,6 +54,8 @@ class AuthLoadingScreen extends React.Component {
       this.props.navigation.navigate('Auth');
       return
     }
+
+    
    
 
     if( userToken == 'guest')
@@ -62,6 +65,38 @@ class AuthLoadingScreen extends React.Component {
     }
     else
     {
+      
+      if ( isFinite(String(userToken)) )
+      {
+        // go facebook check
+
+        M.facebookAccountCheck()
+
+        /*
+        // facebook id
+        if ( res == true )
+        {
+          // success
+          console.log('fb token ok')
+        }
+        else{
+          console.log('fb token fail')
+        }
+        */
+
+      }
+      else{
+        // email account 
+        console.log('this is email login account ')
+
+        M.loginAction(userToken, userPassword, null)
+        
+        
+        
+      }
+
+      return
+
       if ( M.facebookAccountCheck() )
       {
         // this is facebook acc
