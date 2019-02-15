@@ -24,6 +24,7 @@ const layout = require('tutorRN/src/Layout')
 
 // Tab 1
 import NewsStack from 'tutorRN/src/stack/NewsStack'
+import NewsHomeView from 'tutorRN/src/view/NewsHomeView';
 
 // Tab 2
 import LessonStack from 'tutorRN/src/stack/LessonStack'
@@ -167,7 +168,7 @@ class onTopView extends Component {
   addBtnOnClick(){
     console.log('addBtnOnClick')
     this.showDialog()
-    
+
     //DeviceEventEmitter.emit('popUp', {flag:true, age:23});
     //return ; //test
     
@@ -260,6 +261,7 @@ class onTopView extends Component {
 
 const Tabs = TabNavigator({
 
+  //news: NewsHomeView,
   news: NewsStack,
   search: SearchStack,
   //search:animatedbasic,
@@ -272,13 +274,17 @@ const Tabs = TabNavigator({
   },
   {
     lazy: true,
+    
     tabBarOptions: {
+      
+      /*
       navigationOptions: ({ navigation }) => ({
         tabBarOnPress: (scene) => {
           console.log('onPress:', scene.route);
           //jumpToIndex(scene.index);
         },
       }),
+      */
       showIcon: true,
       showLabel: false,
       activeTintColor: '#fff',
@@ -322,7 +328,7 @@ const Tabs = TabNavigator({
       }
       */
     }
-
+    
     /*
     navigationOptions: {
       header: <View 
@@ -349,6 +355,7 @@ const defaultGetStateForAction = Tabs.router.getStateForAction
 
 Tabs.router.getStateForAction = (action, state) => {
 
+  /*
   //const userToken = AsyncStorage.getItem('userToken').then
   AsyncStorage.getItem('userToken').then((userToken) => {
     // this work !!
@@ -368,6 +375,7 @@ Tabs.router.getStateForAction = (action, state) => {
 
     }
   })
+  */
 
   if ((action.type === NavigationActions.NAVIGATE) && (action.routeName === 'add'))
   {

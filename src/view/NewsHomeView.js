@@ -58,6 +58,10 @@ class NewsHomeView extends Component<Props> {
   constructor(props) {
     super(props);
     // /this.handleFacebookLogin = this.handleFacebookLogin.bind(this)
+    //props.navigation.setParams({
+    //  onTabFocus: this.handleTabFocus
+    //});
+
     this.state = {
       newsVM: viewModel.getNews(),
       locationVM : locationViewModel,
@@ -115,6 +119,30 @@ class NewsHomeView extends Component<Props> {
 
   }
 
+  handleTabFocus = () => {
+    console.log('tabBarOnPress')
+    // perform your logic here
+  };
+
+  /*
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    return {
+      
+      tabBarOnPress({ jumpToIndex, scene }) {
+        
+        // now we have access to Component methods
+        console.log('onTabFocus')
+        params.onTabFocus();
+        jumpToIndex(scene.index);
+      }
+    };
+  }
+  */
+    
+
+  
+
   /*
   static navigationOptions = ({ navigation }) => ({
     title: '123',
@@ -146,8 +174,13 @@ class NewsHomeView extends Component<Props> {
   };
   */
 
+  componentDidMount()
+  {
+    
+  }
+
   componentWillMount() {
-    this.props.navigation.setParams({ leftBtnOnClick: this._signOutAsync });
+    //this.props.navigation.setParams({ leftBtnOnClick: this._signOutAsync });
   }
 
   _signOutAsync = async () => {
@@ -327,15 +360,8 @@ class NewsHomeView extends Component<Props> {
                 onClicked = {this.cellOnPressed}
               />
               
-              /*  
-              <NewsVidelCell
-                item = {item}
-                onPlay = {false}
-                key = {index}
-              />
-              */
-              
-              
+             
+         
               /*
               <NewsCell
                 key = {index}

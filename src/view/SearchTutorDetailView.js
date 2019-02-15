@@ -28,6 +28,7 @@ import TutorCVCell from './ui/TutorCVCell'
 import CalendarCell from './ui/CalendarCell'
 import TutorProfileTextBlock from './ui/TutorProfileTextBlock'
 import TutorRatingBlock from './ui/TutorRatingBlock'
+import strings from 'tutorRN/src/service/strings'
 
 
 const layout = require('tutorRN/src/Layout')
@@ -89,7 +90,7 @@ class SearchTutorDetailView extends Component<Props> {
 
           <TutorProfileTextBlock
             arrowOn = {false}
-            title = '學歷'
+            title = {strings.education}
             description = {this.state.data.achievement}
           />
 
@@ -97,7 +98,7 @@ class SearchTutorDetailView extends Component<Props> {
 
           <TutorProfileTextBlock
             arrowOn = {false}
-            title = '課程簡介'
+            title = {strings.description}
             description = {this.state.data.description}
           />
           <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
@@ -106,10 +107,6 @@ class SearchTutorDetailView extends Component<Props> {
             arrowOn = {false}
           />
           <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
-
-          <CalendarCell />
-
-
         </ScrollView>
       </View>
       
@@ -117,6 +114,7 @@ class SearchTutorDetailView extends Component<Props> {
   }
 }
 
+//<CalendarCell />
 export default SearchTutorDetailView;
 
 

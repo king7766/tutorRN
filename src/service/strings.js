@@ -27,6 +27,7 @@ const strings = new LocalizedStrings({
 
         choosed : '已選擇',
         loginText: '登入',
+        registrationText: '註冊',
         guestLoginText: '遊客登入',
         emailPlaceHolder : '電郵地址',
         passwordPlaceHolder : '密碼',
@@ -38,7 +39,8 @@ const strings = new LocalizedStrings({
         notLoginErrorMessage: '請先登入才能使用這個功能',
 
         warning: '注意',
-        notRegisterMessage : '此帳號還未註冊'
+        notRegisterMessage : '此帳號還未註冊',
+        notFilledInMessage : '! 請填上資料'
         
 
     },

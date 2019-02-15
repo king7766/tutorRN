@@ -6,7 +6,8 @@ import {
    StyleSheet, 
    ScrollView ,
    TouchableHighlight,
-   Animated
+   Animated,
+   WebView
 } from 'react-native';
 
 import YouTube from 'react-native-youtube'
@@ -21,7 +22,8 @@ class YoutubePlayer extends Component <Props>{
   
 
     this.state = {
-    
+      //play:true,
+      play: false,
     }
     this.playerOnCLicked = this.playerOnCLicked.bind(this)
 
@@ -47,9 +49,17 @@ class YoutubePlayer extends Component <Props>{
   playerOnCLicked()
   {
     //console.log('playerOnCLicked')
+    
     this.props.onPress()
-    this._youTubePlayer.seekTo(200)
+    this.setState({ play: !this.state.play })
+
+    //this._youTubePlayer.stopVideo()
+    //this._youTubePlayer.seekTo(200)
+    //let yourAlert = 'alert("hello")'
+    //this.myWebView.props.injectedJavaScript(yourAlert)
   }
+
+  
 
   onChangeState(e)
   {
@@ -72,42 +82,59 @@ class YoutubePlayer extends Component <Props>{
   {
 
     //624073744/videos?type=uploaded
+
+    let yourAlert = 'alert("hello")'
+    let html = '<div id="myContent">This is my name</div>'
+    let jsCode = "document.querySelector('#myContent').style.backgroundColor = 'red'"
+
     return (
-      <YouTube
-        
-              ref={(component) => { this._youTubePlayer = component }}
-              //videoId="vzPmI0GCDPM"           // The YouTube video ID
-              videoId = {this.props.videoId}
-              //playlist="PLF797E961509B4EB5"   // A playlist's ID, overridden by `videoId`
-              play={true}                     // control playback of video with true/false
-              //playsInline={true}              // control whether the video should play full-screen or inline
-              loop={false}   
-              showinfo = {false}                 // control whether the video should loop when ended
-              //control = {2}
-              showFullscreenButton = {false}
-              //modestbranding = {true}
-              controls ={0}
-              //mute = {true}
-            
-              //onReady={e => this.setState({hiddenCover:true})}
-              //onReady = {this.onLoad}
-              onReady = { ()=>this.onReady() }
-              //onEnd = { this.onEnd}
-              //onReady={e => this.setState({ isReady: true })}
-              //onChangeState={e => this.setState({ status: e.state })}
-              //onChangeState={e => console.log('onChange State = ' + e.state)}
-              onChangeState = {(e) =>this.onChangeState(e)}
-              //onChangeQuality={e => this.setState({ quality: e.quality })}
-              onError={e => console.log('youtubePlayer onError ' + e.error )}
-              //onError={e => this.setState({ error: e.error })}
-              //onProgress={e => this.setState({ currentTime: e.currentTime, duration: e.duration })}
-            
-              //style={{ alignSelf: 'stretch', height: 300, width: 300, backgroundColor: 'black', marginVertical: 10 }}
-              //style = {{height: layout.deviceHeight, width: layout.deviceWidth}}
-              //height: layout.deviceWidth /1.78,
-              //width: layout.deviceWidth,
-              style = {{height: layout.deviceWidth /1.78, width: layout.deviceWidth, top: 200}}
+      /*
+      <WebView
+        //ref="myWebView"
+        ref={(component) => { this.myWebView = component }}
+        style = {{height: layout.deviceWidth /1.78, width: layout.deviceWidth, top: 200}}
+        javaScriptEnabled={true}
+        //injectedJavaScript={yourAlert}
+        source={{uri: 'https://www.youtube.com/embed/' + this.props.videoId + '?rel=0&autoplay=0&showinfo=0&controls=0'}}
+        //source = {{uri:'https://www.google.com'}}
       />
+      */
+      
+      <YouTube
+        play={this.state.play}
+        ref={(component) => { this._youTubePlayer = component }}
+        //videoId="vzPmI0GCDPM"           // The YouTube video ID
+        videoId = {this.props.videoId}
+        //playlist="PLF797E961509B4EB5"   // A playlist's ID, overridden by `videoId`
+        //      play={true}                     // control playback of video with true/false
+        //playsInline={true}              // control whether the video should play full-screen or inline
+        loop={false}   
+        showinfo = {false}                 // control whether the video should loop when ended
+        //control = {2}
+        showFullscreenButton = {false}
+        //modestbranding = {true}
+        controls ={0}
+        mute = {true}   
+        //onReady={e => this.setState({hiddenCover:true})}
+        //onReady = {this.onLoad}
+        onReady = { ()=>this.onReady() }
+        //onEnd = { this.onEnd}
+        //onReady={e => this.setState({ isReady: true })}
+        //onChangeState={e => this.setState({ status: e.state })}
+        //onChangeState={e => console.log('onChange State = ' + e.state)}
+        onChangeState = {(e) =>this.onChangeState(e)}
+        //onChangeQuality={e => this.setState({ quality: e.quality })}
+        onError={e => console.log('youtubePlayer onError ' + e.error )}
+        //onError={e => this.setState({ error: e.error })}
+        //onProgress={e => this.setState({ currentTime: e.currentTime, duration: e.duration })}
+            
+        //style={{ alignSelf: 'stretch', height: 300, width: 300, backgroundColor: 'black', marginVertical: 10 }}
+        //style = {{height: layout.deviceHeight, width: layout.deviceWidth}}
+        //height: layout.deviceWidth /1.78,
+        //width: layout.deviceWidth,
+        style = {{height: layout.deviceWidth /1.78, width: layout.deviceWidth, top: 200}}
+      />
+      
     )
     
   }

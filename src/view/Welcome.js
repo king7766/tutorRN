@@ -31,6 +31,7 @@ import * as N from 'tutorRN/src/service/navigation'
 import * as C from 'tutorRN/src/service/connection'
 import * as E from 'tutorRN/src/service/env-config'
 
+import ReactNativeComponentTree from 'react-native/Libraries/Renderer/src/renderers/native/ReactNativeComponentTree';
 
 
 //import { LoginManager } from 'react-native-fbsdk'
@@ -59,14 +60,14 @@ class Welcome extends Component<Props> {
       // 2 = wechat
 
       loginMethod : 0,
-      accountID: '',
+      account: '',
       password: '',
     };
 
     
     //this.getFacebookData = this.getFacebookData.bind(this)
     this.logoutFinished = this.logoutFinished.bind(this)
-
+    this.handleInputChange = this.handleInputChange.bind(this);
     //userVM.getInstance()
     
     // /this.handleFacebookLogin = this.handleFacebookLogin.bind(this)
@@ -235,6 +236,48 @@ class Welcome extends Component<Props> {
 
   }
 
+  registerAction ()
+  {
+    //this.accountInput.focus()
+
+    //console.log(this.accountInput.props.placeholder)
+    
+    if ( this.state.account < 1 )
+    {
+      this.accountInput.setNativeProps({
+        placeholder:strings.notFilledInMessage,
+        placeholderTextColor:'red'
+      })
+
+      
+    }
+
+    if ( this.state.password < 1)
+    {
+      this.passwordInput.setNativeProps({
+        placeholder:strings.notFilledInMessage,
+        placeholderTextColor:'red'
+      })
+      
+    }
+
+    this.accountInput.setNativeProps({
+      //value :'213',
+      //placeholder:'nonono',
+      //placeholderTextColor:'red'
+      
+    });
+
+    
+    
+    this.setState({
+      //account:'aaa',
+    })
+    //this.props.navigation.navigate('Register');
+    
+    
+  }
+
   async loginAction (id, password, info)
   {
     const res = M.loginAction(id, password, info)
@@ -363,6 +406,47 @@ class Welcome extends Component<Props> {
     )
   }
   */
+
+ handleInputChange(event) {
+    const {name, type, value} = event.nativeEvent;
+    //const name = event.target && event.target.name;
+    //const value = event.target && event.target.value;
+
+    /*
+    this.setState({
+      [name]: value
+    })
+    */
+
+   //const focusField = currentlyFocusedField();
+
+    console.log(JSON.stringify(event.nativeEvent))
+
+
+    //event.nativeEvent.target.setNativeProps({
+    //  placeholderTextColor:'green'
+    //})
+    
+    //console.log('name = ' + name)
+
+    //console.log('value = ' + value)
+  }
+
+  onFocus (event)
+  {
+    
+    const element = ReactNativeComponentTree.getInstanceFromNode(event.nativeEvent.target);
+    console.log('element' + element._currentElement.props.name)
+
+    element.setNativeProps({
+      //value :'213',
+      placeholder: element._currentElement.props.name == 'account' ? strings.emailPlaceHolder : strings.passwordPlaceHolder,
+      placeholderTextColor:'grey'
+      
+    });
+  }
+
+
   render() {
 
     return (
@@ -374,11 +458,18 @@ class Welcome extends Component<Props> {
             style = {styles.emailField}
           >
             <TextInput
-            style = {{paddingLeft : 5, paddingRight : 5, backgroundColor: 'rgba(255, 255, 255, 1.0)', height: '100%'}}
-            //style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-            onChangeText={(text) => this.setState({accountID: text})}
-            placeholder = {strings.emailPlaceHolder}
-            //value={this.state.text}
+              ref= {(accountInput) => { this.accountInput = accountInput }}
+              style = {{paddingLeft : 5, paddingRight : 5, backgroundColor: 'rgba(255, 255, 255, 1.0)', height: '100%'}}
+              //style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+              onChangeText={(text) => this.setState({account: text})}
+              placeholder = {strings.emailPlaceHolder}
+              //value={this.state.text}
+
+              name= "account"
+              //onChangeText={ (text) => this.handleInputChange(text)}
+              onChange= {this.handleInputChange}
+              value={this.state.account}
+              onFocus = { (event) => this.onFocus(event)}
             />
           </View>
 
@@ -386,13 +477,27 @@ class Welcome extends Component<Props> {
             style = {styles.passwordField}
           >
             <TextInput
-            style = {{paddingLeft : 5, paddingRight : 5, backgroundColor: 'rgba(255, 255, 255, 1.0)', height: '100%'}}
-            //style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-            onChangeText={(text) => this.setState({password: text})}
-            placeholder = {strings.passwordPlaceHolder}
-            //value={this.state.text}
+              ref= {(passwordInput) => { this.passwordInput = passwordInput }}
+              style = {{paddingLeft : 5, paddingRight : 5, backgroundColor: 'rgba(255, 255, 255, 1.0)', height: '100%'}}
+              //style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+              name= "password"
+              secureTextEntry = {true}
+              onChangeText={(text) => this.setState({password: text})}
+              onChange= {this.handleInputChange}
+              placeholder = {strings.passwordPlaceHolder}
+              value={this.state.password}
+              onFocus = { (event) => this.onFocus(event)}
             />
           </View>
+
+          <TouchableHighlight onPress={()=>this.registerAction()}>
+            <View style={styles.loginButton}>
+              <Text style = {styles.loginText}>
+                {strings.registrationText}
+              </Text>
+            </View>
+          </TouchableHighlight>
+
 
           <TouchableHighlight onPress={()=>this.loginAction(this.state.accountID, this.state.password, null)}>
             <View style={styles.loginButton}>
@@ -543,7 +648,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     //backgroundColor: 'green',
     position: 'absolute',
-    top: layout.deviceHeight - 200,
+    top: layout.deviceHeight - 250,
     width: layout.deviceWidth,
     justifyContent: 'center',
     alignItems: 'center',
