@@ -31,6 +31,8 @@ import TutorProfileBlock from 'tutorRN/src/view/ui/TutorProfileBlock'
 import TutorProfileTextBlock from 'tutorRN/src/view/ui/TutorProfileTextBlock'
 import TutorRatingBlock from 'tutorRN/src/view/ui/TutorRatingBlock'
 
+import PhotoShowView from 'tutorRN/src/view/PhotoShowView'
+
 import userVM from 'tutorRN/src/VM/userVM'
 import strings from '../service/strings'
 
@@ -137,10 +139,11 @@ class ProfileHomeView extends Component<Props> {
   displayContent()
   {
     return (
+      
       <ScrollView
         //style = {{height: 130}}
         scrollEnabled = {true}
-        pagingEnabled = {true}
+        //pagingEnabled = {true}
         //horizontal = {false}
       >
         <TutorProfileBlock
@@ -180,6 +183,11 @@ class ProfileHomeView extends Component<Props> {
         <TutorRatingBlock
           arrowOn = {false}
         />
+
+        <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
+
+        <PhotoShowView/>
+        
     
       </ScrollView> 
     )

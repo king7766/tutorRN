@@ -204,13 +204,14 @@ class TopMenuBar extends Component <TopMenuBarProps>{
           //style = {this.borderStyle(index)}
           style = {{ borderColor : layout.themeTextColor,alignItems:'center', justifyContent:'center', height: itemHeight, width: itemWidth, borderWidth: 1 ,borderRadius:2,  margin: 5   }}
         >
-          <Image style = {{height:20, 
+          <Image style = {{
+            height:20, 
             resizeMode:'contain', 
             width: 20,  
             alignItems:'center', 
-            backgroundColor: index == this.state.selectedItem ? 'red' : 'gray'
+            //backgroundColor: index == this.state.selectedItem ? 'red' : 'gray'
             }} 
-            source = {Assets.actions.trytry} 
+            source = {Assets.actions.search} 
           />
         </View> 
       )

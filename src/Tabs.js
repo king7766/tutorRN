@@ -74,16 +74,33 @@ class onTopView extends Component {
     super(props);
     // 初始状态
     this.state = {
-
-      isDialogVisible: false,
-      modalVisible: false,
+      createLessonViewVisible : false,
+      addBtnOnTopViewVisible: false,
+      uploadScreenVisible: false,
       loadingVisible: false,
+
       listeners :[]
     };  
   }
 
-  setModalVisible(visible) {
-    this.setState({modalVisible: visible});
+  setCreateLessonViewVisible (visible)
+  {
+    this.setState({
+      createLessonViewVisible:visible
+    })
+  }
+
+  setAddBtnOnTopViewVisible(visible)
+  {
+    this.setState({
+      addBtnOnTopViewVisible: visible
+    })
+  }
+
+  setUploadScreenVisible(visible) {
+    this.setState({
+      uploadScreenVisible: visible
+    })
   }
 
   setLoadingVisible(visible) {
@@ -107,7 +124,7 @@ class onTopView extends Component {
     console.log('Tabs componentDidMount')
 
     this.state.listeners.push (DeviceEventEmitter.addListener('popUp', (popUpInfo)=>{
-      this.setModalVisible(popUpInfo.flag)
+      this.setUploadScreenVisible(popUpInfo.flag)
     }))
 
     this.state.listeners.push (DeviceEventEmitter.addListener('add', (a)=>{
@@ -167,7 +184,12 @@ class onTopView extends Component {
 
   addBtnOnClick(){
     console.log('addBtnOnClick')
-    this.showDialog()
+    this.setAddBtnOnTopViewVisible(true)
+    //this.setCreateLessonViewVisible(true)
+    //this.setUploadScreenVisible(true)
+    
+    
+    //this.showDialog()
 
     //DeviceEventEmitter.emit('popUp', {flag:true, age:23});
     //return ; //test
@@ -175,19 +197,12 @@ class onTopView extends Component {
     //this.defaultAnimationDialog.show()
   }
 
-  showDialog(){
-    this.setState({isDialogVisible:true});
-  }
-  
-
-  hideDialog(index){  
-    this.setState({isDialogVisible:false});
-  }
-
-  popUpDialogBtnOnClickWithIndex (index)
+  addBtnOnTopViewOnClickWithIndex (index)
   {
-    this.setState({isDialogVisible:false});
-    this.defaultAnimationDialog.show()
+    this.setAddBtnOnTopViewVisible(false);
+    this.setCreateLessonViewVisible(true);
+    //this.setState({isDialogVisible:false});
+    //this.defaultAnimationDialog.show()
   }
 
 
@@ -201,7 +216,7 @@ class onTopView extends Component {
         <Modal
           animationType="slide"
           transparent={false}
-          visible={this.state.modalVisible}
+          visible = {this.state.uploadScreenVisible}
         >
           <UploadScreen />
         </Modal>
@@ -213,39 +228,48 @@ class onTopView extends Component {
         </Modal>
         
         <AddBtnPopUpDialog
-          _dialogVisible={this.state.isDialogVisible}
-          _dialogLeftBtnAction={()=> {this.hideDialog()}}
-          _dialogRightBtnAction={()=>{this.hideDialog()}}
-          onPress = {(index)=>{this.popUpDialogBtnOnClickWithIndex(index)}}
-          closeView = {()=>{this.hideDialog()}}
+          _dialogVisible={this.state.addBtnOnTopViewVisible}
+          //_dialogLeftBtnAction={()=> {this.hideDialog()}}
+          //_dialogRightBtnAction={()=>{this.hideDialog()}}
+          
+          onPress = {(index)=>{this.addBtnOnTopViewOnClickWithIndex(index)}}
+          closeView = {()=>{this.setAddBtnOnTopViewVisible(false)}}
         />
-        <PopupDialog
-              //style = {{position:'absolute', top: 10}}
-              dialogTitle={<DialogTitle title="新增課堂" />}
-              //height= {350}
-              //height= {layout.deviceHeight * 2 / 3}
-              //dialogStyle={{marginTop:-300}} 
-              dialogStyle={{ position:'absolute', top: layout.deviceWidth/3}} 
-              
-              //ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+        <Modal
+          animationType="slide"
+          transparent= {false}
+          visible = {this.state.createLessonViewVisible}
+        >
+          <CreateLessonView 
+            onClose = {()=>{this.setCreateLessonViewVisible(false)}}
+          />
+        </Modal>
+        
 
-              // <TouchableHighlight underlayColor = {'transparent'} onPress={() => { this.refs._scrollView.scrollTo({x:SCREEN_WIDTH}) }}>
-              ref={(defaultAnimationDialog) => {
-                this.defaultAnimationDialog = defaultAnimationDialog;
-              }}
-            >
-              
-            <CreateLessonView/>
+       
+        <PopupDialog
+          //style = {{position:'absolute', top: 10}}
+          dialogTitle={<DialogTitle title="新增課堂" />}
+          //height= {350}
+          //height= {layout.deviceHeight * 2 / 3}
+          //dialogStyle={{marginTop:-300}} 
+          dialogStyle={{ position:'absolute', top: layout.deviceWidth/3}} 
+          //ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+          // <TouchableHighlight underlayColor = {'transparent'} onPress={() => { this.refs._scrollView.scrollTo({x:SCREEN_WIDTH}) }}>
+          ref={(defaultAnimationDialog) => {
+            this.defaultAnimationDialog = defaultAnimationDialog;
+          }}
+        >
+          <CreateLessonView/>
         </PopupDialog>
         <Tabs 
-          
           addBtnOnClicked={ this.addBtnOnClicked }
         />
         
-        <View style = {{ left:(layout.deviceWidth - 30 )/2, top: -70, height: 30, width: 30,backgroundColor :'blue', borderRadius:25  }} >
+        <View style = {{ left:(layout.deviceWidth - 30 )/2, top: -70, height: 30, width: 30,backgroundColor :'white', borderRadius:25  }} >
           <TouchableHighlight style={{ backgroundColor: layout.touchHighlightColor, width: 30, height: 30, borderRadius: 15, borderWidth:1, borderColor:layout.touchHighlightColor ,alignItems: 'center'}} onPress={()=>{this.addBtnOnClick()}}  >
             <Text
-              style = {{color:'white', fontSize : 20, fontWeight:'bold' }}
+              style = {{color:'black', fontSize : 20, fontWeight:'bold' }}
             >
               +
             </Text>
@@ -376,6 +400,13 @@ Tabs.router.getStateForAction = (action, state) => {
     }
   })
   */
+
+
+  
+  if ((action.type === NavigationActions.NAVIGATE) && (action.routeName !== 'news'))
+  {
+    DeviceEventEmitter.emit('changeTab', {})
+  }
 
   if ((action.type === NavigationActions.NAVIGATE) && (action.routeName === 'add'))
   {

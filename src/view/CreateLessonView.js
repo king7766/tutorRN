@@ -4,15 +4,14 @@
  * @flow
  */
 
-
+import {observer} from 'mobx-react'
 import React, { Component } from 'react';
-//import SafeAreaView from 'react-native';
-import SafeAreaView from 'react-navigation';
 import {
   Platform,
   StyleSheet,
   Text,
-  View,   
+  View,
+  SafeAreaView,
   Button,
   Image,
   TouchableHighlight,
@@ -21,21 +20,20 @@ import {
   AsyncStorage,
   CameraRoll,
   FlatList,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  TouchableOpacity
 } from 'react-native';
+import PopupDialog, {DialogTitle, SlideAnimation} from 'react-native-popup-dialog';
 import Picker from 'react-native-picker';
+
+import locationVM from 'tutorRN/src/VM/locationVM'
+import strings from 'tutorRN/src/service/strings'
 //import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 //const layout = require('tutorRN/src/Layout')
 
 const layout = require('tutorRN/src/Layout')
-/*
-import Avatar from 'tutorRN/src/view/ui/Avatar';
-import Assets from 'tutorRN/src/view/ui/Assets';
-import TopMenuBar from 'tutorRN/src/view/ui/TopMenuBar';
-import TutorRowFlatList from 'tutorRN/src/view/ui/TutorRowFlatList';
-import FilteringToolsBar from 'tutorRN/src/view/ui/FilteringToolsBar';
-*/
 
+const locationViewModel = locationVM.getInstance()
 
 import {
   Avatar,
@@ -46,52 +44,66 @@ import {
 } from 'tutorRN/src/view/ui/UIComponent';
 
 
-class CreateLessonView extends Component<Props> {
+
+export default class CreateLessonView extends React.Component {
+//export default class CreateLessonView extends Component {
+//class CreateLessonView extends Component<Props> {
 
   constructor(props) {
     super(props);
     // /this.handleFacebookLogin = this.handleFacebookLogin.bind(this)
-    
+    this.next = this.next.bind(this)
+    this.uploadPhoto = this.uploadPhoto.bind(this)
+    this.selectedPhoto = this.selectedPhoto.bind(this)
+    this.confirmBtnOnClick = this.confirmBtnOnClick.bind(this)
+
     this.state = {
 
-      photo: '',
-      email:'',
-      password: '',
-      name: '',
-      gender: '',
-      job: '',
-      education: '',
-      brithday:'',
-      location: '',
       photos : [],
-      rowTitle:['課堂類別','項目','教學地點', '價格 (每小時) '],
-      
-      catalogArray :['學術',	'音樂',	'運動',	'烹飪',	'駕駛'	,'手工',	'電腦',	'其他'],
-      subcatalogArray :['小學全科','中學全科','中文','英文','數學',
-      '物理',
-      '生物',
-      '化學',
-      '中國文學',
-      '英國文學',
-      '經濟',
-      '歷史',
-      '中史',
-      '其他'],
-      locationSelectArray : ['中西區', '灣仔', '東區','南區','油尖旺', '深水埗', '九龍城','黃大仙','觀塘', '葵青', '荃灣', '屯門','元朗','北區','大埔','沙田','西貢','離島','上門'],
-      priceArray :['$100以下','$101-200', '$201-400','$401以上' ],
+      //rowTitle:['電郵地址 / 電話', '密碼', '名稱', '性別', '職業', '學歷', '出生日期', '地區'],
+      rowTitle:[strings.location, strings.category, strings.level],
+      rowDataChoose : [
+        ['中西區', '灣仔', '東區','南區','油尖旺', '深水埗', '九龍城','黃大仙','觀塘', '葵青', '荃灣', '屯門','元朗','北區','大埔','沙田','西貢','離島'],
+        ['文員', '運輸','教學', '體育' ],
+        ['小學', '中學', '大學以上']
+      ],
 
-    
+      genderSelectArray: ['男', '女'],
+      //locationSelectArray : ['中西區', '灣仔', '東區','南區','油尖旺', '深水埗', '九龍城','黃大仙','觀塘', '葵青', '荃灣', '屯門','元朗','北區','大埔','沙田','西貢','離島'],
+      locationSelectArray : [],
+      eductionSelectArray :['小學', '中學', '大學以上'],
+      jobSelectArray :['文員', '運輸','教學', '體育' ],
 
-      rowData :['','','',''],
 
+      rowData :['','',''],
     }
 
   }
 
   
+  static navigationOptions = ({ navigation }) => {
+    const params = navigation.state.params || {};
+  }
+ 
 
   componentWillMount() {
     this.mounted = true
+
+    var tmp = []
+    for ( var i = 0; i < locationViewModel.getFullList().length ; i ++)
+    {
+      tmp.push ('=== ' + locationViewModel.getDistrict()[i].district_name  + ' ===')
+  
+      for (var j = 0 ; j < locationViewModel.getLocationListFromDistrict(i).length ; j ++ )
+      {
+        var item = locationViewModel.getLocationListFromDistrict(i)[j].location_name
+        tmp.push(item)
+      }
+    }
+
+    this.setState({
+      locationSelectArray: tmp,
+    })
   }
 
   textInputStyle(index)
@@ -100,7 +112,12 @@ class CreateLessonView extends Component<Props> {
     return {
       paddingLeft: 5,
       color: 'gray',
-      
+      backgroundColor: 'white',
+      //textAlign: 'center',
+      //flex: 1,
+      //justifyContent: 'center',
+      //alignItems: 'center',
+      //height : '100%'
     }
 
   } 
@@ -111,9 +128,9 @@ class CreateLessonView extends Component<Props> {
     
   }
 
-  showResultBtnOnClick ()
+  onFocus (index)
   {
-    console.log('showResultBtnOnClick ')
+    //console.log('onFocus : ' + index)
   }
 
   storeImages(data) {
@@ -128,43 +145,86 @@ class CreateLessonView extends Component<Props> {
     console.log(err);
   }
 
+  next ()
+  {
+    console.log('next')
+    /*
+    Picker.init({
+      pickerData: ['a','b','c'],
+      pickerTitleText:'請選擇',
+      selectedValue: ['河北', '唐山', '古冶区'],
+      onPickerConfirm: pickedValue => {
+          console.log('area', pickedValue);
+      },
+      onPickerCancel: pickedValue => {
+          console.log('area', pickedValue);
+      },
+      onPickerSelect: pickedValue => {
+          //Picker.select(['山东', '青岛', '黄岛区'])
+          console.log('area', pickedValue);
+      }
+    });
+    Picker.show();
+    */
+
+    // call update profile API
+    this.props.navigation.navigate('App')
+    //this.props.navigation.navigate('App') 
+  }
+
   rowOnClick(index)
   {
     console.log('rowOnClick ' + index )
-    var tempArray 
+    
+    var tempArray = this.state.rowDataChoose[index]
+    
     var rowData = this.state.rowData
-  
-    if( 1 )
+    if( 1)
     {
-      if ( index == 0)
+      /*
+      if ( index == 3)
       {
-        tempArray = this.state.catalogArray
+        tempArray = this.state.genderSelectArray
       }
-      else if ( index == 1)
+      else if ( index == 4)
       {
-        tempArray = this.state.subcatalogArray
+        tempArray = this.state.jobSelectArray
       }
-      else if ( index == 2)
+      else if ( index == 5)
+      {
+        tempArray = this.state.eductionSelectArray
+      }
+      else if (index == 6)
+      {
+        tempArray = this._createDateData()
+      }
+      else if ( index == 7)
       {
         tempArray = this.state.locationSelectArray
       }
-      else if (index == 3)
-      {
-        tempArray = this.state.priceArray
-      }
-     
+      */
       Picker.init({
-        pickerData: tempArray,
-        pickerTitleText:'請選擇',
-        pickerConfirmBtnText:'確定',
-        pickerCancelBtnText: '取消',
-        selectedValue: tempArray,
+        pickerData: this.state.rowDataChoose[index],
+        pickerTitleText:strings.pleaseChoose,
+        pickerConfirmBtnText:strings.confirm,
+        pickerCancelBtnText: strings.cancel,
+        selectedValue: this.state.rowDataChoose[index],
         onPickerConfirm: pickedValue => {
-            console.log('area :: ', pickedValue);
+            console.log('area', pickedValue);
+            var arr = this.state.rowData
+            arr[index] = pickedValue
+
+            this.setState({
+              rowData: arr
+            })
+
+            /*
             rowData.splice(index, 1, pickedValue)
             this.setState({
               rowData: rowData
             })
+            */
+
         },
         onPickerCancel: pickedValue => {
             console.log('area', pickedValue);
@@ -179,8 +239,51 @@ class CreateLessonView extends Component<Props> {
     }
     else
     {
-      //this.refs["index" + index].focus(); 
+      this.refs["index" + index].focus(); 
     }
+  }
+
+  uploadPhoto () {
+    
+    
+    //this.props.navigation.navigate('App');
+    //return
+    //this.popupDialog.show();
+    this.defaultAnimationDialog.show();
+    
+    CameraRoll.getPhotos({
+      first: 20,
+      assetType: 'Photos',
+    })
+    .then(r => {
+      let a = this.state.photos.slice()
+      a[0] = Assets.profile.default_avatar_man
+      a[1] = Assets.profile.default_avatar_girl
+      
+      for ( var i = 0; i< r.edges.length; i ++ )
+      {
+        a[2+i] = r.edges[i]
+      }
+      this.setState({ photos: a });
+      
+      //this.setState({ photos: r.edges });
+    })
+    .catch((err) => {
+      console.log(err)
+       //Error Loading Images
+    })
+  }
+
+  selectedPhoto(index)
+  {
+    //console.log('selectedPhoto = ' + index)
+    this.defaultAnimationDialog.dismiss(() => {
+      this.setState({
+        photo: this.state.photos[index]
+      })
+      console.log('data = ' + this.state.photo.data)
+      console.log('callback - will be called immediately ' + index)
+    });
   }
     
   _createDateData() {
@@ -220,47 +323,204 @@ class CreateLessonView extends Component<Props> {
     return date;
   }
 
+  AvatarOnClicked()
+  {
+    console.log('AvatarOnClicked')
+    this.uploadPhoto()
+  }
 
-  /*
-
-  <View
-            style = {{width:layout.deviceWidth, justifyContent:'center', alignItems:'center', height: 50, flexDirection:'column', borderBottomWidth :2,
-            borderBottomColor: layout.themeTextColor, backgroundColor:'white'}}
-          >
-            <Text style = {{ color:'rgb(231,121,98)', fontWeight:'bold', fontSize:16}}>新增課堂</Text>  
-            
-          </View>
-  */
+  confirmBtnOnClick()
+  {
+    console.log('confirmBtnOnClick')
+    this.props.onClose()
+  }
+  
+  //renderItem={({item, index})=>
+  //renderItem({ item, index }) {
   
 
+  renderItem = ({item, index}) =>
+    <TouchableHighlight onPress={()=>this.selectedPhoto(index)}>
+      <View style={{
+        flex: 1,
+        margin: 5,
+        //minWidth: 170,
+        //maxWidth: 223,
+        //width: 50,
+        width: (layout.deviceWidth- 20)/2,
+        maxWidth: (layout.deviceWidth- 20)/2,
+        height: (layout.deviceWidth- 20)/2,
+        maxHeight: (layout.deviceWidth- 20)/2,
+        backgroundColor: '#CCC',
+      }}>
+        <Image
+          style = {{height:(layout.deviceWidth- 20)/2, width:(layout.deviceWidth- 20)/2}}
+          //source={{ uri: item.node.image.uri }}
+          source={ item.node ? { uri: item.node.image.uri } : item}
+        />
+      </View>
+    </TouchableHighlight>
+  
+  /*
+  <Text style = {{margin:10, color:'rgb(231,121,98)', fontWeight:'bold'}}>排序</Text>
+
+          <FilteringToolsBar />
+
+          <Text style = {{margin:10, color:'rgb(231,121,98)', fontWeight:'bold'}}>篩選</Text>
+        
+          <TutorRowFlatList
+            title = '熱門推介'
+            height = {120}
+            data = {this.state.tutorRowData}
+          />
+
+          <TutorRowFlatList
+            title = '優惠'
+            height = {120}
+            data = {this.state.tutorRowData}
+          />
+          */
   render() {
+    
+    //const {navigate} = this.props.navigation;
     return (
-      <View/>
-    )
-  }
-}
-
-/*
-
-      <SafeAreaView
-        styles = {{flex:1}}
+      //<SafeAreaView
+      //  styles = {{flex:1}}
+      //>
+      <View 
+        style = {styles.container}
       >
-        <View
-          scrollEnabled={false}
-          backgroundColor= 'rgba(233,233,233,1)'
-          flexDirection = 'column'
+
+        <PopupDialog
+          //style = {{position:'absolute', top: 10}}
+          dialogTitle={<DialogTitle title="請選取頭像圖片" />}
+          //height= {350}
+          height= {layout.deviceHeight * 2 / 3}
+          //dialogStyle={{marginTop:-300}} 
+          dialogStyle={{ position:'absolute', top: 50}} 
+          
+          //ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+          ref={(defaultAnimationDialog) => {
+            this.defaultAnimationDialog = defaultAnimationDialog;
+          }}
         >
           
-          <Text style = {{margin:10, color:'rgb(231,121,98)', fontWeight:'bold', color:'black'}}>課程簡介</Text>  
-          <View 
-            style ={{backgroundColor:'white', height:100}}
+          
+          <View
+            style = {{backgroundColor: 'white'}}
+            //styles = {{height:layout.deviceHeight*3/5, backgroundColor: 'red'}}
           >
-            <TextInput
-              style = {{ margin: 10,  color:'rgb(231,121,98)', backgroundColor:'white', textAlignVertical: 'top' }}
+            <FlatList
+              style = {{ height: (layout.deviceHeight * 2/ 3) - 50}}
+              numColumns ={2}
+              contentContainerStyle={styles.list}
+              //data={[{key: 'a'}, {key: 'b'},{key: 'c'},{key: 'd'}, {key: 'e'},{key: 'f'},{key: 'g'}, {key: 'h'},{key: 'i'},{key: 'j'}]}
+              data = {this.state.photos}
+              renderItem={this.renderItem}
             />
           </View>
-          <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
+        </PopupDialog>
 
+
+        <View style={styles.navigationContent}>
+          
+          
+          <View style= {{flex:1,height:30, }}/>
+          <View style = {{flex:1, height:30, alignItems:'center', justifyContent:'center'}}>
+            <Text style = {{fontSize:16}}> {strings.newClass} </Text>
+          </View>
+          <View 
+            //style = {{flex:1, height:30, alignItems:'center', flexDirection: 'column'}}
+            style = {styles.confirmButtonBg}
+          >
+            <TouchableOpacity  onPress={this.confirmBtnOnClick}>
+              <Text 
+                style = {styles.confirmText}
+                adjustsFontSizeToFit= {true}
+              > {strings.confirm} </Text>
+            </TouchableOpacity>
+          </View>
+          
+          
+          
+          
+          
+         
+            
+        </View>
+
+
+        <View style={{ height:40, justifyContent: 'center', backgroundColor:layout.shadowColor}}>
+          <Text style = {{ color: 'black', paddingLeft: 10 }}>
+            {strings.generalInformation}
+          </Text>
+        </View>
+          <TouchableHighlight
+            onPress={this.uploadPhoto}
+            //underlayColor = {layout.themeTextColor}
+          >
+          {
+            this.state.photo ? 
+            
+              <View
+                style = {{ alignItems:'center', backgroundColor : 'white'}}
+              >
+                <Avatar
+                  onPress={() => {
+                    //console.log('123123')
+                    //'https://placeimg.com/140/140/any'
+                    //this.state.photo.node.image.uri
+                    this.AvatarOnClicked()
+                  }}
+                  round = {true}
+                  size = {70}
+                  type = 'edit'
+                  //url = {this.state.photo.node.image.uri}
+                  url = {this.state.photo}
+                  //url = { this.state.photo.node ? this.state.photo.node.image.uri : this.state.photo }
+                />
+                
+              </View> 
+            : (
+              <View style={styles.uploadButton}>
+                <Text style = {styles.uploadText}>
+                  {strings.uploadPhoto}
+                </Text>
+              </View>
+            )
+          }
+            
+          </TouchableHighlight>
+
+          <View style = {{flexDirection:'row', height:40, alignItems:'center', backgroundColor:'white', paddingLeft:10}} >
+            <Text style = {{flex:1, color:'gray'}}>
+              {strings.lessonName}
+            </Text> 
+            <TextInput
+              backgroundColor = 'white'
+              style = {{ paddingRight:10, flex:1, textAlign:'right' }}
+            /> 
+          </View>
+          
+
+         
+            
+
+          <View style={{height:40,justifyContent: 'center', backgroundColor:layout.shadowColor}}>
+            <Text style = {{color: 'black',paddingLeft: 10} }>
+              {strings.detailInformation}
+            </Text>
+          </View>
+          
+          <TextInput
+            backgroundColor = 'white'
+            style = {{ paddingRight:10, paddingLeft:10, height:80, fontSize:14, borderBottomWidth:0.5, borderBottomColor:'grey'}}
+            //numberOfLines = {3}
+            textAlignVertical= 'top'
+            multiline={true}
+            placeholder = {strings.descriptionSample}
+            placeholderTextColor = 'gray'
+          /> 
           <View>
             {
               this.state.rowTitle.map(
@@ -270,51 +530,69 @@ class CreateLessonView extends Component<Props> {
                     onPress={() => this.rowOnClick(index)}
                     key = {index}
                   >
-                    <View
-                      style = {styles.textInputView}
-                      key = {index}
-                    >
-                      <Text
-                        style = {this.textInputStyle(index)}
-                      >
+                    <View style = {styles.textInputView} key = {index}>
+                      <Text style = {this.textInputStyle(index)}>
                         {item}
                       </Text> 
-                      <TextInput
+                      <Text
                         //ref= {"index" + index}
-                        style = {{ paddingRight:10, color:'rgb(231,121,98)' }}
+                        style = {{ paddingRight:10, color:layout.themeTextColor }}
+                        //value = {this.state.rowData[index]}
                       >
                         {this.state.rowData[index]}
-                      </TextInput> 
-                      
+                      </Text> 
                     </View>
-                    
                   </TouchableHighlight>
                 )
               )
             }
           </View>
-          <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
+          <View style={{
+            //backgroundColor : 'rgba(255, 255, 255, 1.0)',
+            height:40,
+            flex:1,
+            justifyContent: 'center',
+            alignItems:'center'     ,
+            backgroundColor: layout.shadowColor
+          }}
+          >
+            <Text style = {{
+              color: 'black',
+              paddingLeft: 10,
+              paddingRight: 10,
+              
+            }}
+            >
+              註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註
+            </Text>
+          </View>
+          
 
-          
-            <View style = {styles.submitButtonBackground}>
-            <TouchableHighlight style = {styles.submitHighlightStyle} onPress={this.showResultBtnOnClick}>
-              <View style={styles.submitButton}>
-                <Text style = {styles.submitButtonText}>
-                  提交
-                </Text>
-              </View>
-              </TouchableHighlight>
-            </View>
-          
-        </View>
-      </SafeAreaView> 
-      */
+      
+        
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
-
+  container: {
+    flex: 1,
+    //backgroundColor: '#F6AE2D',
+  },
+  navigationContent: {
+    //backgroundColor: '#F6AE2D',
+    marginTop: 30,
+    height: 60,
+    flexDirection: 'row',
+    //justifyContent: 'center',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+  },
   textInputView: {
     flexDirection:'row',
-    width: layout.deviceWidth,
+    width: '100%',
     height: 40,
     //flex: 1,
     //justifyContent: 'center',
@@ -331,10 +609,12 @@ const styles = StyleSheet.create({
   },
 
   uploadButton: {
-
-    backgroundColor : 'rgba(61,89,148,1)',
+    //let touchHighlightColor = 'rgba(237,182,202,0)'
+    //let themeTextColor = 'rgba(225,19,101,1)'
+    //backgroundColor : 'rgba(61,89,148,1)',
+    backgroundColor : layout.themeTextColor,
     height:40,
-    flex:1,
+    
     justifyContent: 'center'
     //alignItems:'center'     
   },
@@ -359,46 +639,45 @@ const styles = StyleSheet.create({
     fontSize:16
   },
 
-  submitButtonBackground:{
-    backgroundColor : 'white',
-    height:80,
-    justifyContent: 'center',
-    alignItems:'center'  
-  },
+  confirmButtonBg:{
+    flex:1, 
+    height:30, 
+    alignItems:'center', 
+    flexDirection: 'column'
 
-  submitButton:{
-    backgroundColor : 'white',
-    //backgroundColor : layout.themeTextColor,
-    height: 40,
-    width: 150,
-    backgroundColor : layout.themeTextColor,
+    /*
+    flex:1, 
+    height:30, 
+    alignItems:'center', 
+    justifyContent:'center',
     borderColor: layout.themeTextColor,
-    borderRadius:10,
+    borderRadius: 5,
     borderWidth: 1,
-    justifyContent: 'center',
-    alignItems:'center'  
-
+    */
   },
 
-  submitHighlightStyle:{
-    backgroundColor : layout.themeTextColor,
+  confirmText:{
+    //flex:1,
+    
+    
+    
+    //textAlignVertical: 'center',
+    textAlign:'center',
     borderColor: layout.themeTextColor,
-    borderRadius:10,
+    borderRadius: 5,
     borderWidth: 1,
-  },
-
-  submitButtonText:{
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize:16,
+    color : layout.themeTextColor,
+    fontSize : 14, 
+    height: 30,
+    width: 60,
+    //paddingLeft: 10,
   }
 
-
-  });
-
+});
 
 
-export default CreateLessonView;
+
+//export default CreateLessonView;
 
 /*
 <TextInput             

@@ -46,19 +46,15 @@ class SearchFilteringView extends Component<Props> {
   
 
     this.state = {
-
-      photo: '',
-      email:'',
-      password: '',
-      name: '',
-      gender: '',
-      job: '',
-      education: '',
-      brithday:'',
-      location: '',
-      photos : [],
+ 
       rowTitle:[strings.area, strings.category, strings.level],
-
+      rowData:['','',''],
+      optionData : [
+        ['中西區', '灣仔', '東區','南區','油尖旺', '深水埗', '九龍城','黃大仙','觀塘', '葵青', '荃灣', '屯門','元朗','北區','大埔','沙田','西貢','離島'],
+        ['學術',	'音樂',	'運動',	'烹飪',	'駕駛'	,'手工',	'電腦',	'其他'],
+        ['小學全科','中學全科','中文','英文','數學','物理','生物','化學','中國文學','英國文學','經濟','歷史','中史','其他']
+      ],
+      /*
       genderSelectArray: ['男', '女'],
       locationSelectArray : ['中西區', '灣仔', '東區','南區','油尖旺', '深水埗', '九龍城','黃大仙','觀塘', '葵青', '荃灣', '屯門','元朗','北區','大埔','沙田','西貢','離島'],
       catalogArray :['學術',	'音樂',	'運動',	'烹飪',	'駕駛'	,'手工',	'電腦',	'其他'],
@@ -72,31 +68,9 @@ class SearchFilteringView extends Component<Props> {
       '歷史',
       '中史',
       '其他'],
-
-
-      rowData :[' ',' ',' ',' ',' ',' ',' ',' '],
-
-      tutorRowData:[
-        {
-          name:'name111',
-          id:'111',
-          url:'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p80x80/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=831d0ee264e5772b4b15faa60c7d16c4&oe=5BD89683',
-        },
-        {
-          name:'name222',
-          id:'222',
-          url:'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p80x80/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=831d0ee264e5772b4b15faa60c7d16c4&oe=5BD89683',
-        },
-        {
-          name:'name333',
-          id:'333',
-          url:'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p80x80/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=831d0ee264e5772b4b15faa60c7d16c4&oe=5BD89683',
-        },
-      ]
-
+      */
 
     }
-
   }
 
   
@@ -150,9 +124,12 @@ class SearchFilteringView extends Component<Props> {
   {
     console.log('rowOnClick ' + index )
     var tempArray 
-    var rowData = this.state.rowData
+    //var rowData = this.state.rowData
+    //tempArray = this.state.optionData[index]
+    
     if( index >= 0 )
     {
+      /*
       if ( index == 0)
       {
         tempArray = this.state.locationSelectArray
@@ -165,27 +142,32 @@ class SearchFilteringView extends Component<Props> {
       {
         tempArray = this.state.subcatalogArray
       }
-     
+      */
       
       Picker.init({
-        pickerData: tempArray,
+        //pickerData: tempArray,
+        pickerData: this.state.optionData[index],
         pickerTitleText: strings.pleaseChoose,
         pickerConfirmBtnText: strings.confirm,
         pickerCancelBtnText: strings.cancel,
         selectedValue: tempArray,
         onPickerConfirm: pickedValue => {
-            console.log('area', pickedValue);
-            rowData.splice(index, 1, pickedValue)
-            this.setState({
-              rowData: rowData
-            })
+            console.log(index + ', area confirm : ', pickedValue);
+            //rowData.splice(index, 1, pickedValue)
+            //this.setState({
+            //  rowData: rowData
+            //})
+            
+            var tempArray = this.state.rowData
+            tempArray[index] = pickedValue
+            this.setState({rowData:tempArray})
         },
         onPickerCancel: pickedValue => {
-            console.log('area', pickedValue);
+            console.log('area cancel : ', pickedValue);
         },
         onPickerSelect: pickedValue => {
             //Picker.select(['山东', '青岛', '黄岛区'])
-            console.log('area', pickedValue);
+            console.log('area select : ', pickedValue);
         }
       });
       Picker.show();
@@ -193,7 +175,7 @@ class SearchFilteringView extends Component<Props> {
     }
     else
     {
-      this.refs["index" + index].focus(); 
+      //this.refs["index" + index].focus(); 
     }
   }
     
@@ -256,11 +238,6 @@ class SearchFilteringView extends Component<Props> {
 
           <Text style = {{margin:10, color:'rgb(231,121,98)', fontWeight:'bold'}}>{strings.filter}</Text>
           
-          
-
-        
-  
-
           <View>
             {
               this.state.rowTitle.map(
@@ -279,13 +256,14 @@ class SearchFilteringView extends Component<Props> {
                       >
                         {item}
                       </Text> 
-                      <TextInput
-                        ref= {"index" + index}
+                      
+                      <Text
+                        //ref= {"index" + index}
                         style = {{ paddingRight:10, color:'rgb(231,121,98)' }}
-                        value={this.state.rowData[index]}
+                        //value={this.state.rowData[index]}
                       >
-                        
-                      </TextInput> 
+                        {this.state.rowData[index]}
+                      </Text> 
                       
                     </View>
                     
@@ -324,25 +302,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     //backgroundColor : 'rgba(242,242,242,1)'
     backgroundColor: 'white',
-  },
-  passwordField:{
-    width: '100%',
-    height: 40,
-    backgroundColor : 'rgba(242,242,242,1)'
-  },
-
-  uploadButton: {
-
-    backgroundColor : 'rgba(61,89,148,1)',
-    height:40,
-    flex:1,
-    justifyContent: 'center'
-    //alignItems:'center'     
-  },
-  uploadText:{
-    paddingLeft: 10,
-    color: 'white',
-    fontSize:16
   },
 
   submitButtonBackground:{

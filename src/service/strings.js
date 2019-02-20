@@ -22,7 +22,7 @@ const strings = new LocalizedStrings({
         confirm: '確定',
         cancel: '取消',
         area: '區域',
-        category: '類別',
+        category: '課堂類別',
         level: '程度',
 
         choosed : '已選擇',
@@ -32,20 +32,33 @@ const strings = new LocalizedStrings({
         emailPlaceHolder : '電郵地址',
         passwordPlaceHolder : '密碼',
         more: '更多',
+        name: '名字',
+        lessonName: '課程名稱',
+
+        relatedPhoto : '相關照片',
+        uploadPhoto : '上載照片',
+        generalInformation : '基本資料',
+        detailInformation : '詳細資料',
+        location : '教學地區',
+        
+
 
         education :'學歷',
         description: '簡介',
-
+        descriptionSample : '例如 : 本人畢業於香港教育大學教育學系畢業,具有多年補習經驗, ...',
+//特別擅長教育英文及地理科 教學手法簡單直接, 容易理解,且為人有耐性,並會根據學生的進度而施予相關教學'        ,
         notLoginErrorMessage: '請先登入才能使用這個功能',
 
         warning: '注意',
         notRegisterMessage : '此帳號還未註冊',
-        notFilledInMessage : '! 請填上資料'
+        notFilledInMessage : '! 請填上資料',
+
+        newClass : '新增課程'
         
 
     },
     /*
-rowTitle:['區域', '類別', '項目'],
+    rowTitle:['區域', '類別', '項目'],
     
 
     cn:{

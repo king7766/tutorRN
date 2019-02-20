@@ -57,7 +57,7 @@ class FilteringToolsBar extends React.Component{
       resizeMode:'contain', 
       width: 30,  
       alignItems:'center', 
-      backgroundColor: index == this.state.selectedItem ? 'red' : 'gray'
+      //backgroundColor: index == this.state.selectedItem ? 'red' : 'gray'
     }
   }
 
@@ -102,7 +102,7 @@ class FilteringToolsBar extends React.Component{
                   key = {index}
                 >
                   <View style = {{ width:layout.deviceWidth/5, height:50, alignItems:'center'}}>
-                    <Image style = {this.imageStyle(index)} source = {Assets.actions.trytry} />
+                    <Image style = {this.imageStyle(index)} source = {Assets.actions.search} />
                     <Text style = {this.textStyle(index)}>
                         {item}
                     </Text>

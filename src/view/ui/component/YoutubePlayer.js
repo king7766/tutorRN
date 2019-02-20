@@ -23,7 +23,7 @@ class YoutubePlayer extends Component <Props>{
 
     this.state = {
       //play:true,
-      play: false,
+      play: true,
     }
     this.playerOnCLicked = this.playerOnCLicked.bind(this)
 

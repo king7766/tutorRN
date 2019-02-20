@@ -4,8 +4,9 @@ const Dimensions = require('Dimensions');
 const window = Dimensions.get('window');
 let deviceWidth = Dimensions.get('window').width
 let deviceHeight = Dimensions.get('window').height
-let touchHighlightColor = 'rgba(237,182,202,1)'
+let touchHighlightColor = 'rgba(237,182,202,0)'
 let themeTextColor = 'rgba(225,19,101,1)'
+let shadowColor = 'rgba(233,233,233,1)'
 
 const styles = StyleSheet.create({
 	icon: {
@@ -27,7 +28,9 @@ module.exports = {
 	titleHeight:30,
 	touchHighlightColor,
 	themeTextColor,
+	shadowColor,
 	styles,
+	
 
 };
 

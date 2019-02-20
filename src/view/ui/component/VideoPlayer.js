@@ -20,6 +20,7 @@ class VideoPlayer extends Component <Props>{
     super(props);
   
     this.state = {
+      rate : 1.0,
       landscape : false,
     }
     this.playerOnCLicked = this.playerOnCLicked.bind(this)
@@ -53,6 +54,10 @@ class VideoPlayer extends Component <Props>{
   playerOnCLicked()
   {
     console.log('playerOnCLicked')
+    
+    this.setState({
+      rate : this.state.rate == 1.0 ? 0.0 : 1.0
+    })
     this.props.onPress()
   }
 
@@ -80,37 +85,37 @@ class VideoPlayer extends Component <Props>{
 
   showVideo()
   {
-
     //624073744/videos?type=uploaded
     return (
       <Video
-            ref={(ref) => this.videoPlayer = ref}
-            //poster = 'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/5895592a166f19435e4e127ae1b1f336.jpg'
-            //source={{uri: 'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/c2828d98dc07f8caffa0a6db1642fc24.mp4'}}
+        ref={(ref) => this.videoPlayer = ref}
 
-            //source={{uri: this.props.item.video }}
-            //source = {{uri: this.props.source.uri }}
-            //source={require('tutorRN/src/image/video_demo.mp4')}
-            ////source={require('tutorRN/src/image/20181225145658.mp4')}
-            source = {{uri : this.props.source.uri}}
-            //rate={1.0}
-            repeat = {true}
-            volume={1.0}
-            muted={true}
-            resizeMode={'cover'}
-            //playWhenInactive={true}
-            //playInBackground={false}
-            ignoreSilentSwitch={'ignore'}
-            progressUpdateInterval={250.0}
-            //style = {{width: layout.deviceWidth, height: layout.deviceHeight}}
-            style = {this.videoStyle()}
-            //style = {this.videoStyle()}
-            //onLoad = {()=>this.setState({hiddenCover:true})}
-            onLoad={ (info) => this.onReady(info) }     
-            onEnd= { ()=>this.onEnd()}  
-            //style={{width: this.state.videoWidth, height: this.state.videoHeight}}
-            //<View style = {{ position: 'absolute', backgroundColor: 'rgba(0, 0, 0, 0.5)', top : 0, height: (layout.deviceHeight * 0.05), width: 100 }} />
-          />
+        //source = {{uri:'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8'}}
+        //poster = 'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/5895592a166f19435e4e127ae1b1f336.jpg'
+        //source={{uri: 'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/c2828d98dc07f8caffa0a6db1642fc24.mp4'}}
+        //source={{uri: this.props.item.video }}
+        //source = {{uri: this.props.source.uri }}
+        //source={require('tutorRN/src/image/video_demo.mp4')}
+        //source={require('tutorRN/src/image/20181225145658.mp4')}
+        source = {{uri : this.props.source.uri}}    
+        repeat = {true}
+        volume={1.0}
+        rate = {this.state.rate}
+        muted={true}
+        resizeMode={'cover'}
+        //playWhenInactive={true}
+        //playInBackground={false}
+        ignoreSilentSwitch={'ignore'}
+        progressUpdateInterval={250.0}
+        //style = {{width: layout.deviceWidth, height: layout.deviceHeight}}
+        style = {this.videoStyle()}
+        //style = {this.videoStyle()}
+        //onLoad = {()=>this.setState({hiddenCover:true})}
+        onLoad={ (info) => this.onReady(info) }     
+        onEnd= { ()=>this.onEnd()}  
+        //style={{width: this.state.videoWidth, height: this.state.videoHeight}}
+        //<View style = {{ position: 'absolute', backgroundColor: 'rgba(0, 0, 0, 0.5)', top : 0, height: (layout.deviceHeight * 0.05), width: 100 }} />
+      />
       
     )
     

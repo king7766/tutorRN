@@ -18,11 +18,15 @@ import {
 import PopupDialog, {DialogTitle, SlideAnimation} from 'react-native-popup-dialog';
 import Assets from 'tutorRN/src/view/ui/Assets';
 import animatedbasic from 'tutorRN/src/view/ui/animatedbasic'
+import strings from 'tutorRN/src/service/strings'
 const layout = require('tutorRN/src/Layout')
 
 let Dimensions = require('Dimensions');
-let SCREEN_WIDTH = Dimensions.get('window').width;//宽
-let SCREEN_HEIGHT = Dimensions.get('window').height;//高
+//let SCREEN_WIDTH = Dimensions.get('window').width;//宽
+//let SCREEN_HEIGHT = Dimensions.get('window').height;//高
+
+let SCREEN_WIDTH = layout.deviceWidth
+let SCREEN_HEIGHT = layout.deviceHeight
 
 import {
   CreateLessonView,
@@ -76,19 +80,18 @@ class MovingView extends Component {
           >
             <Image 
               style = {{
-                height:30, 
+                height:40, 
                 resizeMode:'contain', 
-                width: 30,  
+                width: 40,  
                 alignItems:'center', 
-                borderRadius: 15,
+                borderRadius: 20,
                 borderColor: 'white',
-                
-            
+                backgroundColor:'white',
               }} 
               source = {Assets.actions.trytry} 
             />
             <Text
-              style = {{alignItems:'center', color:'white', marginLeft: 10, fontSize: 16, fontWeight: 'bold'}}
+              style = {{alignItems:'center', color:'white', marginLeft: 15, fontSize: 18, fontWeight: 'bold'}}
             >
               {this.props.title}
             </Text>
@@ -204,7 +207,7 @@ class AddBtnPopUpDialog extends Component<Props> {
                   <MovingView 
                     style={{position: 'absolute', bottom: 0, width: 250, height: 50,left:20}}
                     move={-250}
-                    title = {'新增課堂'}
+                    title = {strings.newClass}
                     index = {1}
                     onClicked ={ this.itemOnClick}
                   />
@@ -212,27 +215,19 @@ class AddBtnPopUpDialog extends Component<Props> {
                   <MovingView 
                     style={{position: 'absolute', bottom: 0, width: 250, height: 50,left:20}}
                     move={-175}
-                    title = {'評分'}
+                    title = {strings.newClass}
                     index = {2}
                     onClicked ={ this.itemOnClick}
                   />
                   <MovingView 
                     style={{position: 'absolute', bottom: 0, width: 250, height: 50,left:20, flexDirection:'row', alignItems:'center'}}
                     move={-100}
-                    title = {'新增課堂'}
+                    title = {strings.newClass}
                     index = {3}
                     onClicked ={ this.itemOnClick}
                   />
 
-                  <View style = {{ position: 'absolute',left:(layout.deviceWidth - 30 )/2, height: 30, width: 30,bottom: 30, backgroundColor :'white', borderRadius:15,alignItems:'center', justifyContent:'center'  }} >
-                
-                      <Text
-                        style = {{color:'gray', fontSize : 20, fontWeight:'bold' }}
-                      >
-                        x
-                      </Text>
-                    
-                  </View>
+                  
                     </View>
                     <CreateLessonView style ={{height: SCREEN_HEIGHT, width:SCREEN_WIDTH, left: SCREEN_WIDTH, position:'absolute'}}/>
                  

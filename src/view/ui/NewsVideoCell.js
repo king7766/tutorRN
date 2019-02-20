@@ -71,6 +71,7 @@ class NewsVideoCell extends Component{
   */
 
   componentWillMount(){
+    console.log('NewsVideoCell componentWillMount')
     //this.mounted = true
   } 
 

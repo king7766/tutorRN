@@ -238,8 +238,10 @@ class Welcome extends Component<Props> {
 
   registerAction ()
   {
-    //this.accountInput.focus()
-
+    
+    console.log('registerAction')
+    console.log('account = ' + this.state.account)
+    console.log('password = ' + this.state.password)
     //console.log(this.accountInput.props.placeholder)
     
     if ( this.state.account < 1 )
@@ -407,39 +409,26 @@ class Welcome extends Component<Props> {
   }
   */
 
- handleInputChange(event) {
-    const {name, type, value} = event.nativeEvent;
-    //const name = event.target && event.target.name;
-    //const value = event.target && event.target.value;
-
-    /*
-    this.setState({
-      [name]: value
-    })
-    */
-
-   //const focusField = currentlyFocusedField();
-
+  handleInputChange(event) {
     console.log(JSON.stringify(event.nativeEvent))
-
-
-    //event.nativeEvent.target.setNativeProps({
-    //  placeholderTextColor:'green'
+    const element = ReactNativeComponentTree.getInstanceFromNode(event.nativeEvent.target);
+    const name = element._currentElement.props.name
+    //element._currentElement.props.name == 'account' ? this.setState({
+    //  account: event.nativeEvent.text
+    //}) : this.setState({
+    //  password: event.nativeEvent.text
     //})
-    
-    //console.log('name = ' + name)
-
-    //console.log('value = ' + value)
+    this.setState({
+      name: event.nativeEvent.text
+    })
   }
 
   onFocus (event)
   {
     
     const element = ReactNativeComponentTree.getInstanceFromNode(event.nativeEvent.target);
-    console.log('element' + element._currentElement.props.name)
-
+    
     element.setNativeProps({
-      //value :'213',
       placeholder: element._currentElement.props.name == 'account' ? strings.emailPlaceHolder : strings.passwordPlaceHolder,
       placeholderTextColor:'grey'
       
@@ -461,7 +450,7 @@ class Welcome extends Component<Props> {
               ref= {(accountInput) => { this.accountInput = accountInput }}
               style = {{paddingLeft : 5, paddingRight : 5, backgroundColor: 'rgba(255, 255, 255, 1.0)', height: '100%'}}
               //style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-              onChangeText={(text) => this.setState({account: text})}
+              //onChangeText={(text) => this.setState({account: text})}
               placeholder = {strings.emailPlaceHolder}
               //value={this.state.text}
 
@@ -482,7 +471,7 @@ class Welcome extends Component<Props> {
               //style={{height: 40, borderColor: 'gray', borderWidth: 1}}
               name= "password"
               secureTextEntry = {true}
-              onChangeText={(text) => this.setState({password: text})}
+              //onChangeText={(text) => this.setState({password: text})}
               onChange= {this.handleInputChange}
               placeholder = {strings.passwordPlaceHolder}
               value={this.state.password}
@@ -592,7 +581,7 @@ const styles = StyleSheet.create({
   background:{
 
     flex: 1,
-    backgroundColor:'red',
+    //backgroundColor:'red',
     
   },
 

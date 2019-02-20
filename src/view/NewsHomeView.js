@@ -81,7 +81,7 @@ class NewsHomeView extends Component<Props> {
           //cover : 'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/5895592a166f19435e4e127ae1b1f336.jpg',
           cover : 'https://img.youtube.com/vi/6HQvwHpEzao/0.jpg',
           youtubeId: '6HQvwHpEzao',
-          type: 2,
+          type: 1,
         },
         {
           creator:'KingTai Leung',
@@ -94,8 +94,8 @@ class NewsHomeView extends Component<Props> {
           //video:'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/c2828d98dc07f8caffa0a6db1642fc24.mp4',
           //cover : 'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/5895592a166f19435e4e127ae1b1f336.jpg',
           cover : 'https://img.youtube.com/vi/6HQvwHpEzao/0.jpg',
-          youtubeId: null,
-          type: 1,
+          youtubeId: 'gOad5iQdUMM',
+          type: 2,
         },
         {
           creator:'KingTai Leung',
