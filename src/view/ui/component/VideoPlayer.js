@@ -6,7 +6,8 @@ import {
    StyleSheet, 
    ScrollView ,
    TouchableHighlight,
-   Animated
+   Animated,
+   DeviceEventEmitter
 } from 'react-native';
 
 import Video from 'react-native-video';
@@ -27,8 +28,17 @@ class VideoPlayer extends Component <Props>{
   }
 
   componentWillMount(){
-    
+    console.log('Video Player - componentWillMount')
+    this.deEmitter = DeviceEventEmitter.addListener('player', (a) => {
+      this.setState({ rate : a.state })
+    });
   } 
+
+  componentWillUnmount()
+  {
+    console.log('Video Player - componentWillUnmount')
+    this.deEmitter.remove()
+  }
 
   onReady(info)
   {

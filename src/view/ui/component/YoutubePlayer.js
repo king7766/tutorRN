@@ -7,7 +7,7 @@ import {
    ScrollView ,
    TouchableHighlight,
    Animated,
-   WebView
+   DeviceEventEmitter
 } from 'react-native';
 
 import YouTube from 'react-native-youtube'
@@ -30,9 +30,17 @@ class YoutubePlayer extends Component <Props>{
   }
 
   componentWillMount(){
-    console.log('youtubePlayer mount')
-    //this.mounted = true
+    console.log('youtubePlayer - componentWillMount')
+    this.deEmitter = DeviceEventEmitter.addListener('player', (a) => {
+      this.setState({ play: a.state == 0 ? false : true })
+    });
   } 
+
+  componentWillUnmount()
+  {
+    console.log('youtubePlayer - componentWillUnmount')
+    this.deEmitter.remove()
+  }
 
   onReady()
   {

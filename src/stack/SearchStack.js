@@ -37,6 +37,14 @@ var SearchStack = StackNavigator({
   SearchTutorView: { 
     screen: SearchTutorView,
     navigationOptions: {
+      title: strings.search,
+      tabBarIcon: ({ tintColor }) => (
+        <Image
+          source={require('tutorRN/src/image/icons8-search-filled-100.png')}
+          //style={[styles.icon, { tintColor: tintColor }]}
+          style={[layout.styles.icon, { tintColor: tintColor }]}
+        />
+      ),
       //title: '搜尋22',
     },
   },
@@ -44,6 +52,14 @@ var SearchStack = StackNavigator({
   SearchTutorDetailView: { 
     screen: SearchTutorDetailView,
     navigationOptions: {
+      title: strings.search,
+      tabBarIcon: ({ tintColor }) => (
+        <Image
+          source={require('tutorRN/src/image/icons8-search-filled-100.png')}
+          //style={[styles.icon, { tintColor: tintColor }]}
+          style={[layout.styles.icon, { tintColor: tintColor }]}
+        />
+      ),
       //title: '搜尋33',
     },
   },
@@ -51,6 +67,14 @@ var SearchStack = StackNavigator({
   SearchFilteringView:{
     screen: SearchFilteringView,
     navigationOptions:{
+      title: strings.search,
+      tabBarIcon: ({ tintColor }) => (
+        <Image
+          source={require('tutorRN/src/image/icons8-search-filled-100.png')}
+          //style={[styles.icon, { tintColor: tintColor }]}
+          style={[layout.styles.icon, { tintColor: tintColor }]}
+        />
+      ),
       //title: '搜尋44',
     },
   }

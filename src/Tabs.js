@@ -128,7 +128,8 @@ class onTopView extends Component {
     }))
 
     this.state.listeners.push (DeviceEventEmitter.addListener('add', (a)=>{
-      this.defaultAnimationDialog.show()
+      this.setAddBtnOnTopViewVisible(true)
+      //this.defaultAnimationDialog.show()
     }))
 
     this.state.listeners.push (DeviceEventEmitter.addListener('alert', (info)=>{
@@ -267,7 +268,9 @@ class onTopView extends Component {
         />
         
         <View style = {{ left:(layout.deviceWidth - 30 )/2, top: -70, height: 30, width: 30,backgroundColor :'white', borderRadius:25  }} >
-          <TouchableHighlight style={{ backgroundColor: layout.touchHighlightColor, width: 30, height: 30, borderRadius: 15, borderWidth:1, borderColor:layout.touchHighlightColor ,alignItems: 'center'}} onPress={()=>{this.addBtnOnClick()}}  >
+          <TouchableHighlight style={{ backgroundColor: layout.touchHighlightColor, width: 30, height: 30, borderRadius: 15, borderWidth:1, borderColor:layout.touchHighlightColor ,alignItems: 'center'}} 
+            onPress={()=>{this.addBtnOnClick()}}  
+          >
             <Text
               style = {{color:'black', fontSize : 20, fontWeight:'bold' }}
             >
@@ -402,12 +405,25 @@ Tabs.router.getStateForAction = (action, state) => {
   */
 
 
+  console.log('action.routeName = ' + action.routeName)
   
-  if ((action.type === NavigationActions.NAVIGATE) && (action.routeName !== 'news'))
+  if ((action.type === NavigationActions.NAVIGATE) && (action.routeName === 'news'))
   {
-    DeviceEventEmitter.emit('changeTab', {})
+    //DeviceEventEmitter.emit('changeTab', {})
+    DeviceEventEmitter.emit('player', {state:1})
+
+  }else if ((action.type === NavigationActions.NAVIGATE) && (action.routeName === 'add')){
+
+    //DeviceEventEmitter.emit('player', {state:0})
+    DeviceEventEmitter.emit('add', {name:'John', age:23});
+    return null
+  }
+  else
+  {
+    DeviceEventEmitter.emit('player', {state:0})
   }
 
+  /*
   if ((action.type === NavigationActions.NAVIGATE) && (action.routeName === 'add'))
   {
     console.log('add on pressed')
@@ -416,7 +432,8 @@ Tabs.router.getStateForAction = (action, state) => {
 
     return null
   }
-  
+  */
+
   /*
   if ((action.type === NavigationActions.NAVIGATE) && (action.routeName === 'profile'))
   {

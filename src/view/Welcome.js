@@ -239,10 +239,30 @@ class Welcome extends Component<Props> {
   registerAction ()
   {
     
-    console.log('registerAction')
+    
+
+    /*
+    this.accountInput.setNativeProps({
+      //value :'213',
+      //placeholder:'nonono',
+      //placeholderTextColor:'red'
+      
+    });
+    */
+    
+    
+    
+    this.props.navigation.navigate('Register');
+    
+    
+  }
+
+  async loginAction (id, password, info)
+  {
+
+    console.log('loginAction')
     console.log('account = ' + this.state.account)
     console.log('password = ' + this.state.password)
-    //console.log(this.accountInput.props.placeholder)
     
     if ( this.state.account < 1 )
     {
@@ -250,8 +270,6 @@ class Welcome extends Component<Props> {
         placeholder:strings.notFilledInMessage,
         placeholderTextColor:'red'
       })
-
-      
     }
 
     if ( this.state.password < 1)
@@ -260,28 +278,8 @@ class Welcome extends Component<Props> {
         placeholder:strings.notFilledInMessage,
         placeholderTextColor:'red'
       })
-      
     }
 
-    this.accountInput.setNativeProps({
-      //value :'213',
-      //placeholder:'nonono',
-      //placeholderTextColor:'red'
-      
-    });
-
-    
-    
-    this.setState({
-      //account:'aaa',
-    })
-    //this.props.navigation.navigate('Register');
-    
-    
-  }
-
-  async loginAction (id, password, info)
-  {
     const res = M.loginAction(id, password, info)
 
     /*
@@ -411,6 +409,7 @@ class Welcome extends Component<Props> {
 
   handleInputChange(event) {
     console.log(JSON.stringify(event.nativeEvent))
+    /*
     const element = ReactNativeComponentTree.getInstanceFromNode(event.nativeEvent.target);
     const name = element._currentElement.props.name
     //element._currentElement.props.name == 'account' ? this.setState({
@@ -421,13 +420,12 @@ class Welcome extends Component<Props> {
     this.setState({
       name: event.nativeEvent.text
     })
+    */
   }
 
   onFocus (event)
   {
-    
-    const element = ReactNativeComponentTree.getInstanceFromNode(event.nativeEvent.target);
-    
+    const element = ReactNativeComponentTree.getInstanceFromNode(event.nativeEvent.target); 
     element.setNativeProps({
       placeholder: element._currentElement.props.name == 'account' ? strings.emailPlaceHolder : strings.passwordPlaceHolder,
       placeholderTextColor:'grey'
@@ -457,7 +455,7 @@ class Welcome extends Component<Props> {
               name= "account"
               //onChangeText={ (text) => this.handleInputChange(text)}
               onChange= {this.handleInputChange}
-              value={this.state.account}
+              //value={this.state.account}
               onFocus = { (event) => this.onFocus(event)}
             />
           </View>
@@ -474,7 +472,7 @@ class Welcome extends Component<Props> {
               //onChangeText={(text) => this.setState({password: text})}
               onChange= {this.handleInputChange}
               placeholder = {strings.passwordPlaceHolder}
-              value={this.state.password}
+              //value={this.state.password}
               onFocus = { (event) => this.onFocus(event)}
             />
           </View>
@@ -548,18 +546,11 @@ class Welcome extends Component<Props> {
               }
             }}
             onLogoutFinished = {
-              //console.log('hihi')
               this.logoutFinished
             }
-            
-
           />
         </View>
       </View>
-
-        
-
-
     );
   }
 }

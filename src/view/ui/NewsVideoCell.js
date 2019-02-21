@@ -26,6 +26,7 @@ import * as M from 'tutorRN/src/service/membership'
 
 import YoutubePlayer from 'tutorRN/src/view/ui/component/YoutubePlayer'
 import VideoPlayer from 'tutorRN/src/view/ui/component/VideoPlayer'
+import Assets from './Assets';
 
 const layout = require('tutorRN/src/Layout')
 
@@ -52,14 +53,18 @@ class NewsVideoCell extends Component{
     this.state = {
       hiddenCover: false,
       hiddenUI: false,
- 
+
+      sound : false,
+      like : false,
+      comment : false,
 
     }
 
 
-    //this.displayViewLogic = this.displayViewLogic.bind(this)
-    //this.showVideoView = this.showVideoView.bind(this)
-    //this.showCoverView = this.showCoverView.bind(this)
+    this.soundBtnOnClick = this.soundBtnOnClick.bind(this)
+    this.likeBtnOnClick = this.likeBtnOnClick.bind(this)
+    this.commentBtnOnClick = this.commentBtnOnClick.bind(this)
+
     this.onLoad = this.onLoad.bind(this)
     this.displayViewOnClick = this.displayViewOnClick.bind(this)
   }
@@ -84,35 +89,34 @@ class NewsVideoCell extends Component{
         //<TouchableIcon index={index} >children HERE </TouchableIcon>
         
       }
-        <TouchableHighlight onPress={ this.favouriteOnClick}>
+        <TouchableHighlight onPress={ this.soundBtnOnClick}>
           <Image  style = {{position: 'absolute', top: layout.deviceHeight * 0.8 - 180 , left : layout.deviceWidth - 50, height: 40,width: 40,}} source={require('tutorRN/src/image/sound.png')} />
         </TouchableHighlight>
        
-
-        <TouchableHighlight onPress={ this.favouriteOnClick}>
-          <Image  style = {{position: 'absolute', top: layout.deviceHeight * 0.8 - 130, left : layout.deviceWidth - 50, height: 40,width: 40,}} source={require('tutorRN/src/image/heart.png')} />
+        <TouchableHighlight onPress={ this.likeBtnOnClick}>
+          <Image  style = {{position: 'absolute', top: layout.deviceHeight * 0.8 - 130, left : layout.deviceWidth - 50, height: 40,width: 40,}} source={this.state.like ? Assets.actions.like : Assets.actions.unlike} />
         </TouchableHighlight>
 
-        <TouchableHighlight onPress={ this.favouriteOnClick}>
-          <Image  style = {{ top: layout.deviceHeight * 0.8 - 80, left : layout.deviceWidth - 50, height: 40,width: 40}} source={require('tutorRN/src/image/chat.png')} />
+        <TouchableHighlight onPress={ this.commentBtnOnClick}>
+          <Image  style = {{ top: layout.deviceHeight * 0.8 - 80, left : layout.deviceWidth - 50, height: 40,width: 40}} source={this.state.comment ? Assets.actions.comment : Assets.actions.comment} />
         </TouchableHighlight>
 
-            <View style = {{position: 'absolute', top : layout.deviceHeight * 0.05, left:45, height: 30, width: 100, justifyContent:'center', alignItems:'center'}}>
-              <Text style = {{ color:'white', fontWeight:'bold',  }} >{this.props.item.creator}</Text>
-            </View>
-            
-            <Image style = {{height: 30, width: 30, borderRadius:15, borderColor:'white'  , borderWidth:2,  position: 'absolute', top : layout.deviceHeight * 0.05, left:10}} source = {{uri: this.props.item.profilePic}}/>
-
-            
-            <View style = {{position: 'absolute', top : layout.deviceHeight * 0.8 - 30  , height: 30, width: layout.deviceWidth, paddingLeft:10, paddingRight:layout.deviceWidth*0.1, justifyContent:'flex-start',  backgroundColor:'rgba(0, 0, 0, 0.5)'}}>
-              <Text style = {{ color:'white', fontWeight:'bold', fontSize:16,  top:10 }} >{this.props.item.news_title}</Text>
-            </View>
-
-            <View style = {{position: 'absolute', top : layout.deviceHeight * 0.8  ,  width: layout.deviceWidth, paddingLeft:10, paddingRight:layout.deviceWidth*0.1, paddingTop:10, paddingBottom: 10,  justifyContent:'flex-start',  backgroundColor:'rgba(0, 0, 0, 0.5)'}}>
-              <Text style = {{ color:'white',lineHeight: 20, fontSize:14 }}  numberOfLines= {3} >{this.props.item.news_content}</Text>
-            </View>
-
+        <View style = {{position: 'absolute', top : layout.deviceHeight * 0.05, left:45, height: 30, width: 100, justifyContent:'center', alignItems:'center'}}>
+          <Text style = {{ color:'white', fontWeight:'bold',  }} >{this.props.item.creator}</Text>
         </View>
+            
+        <Image style = {{height: 30, width: 30, borderRadius:15, borderColor:'white'  , borderWidth:2,  position: 'absolute', top : layout.deviceHeight * 0.05, left:10}} source = {{uri: this.props.item.profilePic}}/>
+
+            
+        <View style = {{position: 'absolute', top : layout.deviceHeight * 0.8 - 30  , height: 30, width: layout.deviceWidth, paddingLeft:10, paddingRight:layout.deviceWidth*0.1, justifyContent:'flex-start',  backgroundColor:'rgba(0, 0, 0, 0.5)'}}>
+          <Text style = {{ color:'white', fontWeight:'bold', fontSize:16,  top:10 }} >{this.props.item.news_title}</Text>
+        </View>
+
+        <View style = {{position: 'absolute', top : layout.deviceHeight * 0.8  ,  width: layout.deviceWidth, paddingLeft:10, paddingRight:layout.deviceWidth*0.1, paddingTop:10, paddingBottom: 10,  justifyContent:'flex-start',  backgroundColor:'rgba(0, 0, 0, 0.5)'}}>
+          <Text style = {{ color:'white',lineHeight: 20, fontSize:14 }}  numberOfLines= {3} >{this.props.item.news_content}</Text>
+        </View>
+
+      </View>
     )
   }
 
@@ -145,7 +149,6 @@ class NewsVideoCell extends Component{
   {
     return (
       <VideoPlayer
-      
         //source = {{uri: 'https://d33os2r86a346n.cloudfront.net/vodfile/_definst_/smil:amazons3/sportxmbr/2018/8/20/20180820_upower_alexfong.smil/playlist.m3u8' }}
         //source = {{uri : 'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8'}}
         //source = {{uri :'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8'}}
@@ -210,13 +213,28 @@ class NewsVideoCell extends Component{
     })
   }
 
-  favouriteOnClick()
+  soundBtnOnClick()
   {
-    console.log('favouriteOnClick, going to logout ')
-    M.logoutAction();
+
   }
 
-  
+  likeBtnOnClick()
+  {
+    console.log('likeBtnOnClick, going to logout ')
+    this.setState({      
+      like: !this.state.like
+    })
+    //M.logoutAction();
+  }
+
+  commentBtnOnClick()
+  {
+    //console.log(this.state.comment)
+    
+    
+  }
+
+
   displayViewLogic(index)
   {
   
@@ -224,51 +242,35 @@ class NewsVideoCell extends Component{
     if ( index == this.props.showingIndex )
     {
       // viewable view -> show video
-      /*
-      return (
-        this.showPhotoVideo()
-      )
-      */
-
+  
       return (
         <TouchableHighlight 
             onPress={ this.displayViewOnClick}
             //onPress={params.increaseCount}
             underlayColor = {layout.touchHighlightColor}
         >
-        <View style = {{backgroundColor:'black'}}>  
-        {
-          !this.state.hiddenCover && // for video 
-          //this.state.hiddenCover &&
-          <Image 
-            //ref={(ref) => this.coverView = ref}
-            source={{uri: this.props.item.cover }} 
-            style={styles.fullViewStyle} 
-          />
-        }
-          
-          
+          <View style = {{backgroundColor:'black'}}>  
           {
-            this.props.item.type == 0 ? this.showPhotoVideo() : 
-            this.props.item.type == 1 ? this.showVideoView() : this.showVideoByYoutube()
-
+            !this.state.hiddenCover && this.showCoverView()
             /*
-            1 ? (
-              
-              this.showPhotoVideo()
-              //this.showVideoView()
-            ) : (
-              this.showVideoByYoutube()
-            )
+            !this.state.hiddenCover && // for video 
+            //this.state.hiddenCover &&
+            <Image 
+              //ref={(ref) => this.coverView = ref}
+              source={{uri: this.props.item.cover }} 
+              style={styles.fullViewStyle} 
+            />
             */
+          }    
+          {          
+            this.props.item.type == 0 ? this.showPhotoVideo() : 
+            this.props.item.type == 1 ? this.showVideoView() : 
+            this.showVideoByYoutube()
           } 
-          
-          
-        {
-          !this.state.hiddenUI && this.showUI()
-        }
-        </View>  
-
+          {
+            !this.state.hiddenUI && this.showUI()
+          }
+          </View>  
         </TouchableHighlight>
       )
       
@@ -300,9 +302,7 @@ class NewsVideoCell extends Component{
     //console.log('title = ' + this.props.item.news_title)
     //console.log('title = ' + this.props.index)
     return(
-
       this.displayViewLogic(this.props.index)
-
     )
   }
 }

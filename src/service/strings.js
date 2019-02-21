@@ -8,7 +8,8 @@ const strings = new LocalizedStrings({
         notice: '通知',
         profile : '個人',
         //home:"zh क्या हाल है ?",
-        
+        avatar :'頭像',
+        name : '䁥稱',
 
         second:"मैं ठीक हूँ ?",
 
@@ -26,6 +27,7 @@ const strings = new LocalizedStrings({
         level: '程度',
 
         choosed : '已選擇',
+        register: '登記',
         loginText: '登入',
         registrationText: '註冊',
         guestLoginText: '遊客登入',
@@ -41,13 +43,14 @@ const strings = new LocalizedStrings({
         detailInformation : '詳細資料',
         location : '教學地區',
         
-
-
+        gender: '性別', 
+        job: '職業',
         education :'學歷',
         description: '簡介',
         descriptionSample : '例如 : 本人畢業於香港教育大學教育學系畢業,具有多年補習經驗, ...',
 //特別擅長教育英文及地理科 教學手法簡單直接, 容易理解,且為人有耐性,並會根據學生的進度而施予相關教學'        ,
         notLoginErrorMessage: '請先登入才能使用這個功能',
+        pleaseSelectPhoto:'請選取頭像圖片',
 
         warning: '注意',
         notRegisterMessage : '此帳號還未註冊',

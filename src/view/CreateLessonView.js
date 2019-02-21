@@ -281,8 +281,8 @@ export default class CreateLessonView extends React.Component {
       this.setState({
         photo: this.state.photos[index]
       })
-      console.log('data = ' + this.state.photo.data)
-      console.log('callback - will be called immediately ' + index)
+      //console.log('data = ' + this.state.photo.data)
+      //console.log('callback - will be called immediately ' + index)
     });
   }
     
@@ -436,8 +436,10 @@ export default class CreateLessonView extends React.Component {
             <TouchableOpacity  onPress={this.confirmBtnOnClick}>
               <Text 
                 style = {styles.confirmText}
-                adjustsFontSizeToFit= {true}
-              > {strings.confirm} </Text>
+                adjustsFontSizeToFit= {true} // this amazing 
+              >
+                {strings.confirm} 
+              </Text>
             </TouchableOpacity>
           </View>
           
@@ -472,8 +474,8 @@ export default class CreateLessonView extends React.Component {
                     //this.state.photo.node.image.uri
                     this.AvatarOnClicked()
                   }}
-                  round = {true}
-                  size = {70}
+                  round = {false}
+                  size = {100}
                   type = 'edit'
                   //url = {this.state.photo.node.image.uri}
                   url = {this.state.photo}

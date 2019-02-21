@@ -48,6 +48,7 @@ import {
   TutorRowFlatList,
   FilteringToolsBar,
 } from 'tutorRN/src/view/ui/UIComponent';
+import strings from '../service/strings';
 
 @observer
 class Register extends Component<Props> {
@@ -72,9 +73,14 @@ class Register extends Component<Props> {
       brithday:'',
       location: '',
       photos : [],
-      rowTitle:['電郵地址 / 電話', '密碼', '名稱', '性別', '職業', '學歷', '出生日期', '地區'],
-
-      genderSelectArray: ['男', '女'],
+      rowTitle:[strings.gender, strings.job, strings.education,strings.location ,'出生日期'],
+      rowDataChoose: [
+        ['男', '女'],
+        ['文員', '運輸','教學', '體育' ],
+        ['小學', '中學', '大學以上'],
+        ['中西區', '灣仔', '東區','南區','油尖旺', '深水埗', '九龍城','黃大仙','觀塘', '葵青', '荃灣', '屯門','元朗','北區','大埔','沙田','西貢','離島'],
+      ],
+      
       //locationSelectArray : ['中西區', '灣仔', '東區','南區','油尖旺', '深水埗', '九龍城','黃大仙','觀塘', '葵青', '荃灣', '屯門','元朗','北區','大埔','沙田','西貢','離島'],
       locationSelectArray : [],
       eductionSelectArray :['小學', '中學', '大學以上'],
@@ -170,6 +176,7 @@ class Register extends Component<Props> {
   next ()
   {
     console.log('next')
+
     /*
     Picker.init({
       pickerData: ['a','b','c'],
@@ -199,34 +206,21 @@ class Register extends Component<Props> {
     console.log('rowOnClick ' + index )
     var tempArray 
     var rowData = this.state.rowData
-    if( index >= 3 )
+    if( 1 )
     {
-      if ( index == 3)
+      if ( index < 4)
       {
-        tempArray = this.state.genderSelectArray
+        tempArray = this.state.rowDataChoose[index]
       }
-      else if ( index == 4)
-      {
-        tempArray = this.state.jobSelectArray
-      }
-      else if ( index == 5)
-      {
-        tempArray = this.state.eductionSelectArray
-      }
-      else if (index == 6)
-      {
+      else{
         tempArray = this._createDateData()
-      }
-      else if ( index == 7)
-      {
-        tempArray = this.state.locationSelectArray
       }
       
       Picker.init({
         pickerData: tempArray,
-        pickerTitleText:'請選擇',
-        pickerConfirmBtnText:'確定',
-        pickerCancelBtnText: '取消',
+        pickerTitleText:strings.pleaseChoose,
+        pickerConfirmBtnText:strings.confirm,
+        pickerCancelBtnText: strings.cancel,
         selectedValue: tempArray,
         onPickerConfirm: pickedValue => {
             console.log('area', pickedValue);
@@ -244,7 +238,6 @@ class Register extends Component<Props> {
         }
       });
       Picker.show();
-
     }
     else
     {
@@ -392,7 +385,7 @@ class Register extends Component<Props> {
       <View>
         <PopupDialog
           //style = {{position:'absolute', top: 10}}
-          dialogTitle={<DialogTitle title="請選取頭像圖片" />}
+          dialogTitle={<DialogTitle title={strings.pleaseSelectPhoto}/>}
           //height= {350}
           height= {layout.deviceHeight * 2 / 3}
           //dialogStyle={{marginTop:-300}} 
@@ -427,7 +420,7 @@ class Register extends Component<Props> {
        
           <View style={{ height:40, justifyContent: 'center'}}>
             <Text style = {{ color: 'black', paddingLeft: 10 }}>
-                頭像
+              {strings.avatar}
             </Text>
           </View>
           <TouchableHighlight
@@ -436,7 +429,6 @@ class Register extends Component<Props> {
           >
           {
             this.state.photo ? 
-            
               <View
                 style = {{ alignItems:'center', backgroundColor : 'white'}}
               >
@@ -459,7 +451,7 @@ class Register extends Component<Props> {
             : (
               <View style={styles.uploadButton}>
                 <Text style = {styles.uploadText}>
-                  上載圖片
+                  {strings.uploadPhoto}
                 </Text>
               </View>
             )
@@ -474,14 +466,37 @@ class Register extends Component<Props> {
             justifyContent: 'center'
           }}
           >
-            <Text style = {{
-              color: 'black',
-              paddingLeft: 10
-            }}
-            >
-              註冊
+            <Text style = {styles.headingText}>
+              {strings.generalInformation}
             </Text>
           </View>
+
+          <TextInput 
+            style = {styles.inputTextFieldStyle}
+            placeholder = {strings.emailPlaceHolder}
+          />
+          <TextInput 
+            style = {styles.inputTextFieldStyle}
+            secureTextEntry={true}
+            placeholder = {strings.passwordPlaceHolder}
+          />
+
+          <TextInput 
+            style = {styles.inputTextFieldStyle}
+            placeholder = {strings.name}
+          />
+
+          
+          
+
+
+
+          <View style={{ height:40, flex:1, justifyContent: 'center'}}>
+            <Text style = {styles.headingText}>
+              {strings.detailInformation}
+            </Text>
+          </View>
+
 
           <View>
             {
@@ -501,13 +516,17 @@ class Register extends Component<Props> {
                       >
                         {item}
                       </Text> 
-                      <TextInput
-                        ref= {"index" + index}
-                        style = {{ paddingRight:10 }}
-                        value = {this.state.rowData[index]}
+                      <Text
+                        style = {styles.inputTextStyle}
+                        //ref= {"index" + index}
+                        //style = {{ paddingRight:10 }}
+                        //color = {layout.themeTextColor}
+                        //value = {this.state.rowData[index]}
+                        //value = {this.state.rowData[1]}
+                        //value = {'1231233'}
                       >
-                        
-                      </TextInput> 
+                        {this.state.rowData[index]}
+                      </Text> 
                     </View>
                   </TouchableHighlight>
                 )
@@ -534,7 +553,7 @@ class Register extends Component<Props> {
           <TouchableHighlight onPress={this.next}>
             <View style={styles.registerButton}>
               <Text style = {styles.registerText}>
-                登記
+                {strings.register}
               </Text>
             </View>
           </TouchableHighlight>
@@ -566,7 +585,8 @@ const styles = StyleSheet.create({
 
   uploadButton: {
 
-    backgroundColor : 'rgba(61,89,148,1)',
+    //backgroundColor : 'rgba(61,89,148,1)',
+    backgroundColor: layout.themeTextColor,
     height:40,
     flex:1,
     justifyContent: 'center'
@@ -591,6 +611,23 @@ const styles = StyleSheet.create({
     //paddingLeft: 10,
     fontWeight: 'bold',
     fontSize:16
+  },
+  inputTextFieldStyle:{
+    height:40, 
+    paddingLeft:10, 
+    backgroundColor:'white', 
+    color:layout.themeTextColor, 
+    fontSize:14
+  },
+  inputTextStyle:{
+    color : layout.themeTextColor,
+    paddingRight:10,
+    //paddingLeft: 10,
+    fontSize:14
+  },
+  headingText:{
+    color: 'black',
+    paddingLeft: 10
   }
 
   });

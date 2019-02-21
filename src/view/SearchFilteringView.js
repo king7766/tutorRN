@@ -305,7 +305,7 @@ const styles = StyleSheet.create({
   },
 
   submitButtonBackground:{
-    backgroundColor : 'white',
+    backgroundColor : layout.shallowColor,
     height:80,
     justifyContent: 'center',
     alignItems:'center'  
