@@ -5,6 +5,7 @@ import { ScrollView} from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 
 import NoticeHomeView from 'tutorRN/src/view/NoticeHomeView';
+import ChatHomeView from 'tutorRN/src/view/ChatHomeView'
 import strings from 'tutorRN/src/service/strings'
 
 
@@ -30,6 +31,18 @@ const NoticeStack = StackNavigator({
       },
     },
   },
+  ChatHomeView :{
+    screen: ChatHomeView,
+    navigationOptions: {
+      tabBarIcon: ({ tintColor }) => (
+        <Image
+          source={require('tutorRN/src/image/icons8-document-filled-100.png')}
+          //style={[styles.icon, { tintColor: tintColor }]}
+          style={[layout.styles.icon, { tintColor: tintColor }]}
+        />
+      ),
+    },
+  }
 
 
 });

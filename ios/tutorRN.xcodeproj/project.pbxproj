@@ -53,6 +53,8 @@
 		E3E2CCCA21EDD29F009B5307 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3E2CCC921EDD271009B5307 /* libRNImagePicker.a */; };
 		E3F60DFC221575C500E9BB55 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = E3F60DDA221575C500E9BB55 /* main.jsbundle */; };
 		E3F60DFD221575C500E9BB55 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = E3F60DDA221575C500E9BB55 /* main.jsbundle */; };
+		E3F60E02221FF20B00E9BB55 /* image in Resources */ = {isa = PBXBuildFile; fileRef = E3F60E01221FF20900E9BB55 /* image */; };
+		E3F60E03221FF20B00E9BB55 /* image in Resources */ = {isa = PBXBuildFile; fileRef = E3F60E01221FF20900E9BB55 /* image */; };
 		F1DEB75501EC4738A5C09B04 /* fontello.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 94B7C53AB2934EE58CF69E82 /* fontello.ttf */; };
 /* End PBXBuildFile section */
 
@@ -351,6 +353,7 @@
 		E3E2CC9221EDD1A4009B5307 /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		E3E2CCC421EDD271009B5307 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		E3F60DDA221575C500E9BB55 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = tutorRN/main.jsbundle; sourceTree = "<group>"; };
+		E3F60E01221FF20900E9BB55 /* image */ = {isa = PBXFileReference; lastKnownFileType = folder; name = image; path = ../src/image; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -497,6 +500,7 @@
 		13B07FAE1A68108700A75B9A /* tutorRN */ = {
 			isa = PBXGroup;
 			children = (
+				E3F60E01221FF20900E9BB55 /* image */,
 				E33F7DE521DA066D0069CE64 /* YTPlayerView-iframe-player.html */,
 				E3F60DDA221575C500E9BB55 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -1138,6 +1142,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3F60E02221FF20B00E9BB55 /* image in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				F1DEB75501EC4738A5C09B04 /* fontello.ttf in Resources */,
@@ -1152,6 +1157,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3F60E03221FF20B00E9BB55 /* image in Resources */,
 				2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */,
 				E3F60DFD221575C500E9BB55 /* main.jsbundle in Resources */,
 			);

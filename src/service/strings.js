@@ -56,10 +56,76 @@ const strings = new LocalizedStrings({
         notRegisterMessage : '此帳號還未註冊',
         notFilledInMessage : '! 請填上資料',
 
-        newClass : '新增課程'
+        newClass : '新增課程',
+
+        messageHere :'發表信息 ...',
+        
+        startTime: '開始時間',
+        intervalTime: '課堂長度'
+    },
+
+    cn: {
+        home: '主页',
+        search: '搜寻',
+        notice: '通知',
+        profile : '个人',
+    
+        avatar :'头像',
+        name : '䁥称',
+        second:"मैं ठीक हूँ ?",
+
+        errorTitle: '错误',
+        hotSearch: '热门搜寻',
+        promotion: '优惠',
+        listAllResult: '显示所有结果',
+        order: '排序',
+        filter: '筛选',
+        pleaseChoose: '请选择',
+        confirm: '确定',
+        cancel: '取消',
+        area: '区域',
+        category: '课堂类别',
+        level: '程度',
+
+        choosed : '已选择',
+        register: '登记',
+        loginText: '登入',
+        registrationText: '注册',
+        guestLoginText: '游客登入',
+        emailPlaceHolder : '电邮地址',
+        passwordPlaceHolder : '密码',
+        more: '更多',
+        name: '名字',
+        lessonName: '课程名称',
+
+        relatedPhoto : '相关照片',
+        uploadPhoto : '上载照片',
+        generalInformation : '基本资料',
+        detailInformation : '详细资料',
+        location : '教学地区',
+        
+        gender: '性别', 
+        job: '职业',
+        education :'学历',
+        description: '简介',
+        descriptionSample : '例如 : 本人毕业於香港教育大学教育学系毕业,具有多年补习经验, ...',
+//特别擅长教育英文及地理科 教学手法简单直接, 容易理解,且为人有耐性,并会根据学生的进度而施予相关教学'        ,
+        notLoginErrorMessage: '请先登入才能使用这个功能',
+        pleaseSelectPhoto:'请选取头像图片',
+
+        warning: '注意',
+        notRegisterMessage : '此帐号还未注册',
+        notFilledInMessage : '! 请填上资料',
+
+        newClass : '新增课程',
+
+        messageHere :'发表信息 ...',
+        startTime: '开始时间',
+        intervalTime: '课堂长度'
         
 
     },
+
     /*
     rowTitle:['區域', '類別', '項目'],
     

@@ -7,6 +7,7 @@ let deviceHeight = Dimensions.get('window').height
 let touchHighlightColor = 'rgba(237,182,202,0)'
 let themeTextColor = 'rgba(225,19,101,1)'
 let shadowColor = 'rgba(233,233,233,1)'
+let systemBlueColor = 'rgba(21,126,250,1)'
 
 const styles = StyleSheet.create({
 	icon: {
@@ -29,6 +30,7 @@ module.exports = {
 	touchHighlightColor,
 	themeTextColor,
 	shadowColor,
+	systemBlueColor,
 	styles,
 	
 

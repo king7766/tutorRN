@@ -194,7 +194,8 @@ class NoticeHomeView extends Component<Props> {
 
   cellOnPressed (index)
   {
-    console.log('onPress : '+ index)
+    this.props.navigation.navigate('ChatHomeView',{})
+    //console.log('onPress : '+ index)
   }
 
   displayContent()
