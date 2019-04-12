@@ -22,8 +22,11 @@ import {
 } from 'react-native';
 
 import * as M from 'tutorRN/src/service/membership'
+import chatVM from 'tutorRN/src/VM/chatVM'
+const chatViewModel = chatVM.getInstance()
+import userVM from 'tutorRN/src/VM/userVM'
+const userViewModel = userVM.getInstance()
 
-//import NewsCell from './ui/NewsCell'
 import NoticeCell from './ui/NoticeCell'
 import SegmentControl from './ui/SegmentControl'
 import strings from '../service/strings'
@@ -192,10 +195,20 @@ class NoticeHomeView extends Component<Props> {
     M.logoutAction();
   }
 
-  cellOnPressed (index)
+  async cellOnPressed (index)
   {
-    this.props.navigation.navigate('ChatHomeView',{})
-    //console.log('onPress : '+ index)
+    console.log('going to chat : ' + index)
+    const res = await chatViewModel.setUpInstance(userViewModel.getUser().user_id, index)
+
+    if (res)
+    {
+      this.props.navigation.navigate('ChatHomeView',{
+        //sender_id : res.sender_id,
+        //receiver_id : res.receiver_id,
+        update_token : res,
+      })
+    }
+    
   }
 
   displayContent()

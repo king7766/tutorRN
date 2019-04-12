@@ -180,10 +180,10 @@ class Welcome extends Component<Props> {
 
       this.loginAction(data.login, data.password, data)
 
-      //register_user
-      //login_auth
+      //REGISTER_USER
+      //LOGIN_AUTH
       /*
-      C.getResponseFromApi(E.login_auth, 'POST', data)
+      C.getResponseFromApi(E.LOGIN_AUTH, 'POST', data)
       .then( (json ) =>{
         if( json.statusCode == 200)	
         {

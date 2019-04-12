@@ -21,7 +21,7 @@ import {
 } from 'react-native';
 
 import * as M from 'tutorRN/src/service/membership'
-
+import chatVM from 'tutorRN/src/VM/chatVM'
 import userVM from 'tutorRN/src/VM/userVM'
 import strings from '../service/strings'
 import {
@@ -36,7 +36,13 @@ const layout = require('tutorRN/src/Layout')
 
 
 
+
+const userViewModel = userVM.getInstance()
+const chatViewModel = chatVM.getInstance()
+
+
 class ChatBox extends Component< Props>{
+
 
   constructor (props){
     super(props);
@@ -45,11 +51,12 @@ class ChatBox extends Component< Props>{
 
   chatLayout()
   {
-    if ( this.props.data.id == this.props.ownerId )
+
+    if ( this.props.data.sender_id == this.props.sender_id )
       // sender
       return(
         <View 
-          style = {{ flexDirection:'row', justifyContent:'flex-end', alignItems:'center', paddingBottom:10}}
+          style = {{backgroundColor:'white', flexDirection:'row', justifyContent:'flex-end', alignItems:'center', padding:5}}
         >
           <View style = {{width:10, height:10}}/>
           <Text style ={[styles.ownerSideStyle, {padding:5}]}>{this.props.data.message}</Text>
@@ -69,7 +76,7 @@ class ChatBox extends Component< Props>{
     {
       return(
         <View 
-          style = {{ flexDirection:'row', justifyContent:'flex-start', alignItems:'center', paddingBottom:10}}
+          style = {{ backgroundColor:'white',flexDirection:'row', justifyContent:'flex-start', alignItems:'center', paddingBottom:10}}
         >
           <View style = {{width:10, height:10}}/>
           <Avatar
@@ -121,42 +128,43 @@ class ChatHomeView extends Component<Props> {
 
   constructor(props) {
     super(props);
+    
+    const { params } = this.props.navigation.state;
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    this.state = {
-      keyboardOnShow: false,
-      dataSource: ds.cloneWithRows([
-        { "id": 1, "message": "Hello, i wanna find a tutor" },
-        { "id": 1, "message": "Here?" },
-        { "id": 2, "message": "Sure, man" },
-        { "id": 1, "message": "May i request a ..... a ..... May i request a ....." },
-        { "id": 2, "message": "....." },
-        { "id": 1, "message": "May i request a ....." },
-        { "id": 2, "message": "....." },
-        { "id": 1, "message": "May i request a ....." },
-        { "id": 2, "message": "....." },
-        { "id": 1, "message": "May i request a ....." },
-        { "id": 2, "message": "....." },
-        { "id": 1, "message": "May i request a ....." },
-        { "id": 2, "message": "....." },
-      ]),
-      ownerId: 1,
-      opponentId: 2,  
-      showCalendarView: false,    
+ 
+    const data = []
+    for ( var i = 0 ; i < chatViewModel.getChat().length; i ++)
+    {
+      data.push(chatViewModel.getChat()[i])
     }
 
-    
+    this.state = {
+      userVM: userViewModel,
+      chatVM: chatViewModel,
+      keyboardOnShow: false,
+      dataSource: ds.cloneWithRows(data.sort(function(a,b){return a.id - b.id})),
 
-    
-    
+      update_token: params ? params.update_token : null,
+      sender_id: userViewModel.getUser().user_id,
+      receiver_id: chatViewModel.getChatRoomDetail().receiver_id,
+      showCalendarView: false,    
+      lessonTimeDetail : '',
+      chatUpdateInterval: 5000,
+      chatRefreshDelay:1000,
+    }
+
     this.showCalendar = this.showCalendar.bind(this) 
     this._keyboardDidShow = this._keyboardDidShow.bind(this)
     this._keyboardDidHide = this._keyboardDidHide.bind(this)
+    this.chatListRefresh()
     
-    //this.cellStyle = this.cellStyle.bind(this)
-    //this.tabOnClicked = this.tabOnClicked.bind(this)
   }
 
-  componentDidMount() {
+  componentWillMount = async() =>{
+
+  }
+
+  async componentDidMount() {
     this.keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
       this._keyboardDidShow,
@@ -168,11 +176,17 @@ class ChatHomeView extends Component<Props> {
     this.props.navigation.setParams({
       callCalendar : this.showCalendar
     })
+
+    this.chatUpdateInterval = setInterval(() => 
+      this.chatUpdateCheck(), this.state.chatUpdateInterval
+    )
+
   }
 
   componentWillUnmount() {
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
+    this.keyboardDidShowListener.remove()
+    this.keyboardDidHideListener.remove()
+    clearInterval(this.chatUpdateInterval)
   }
 
   _keyboardDidShow()
@@ -189,7 +203,48 @@ class ChatHomeView extends Component<Props> {
     })
   }
 
-  confirmDataBtnOnClick()
+  async chatUpdateCheck()
+  {
+    const token = await chatViewModel.getUpdateToken()
+    if (token == this.state.update_token)
+    {
+      console.log('same !!! not need update UI')
+    }
+    else
+    {
+      console.log('token expired, update UI now')
+      this.chatUpdate(token)
+      
+    }
+  }
+
+  chatUpdate(token)
+  {
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    const data = []
+    for ( var i = 0 ; i < chatViewModel.getChat().length; i ++)
+    {
+      data.push(chatViewModel.getChat()[i])
+    }
+    this.setState({
+      dataSource: ds.cloneWithRows(data.sort(function(a,b){return a.id - b.id})),
+      update_token: token,
+    })
+
+    this.chatListRefresh()
+    
+  }
+
+  chatListRefresh()
+  {
+    setTimeout(()=>{
+      // Update UI
+      //Put All Your Code Here, Which You Want To Execute After Some Delay Time.
+      this.refs.chatList.scrollToEnd({ animated:true })
+    }, this.state.chatRefreshDelay); 
+  }
+
+  confirmDateBtnOnClick()
   {
 
   }
@@ -203,46 +258,55 @@ class ChatHomeView extends Component<Props> {
   
   topMessageUI()
   {
-    return (
-      <View style = {{backgroundColor:'white',height:80, alignItems:'center',flexDirection:'row', justifyContent:'space-around'}}>
-      {
-        1 && 
-        <Avatar
-            round = {true}
-            size = {40}
-            type = 'edit'
-            url = {Assets.profile.default_avatar_man}
-        />
-      }
-        
-        <View style = {{flexDirection:'column', alignItems:'center', }}>
-          <Text style = {{height:40, textAlign:'center',}}> 對方提出以下時間預約 : {"\n"}2019年3月4日 由 19:00 至 20:00</Text>
-          <TouchableOpacity onPress={()=>this.confirmDataBtnOnClick()}
-            style = {styles.confirmBtnStyle}
-          > 
-              <Text style = {[styles.confirmText, {padding:5}]}>
-                {strings.confirm}
-              </Text>
-           
-          </TouchableOpacity>
-        </View>
+    
+    if ( this.state.lessonTimeDetail !== '')
+    {
+
+      return (
+        <View style = {{margin:5,borderRadius:5, borderWidth:1, borderColor:layout.shadowColor, height:70, alignItems:'center',flexDirection:'row', justifyContent:'space-around'}}>
         {
-          false ? <Avatar
+          1 && 
+          <Avatar
+              round = {true}
+              size = {40}
+              type = 'edit'
+              url = {Assets.profile.default_avatar_man}
+          />
+        }
+          
+          <View style = {{flexDirection:'column', alignItems:'center', }}>
+            <Text style = {{height:40, textAlign:'center',}}> {this.state.lessonTimeDetail}</Text>
+            <TouchableOpacity onPress={()=>this.confirmDateBtnOnClick()}
+              style = {styles.confirmBtnStyle}
+            > 
+                <Text style = {[styles.confirmText, {padding:5}]}>
+                  {strings.confirm}
+                </Text>
+             
+            </TouchableOpacity>
+          </View>
+        {
+          false ? 
+          <Avatar
             round = {true}
             size = {40}
             type = 'edit'
             url = {Assets.profile.default_avatar_man}
           /> : <View style={{height:40, width:40}}/>
         }
-         
-      </View>
-    )
-    return (
-      <View style = {{height:60, alignItems:'center',flexDirection:'column', justifyContent:'center'}}>
-        <Text style = {{ textAlign:'center'}}> 你們現在可以開始對話 </Text>
-      </View>
-      
-    )
+           
+        </View>
+      )
+    }
+    else
+    {
+      return (
+        <View style = {{margin:5,borderRadius:5, borderWidth:1, borderColor:layout.shadowColor, height:70, alignItems:'center', justifyContent:'center'}}>
+          <Text style = {{ textAlign:'center', fontSize:18, fontWeight:'bold'}}> {strings.startChat} </Text>
+        </View>
+        
+      )
+    }
   }
 
   textFieldUI()
@@ -250,18 +314,39 @@ class ChatHomeView extends Component<Props> {
     return (
       <View style = {{height:40, padding:5}}>
         <TextInput
+          ref= {(textfield) => { this.textfield = textfield }}
           style = {[styles.inputTextStyle, {padding:5}]}
           placeholder = {strings.messageHere}
+          onSubmitEditing={(event) => this.keyboardSubmitHandle(event)}
         >
         </TextInput>
       </View>   
     )
   }
 
+  keyboardSubmitHandle(event)
+  {
+    chatViewModel.addChat(event.nativeEvent.text)
+    this.chatUpdateCheck()
+    this.textfield.clear()
+    
+  }
+
   closeCalendar()
   {
     this.setShowCalendarView(false)
   }
+
+  timeFromCalendarCallBack(day)
+  {
+    //對方提出以下時間預約 : {"\n"}2019年3月4日 由 19:00 至 20:0
+    var dayString =  '對方提出以下時間預約 : \n'+ day
+    this.setState({
+      lessonTimeDetail:dayString,
+    })
+    this.setShowCalendarView(false)
+  }
+  
 
   showCalendar()
   {
@@ -298,6 +383,7 @@ class ChatHomeView extends Component<Props> {
           
           <CalendarView 
             spaceOnPress={()=>this.closeCalendar()}
+            confirmBtnOnClicked={(d)=>this.timeFromCalendarCallBack(d)}
           />
            
           
@@ -307,14 +393,12 @@ class ChatHomeView extends Component<Props> {
         }
         <View style = {{height:10}}/>
         <ListView
-          style = {{height:layout.deviceHeight - 100 -200- (this.state.keyboardOnShow ? 260:0) }}
+          ref='chatList'
+          style = {{height:layout.deviceHeight - 100 - 200 - (this.state.keyboardOnShow ? 260:0) }}
           removeClippedSubviews={false}
-          //style = {{flex:1}}
-          //contentContainerStyle = {styles.list}
+          enableEmptySections={true}
           dataSource={this.state.dataSource}
-          //renderRow={(rowData) => <Image>{rowData}</Image>}
-          renderRow = {(rowData, sectionID, rowID, higlightRow) => <ChatBox data={rowData} ownerId={1}/>}
-          //renderRow = {(rowData, sectionID, rowID, higlightRow) => <View style ={{height:30, flex:1}} backgroundColor='green'/>}
+          renderRow = {(rowData, sectionID, rowID, higlightRow) => <ChatBox data={rowData} sender_id={this.state.sender_id}/>}
         />
         {
           this.textFieldUI()
@@ -358,15 +442,15 @@ const styles = StyleSheet.create({
   },
 
   confirmBtnStyle:{
-    height:30,
+    height:26,
     width:80,
   },
 
   confirmText:{
     textAlign:'center',
-    height:30,
-    width:80,
-    borderRadius:15,
+    height:26,
+    width:100,
+    borderRadius:13,
     borderWidth: 1,
     backgroundColor:'white',
     borderColor: layout.systemBlueColor,

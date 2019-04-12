@@ -29,10 +29,9 @@ import {
   TopMenuBar,
 } from 'tutorRN/src/view/ui/UIComponent';
 
-//import locationVM from 'tutorRN/src/VM/locationVM'
-
 import categoryVM from 'tutorRN/src/VM/categoryVM'
-//import strings from '../service/strings';
+import courseTagVM from 'tutorRN/src/VM/courseTagVM'
+import courseVM from 'tutorRN/src/VM/courseVM'
 import strings from 'tutorRN/src/service/strings'
 
 const layout = require('tutorRN/src/Layout')
@@ -41,8 +40,9 @@ const numberOfItem = 4
 
 
 
-
+const courseTagViewModel = courseTagVM.getInstance()
 const categoryViewModel = categoryVM.getInstance()
+const courseViewModel = courseVM.getInstance()
 
 
 
@@ -53,52 +53,21 @@ class SearchHomeView extends Component<Props> {
 
   constructor(props) {
     super(props);
-    // /this.handleFacebookLogin = this.handleFacebookLogin.bind(this)
-    var ds = new  ListView.DataSource({rowHasChanged:(r1,r2) => r1 !== r2});
+    
+    var ds = new  ListView.DataSource({rowHasChanged:(r1,r2) => r1 !== r2})   
+    var courseTagNames = courseTagViewModel.getCourseTagNames()
+    courseTagNames.splice(0,0, '')
+    var courseTagSelection = new Array(courseTagNames.length).fill(false)
 
     this.state = {
-      //locationData : viewModel.getDistrictList(),
-      //locationData : ['香港', '九龍', '新界', '離島'],
+      courseTagNames : courseTagNames,
+      courseTagSelection : courseTagSelection,
+      categories : ds.cloneWithRows(categoryViewModel.getCategories()),
+      
       districtData : ['中西區', '灣仔', '東區','南區','油尖旺', '深水埗', '九龍城','黃大仙','觀塘', '葵青', '荃灣', '屯門','元朗','北區','大埔','沙田','西貢','離島'],
       currentDistrictData:['中西區', '灣仔', '東區','南區'],
       educationData : ['小學', '中學', '大學以上'],
-      subjectData : [
-        {
-          image:require('tutorRN/src/image/icons8-document-100.png'),
-          name:'中文2'
-        },
-        {
-          image:require('tutorRN/src/image/icon-math.png'),
-          name:'中文'
-        },
-        {
-          image:require('tutorRN/src/image/icon-math.png'),
-          name:'中文'
-        },
-        {
-          image:require('tutorRN/src/image/icon-math.png'),
-          name:'中文'
-        },
-        {
-          image:require('tutorRN/src/image/icon-math.png'),
-          name:'中文'
-        },
-        {
-          image:require('tutorRN/src/image/icon-math.png'),
-          name:'中文'
-        },
-        {
-          image:require('tutorRN/src/image/icon-math.png'),
-          name:'中文'
-        },
-        {
-          image:require('tutorRN/src/image/icon-math.png'),
-          name:'中文'
-        }
-      ],
-
-      dataSource : ds.cloneWithRows(this.getRows({})),
-
+      
       locationSelected : 0,
       districtSelected : 0,
       educationSelected : 0,
@@ -216,7 +185,7 @@ class SearchHomeView extends Component<Props> {
     }
   }
 
-  iconImageStyle (rowID)
+  iconImageStyle (rowData)
   {
     var cellWidth = (layout.deviceWidth - 50 )/numberOfItem
     var width = cellWidth - 10
@@ -224,7 +193,7 @@ class SearchHomeView extends Component<Props> {
     var color 
 
     //var rand = Math.floor(Math.random() * 4) 
-    var rand = rowID
+    var rand = rowData
     if( rand % 4 == 0 )
     {
       color = 'rgba(194,127,115,1)'
@@ -259,7 +228,7 @@ class SearchHomeView extends Component<Props> {
     }
   }
 
-  iconTextStyle (rowID)
+  iconTextStyle (rowData)
   {
     return {
       //flex:1,
@@ -275,14 +244,16 @@ class SearchHomeView extends Component<Props> {
 
   }
 
-  handleSettingsPress (rowData, sectionID, rowID, higlightRow)
+  async handleSettingsPress (rowData)
   {
+    console.log('handleSettingsPress ' + rowData.id)
+    const res = await courseViewModel.loadCourse('TAG',rowData.id)
+    if (res == true)
+    {
+      console.log(courseViewModel.getCourseByTag(rowData.id))
+    }
 
-    console.log('handleSettingsPress ' + rowData +', ' + sectionID +', ' + rowID +', ' + higlightRow)
-    console.log(rowData);
-
-    //console.log(this.state.locationData[0])
-    
+      
 
     /*
     this.props.navigation.navigate('SearchTutorView',{
@@ -295,42 +266,75 @@ class SearchHomeView extends Component<Props> {
     */
   }
 
-  /*
-  renderRow(rowData, sectionID, rowID, higlightRow){
-    return (
-      <View style={this.cellStyle(rowData)}>                    
-        <Image 
-          style={styles.imageStyle}
-          source={rowData.image}
-        />                    
-        <Text style={{fontSize:20,marginBottom:0}}>{rowData.price}</Text>
-      </View>
-    )
-  }
-  */
-
-  TopMenuBarOnClicked(index)
+  async TopMenuBarOnClicked(index)
   {
     if( index == 0 )
     {
       this.props.navigation.navigate('SearchFilteringView',{})
       
     }
+    else
+    {
+      var t = this.state.courseTagSelection
+      var flag = this.state.courseTagSelection[index]
+      t.splice(index, 1, !flag)
+
+      var tagName = this.state.courseTagNames[index]
+      var courseID = courseTagViewModel.getCourseIDByName(tagName)
+
+      const res = await courseViewModel.loadCourse('CATEGORY',courseID)
+      if (res == true)
+      {
+        // refresh UI now 
+
+        this.setState({
+          courseTagSelection: t
+        })
+      }
+
+      
+
+      
+      
+      console.log('courseTagSelection :' + this.state.courseTagSelection)  
+    }
     console.log('TopMenuBarOnClicked :' + index)  
   }
 
+  tutorRowListUI()
+  {
+    return this.state.courseTagNames.map((data, i) =>
+    {
+      var courseID = courseTagViewModel.getCourseIDByName(data)
+      if ( i > 0 && this.state.courseTagSelection[i] == true)
+      {
+        return (
+        
+          <View
+            key = {i}
+          >
+            <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
+            <TutorRowFlatList
+              title = {data}
+              height = {120}
+              //data = {this.state.tutorRowData}
+              data = {courseViewModel.getCourseByCategory(courseID)}
+            />   
+          </View>
+        )
+      }
+    })
+  }
+
   render() {
-
-    var ds = new  ListView.DataSource({rowHasChanged:(r1,r2) => r1 !== r2});
-    //var dataSource= ds.cloneWithRows(this.state.subjectData)
-
-    var dataSource = ds.cloneWithRows(categoryViewModel.getCategory() )
-
+    
     return (
       <ScrollView style = {{backgroundColor:'rgba(233,233,233,1)'}}>
 
-        <TopMenuBar //TopMenuBar
-          data = {['推介', '限時', '優惠', '熱門', '節日', '新到', '復古']}
+        <TopMenuBar 
+          //TopMenuBar
+          
+          data = {this.state.courseTagNames}
           size = {50}
           itemHeight = {30}
           itemWidth = {50}
@@ -344,16 +348,16 @@ class SearchHomeView extends Component<Props> {
         <ListView     //创建ListView     
           initialListSize={this.getRows().length} 
           backgroundColor = 'white'     
-          dataSource={dataSource} //设置数据源               
+          dataSource={this.state.categories} //设置数据源               
           //renderRow={this.renderRow} //设置cell               
-          renderRow={(rowData, sectionID, rowID, higlightRow) =>
-            <TouchableHighlight 
+          renderRow={(rowData, rowID) =>
+            <TouchableOpacity 
               key = {rowID}
-              onPress={()=>this.handleSettingsPress (rowData, sectionID, rowID, higlightRow) }
-              underlayColor = {layout.touchHighlightColor}
+              onPress={()=>this.handleSettingsPress (rowData) }
+              //underlayColor = {layout.touchHighlightColor}
             >
-              <View style={this.cellStyle(rowID)}>   
-                <View style = {this.iconImageStyle(rowID)}>
+              <View style={this.cellStyle(rowData)}>   
+                <View style = {this.iconImageStyle(rowData)}>
                   <Image 
                     style = {{ width: 30, height: 30}}
                     //source={rowData.image}
@@ -365,33 +369,18 @@ class SearchHomeView extends Component<Props> {
 
                
 
-                <Text style={this.iconTextStyle(rowID)}>{rowData.name}</Text>
+                <Text style={this.iconTextStyle(rowData)}>{rowData.name}</Text>
               </View>
-            </TouchableHighlight>
+            </TouchableOpacity>
           }
             
                          
           contentContainerStyle={styles.listViewStyle}//设置cell的样式
         />
-        <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
-
-        <TutorRowFlatList
-          title = {strings.hotSearch}
-          height = {120}
-          data = {this.state.tutorRowData}
-        />
-
-        <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
-
-        <TutorRowFlatList
-          title = {strings.promotion}
-          height = {120}
-          data = {this.state.tutorRowData}
-        />
+        {
+          this.tutorRowListUI()
+        }
         
-
-
-
       </ScrollView>
 
      

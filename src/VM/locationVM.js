@@ -23,7 +23,11 @@ export default class locationVM{
 	//userProfile: any
 	//@observable refArray = []
 	@observable refDistrictArray: districtModel [] = []
-	@observable refLocationArray: locationModel [] = []
+	//@observable refLocations: locationModel [] = []
+
+	@observable refLocations = []
+
+	//refLocationArray = []
 
 	static getInstance() {
 
@@ -75,7 +79,7 @@ export default class locationVM{
 	
 	}
 
-	getLocation ()
+	setupLocationArray ()
 	{
 		var locationArray = []
 		for ( var i = 0 ; i < this.refDistrictArray.length; i ++ )
@@ -86,7 +90,30 @@ export default class locationVM{
 			}
 		}
 
-		return locationArray
+		this.refLocations = locationArray
+		return this.refLocations
+	
+	}
+
+	getLocationName()
+	{
+		var names = []
+		for (var i = 0; i < this.refLocations.length; i ++)
+		{
+			names.push(this.refLocations[i].location_name)
+		}
+		return names
+	}
+
+	getLocationIdByName (name)
+	{
+		for ( var i = 0; i < this.refLocations.length; i ++)
+		{
+			if ( this.refLocations[i].location_name == name)
+			{
+				return this.refLocations[i].id
+			}
+		}
 	}
 
 	//@action
@@ -100,7 +127,7 @@ export default class locationVM{
 			
 		})
 		*/
-		C.getResponseFromApi(E.get_location, 'POST', {token:'xRW8DwqoIxZBSlF83b2P'} ).then( (json ) =>{
+		C.getResponseFromApi(E.GET_LOCATION, 'POST', {token:'xRW8DwqoIxZBSlF83b2P'} ).then( (json ) =>{
 			if( json.statusCode == 200)	
          	{
 				
@@ -109,9 +136,10 @@ export default class locationVM{
 				//for ( var i = 0; i < json.data.items.length; i ++)
 				{
 					
-					//console.log(json.data[0])
 					this.refDistrictArray.push(districtModel.deserialize( json.data[i] ) )						
 				}
+
+				this.setupLocationArray()
          	}
          	else
          	{

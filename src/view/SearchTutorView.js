@@ -30,7 +30,13 @@ import {
 } from 'tutorRN/src/view/ui/UIComponent';
 
 
+
+
+
+import courseVM from 'tutorRN/src/VM/courseVM'
+
 const layout = require('tutorRN/src/Layout')
+const courseViewModel = courseVM.getInstance()
 
 
 class SearchTutorView extends Component<Props> {
@@ -41,6 +47,7 @@ class SearchTutorView extends Component<Props> {
     this.selectTutor = this.selectTutor.bind(this)
     this.state = {
       sgData : ['所有課堂', '即將開始', '等待確認'],
+    
       data: [
         {
           'image': 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=c36a9365035e76d990a0b0ca07145494&oe=5B55A6D7',

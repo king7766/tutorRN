@@ -14,6 +14,7 @@ import {
   SafeAreaView,
   Button,
   Image,
+  TouchableOpacity,
   TouchableHighlight,
   ScrollView,
   TextInput,
@@ -24,16 +25,15 @@ import {
 } from 'react-native';
 import PopupDialog, {DialogTitle, SlideAnimation} from 'react-native-popup-dialog';
 import Picker from 'react-native-picker';
-//const layout = require('../Layout')
-const layout = require('tutorRN/src/Layout')
-import Avatar from 'tutorRN/src/view/ui/Avatar';
-import Assets from 'tutorRN/src/view/ui/Assets';
-import TopMenuBar from 'tutorRN/src/view/ui/TopMenuBar';
-import TutorRowFlatList from 'tutorRN/src/view/ui/TutorRowFlatList';
-import FilteringToolsBar from 'tutorRN/src/view/ui/FilteringToolsBar';
-//import strings from '../service/strings';
-import strings from 'tutorRN/src/service/strings'
 
+import FilteringToolsBar from 'tutorRN/src/view/ui/FilteringToolsBar';
+import strings from 'tutorRN/src/service/strings'
+import locationVM from 'tutorRN/src/VM/locationVM'
+import categoryVM from 'tutorRN/src/VM/categoryVM'
+
+const categoryViewModel = categoryVM.getInstance()
+const locationViewModel = locationVM.getInstance()
+const layout = require('tutorRN/src/Layout')
 
 class SearchFilteringView extends Component<Props> {
 
@@ -47,29 +47,16 @@ class SearchFilteringView extends Component<Props> {
 
     this.state = {
  
-      rowTitle:[strings.area, strings.category, strings.level],
-      rowData:['','',''],
+      rowTitle:[strings.area, strings.category, strings.subcategory],
+      pickerResults:['','',strings.selectCategoryFirst ],
       optionData : [
-        ['中西區', '灣仔', '東區','南區','油尖旺', '深水埗', '九龍城','黃大仙','觀塘', '葵青', '荃灣', '屯門','元朗','北區','大埔','沙田','西貢','離島'],
-        ['學術',	'音樂',	'運動',	'烹飪',	'駕駛'	,'手工',	'電腦',	'其他'],
-        ['小學全科','中學全科','中文','英文','數學','物理','生物','化學','中國文學','英國文學','經濟','歷史','中史','其他']
+        locationViewModel.getLocationName(),
+        categoryViewModel.getCategoriesNames(),
+        categoryViewModel.getSubCategoriesNameByCategoryKey()
+        
+        
       ],
-      /*
-      genderSelectArray: ['男', '女'],
-      locationSelectArray : ['中西區', '灣仔', '東區','南區','油尖旺', '深水埗', '九龍城','黃大仙','觀塘', '葵青', '荃灣', '屯門','元朗','北區','大埔','沙田','西貢','離島'],
-      catalogArray :['學術',	'音樂',	'運動',	'烹飪',	'駕駛'	,'手工',	'電腦',	'其他'],
-      subcatalogArray :['小學全科','中學全科','中文','英文','數學',
-      '物理',
-      '生物',
-      '化學',
-      '中國文學',
-      '英國文學',
-      '經濟',
-      '歷史',
-      '中史',
-      '其他'],
-      */
-
+      
     }
   }
 
@@ -88,7 +75,12 @@ class SearchFilteringView extends Component<Props> {
     //this.props.navigation.popToTop()
 
     //return ;
+    
+    console.log(locationViewModel.getLocationIdByName(this.state.pickerResults[0]))
+    console.log(categoryViewModel.getCategoryIDByName(this.state.pickerResults[1]))
+    console.log(categoryViewModel.getSubCategoryIDByName(this.state.pickerResults[2]))
 
+    /*
     this.props.navigation.push('SearchTutorView',{
       location : '尖沙咀' ,
       district :  '九龍',
@@ -96,6 +88,7 @@ class SearchFilteringView extends Component<Props> {
       subject : '小提琴',
       }
     );
+    */
     
   }
 
@@ -124,25 +117,17 @@ class SearchFilteringView extends Component<Props> {
   {
     console.log('rowOnClick ' + index )
     var tempArray 
-    //var rowData = this.state.rowData
-    //tempArray = this.state.optionData[index]
     
+    if ( index == 2)
+    {
+      if( this.state.pickerResults[1] == '' )
+      {
+        return
+      }
+    }
+
     if( index >= 0 )
     {
-      /*
-      if ( index == 0)
-      {
-        tempArray = this.state.locationSelectArray
-      }
-      else if ( index == 1)
-      {
-        tempArray = this.state.catalogArray
-      }
-      else if ( index == 2)
-      {
-        tempArray = this.state.subcatalogArray
-      }
-      */
       
       Picker.init({
         //pickerData: tempArray,
@@ -153,14 +138,21 @@ class SearchFilteringView extends Component<Props> {
         selectedValue: tempArray,
         onPickerConfirm: pickedValue => {
             console.log(index + ', area confirm : ', pickedValue);
-            //rowData.splice(index, 1, pickedValue)
-            //this.setState({
-            //  rowData: rowData
-            //})
             
-            var tempArray = this.state.rowData
+            var tempArray = this.state.pickerResults
             tempArray[index] = pickedValue
-            this.setState({rowData:tempArray})
+            
+            if ( index == 1)
+            {
+              tempArray[2] = strings.selectCategoryFirst
+
+              var a = this.state.optionData
+              a[2] = categoryViewModel.getSubCategoriesNameByCategoryKey(categoryViewModel.getCategoryIDByName(pickedValue))
+              this.setState({
+                optionData: a,
+              })
+            }
+            this.setState({pickerResults:tempArray})
         },
         onPickerCancel: pickedValue => {
             console.log('area cancel : ', pickedValue);
@@ -227,8 +219,6 @@ class SearchFilteringView extends Component<Props> {
       //  styles = {{flex:1}}
       //>
       <View>
-      
-
         <ScrollView
           scrollEnabled={false}
         >
@@ -243,7 +233,7 @@ class SearchFilteringView extends Component<Props> {
               this.state.rowTitle.map(
                 (item, index) =>
                 (
-                  <TouchableHighlight 
+                  <TouchableOpacity 
                     onPress={() => this.rowOnClick(index)}
                     key = {index}
                   >
@@ -258,23 +248,21 @@ class SearchFilteringView extends Component<Props> {
                       </Text> 
                       
                       <Text
-                        //ref= {"index" + index}
                         style = {{ paddingRight:10, color:'rgb(231,121,98)' }}
-                        //value={this.state.rowData[index]}
                       >
-                        {this.state.rowData[index]}
+                        {this.state.pickerResults[index]}
                       </Text> 
                       
                     </View>
                     
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 )
               )
             }
           </View>
           <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
 
-          <TouchableHighlight onPress={this.showResultBtnOnClick}>
+          <TouchableOpacity onPress={this.showResultBtnOnClick}>
             <View style = {styles.submitButtonBackground}>
               <View style={styles.submitButton}>
                 <Text style = {styles.submitButtonText}>
@@ -282,7 +270,7 @@ class SearchFilteringView extends Component<Props> {
                 </Text>
               </View>
             </View>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </ScrollView>
       </View>
     );

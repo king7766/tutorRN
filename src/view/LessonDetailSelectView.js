@@ -104,7 +104,7 @@ class LessonDetailSelectView extends Component<Props> {
       education : this.state.educationData[this.state.educationSelected],
       subject : this.state.subjectData[this.state.subjectSelected].name,
       }
-    );
+    )
   }
 
   /*

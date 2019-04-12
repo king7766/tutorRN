@@ -99,6 +99,9 @@ class ProfileHomeView extends Component<Props> {
   };
   
   async componentDidMount() {
+
+    
+
     this.props.navigation.setParams({ leftBtnOnClick: this._signOutAsync });
     
 
@@ -121,6 +124,9 @@ class ProfileHomeView extends Component<Props> {
   }
  
   _signOutAsync = async () => {
+
+   
+
     console.log('_signOutAsync from ProfileHome')
     //await AsyncStorage.clear();
     //this.props.navigation.navigate('Auth');
@@ -160,6 +166,7 @@ class ProfileHomeView extends Component<Props> {
             arrowOn = {false}
             title = {strings.education}
             description = {this.state.tutor.achievement}
+            
         />
 
         <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
@@ -171,6 +178,7 @@ class ProfileHomeView extends Component<Props> {
           description = {this.state.tutor.user_occupation}
           //description = {userViewModel.getUser().user_occupation}
           onClicked = {this.arrowOnClicked}
+          
         />
 
         
@@ -214,7 +222,8 @@ class ProfileHomeView extends Component<Props> {
 
   render() {
 
-    console.log('user === ' + userViewModel.getUser())
+    //console.log('user === ' + userViewModel.getUser())
+    console.log('haveLogin = ' + this.state.haveLogin)
     return (
       <View 
         style = {{flex:1}}

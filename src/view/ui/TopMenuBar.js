@@ -5,7 +5,7 @@ import {
    View, 
    StyleSheet, 
    ScrollView ,
-   TouchableHighlight
+   TouchableOpacity
 } from 'react-native';
 import Dimensions from 'Dimensions';
 //import Hyperlink from 'react-native-hyperlink'
@@ -282,16 +282,16 @@ class TopMenuBar extends Component <TopMenuBarProps>{
         {
           data.map((item, index) =>
             (
-              <TouchableHighlight
+              <TouchableOpacity
                 key= {index}
                 //onPress={() => onPress ? this.onPress() : null}
                 //onPress={ ()=>this.onPress(index) ? this.onPress(index) : null}
                 onPress={ ()=>this.onPress(index) }
-                underlayColor = {layout.touchHighlightColor}
+                //underlayColor = {layout.touchHighlightColor}
               >
                 {this.itemComponent(item, index)}
 
-              </TouchableHighlight>
+              </TouchableOpacity>
               
             )
           )

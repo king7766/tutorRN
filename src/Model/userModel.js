@@ -4,6 +4,7 @@ import {observable, computed} from 'mobx'
 export class userModel{
 
    //id : integer 
+   user_id : string = ''
    verify_status : string = ''
    user_login : string = ''
    user_password : string = ''
@@ -40,6 +41,7 @@ export class userModel{
         return 
         {
             //id: this.id
+            user_id : this.user_id
             verify_status : this.verify_status
             user_login : this.user_login
             user_password : this.user_password
@@ -78,6 +80,7 @@ export class userModel{
       
         //model.id = jsonObject.result.user_id
         //user_token : string = ''
+        model.user_id = jsonObject.user_id
         model.verify_status = jsonObject.verify_status
         model.user_login = jsonObject.user_login
         model.user_password = jsonObject.user_password

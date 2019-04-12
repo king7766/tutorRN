@@ -95,9 +95,11 @@ export default class categoryVM{
 			
 		})
 		*/
-		C.getResponseFromApi(E.get_location, 'POST', {token:'xRW8DwqoIxZBSlF83b2P'} ).then( (json ) =>{
+
+		C.getResponseFromApi(E.GET_LOCATION, 'POST', {token:'xRW8DwqoIxZBSlF83b2P'} ).then( (json ) =>{
 			if( json.statusCode == 200)	
          	{
+				
 				
 				
 				for ( var i = 0; i < json.data.length; i ++)
@@ -105,6 +107,7 @@ export default class categoryVM{
 				{
 					
 					//console.log(json.data[0])
+					
 					this.refDistrictArray.push(districtModel.deserialize( json.data[i] ) )						
 				}
          	}

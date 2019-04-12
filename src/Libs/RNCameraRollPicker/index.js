@@ -96,8 +96,8 @@ export default class RNCameraRollPicker extends Component {
     console.log(data)
 
 
-    fetch(E.upload_file,{
-    //fetch('http://tutor.ho2find.com/get_category.php',{
+    fetch(E.UPLOAD_FILE,{
+    //fetch('http://tutor.ho2find.com/GET_CATEGORY.php',{
       method: 'POST',
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
@@ -142,7 +142,7 @@ export default class RNCameraRollPicker extends Component {
       return;
     }
 
-    C.getResponseFromApi(E.upload_file, 'POST', {
+    C.getResponseFromApi(E.UPLOAD_FILE, 'POST', {
       token:'xRW8DwqoIxZBSlF83b2P',
       user_id:'1',
       file: {

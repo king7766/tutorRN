@@ -2,12 +2,20 @@
 
 const domain = 'http://tutor.ho2find.com/';
 
-export const login_auth = domain + 'login_auth.php';
-export const register_user = domain + 'register_user.php';
-export const get_category = domain + 'get_category.php';
-export const get_news = domain + 'get_news.php';
-export const get_location = domain + 'get_location.php';
-export const upload_file = domain + 'upload_file.php';
+export const LOGIN_AUTH = domain + 'login_auth.php';
+export const REGISTER_USER = domain + 'register_user.php';
+export const GET_CATEGORY = domain + 'get_category.php';
+export const GET_NEWS = domain + 'get_news.php';
+export const GET_LOCATION = domain + 'get_location.php';
+export const UPLOAD_FILE = domain + 'upload_file.php';
+
+export const GET_COURSE_TAG_LIST = domain + 'get_course_tag_list.php';
+
+export const GET_COURSE_BY_CATEGORY = domain + 'get_course_by_category.php';
+export const GET_COURSE_BY_TAG = domain + 'get_course_by_tag.php';
+
+export const GET_CHAT = domain + 'get_chat.php';
+export const ADD_CHAT = domain + 'add_chat.php';
 
 export const token = 'xRW8DwqoIxZBSlF83b2P';
 
@@ -25,9 +33,9 @@ export function login_auth()
 */
 
 /*
-export function get_category()
+export function GET_CATEGORY()
 {
-    return combinWithHost(domain, get_category);
+    return combinWithHost(domain, GET_CATEGORY);
 }
 */
 /*
@@ -94,7 +102,7 @@ export class ApiConfigServiceImpl implements T.ApiConfigService {
 
 /*
 export const login_auth = 'http://tutor.ho2find.com/login_auth.php';
-export const get = 'http://tutor.ho2find.com/get_category.php';
+export const get = 'http://tutor.ho2find.com/GET_CATEGORY.php';
 export const HI = 'https://itunes.apple1.com/hk/rss/topfreeapplications/limit=100/json';
 export const HI = 'https://itunes.apple1.com/hk/rss/topfreeapplications/limit=100/json';
 */

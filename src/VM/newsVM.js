@@ -68,8 +68,8 @@ export default class newsVM{
 		})
 		*/
 		
-		C.getResponseFromApi(E.get_news, 'POST', {token:'xRW8DwqoIxZBSlF83b2P'} ).then( (json ) =>{
-		//C.getResponseFromApi(E.get_news, 'POST', 'token=xRW8DwqoIxZBSlF83b2P' ).then( (json ) =>{	
+		C.getResponseFromApi(E.GET_NEWS, 'POST', {token:'xRW8DwqoIxZBSlF83b2P'} ).then( (json ) =>{
+		//C.getResponseFromApi(E.GET_NEWS, 'POST', 'token=xRW8DwqoIxZBSlF83b2P' ).then( (json ) =>{	
 			if( json.statusCode == 200)	
          	{
 				

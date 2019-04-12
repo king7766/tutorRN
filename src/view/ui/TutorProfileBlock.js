@@ -7,19 +7,22 @@ import {
    ScrollView ,
    ListView,
    Linking,
-   TouchableHighlight
+   TouchableHighlight,
+   TouchableOpacity,
+   TextInput
 } from 'react-native';
-import Dimensions from 'Dimensions';
-//import Hyperlink from 'react-native-hyperlink'
-import ParsedText from 'react-native-parsed-text';
-
 const layout = require('tutorRN/src/Layout')
-
 
 class TutorProfileBlock extends Component{
 
   constructor (props){
     super(props);
+    this.state = {
+      editmode: false,
+      job: this.props.tutor.job,
+      title : this.props.tutor.title,
+      exp: this.props.tutor.exp,
+    }
     this.arrowOnClick = this.arrowOnClick.bind(this)
 
   }
@@ -32,35 +35,59 @@ class TutorProfileBlock extends Component{
     this.props.onClicked(index)
   }
 
+  editBtnOnClick()
+  {
+    this.setState({
+      editmode:!this.state.editmode
+    })
+    if ( this.state.editmode == false)
+    {
+
+    }
+  }
+
   content()
   {
-    /*
-    <Text style = {styles.subtextStyle}>
-            {this.props.tutor.gender}
-          </Text>
-          <Text style = {styles.subtextStyle}>
-            {this.props.tutor.location}
-          </Text>
-          */
     return (
       <View >
-          <Text style = {styles.nameStyle}>
+        <View style = {{height:40, flexDirection:'row', justifyContent:'space-between'}}
+        >
+          <Text
+            style = {styles.nameStyle}
+          >
             {this.props.tutor.user_nickname}
           </Text>
-          <Text style = {styles.subtextStyle}>
-            {this.props.tutor.job}
-          </Text>
-          <Text style = {styles.subtextStyle}>
-            {this.props.tutor.title}
-          </Text>
-          <Text style = {styles.subtextStyle}>
-            {this.props.tutor.exp}
-          </Text>
-          
-          
+          <TouchableOpacity
+              onPress={()=>this.editBtnOnClick()}
+          >
+            <Image
+              style = {{width: 30, height:30, padding:5}}
+              source= {this.state.editmode ? require('tutorRN/src/image/icons8-completed-90.png') : require('tutorRN/src/image/icons8-pencil-90.png')}
+              resizeMode =  'contain'
+            />
+          </TouchableOpacity>
+        </View>
+        <TextInput 
+          style = {styles.subtextStyle}
+          value = {this.state.job}
+          editable = {this.state.editmode}
+          onChangeText={(job) => this.setState({job})}
+        />
+        <TextInput 
+          style = {styles.subtextStyle}
+          value = {this.state.title}
+          editable = {this.state.editmode}
+          onChangeText={(title) => this.setState({title})}
+        />
+        <TextInput 
+          style = {styles.subtextStyle}
+          value = {this.state.exp}
+          editable = {this.state.editmode}
+          onChangeText={(exp) => this.setState({exp})}
+        /> 
         </View>
     )
-  }
+  } 
 
   render (){
 
@@ -83,63 +110,6 @@ class TutorProfileBlock extends Component{
         
       </View>
     )
-    /*
-    return(
-   
-      <View style = {styles.background}>
-        
-
-        
-        <View style = {styles.photoViewStyle}>
-          <Image 
-            style = {styles.imageStyle}
-            source = {{uri: this.props.tutor.user_thumb}}
-            defaultSource = {require('tutorRN/src/image/icons8-customer-filled-100.png') }
-            // cover, contain, stretch, center
-            rezizeMode = 'contain'
-            //onError={(e) => 
-              //this.props.source = {require('tutorRN/src/image/icons8-customer-filled-100.png') }
-            
-          />
-          
-        </View>
-
-        <View style = {styles.tutorViewStyle}>
-          <Text style = {styles.nameStyle}>
-            {this.props.tutor.user_nickname}
-          </Text>
-          <Text style = {styles.subtextStyle}>
-            {this.props.tutor.job}
-          </Text>
-          <Text style = {styles.subtextStyle}>
-            {this.props.tutor.title}
-          </Text>
-          <Text style = {styles.subtextStyle}>
-            {this.props.tutor.exp}
-          </Text>
-          <Text style = {styles.subtextStyle}>
-            {this.props.tutor.gender}
-          </Text>
-          <Text style = {styles.subtextStyle}>
-            {this.props.tutor.location}
-          </Text>
-        </View>
-        {this.props.arrowOn && 
-          <TouchableHighlight 
-              underlayColor = {this.props.touchColor}
-              onPress={ ()=>this.arrowOnClick(this.props.tag+1)}
-            >
-            <Image 
-              style = {{ flex: 1,width: 30, height: 30}}
-              source= {require('tutorRN/src/image/right_arrow_icon_100.png')}
-              resizeMode =  'contain'
-            />
-          </TouchableHighlight>
-        }
-      </View>
-
-      )
-      */
   }
 }
 
@@ -156,24 +126,11 @@ const styles = StyleSheet.create ({
 
   background:{
     backgroundColor: 'white',
-    //flex: 1,
     flexDirection: 'row',
     width: layout.deviceWidth,
-
-    //height: 150,
-    //borderTopColor: 'gray',
     borderTopWidth: 0.5,
     justifyContent: 'space-between',
     alignItems: 'center',
-    //width: layout.deviceWidth *2,
-    //flexDirection:'row',
-
-    //borderBottomColor: 'gray',
-    //borderBottomWidth: 0.5
-    //padding: 5
-    //paddingTop:5,
-    //paddingBottom:5
-    //padding:5
   },
 
   photoViewStyle:{
@@ -216,7 +173,7 @@ const styles = StyleSheet.create ({
     fontSize: 18,
     fontWeight: 'bold',
     padding : 5,
-    paddingLeft : 10,
+    height:30,
   },
 
   subtextStyle:{
@@ -225,5 +182,6 @@ const styles = StyleSheet.create ({
     fontSize: 12,
     padding : 2,
     paddingLeft : 10,
+    height:20,
   }
 })

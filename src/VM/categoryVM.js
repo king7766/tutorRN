@@ -1,5 +1,6 @@
 //import {locationModel} from 'tutorRN/src/Model/locationModel'
 import {categoryModel} from 'tutorRN/src/Model/categoryModel'
+import {subcategoryModel} from 'tutorRN/src/Model/subcategoryModel'
 
 import React from 'react';
 import {observable, action, computed} from 'mobx'
@@ -20,7 +21,9 @@ export default class categoryVM{
 
 	static myInstance = null;
 
-	@observable refCategoryArray : categoryModel [] = []
+	//@observable refCategories : categoryModel [] = []
+	refCategories = []
+	refSubCategories = []
 
 	static getInstance() {
 
@@ -48,45 +51,122 @@ export default class categoryVM{
 
 	getFullList()
 	{
-		return this.refCategoryArray
+		return this.refCategories
 	}
 
-	getCategory()
+	getCategories()
 	{
-		var categoryArray = []
-		for ( var i = 0 ; i < this.refCategoryArray.length ; i++ )
+		return this.refCategories
+	}
+
+	getSubCategories()
+	{
+		return this.refSubCategories
+	}
+
+
+	getSubCategoriesByCategoryKey( key )
+	{
+		//var item = this.refCategories[key].sub_category;
+
+		console.log('key = ' + key)
+		var array = []
+
+		for (var i = 0; i < this.refSubCategories.length; i ++)
 		{
-			categoryArray.push( {id:this.refCategoryArray[i].id, name: this.refCategoryArray[i].name} )
-		}
-		return categoryArray;
-	}
-
-
-	getSubCatFromCat( key )
-	{
-		var item = this.refCategoryArray[key].sub_category;
-		return item;
-	}
-
-	getSubCategory ()
-	{
-		var sub_category = []
-		for ( var i = 0 ; i < this.refCategoryArray.length; i ++ )
-		{	
-			for ( var j = 0 ; j < this.refCategoryArray[i].sub_category.length; j ++ )
+			//console.log('name = ' + this.refSubCategories[i].parent_category_id)
+			if (this.refSubCategories[i].parent_category_id == key)
 			{
-				sub_category.push(this.refCategoryArray[i].sub_category[j])
+				//console.log('name = ' + this.refSubCategories[i].name)
+				array.push(this.refSubCategories[i])
 			}
 		}
+		return array;
+		
+	}
 
-		return sub_category
+	setupSubCategory ()
+	{
+		var sub_categories = []
+		for ( var i = 0 ; i < this.refCategories.length; i ++ )
+		{	
+			for ( var j = 0 ; j < this.refCategories[i].sub_category.length; j ++ )
+			{
+				sub_categories.push( subcategoryModel.deserialize (this.refCategories[i].sub_category[j]) )
+				//this.refCategories.push(categoryModel.deserialize( json.data[i] ) )						
+
+			}
+		}
+		this.refSubCategories = sub_categories
+	
+		return this.refSubCategories
+	}
+
+	getSubCategoryIDByName ( name )
+	{
+		for ( var i = 0; i < this.refSubCategories.length; i ++)
+		{
+			if ( this.refSubCategories[i].name == name){
+				return this.refSubCategories[i].id
+			}
+		}
+	}
+
+	getCategoryIDByName( name )
+	{
+		for ( var i = 0; i < this.refCategories.length; i ++)
+		{
+			if ( this.refCategories[i].name == name){
+				return this.refCategories[i].id
+			}
+		}
+	}
+
+	getSubCategoriesNameByCategoryKey(key)
+	{
+		
+		var names = []
+		if ( key == null)
+		{
+			return names
+		}
+		
+		for (var i = 0; i < this.refSubCategories.length; i ++)
+		{
+			if (this.refSubCategories[i].parent_category_id == key)
+			{
+				names.push(this.refSubCategories[i].name)
+			}
+		}
+		return names;
+
+	}
+
+	getSubCategoriesNames()
+	{
+		var names = []
+		for ( var i = 0; i < this.refSubCategories.length; i ++)
+		{
+			name.push(this.refSubCategories[i].name)
+		}
+		return names
+	}
+
+	getCategoriesNames()
+	{
+		var names = []
+		for ( var i = 0; i < this.refCategories.length; i ++)
+		{
+			names.push(this.refCategories[i].name)
+		}
+		return names
 	}
 
 	//@action
 	callAPI()
 	{	
 		
-		C.getResponseFromApi(E.get_category, 'POST', {token:'xRW8DwqoIxZBSlF83b2P'} ).then( (json ) =>{
+		C.getResponseFromApi(E.GET_CATEGORY, 'POST', {token:'xRW8DwqoIxZBSlF83b2P'} ).then( (json ) =>{
 			if( json.statusCode == 200)	
          	{
 				
@@ -95,9 +175,12 @@ export default class categoryVM{
 				//for ( var i = 0; i < json.data.items.length; i ++)
 				{
 					
-					//console.log(json.data[0])
-					this.refCategoryArray.push(categoryModel.deserialize( json.data[i] ) )						
+					//console.log('name = ' + json.data[i].name)
+					this.refCategories.push(categoryModel.deserialize( json.data[i] ) )
+
 				}
+
+				this.setupSubCategory()
          	}
          	else
          	{

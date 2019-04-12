@@ -10,11 +10,7 @@ const tabs = {
 }
 
 const actions = {
-  //icons8-love-90.png
-  //icons8-heart-outline-90.png
-  //icons8-heart-outline-filled-100.png
-//icons8-heart-outline-100.png
-
+  
   like : require('tutorRN/src/image/icons8-heart-outline-filled-100.png'),
   unlike : require('tutorRN/src/image/icons8-heart-outline-100.png'),
   sound : require('tutorRN/src/image/sound.png'),

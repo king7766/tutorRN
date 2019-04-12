@@ -7,7 +7,7 @@ import {
    ScrollView ,
    ListView,
    Linking,
-   TouchableHighlight
+   TouchableOpacity
 } from 'react-native';
 
 const layout = require('tutorRN/src/Layout')
@@ -73,11 +73,11 @@ class TutorRowFlatList extends React.Component{
             }}
             size = {70}
             //type = 'edit'
-            url = {this.props.data[i].url}
+            url = {this.props.data[i].tutor_img}
             round = {true}
             //url = 'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p80x80/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=831d0ee264e5772b4b15faa60c7d16c4&oe=5BD89683'
           />
-          <Text>{this.props.data[i].name}</Text>
+          <Text>{this.props.data[i].course_name}</Text>
           
 
         </View>
@@ -97,13 +97,13 @@ class TutorRowFlatList extends React.Component{
             style ={{backgroundColor:'green'}}
           >
           </View>
-          <TouchableHighlight 
+          <TouchableOpacity 
               onPress={ ()=>this.seeAllAction()}
           >
             <Text
               style = {styles.seeAll}
             >{strings.more}</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
 
 
         </View>

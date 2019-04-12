@@ -65,10 +65,10 @@ export default class userVM{
 
 	async callRegister(data)
 	{
-		//register_user
-      	//login_auth
+		//REGISTER_USER
+      	//LOGIN_AUTH
       
-    	return C.getResponseFromApi(E.register_user, 'POST', data)
+    	return C.getResponseFromApi(E.REGISTER_USER, 'POST', data)
       	.then( (json ) =>{
 			if( json.statusCode == 200)
 			{
@@ -121,20 +121,19 @@ export default class userVM{
 		
 		//var data = 'token=xRW8DwqoIxZBSlF83b2P&login=kevin&password=qwer1234%T'
 
-		return C.getResponseFromApi(E.login_auth, 'POST', data ).then( (json ) =>{
+		return C.getResponseFromApi(E.LOGIN_AUTH, 'POST', data ).then( (json ) =>{
 
 			
 			if( json.statusCode == 200)	
          	{
 				
-				//console.log('profile API = ' + json.data.result.user_id)
-				//this._userID = json.data.result.user_id
+				console.log('login data = ' + JSON.stringify(json.data, null, 2) )
 				
-
+			
 				this.userProfile = userModel.deserialize(json.data)
 
 				return json
-				//this.refArray.push(RecommendationModel.deserialize(json.data.feed.entry[i]))
+			
          		
          		
          	}

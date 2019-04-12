@@ -18,7 +18,8 @@ class CalendarView extends React.Component {
     super(props);
     this.state = {
       startTimeSelected: strings.pleaseChoose,
-      internvalTime : '',
+      internvalTimeSelected : '',
+      daySelected : '',
       internvalArray: [30,60,90,120],
       mark: {},
       refDate: {}
@@ -26,15 +27,22 @@ class CalendarView extends React.Component {
     
   }
 
-  spaceOnTouch()
+  submitBtnOnClicked()
   {
-    console.log('spaceOnTouch')
+
     this.props.spaceOnPress()
   }
 
-  confirmAction()
+  spaceOnTouch()
   {
-    this.props.confirmTimeAction()
+    console.log('spaceOnTouch')
+    //this.props.spaceOnPress()
+  }
+
+  submitBtnOnClicked()
+  {
+    var dayString = this.state.daySelected + '由 ' + this.state.startTimeSelected +'開始 , 每課 ' + this.state.internvalTimeSelected +'分鍾'
+    this.props.confirmBtnOnClicked(dayString)
   }
 
   onDayPress(day)
@@ -49,7 +57,10 @@ class CalendarView extends React.Component {
         dates[val] = {selected: true};
       }
     })
-    this.setState({ mark:dates})
+    this.setState({ 
+      daySelected : day.dateString, 
+      mark:dates
+    })
   }
 
   selectTimeBtnOnClick()
@@ -92,7 +103,7 @@ class CalendarView extends React.Component {
   internvalOnClicked(index)
   {
     this.setState({
-      internvalTime : this.state.internvalArray[index]
+      internvalTimeSelected : this.state.internvalArray[index]
     })
   }
 
@@ -101,7 +112,7 @@ class CalendarView extends React.Component {
     
     return{
       width:50,
-      borderColor:this.state.internvalArray[index] == this.state.internvalTime ? layout.themeTextColor :'gray',
+      borderColor:this.state.internvalArray[index] == this.state.internvalTimeSelected ? layout.themeTextColor :'gray',
       borderRadius:5, 
       borderWidth:1,
       textAlign:'center',
@@ -144,13 +155,22 @@ class CalendarView extends React.Component {
   }
   confirmUI()
   {
+    //<View style = {{ height: 40,alignItems: 'center', backgroundColor:'white'}}>
+    //<Text style = {{textAlignVertical: 'center',alignItems: 'center',justifyContent:'center',  textAlign:'center',height:30, width:layout.deviceWidth-20, color:'white', borderRadius:5, borderWidth:1, borderColor:layout.themeTextColor, backgroundColor:layout.themeTextColor, overflow:'hidden', margin:5 }}>{strings.confirm}</Text>
     return(
-      <TouchableOpacity
+      
+      
+        <TouchableOpacity
+          onPress={()=>this.submitBtnOnClicked()}
+        >
+          <View style = {{ borderRadius:5, borderWidth:1, borderColor:layout.themeTextColor, backgroundColor:layout.themeTextColor, justifyContent:'center', alignItems:'center', height:40, width:layout.deviceWidth, overflow:'hidden'}}>
+            <Text style = {{ color:'white', margin:5 }}>{strings.confirm}</Text>
+          </View>
+          
+        </TouchableOpacity>
+      
         
       
-      >
-        <Text >{strings.confirm}</Text>
-      </TouchableOpacity>
     )
   }
 

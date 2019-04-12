@@ -24,7 +24,8 @@ const strings = new LocalizedStrings({
         cancel: '取消',
         area: '區域',
         category: '課堂類別',
-        level: '程度',
+        subcategory: '進階分類',
+        selectCategoryFirst: '先選擇類別',
 
         choosed : '已選擇',
         register: '登記',
@@ -61,7 +62,9 @@ const strings = new LocalizedStrings({
         messageHere :'發表信息 ...',
         
         startTime: '開始時間',
-        intervalTime: '課堂長度'
+        intervalTime: '課堂長度',
+
+        startChat :'你們現在可以開始對話',
     },
 
     cn: {
@@ -85,7 +88,8 @@ const strings = new LocalizedStrings({
         cancel: '取消',
         area: '区域',
         category: '课堂类别',
-        level: '程度',
+        subcategory: '進階分類',
+        selectCategoryFirst: '先選擇類別',
 
         choosed : '已选择',
         register: '登记',
@@ -121,7 +125,9 @@ const strings = new LocalizedStrings({
 
         messageHere :'发表信息 ...',
         startTime: '开始时间',
-        intervalTime: '课堂长度'
+        intervalTime: '课堂长度',
+
+        startChat :'你們現在可以開始對話',
         
 
     },

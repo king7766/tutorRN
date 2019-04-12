@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { 
-   Text, 
-   Image, 
-   View, 
-   StyleSheet, 
-   ScrollView ,
-   ListView,
-   Linking,
-   TouchableHighlight
+  TextInput,
+  Text, 
+  Image, 
+  View, 
+  StyleSheet, 
+  ScrollView ,
+  ListView,
+  Linking,
+  TouchableHighlight,
+  TouchableOpacity,
+  Keyboard
 } from 'react-native';
 import Dimensions from 'Dimensions';
 //import Hyperlink from 'react-native-hyperlink'
@@ -29,17 +32,80 @@ class TutorProfileTextBlock extends Component{
 
   constructor (props){
     super(props);
+    this.state = {
+      descriptionHeight: 50,
+      editmode: false,
+    }
     this.arrowOnClick = this.arrowOnClick.bind(this)
-
+    this._keyboardDidHide = this._keyboardDidHide.bind(this)
+    
   }
+
+  componentDidMount() {
+    this.keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      this._keyboardDidHide,
+    );
+  }
+
   componentWillMount(){
     this.mounted = true
+    this.setState({
+      descriptionContent : this.props.description
+    })
   } 
+
+  _keyboardDidHide()
+  {
+   
+  }
+
+  componentWillUnmount() {
+    this.keyboardDidHideListener.remove()
+  }
 
   arrowOnClick (index)
   {
     console.log('arrowOnClick = ' + index)
     this.props.onClicked(index)
+  }
+
+  onChange (event) {
+    this.setState({
+      descriptionContent: event.nativeEvent.text,
+      descriptionHeight: event.nativeEvent.contentSize.height
+    })
+  }
+
+  onContentSizeChange(event){
+    this.setState({
+      descriptionHeight: event.nativeEvent.contentSize.height
+    })
+  }
+
+  editBtnOnClick()
+  {
+    this.setState({
+      editmode:!this.state.editmode
+    })
+    if ( this.state.editmode == false)
+    {
+
+    }
+  }
+
+  descriptionContentStyle ()
+  {
+    
+    return {
+      lineHeight:20,
+      fontSize: 14,
+      paddingTop: 10,
+      borderColor: this.state.editmode ? 'gray' : 'white',
+      borderWidth: 1,
+
+    }
+    
   }
 
   render (){
@@ -63,12 +129,35 @@ class TutorProfileTextBlock extends Component{
         }
 
         <View style = {styles.descriptionBG}>
-          <Text style = {styles.descriptionTitle}>
-            {this.props.title}
-          </Text>
-          <Text style = {styles.description}>
-            {this.props.description}
-          </Text>
+          <View style = {{height:30, flexDirection:'row', justifyContent:'space-between'}}
+          >
+            <Text
+              style = {styles.descriptionTitle}   
+            >
+              {this.props.title}
+            </Text>
+            <TouchableOpacity
+              onPress={()=>this.editBtnOnClick()}
+            >
+              <Image
+                style = {{width: 30, height:30}}
+                source= {this.state.editmode ? require('tutorRN/src/image/icons8-completed-90.png') : require('tutorRN/src/image/icons8-pencil-90.png')}
+                resizeMode =  'contain'
+              />
+            </TouchableOpacity>
+          </View>
+          <TextInput 
+            style = {[this.descriptionContentStyle(), {height:this.state.descriptionHeight + 10}]}
+            value = {this.state.descriptionContent}
+            multiline={true}
+            scrollEnabled = {false}
+            editable = {this.state.editmode}
+            onChangeText={(descriptionContent) => this.setState({descriptionContent})}
+            onChange={() => this.onChange.bind(this)}
+            onContentSizeChange={(event) => this.onContentSizeChange(event)}
+          />
+
+          
         </View>
 
         {this.props.arrowOn && 
@@ -115,11 +204,12 @@ const styles = StyleSheet.create ({
   },
 
   descriptionTitle:{
+    height:30,
     color: 'rgba(41,62,107,1)',
     //backgroundColor: 'red',
     fontSize: 18,
     fontWeight: 'bold',
-    //padding : 10,
+    padding : 5,
     //paddingLeft : 10,
 
   },
