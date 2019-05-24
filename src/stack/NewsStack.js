@@ -4,16 +4,18 @@ import { View,Image,StyleSheet } from 'react-native';
 
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import strings from 'tutorRN/src/service/strings'
-import NewsHomeView from 'tutorRN/src/view/NewsHomeView';
+
+import SearchHomeView from 'tutorRN/src/view/SearchHomeView';
+import NewsHomeView from 'tutorRN/src/view/NewsHomeView'
+import NewsDetailView from 'tutorRN/src/view/NewsDetailView'
+
+
 const layout = require('tutorRN/src/Layout')
 
-const NewsStack = StackNavigator({
+var NewsStack = StackNavigator({
 
   NewsHomeView: {
     screen: NewsHomeView ,
-    
-    
-
     navigationOptions: {
       
       //header:{ visible:false },
@@ -27,27 +29,72 @@ const NewsStack = StackNavigator({
           style={[layout.styles.icon, { tintColor: tintColor }]}
         />
       ),
-      /*
-      title:'新聞',
-      //title:'',
-      activeTintColor: '#e91e63',
-      headerLeft: null,
-      headerVisible: false,
-      //navBarBackgroundColor: '#f7f7f7',
-      headerStyle: {
-        borderBottomColor: layout.themeTextColor,
-        borderBottomWidth: 1,
-        backgroundColor: 'white',
+      
+    },
+  },
+
+  NewsDetailView: { 
+    screen: NewsDetailView,
+    navigationOptions: {
+      title: strings.home,
+      tabBarIcon: ({ tintColor }) => (
+        <Image
+        source={require('tutorRN/src/image/icons8-home-100.png')}
+          //style={[styles.icon, { tintColor: tintColor }]}
+          style={[layout.styles.icon, { tintColor: tintColor }]}
+        />
+      ),
+      //title: '搜尋33',
+    },
+  },
+
+  
+})
+/*
+var NewsStack = StackNavigator({
+
+ 
+  
+
+  NewsHomeView: {
+    screen: NewsHomeView ,
+    navigationOptions: {
+      
+      //header:{ visible:false },
+      header: null,
+      //tabBarVisible: true,
+      title: strings.home,
+      tabBarIcon: ({ tintColor }) => (
+        <Image
+          source={require('tutorRN/src/image/icons8-home-100.png')}
+          //style={[styles.icon, { tintColor: tintColor }]}
+          style={[layout.styles.icon, { tintColor: tintColor }]}
+        />
+      ),
+      
+    },
+    NewsDetailView: { 
+      screen: NewsDetailView,
+      navigationOptions: {
+        title: strings.home,
+        tabBarIcon: ({ tintColor }) => (
+          <Image
+          source={require('tutorRN/src/image/icons8-home-100.png')}
+            //style={[styles.icon, { tintColor: tintColor }]}
+            style={[layout.styles.icon, { tintColor: tintColor }]}
+          />
+        ),
+        //title: '搜尋33',
       },
-      */
-    }
-    
-  }
+    },
+  },
+  
+
 
 
 });
 
-
+*/
 
 export default NewsStack;
 

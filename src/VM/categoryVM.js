@@ -122,6 +122,16 @@ export default class categoryVM{
 		}
 	}
 
+	getCategoryNameByID( value )
+	{
+		for ( var i = 0 ; i < this.refCategories.length; i ++)
+		{
+			if ( this.refCategories[i].id == value){
+				return this.refCategories[i].name
+			}
+		}
+	}
+
 	getSubCategoriesNameByCategoryKey(key)
 	{
 		

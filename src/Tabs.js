@@ -24,7 +24,6 @@ const layout = require('tutorRN/src/Layout')
 
 // Tab 1
 import NewsStack from 'tutorRN/src/stack/NewsStack'
-import NewsHomeView from 'tutorRN/src/view/NewsHomeView';
 
 // Tab 2
 import LessonStack from 'tutorRN/src/stack/LessonStack'
@@ -291,6 +290,7 @@ const Tabs = TabNavigator({
   //news: NewsHomeView,
   news: NewsStack,
   search: SearchStack,
+  //news: NewsStack,
   //search:animatedbasic,
   add: LessonStack,
   //lesson : LessonStack,

@@ -11,6 +11,7 @@
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#import <React/RCTLog.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 @implementation AppDelegate
@@ -41,6 +42,7 @@
   NSLog(@"Hi, im debug mode");
 #else
   jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+  NSLog(@"Hi, im release mode");
 #endif
 
   
@@ -48,6 +50,7 @@
                                                       moduleName:@"tutorRN"
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
+  RCTSetLogThreshold(RCTLogLevelInfo - 1);
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];

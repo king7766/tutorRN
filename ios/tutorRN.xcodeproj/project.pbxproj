@@ -49,12 +49,11 @@
 		E33F7D9F21D9F8390069CE64 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E33F7D9A21D9F8390069CE64 /* FBSDKLoginKit.framework */; };
 		E33F7DA021D9F8390069CE64 /* FBSDKPlacesKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E33F7D9B21D9F8390069CE64 /* FBSDKPlacesKit.framework */; };
 		E33F7DE621DA066D0069CE64 /* YTPlayerView-iframe-player.html in Resources */ = {isa = PBXBuildFile; fileRef = E33F7DE521DA066D0069CE64 /* YTPlayerView-iframe-player.html */; };
+		E370895F2265849F00771641 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = E370895C2265849E00771641 /* assets */; };
+		E37089602265849F00771641 /* main.jsbundle.meta in Resources */ = {isa = PBXBuildFile; fileRef = E370895D2265849E00771641 /* main.jsbundle.meta */; };
+		E37089612265849F00771641 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = E370895E2265849F00771641 /* main.jsbundle */; };
 		E3E2CCB721EDD1C2009B5307 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3E2CC9B21EDD1A4009B5307 /* libRCTCameraRoll.a */; };
 		E3E2CCCA21EDD29F009B5307 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3E2CCC921EDD271009B5307 /* libRNImagePicker.a */; };
-		E3F60DFC221575C500E9BB55 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = E3F60DDA221575C500E9BB55 /* main.jsbundle */; };
-		E3F60DFD221575C500E9BB55 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = E3F60DDA221575C500E9BB55 /* main.jsbundle */; };
-		E3F60E02221FF20B00E9BB55 /* image in Resources */ = {isa = PBXBuildFile; fileRef = E3F60E01221FF20900E9BB55 /* image */; };
-		E3F60E03221FF20B00E9BB55 /* image in Resources */ = {isa = PBXBuildFile; fileRef = E3F60E01221FF20900E9BB55 /* image */; };
 		F1DEB75501EC4738A5C09B04 /* fontello.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 94B7C53AB2934EE58CF69E82 /* fontello.ttf */; };
 /* End PBXBuildFile section */
 
@@ -350,10 +349,11 @@
 		E33F7D9A21D9F8390069CE64 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = tutorRN/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		E33F7D9B21D9F8390069CE64 /* FBSDKPlacesKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKPlacesKit.framework; path = tutorRN/FBSDKPlacesKit.framework; sourceTree = "<group>"; };
 		E33F7DE521DA066D0069CE64 /* YTPlayerView-iframe-player.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = "YTPlayerView-iframe-player.html"; path = "tutorRN/YTPlayerView-iframe-player.html"; sourceTree = "<group>"; };
+		E370895C2265849E00771641 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
+		E370895D2265849E00771641 /* main.jsbundle.meta */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.jsbundle.meta; sourceTree = "<group>"; };
+		E370895E2265849F00771641 /* main.jsbundle */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		E3E2CC9221EDD1A4009B5307 /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		E3E2CCC421EDD271009B5307 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
-		E3F60DDA221575C500E9BB55 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = tutorRN/main.jsbundle; sourceTree = "<group>"; };
-		E3F60E01221FF20900E9BB55 /* image */ = {isa = PBXFileReference; lastKnownFileType = folder; name = image; path = ../src/image; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -500,9 +500,7 @@
 		13B07FAE1A68108700A75B9A /* tutorRN */ = {
 			isa = PBXGroup;
 			children = (
-				E3F60E01221FF20900E9BB55 /* image */,
 				E33F7DE521DA066D0069CE64 /* YTPlayerView-iframe-player.html */,
-				E3F60DDA221575C500E9BB55 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -593,6 +591,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				E370895C2265849E00771641 /* assets */,
+				E370895E2265849F00771641 /* main.jsbundle */,
+				E370895D2265849E00771641 /* main.jsbundle.meta */,
 				13B07FAE1A68108700A75B9A /* tutorRN */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* tutorRNTests */,
@@ -1142,14 +1143,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E3F60E02221FF20B00E9BB55 /* image in Resources */,
+				E370895F2265849F00771641 /* assets in Resources */,
+				E37089602265849F00771641 /* main.jsbundle.meta in Resources */,
+				E37089612265849F00771641 /* main.jsbundle in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				F1DEB75501EC4738A5C09B04 /* fontello.ttf in Resources */,
 				2A0823B39F8B48DC88036060 /* vincHand.ttf in Resources */,
 				E33F7DE621DA066D0069CE64 /* YTPlayerView-iframe-player.html in Resources */,
 				0F75FD174C984D5286FD2640 /* YTPlayerView-iframe-player.html in Resources */,
-				E3F60DFC221575C500E9BB55 /* main.jsbundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1157,9 +1159,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E3F60E03221FF20B00E9BB55 /* image in Resources */,
 				2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */,
-				E3F60DFD221575C500E9BB55 /* main.jsbundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

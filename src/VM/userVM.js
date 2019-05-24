@@ -20,6 +20,7 @@ export default class userVM{
 
 
 	@observable userProfile: any
+	facebookPhotos = []
 
 	static getInstance() {
 
@@ -39,6 +40,16 @@ export default class userVM{
 		
 	}
 
+	setUserProfile(data)
+	{
+		this.userProfile = userModel.deserialize(data)
+	}
+
+	setFacebookPhotos( photos)
+	{
+		this.facebookPhotos = photos
+	}
+
 	//@action
 	load()
 	{
@@ -51,6 +62,11 @@ export default class userVM{
 	{
 		
 		return this.userProfile
+	}
+
+	getFacebookPhotos()
+	{
+		return this.facebookPhotos
 	}
 
 	async register (data)

@@ -133,11 +133,16 @@ class NewsVideoCell extends Component{
 
   showPhotoVideo()
   {
+    var photos = [this.props.item.news_thumb]
     return (
       //<View/>
       //<Image source={{uri: 'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/3a7803bf022db91704584b7297b38bc6.jpg' }} style={styles.fullViewStyle} /> 
       
+      
+
+
       <PhotoSlideView
+        photos  = {photos}
         onReady = { this.onLoad }
         onPress = { this.displayViewOnClick }
       />
@@ -262,10 +267,13 @@ class NewsVideoCell extends Component{
             />
             */
           }    
-          {          
+          {     
+            this.props.type == 0 ? this.showPhotoVideo() : this.showPhotoVideo()
+            /*     
             this.props.item.type == 0 ? this.showPhotoVideo() : 
             this.props.item.type == 1 ? this.showVideoView() : 
             this.showVideoByYoutube()
+            */
           } 
           {
             !this.state.hiddenUI && this.showUI()

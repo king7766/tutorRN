@@ -17,6 +17,7 @@ class TutorProfileBlock extends Component{
 
   constructor (props){
     super(props);
+    
     this.state = {
       editmode: false,
       job: this.props.tutor.job,
@@ -57,14 +58,19 @@ class TutorProfileBlock extends Component{
           >
             {this.props.tutor.user_nickname}
           </Text>
+          
           <TouchableOpacity
               onPress={()=>this.editBtnOnClick()}
           >
-            <Image
-              style = {{width: 30, height:30, padding:5}}
-              source= {this.state.editmode ? require('tutorRN/src/image/icons8-completed-90.png') : require('tutorRN/src/image/icons8-pencil-90.png')}
-              resizeMode =  'contain'
-            />
+            {
+              this.props.allowEdit && 
+              <Image
+                style = {{width: 30, height:30, padding:5}}
+                source= {this.state.editmode ? require('tutorRN/src/image/icons8-completed-90.png') : require('tutorRN/src/image/icons8-pencil-90.png')}
+                resizeMode =  'contain'
+              />
+            }
+            
           </TouchableOpacity>
         </View>
         <TextInput 

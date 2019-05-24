@@ -38,7 +38,7 @@ class TutorProfileTextBlock extends Component{
     }
     this.arrowOnClick = this.arrowOnClick.bind(this)
     this._keyboardDidHide = this._keyboardDidHide.bind(this)
-    
+    //console.log(this.props.description +' allowEdit = ' + this.props.allowEdit)
   }
 
   componentDidMount() {
@@ -139,11 +139,14 @@ class TutorProfileTextBlock extends Component{
             <TouchableOpacity
               onPress={()=>this.editBtnOnClick()}
             >
+            {
+              this.props.allowEdit && 
               <Image
                 style = {{width: 30, height:30}}
                 source= {this.state.editmode ? require('tutorRN/src/image/icons8-completed-90.png') : require('tutorRN/src/image/icons8-pencil-90.png')}
                 resizeMode =  'contain'
               />
+            }
             </TouchableOpacity>
           </View>
           <TextInput 

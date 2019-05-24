@@ -165,8 +165,7 @@ class ProfileHomeView extends Component<Props> {
         <TutorProfileTextBlock
             arrowOn = {false}
             title = {strings.education}
-            description = {this.state.tutor.achievement}
-            
+            description = {this.state.tutor.achievement}  
         />
 
         <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
@@ -194,7 +193,9 @@ class ProfileHomeView extends Component<Props> {
 
         <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
 
-        <PhotoShowView/>
+        <PhotoShowView
+          source = {userViewModel.getFacebookPhotos()}
+        />
         
     
       </ScrollView> 

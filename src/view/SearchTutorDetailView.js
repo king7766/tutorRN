@@ -26,6 +26,7 @@ import SegmentControl from './ui/SegmentControl'
 
 import TutorCVCell from './ui/TutorCVCell'
 import CalendarCell from './ui/CalendarCell'
+import TutorProfileBlock from 'tutorRN/src/view/ui/TutorProfileBlock'
 import TutorProfileTextBlock from './ui/TutorProfileTextBlock'
 import TutorRatingBlock from './ui/TutorRatingBlock'
 import strings from 'tutorRN/src/service/strings'
@@ -47,7 +48,7 @@ class SearchTutorDetailView extends Component<Props> {
       data: 
         {
           'image': 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=c36a9365035e76d990a0b0ca07145494&oe=5B55A6D7',
-          'name': '陳小明',
+          'user_nickname': '陳小明',
           'job': 'iOS 程式設計師',
           'exp': '10年工作經驗',
           'title': '中文大學學士',
@@ -82,13 +83,23 @@ class SearchTutorDetailView extends Component<Props> {
     return (
       <View>
         <ScrollView>
-          <TutorCVCell 
+          <TutorProfileBlock
+            allowEdit = {false}
+            tag = {0}
             tutor = {this.state.data}
+            //tutor = {userViewModel.getUser()}
+            arrowOn = {false}
+            //onClicked = {this.arrowOnClicked}
+            //<TutorCVCell 
+            //tutor = {this.state.data}
+            ///>
           />
+        
 
           <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>         
 
           <TutorProfileTextBlock
+            allowEdit = {false}
             arrowOn = {false}
             title = {strings.education}
             description = {this.state.data.achievement}
@@ -97,6 +108,7 @@ class SearchTutorDetailView extends Component<Props> {
           <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
 
           <TutorProfileTextBlock
+            allowEdit = {false}
             arrowOn = {false}
             title = {strings.description}
             description = {this.state.data.description}

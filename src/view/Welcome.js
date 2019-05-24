@@ -137,7 +137,9 @@ class Welcome extends Component<Props> {
 
     const infoRequest = new GraphRequest(
       //'me/videos?type=uploaded&fields=title,description,thumbnails',
-      'me?fields=address,first_name,last_name,name,email,location,photos,picture,public_key,birthday,gender,about,posts',
+      //'me?fields=address,first_name,last_name,name,email,location,photos,picture,public_key,birthday,gender,about,posts',
+      'me?fields=address,first_name,last_name,name,email,location,photos{picture},picture{url},public_key,birthday,gender,about,posts,videos{id}',
+
       //'tutorRN/src/me/videos?type=uploaded&field=file_size,title,description',
       //624073744/videos?type=uploaded
       //'tutorRN/src/me?fields=name,picture,email',
@@ -282,16 +284,18 @@ class Welcome extends Component<Props> {
 
     const res = M.loginAction(id, password, info)
 
-    /*
+    
     if ( res == true )
     {
-      console.log('loginAction success : ' + userViewModel.getUser() )
+      
+      //console.log('loginAction success : ' + userViewModel.getUser() )
     }
     else
     {
+      console.log('login fail !! set UI for related action')
       //M.registrationAction(id, password, info)
     }
-    */
+    
 
 
     /*
@@ -428,7 +432,8 @@ class Welcome extends Component<Props> {
     const element = ReactNativeComponentTree.getInstanceFromNode(event.nativeEvent.target); 
     element.setNativeProps({
       placeholder: element._currentElement.props.name == 'account' ? strings.emailPlaceHolder : strings.passwordPlaceHolder,
-      placeholderTextColor:'grey'
+      //placeholderTextColor:'grey'
+      placeholderTextColor:'white'
       
     });
   }
@@ -439,17 +444,23 @@ class Welcome extends Component<Props> {
     return (
       <View style = {styles.background}>  
         <Image source={require('tutorRN/src/image/background.jpg')} style={styles.image} /> 
-        <View style = {styles.ButtonContainer}>
+        
+        <View style = {{width: layout.deviceWidth, backgroundColor:'transparent', top:70, alignItems: 'center', justifyContent: 'center'}}>
+          <Image source={require('tutorRN/src/image/iconLogo1.png')} style= {styles.welcomeIcon}/> 
+        </View>
 
-          <View 
-            style = {styles.emailField}
-          >
+
+        <View style = {styles.ButtonContainer}>
+          
+
+          <View  style = {styles.emailField}>
             <TextInput
               ref= {(accountInput) => { this.accountInput = accountInput }}
-              style = {{paddingLeft : 5, paddingRight : 5, backgroundColor: 'rgba(255, 255, 255, 1.0)', height: '100%'}}
+              style = {{paddingLeft : 5, paddingRight : 5, backgroundColor: 'rgba(200, 200, 200, 0.9)', height: '100%'}}
               //style={{height: 40, borderColor: 'gray', borderWidth: 1}}
               //onChangeText={(text) => this.setState({account: text})}
               placeholder = {strings.emailPlaceHolder}
+              placeholderTextColor='white'
               //value={this.state.text}
 
               name= "account"
@@ -465,10 +476,11 @@ class Welcome extends Component<Props> {
           >
             <TextInput
               ref= {(passwordInput) => { this.passwordInput = passwordInput }}
-              style = {{paddingLeft : 5, paddingRight : 5, backgroundColor: 'rgba(255, 255, 255, 1.0)', height: '100%'}}
+              style = {{paddingLeft : 5, paddingRight : 5, backgroundColor: 'rgba(200, 200, 200, 0.9)', height: '100%'}}
               //style={{height: 40, borderColor: 'gray', borderWidth: 1}}
               name= "password"
               secureTextEntry = {true}
+              placeholderTextColor='white'
               //onChangeText={(text) => this.setState({password: text})}
               onChange= {this.handleInputChange}
               placeholder = {strings.passwordPlaceHolder}
@@ -477,8 +489,11 @@ class Welcome extends Component<Props> {
             />
           </View>
 
-          <TouchableHighlight onPress={()=>this.registerAction()}>
-            <View style={styles.loginButton}>
+          <TouchableHighlight 
+            onPress={()=>this.registerAction()} 
+            style = {styles.registerBtnStyle}
+          >
+            <View>
               <Text style = {styles.loginText}>
                 {strings.registrationText}
               </Text>
@@ -486,23 +501,20 @@ class Welcome extends Component<Props> {
           </TouchableHighlight>
 
 
-          <TouchableHighlight onPress={()=>this.loginAction(this.state.accountID, this.state.password, null)}>
-            <View style={styles.loginButton}>
+          <TouchableHighlight 
+            onPress={()=>this.loginAction(this.state.accountID, this.state.password, null)}
+            style = {styles.loginBtnStyle}
+          >
+            <View>
               <Text style = {styles.loginText}>
                 {strings.loginText}
               </Text>
             </View>
           </TouchableHighlight>
 
-
-          <TouchableHighlight onPress={this.guestInAction}>
-            <View style={styles.facebookButton}>
-              <Text style = {styles.facebookText}>
-                {strings.guestLoginText}
-              </Text>
-            </View>
-          </TouchableHighlight>
-          <LoginButton 
+          <View style = {styles.fbBtnStyle}>
+            <LoginButton 
+            
             readPermissions={[
               "public_profile",
               "email",
@@ -548,7 +560,19 @@ class Welcome extends Component<Props> {
             onLogoutFinished = {
               this.logoutFinished
             }
-          />
+            />
+          
+          </View>
+
+
+          <TouchableHighlight onPress={this.guestInAction}>
+            <View style={styles.guestButtonStyle}>
+              <Text style = {styles.guestBtnText}>
+                {strings.guestLoginText}
+              </Text>
+            </View>
+          </TouchableHighlight>
+          
         </View>
       </View>
     );
@@ -558,15 +582,18 @@ class Welcome extends Component<Props> {
 const styles = StyleSheet.create({
 
   emailField: {
+    //top:200,
     width: '100%',
     height: 40,
-    backgroundColor : 'rgba(242,242,242,1)'
+    //backgroundColor : 'rgba(242,242,242,0.7)'
 
   },
   passwordField:{
+    top:5,
+    //top:205,
     width: '100%',
     height: 40,
-    backgroundColor : 'rgba(242,242,242,1)'
+    //backgroundColor : 'rgba(242,242,242,0.7)'
   },
 
   background:{
@@ -574,6 +601,16 @@ const styles = StyleSheet.create({
     flex: 1,
     //backgroundColor:'red',
     
+  },
+
+  welcomeIcon:{
+    //top: layout.deviceHeight - 100,
+    
+    height:170,
+    width:170,
+    
+    //width: layout.deviceWidth - 100,
+    opacity:0.7,
   },
 
   image: {
@@ -593,14 +630,37 @@ const styles = StyleSheet.create({
     //justifyContent: 'center',
   },
 
-  loginButton:{
+  registerBtnStyle:{
+
+    top:10,
     //width:'100%',
     //flex:1,
+    
     justifyContent: 'center',
     alignItems: 'center',
     height:40,
-    backgroundColor: layout.themeTextColor,
+    //backgroundColor: layout.themeTextColor,
+    backgroundColor: 'rgba(200, 200, 200, 0.9)',
     width: layout.deviceWidth,
+
+  },
+  loginBtnStyle:{
+    top:10,
+    //width:'100%',
+    //flex:1,
+    
+    justifyContent: 'center',
+    alignItems: 'center',
+    height:40,
+    //backgroundColor: layout.themeTextColor,
+    backgroundColor: 'rgba(200, 200, 200, 0.9)',
+    width: layout.deviceWidth,
+  },
+
+
+
+  fbBtnStyle:{
+    top:15,
   },
 
   loginText:{
@@ -608,17 +668,19 @@ const styles = StyleSheet.create({
     fontSize:15
   },
 
-  facebookText:{
+  guestBtnText:{
     color: 'white',
     fontSize: 15
     
   },
-  facebookButton: {
+  guestButtonStyle: {
+    top:240,
     width: '100%',
     //flex:1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor : 'rgba(61,89,148,1)',
+    //backgroundColor : 'rgba(61,89,148,1)',
+    backgroundColor: 'rgba(200, 200, 200, 0.9)',
     width: layout.deviceWidth,
     height: 40,
     
@@ -628,9 +690,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     //backgroundColor: 'green',
     position: 'absolute',
-    top: layout.deviceHeight - 250,
+    top: layout.deviceHeight - 500,
+    height:layout.deviceHeight - 500,
     width: layout.deviceWidth,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
   }
 

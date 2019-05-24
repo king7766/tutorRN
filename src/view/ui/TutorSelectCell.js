@@ -50,7 +50,7 @@ class TutorSelectCell extends Component{
     console.log('imageURL = ' + imageURL)
 
     const location = '\uE801  ' + '赤柱'
-    const price = '\t\uF155  ' + '500'
+    const course_fee = '\t\uF155  ' + this.props.item.course_fee
     const rating = '4.5' + '  \uE803'
 
     return(
@@ -68,31 +68,31 @@ class TutorSelectCell extends Component{
         <View style = {styles.photoViewStyle}>
           <Image 
             style = {styles.imageStyle}
-            source = {{uri: this.props.imageURL}}
+            source = {{uri: this.props.item.tutor_img}}
             // cover, contain, stretch, center
             rezizeMode = 'contain'
           />
           <Text style = {{fontSize: 14, padding : 5, fontFamily: "fontello"}}>
-            {rating}
+            {this.props.item.course_ranking}
           </Text>
         </View>
 
         <View style = {styles.tutorViewStyle}>
           <Text style = {styles.nameStyle}>
-            李明明
+            {this.props.item.course_introduction}
           </Text>
 
           <Text style = {styles.subjectStyle}>
-            英國語文
+            {this.props.item.course_name}
           </Text>
 
           <View style = {{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center',}}>
             <Text style = {styles.locationStyle}>
-              {location}
+              {this.props.item.tag_name}
             </Text>
 
             <Text style = {styles.priceStyle}>
-              {price}
+              {course_fee}
             </Text>
           </View>
         </View>

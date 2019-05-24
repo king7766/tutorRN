@@ -22,8 +22,23 @@ class PhotoShowView extends Component<Props> {
 
   constructor(props) {
     super(props);
+    
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    var photos = []
+    if (this.props.source )
+    {
+      console.log('photo count = ' + this.props.source.length)
+      for ( var i = 0; i < this.props.source.length; i++)
+      {
+        const img = this.props.source[i].picture
+        photos.push(img)
+      }
+    }
+    
     this.state = {
+      dataSource: ds.cloneWithRows(photos),
+      photosCount :  this.props.source.length ?  this.props.source.length : 0,
+      /*
       dataSource: ds.cloneWithRows([
         'https://via.placeholder.com/150/C0C0C0/000000?text=image%20here',
         'https://via.placeholder.com/150/C0C0C0/000000?text=image%20here',
@@ -33,6 +48,7 @@ class PhotoShowView extends Component<Props> {
         'https://via.placeholder.com/150/C0C0C0/000000?text=image%20here',
         'https://via.placeholder.com/150/C0C0C0/000000?text=image%20here',
       ])
+      */
     }
   }
 
@@ -51,12 +67,12 @@ class PhotoShowView extends Component<Props> {
         onPress={ ()=>this.onPressImage(rowID)}
       >
       
-      <Image
-        style = {{ height:layout.deviceWidth/3, width:layout.deviceWidth/3, borderColor: 'black',  borderWidth: 0.5,}}
-        source={{uri:data}}
-        //style={[styles.icon, { tintColor: tintColor }]}
-        //style={[layout.styles.icon, { tintColor: tintColor }]}
-      >
+        <Image
+          style = {{ height:layout.deviceWidth/3, width:layout.deviceWidth/3, borderColor: 'black',  borderWidth: 0.5,}}
+          source={{uri:data}}
+          //style={[styles.icon, { tintColor: tintColor }]}
+          //style={[layout.styles.icon, { tintColor: tintColor }]}
+        >
       
       </Image>
       </TouchableHighlight>
@@ -72,9 +88,11 @@ class PhotoShowView extends Component<Props> {
 
   render() {
 
+    console.log('photo show view !!')
     return (
       
         <ListView
+          initialListSize = {this.state.photosCount}
           //backgroundColor = 'black'
           //horizontal={true}
           contentContainerStyle = {styles.list}

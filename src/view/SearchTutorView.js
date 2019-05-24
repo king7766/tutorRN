@@ -34,20 +34,27 @@ import {
 
 
 import courseVM from 'tutorRN/src/VM/courseVM'
+import categoryVM from 'tutorRN/src/VM/categoryVM'
+import courseTagVM from 'tutorRN/src/VM/courseTagVM'
 
 const layout = require('tutorRN/src/Layout')
 const courseViewModel = courseVM.getInstance()
-
+const categoryViewModel = categoryVM.getInstance()
+const courseTagViewModel = courseTagVM.getInstance()
 
 class SearchTutorView extends Component<Props> {
 
   constructor(props) {
     super(props);
     // /this.handleFacebookLogin = this.handleFacebookLogin.bind(this)
+    const { params } = this.props.navigation.state;
+    const tag = params ? params.tag : null
     this.selectTutor = this.selectTutor.bind(this)
     this.state = {
       sgData : ['所有課堂', '即將開始', '等待確認'],
-    
+      tag: tag,
+      data: courseViewModel.getCourseByTag(tag)
+      /*
       data: [
         {
           'image': 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=c36a9365035e76d990a0b0ca07145494&oe=5B55A6D7',
@@ -95,7 +102,10 @@ class SearchTutorView extends Component<Props> {
           'price' : 100
         },
       ]
+      */
     };
+
+    console.log('data = ' + this.state.data)
   }
 
   componentWillMount() {
@@ -109,27 +119,37 @@ class SearchTutorView extends Component<Props> {
   selectTutor (index ){
     console.log('selectTutor ' + index)
     this.props.navigation.navigate('SearchTutorDetailView',{
-      id :'121'
+      id :'121',
+      allowEdit: false,
       }
     )
   }
 
-  TopMenuBarOnClicked(index)
+  async TopMenuBarOnClicked(index)
   {
+   
+    if ( index == 0 )
+    {
+
+    }
+    else
+    {
+
     
+     
+    }
     console.log('TopMenuBarOnClicked :' + index)  
   }
 
   render() {
 
     const { params } = this.props.navigation.state;
-    const location = params ? params.location : null;
-    const district = params ? params.district : null;
-    const education = params ? params.education : null;
-    const subject = params ? params.subject : null;
+    //const location = params ? params.location : null;
+    //const district = params ? params.district : null;
+    //const education = params ? params.education : null;
+    //const subject = params ? params.subject : null;
 
-    var condition = [location, district, education, subject]
-    console.log( 'condition = ' + condition)
+    var condition = ['',categoryViewModel.getCategoryNameByID( this.state.tag)]
 
     return (
       <View>
@@ -141,7 +161,7 @@ class SearchTutorView extends Component<Props> {
           itemHeight = {30}
           itemWidth = {50}
           selected = {0}
-          
+          multiSelect = {true}
           onClicked={ this.TopMenuBarOnClicked }
         />
         <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
@@ -156,12 +176,15 @@ class SearchTutorView extends Component<Props> {
 
                   onClicked = {this.selectTutor }
                   id = {item.id}
+                  item = {item}
+                  /*
                   imageURL = {item.image}
                   name = {item.name}
                   subject = {item.subject}
                   rating = {item.rating}
                   location = {item.location}
                   price = {item.price}
+                  */
                 />
               
 

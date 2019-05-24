@@ -96,6 +96,7 @@ class SearchHomeView extends Component<Props> {
     this.cellStyle = this.cellStyle.bind(this)
     this.tabOnClicked = this.tabOnClicked.bind(this)
     this.TopMenuBarOnClicked = this.TopMenuBarOnClicked.bind(this)
+    this.ListingCatBtnOnClick = this.ListingCatBtnOnClick.bind(this)
   }
 
   componentWillMount() {
@@ -244,13 +245,22 @@ class SearchHomeView extends Component<Props> {
 
   }
 
-  async handleSettingsPress (rowData)
+  async ListingCatBtnOnClick (rowData)
   {
-    console.log('handleSettingsPress ' + rowData.id)
+    console.log('ListingCatBtnOnClick ' + rowData.id)
     const res = await courseViewModel.loadCourse('TAG',rowData.id)
     if (res == true)
     {
+      
+      this.props.navigation.navigate('SearchTutorView',{
+        tag:rowData.id,
+        data : res
+      });
       console.log(courseViewModel.getCourseByTag(rowData.id))
+    }
+    else
+    {
+      
     }
 
       
@@ -301,11 +311,16 @@ class SearchHomeView extends Component<Props> {
     console.log('TopMenuBarOnClicked :' + index)  
   }
 
+  iconOnClick(itemDataSelected)
+  {
+    console.log('SearchHomeView : ' + itemDataSelected.selectedIndex + ' ' + itemDataSelected.courseID)
+  }
+
   tutorRowListUI()
   {
-    return this.state.courseTagNames.map((data, i) =>
+    return this.state.courseTagNames.map((tagName, i) =>
     {
-      var courseID = courseTagViewModel.getCourseIDByName(data)
+      var courseID = courseTagViewModel.getCourseIDByName(tagName)
       if ( i > 0 && this.state.courseTagSelection[i] == true)
       {
         return (
@@ -315,9 +330,11 @@ class SearchHomeView extends Component<Props> {
           >
             <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
             <TutorRowFlatList
-              title = {data}
+              title = {tagName}
               height = {120}
+              iconOnClick = {(itemDataSelected)=>this.iconOnClick(itemDataSelected)}
               //data = {this.state.tutorRowData}
+              id = {courseID}
               data = {courseViewModel.getCourseByCategory(courseID)}
             />   
           </View>
@@ -353,7 +370,7 @@ class SearchHomeView extends Component<Props> {
           renderRow={(rowData, rowID) =>
             <TouchableOpacity 
               key = {rowID}
-              onPress={()=>this.handleSettingsPress (rowData) }
+              onPress={()=>this.ListingCatBtnOnClick (rowData) }
               //underlayColor = {layout.touchHighlightColor}
             >
               <View style={this.cellStyle(rowData)}>   

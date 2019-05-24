@@ -28,6 +28,8 @@ class ImageLoader extends Component {
       opacity: new Animated.Value(0),
       move : new Animated.Value(-1),
      
+      data: this.props.photos,
+      /*
       data : [
         
         'https://www.joinin-education.com/uploads/1/0/1/8/101845694/img-7578-web_orig.jpg',
@@ -37,7 +39,7 @@ class ImageLoader extends Component {
         'https://www.joinin-education.com/uploads/1/0/1/8/101845694/img-7283-web_orig.jpg',
         'https://www.joinin-education.com/uploads/1/0/1/8/101845694/20180630215229-img-7919_1_orig.jpg',
         'https://www.joinin-education.com/uploads/1/0/1/8/101845694/img-7563-web_1_orig.jpg',
-        
+        */
         /*
         'https://images.unsplash.com/photo-1485832329521-e944d75fa65e?auto=format&fit=crop&w=1000&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D',
         */
@@ -52,7 +54,7 @@ class ImageLoader extends Component {
         'http://www.modern.edu.hk/ext/asset/tutor/5b6e7046d2cca_norm.jpg',
         'http://www.modern.edu.hk/ext/asset/tutor/5b6e6da28b03b_norm.jpg',
           */
-      ],
+      //],
       displayingIndex : 0,
       landscape : false,
       imageHeight: 0,
@@ -368,6 +370,7 @@ class PhotoSlideView extends Component{
 
   render (){
 
+    
     const data = ['https://images.unsplash.com/photo-1485832329521-e944d75fa65e?auto=format&fit=crop&w=1000&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D',
       'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/3a7803bf022db91704584b7297b38bc6.jpg',
       'https://images.unsplash.com/photo-1485832329521-e944d75fa65e?auto=format&fit=crop&w=1000&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D',
@@ -390,7 +393,8 @@ class PhotoSlideView extends Component{
         
         <ImageLoader
           style={styles.image}
-          data = {data}
+          data = {this.props.photos}
+          photos = {this.props.photos}
           //source={{ uri: 'https://images.unsplash.com/photo-1485832329521-e944d75fa65e?auto=format&fit=crop&w=1000&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D' }}
         />
       //</TouchableHighlight>

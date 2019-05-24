@@ -49,6 +49,7 @@ var SearchStack = StackNavigator({
     },
   },
 
+  
   SearchTutorDetailView: { 
     screen: SearchTutorDetailView,
     navigationOptions: {
@@ -63,6 +64,7 @@ var SearchStack = StackNavigator({
       //title: '搜尋33',
     },
   },
+  
 
   SearchFilteringView:{
     screen: SearchFilteringView,

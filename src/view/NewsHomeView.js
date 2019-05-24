@@ -29,17 +29,16 @@ import {
 
 
 //import Navigator from 'react-native-deprecated-custom-components'
-import NewsCell from './ui/NewsCell'
+
 import NewsVideoCell from './ui/NewsVideoCell'
 import newsVM from 'tutorRN/src/VM/newsVM'
-import NewsDetailView from './NewsDetailView'
-import PhotoSlideView from './ui/PhotoSlideView'
 
 import locationVM from 'tutorRN/src/VM/locationVM'
 import categoryVM from 'tutorRN/src/VM/categoryVM'
 
 //import AddBtnPopUpDialog from 'tutorRN/src/view/ui/AddBtnPopUpDialog'
 import PopupDialog, {DialogTitle, SlideAnimation, DialogButton, FadeAnimation, ScaleAnimation} from 'react-native-popup-dialog';
+import strings from 'tutorRN/src/service/strings'
 
 const layout = require('tutorRN/src/Layout')
 
@@ -57,6 +56,8 @@ class NewsHomeView extends Component<Props> {
 
   constructor(props) {
     super(props);
+
+    //const { navigate } = this.props.navigation;
     // /this.handleFacebookLogin = this.handleFacebookLogin.bind(this)
     //props.navigation.setParams({
     //  onTabFocus: this.handleTabFocus
@@ -157,13 +158,20 @@ class NewsHomeView extends Component<Props> {
     }
     this.cellItemOnClicked = this.cellItemOnClicked.bind(this)
     this.onScrollEnd = this.onScrollEnd.bind(this)
-
+    this.cellOnPressed = this.cellOnPressed.bind(this)
   }
+
+
+  /*
+  static navigationOptions = ({ navigation }) => ({
+    title: strings.home,
+  });
 
   handleTabFocus = () => {
     console.log('tabBarOnPress')
     // perform your logic here
   };
+  */
 
   /*
   static navigationOptions = ({ navigation }) => {
@@ -184,13 +192,14 @@ class NewsHomeView extends Component<Props> {
 
   
 
+  
   /*
   static navigationOptions = ({ navigation }) => ({
     title: '123',
   });
-  */
+  
 
-  /*
+  
   static navigationOptions = ({ navigation }) => {
    
     const params = navigation.state.params || {};
@@ -263,6 +272,15 @@ class NewsHomeView extends Component<Props> {
   cellOnPressed(index)
   {
     console.log('cell OnPressed ' + index)
+    this.props.navigation.navigate('NewsDetailView',{})
+    //this.props.navigation.navigate('SearchTutorDetailView');
+    /*
+    this.props.navigation.navigate('SearchTutorDetailView',{
+      id :'121',
+      allowEdit: false,
+    });
+    */
+    
     //console.log(locationViewModel.getLocationListFromDistrict(1) );
     //console.log(locationViewModel.getDistrictList() )
 
@@ -357,8 +375,8 @@ class NewsHomeView extends Component<Props> {
         
           
         {  
-          //this.state.newsVM.map((item, index) =>
-          this.state.data.map((item, index) =>
+          this.state.newsVM.map((item, index) =>
+          //this.state.data.map((item, index) =>
             (
              /* 
               <YouTube
@@ -392,6 +410,7 @@ class NewsHomeView extends Component<Props> {
               
               <NewsVideoCell
                 //news = {item}
+                
                 key = {index}
                 item = {item}
                 index = {index}
@@ -408,8 +427,8 @@ class NewsHomeView extends Component<Props> {
                 onClicked = {this.cellItemOnClicked }
                 
               />
-            
               */
+              
             )
           )
         }
