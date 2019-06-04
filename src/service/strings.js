@@ -3,6 +3,8 @@ import LocalizedStrings from 'react-native-localization';
 
 const strings = new LocalizedStrings({
     zh: {
+        
+
         home: '主頁',
         search: '搜尋',
         notice: '通知',
@@ -65,6 +67,16 @@ const strings = new LocalizedStrings({
         intervalTime: '課堂長度',
 
         startChat :'你們現在可以開始對話',
+
+
+
+        //profile page :
+        favouritTutor : '收藏導師',
+        confirmedLesson : '已確認',
+        appliedLesson: '已上課程',
+        teachedLesson: '已教課程',
+        
+        startEditProfile: '編輯個人資料',
     },
 
     cn: {

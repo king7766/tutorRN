@@ -25,6 +25,7 @@ import {
 } from 'react-native';
 import PopupDialog, {DialogTitle, SlideAnimation} from 'react-native-popup-dialog';
 import Picker from 'react-native-picker';
+import Assets from 'tutorRN/src/view/ui/Assets';
 
 import FilteringToolsBar from 'tutorRN/src/view/ui/FilteringToolsBar';
 import strings from 'tutorRN/src/service/strings'
@@ -224,7 +225,10 @@ class SearchFilteringView extends Component<Props> {
         >
           <Text style = {{margin:10, color:'rgb(231,121,98)', fontWeight:'bold'}}>{strings.order}</Text>
 
-          <FilteringToolsBar />
+          <FilteringToolsBar 
+            catName = {['評分', '最多收藏', '收費','距離']}
+            //imageSource = {[Assets.actions.doc, Assets.actions.doc, Assets.actions.doc, Assets.actions.doc]}
+          />
 
           <Text style = {{margin:10, color:'rgb(231,121,98)', fontWeight:'bold'}}>{strings.filter}</Text>
           
@@ -260,7 +264,7 @@ class SearchFilteringView extends Component<Props> {
               )
             }
           </View>
-          <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
+          <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
 
           <TouchableOpacity onPress={this.showResultBtnOnClick}>
             <View style = {styles.submitButtonBackground}>

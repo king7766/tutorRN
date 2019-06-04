@@ -19,6 +19,10 @@ export const ADD_CHAT = domain + 'add_chat.php';
 
 export const token = 'xRW8DwqoIxZBSlF83b2P';
 
+export const stringsSizeBig = 18;
+export const stringsSizeMid = 16;
+export const stringsSizeSmall = 12;
+
 /*
 function combinWithHost(host, actionName){
     return host.concat(actionName);

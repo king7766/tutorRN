@@ -74,9 +74,11 @@ class FilteringToolsBar extends React.Component{
   OnClicked(index, key)
   {
     console.log('OnClicked ' + index)
+    
     this.setState({
       selectedItem:index
     })
+    this.props.onClicked(index)
   }
 
   render (){
@@ -91,7 +93,7 @@ class FilteringToolsBar extends React.Component{
         
         <View style = {styles.background}>
           {
-            this.props.data.map((item, index) =>{
+            this.props.catName.map((item, index) =>{
               return (
                 <TouchableHighlight 
                   //onPress={this.props.onClicked}
@@ -99,10 +101,11 @@ class FilteringToolsBar extends React.Component{
                   underlayColor = { 'rgba(52, 52, 52, 0.0)'}
                   onPress={ ()=>this.OnClicked(index, this.props.tag)}
                   //onPress={ ()=>this.props.onClicked(index)}
+                  //<Image style = {this.imageStyle(index)} source = {Assets.actions.search} />
                   key = {index}
                 >
                   <View style = {{ width:layout.deviceWidth/5, height:50, alignItems:'center'}}>
-                    <Image style = {this.imageStyle(index)} source = {Assets.actions.search} />
+                    <Image style = {this.imageStyle(index)} source = {this.props.imageSource[index]} />
                     <Text style = {this.textStyle(index)}>
                         {item}
                     </Text>
@@ -130,7 +133,8 @@ FilteringToolsBar.defaultProps = {
   pressEnable: true,
   numberOfItem: 3,
   height: 100,
-  data: ['評分', '最多收藏', '收費','距離']
+  imageSource : [Assets.actions.search, Assets.actions.search, Assets.actions.search, Assets.actions.search],
+  catName: ['評分', '最多收藏', '收費','距離']
 };
 
 export default FilteringToolsBar;

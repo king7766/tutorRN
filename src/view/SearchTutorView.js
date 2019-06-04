@@ -164,7 +164,7 @@ class SearchTutorView extends Component<Props> {
           multiSelect = {true}
           onClicked={ this.TopMenuBarOnClicked }
         />
-        <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
+        <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
         <ScrollView>
         {
           

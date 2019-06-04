@@ -9,6 +9,12 @@ let themeTextColor = 'rgba(225,19,101,1)'
 let shadowColor = 'rgba(233,233,233,1)'
 let systemBlueColor = 'rgba(21,126,250,1)'
 
+let backgroundColor = 'rgba(233,233,233,1)'
+
+let stringsSizeBig = 18
+let stringsSizeMid = 16
+let stringsSizeSmall = 12
+
 const styles = StyleSheet.create({
 	icon: {
 	  marginTop: 10,
@@ -33,6 +39,9 @@ module.exports = {
 	systemBlueColor,
 	styles,
 	
-
+	backgroundColor, 
+	stringsSizeBig,
+	stringsSizeMid,
+	stringsSizeSmall
 };
 

@@ -96,7 +96,7 @@ class NewsDetailView extends Component<Props> {
           />
         
 
-          <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>         
+          <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>         
 
           <TutorProfileTextBlock
             allowEdit = {false}
@@ -105,7 +105,7 @@ class NewsDetailView extends Component<Props> {
             description = {this.state.data.achievement}
           />
 
-          <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
+          <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
 
           <TutorProfileTextBlock
             allowEdit = {false}
@@ -113,12 +113,12 @@ class NewsDetailView extends Component<Props> {
             title = {strings.description}
             description = {this.state.data.description}
           />
-          <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
+          <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
 
           <TutorRatingBlock
             arrowOn = {false}
           />
-          <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
+          <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
         </ScrollView>
       </View>
       

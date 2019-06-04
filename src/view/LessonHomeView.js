@@ -229,7 +229,7 @@ class LessonHomeView extends Component<Props> {
           //touchColor = {'rgba(216,72,118,1)'}
         />
         
-        <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
+        <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
         
         <ScrollView>
         {

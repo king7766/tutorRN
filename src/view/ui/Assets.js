@@ -19,6 +19,7 @@ const actions = {
   search : require('tutorRN/src/image/icons8-search-filled-100b.png'),
   edit : require('tutorRN/src/image/icon-edit1.png'),
   trytry: require('tutorRN/src/image/icons8-add-file-100.png'),
+  doc : require('tutorRN/src/image/icons8-document-100.png'),
   //trytry: require('image/icons8-scan-stock-100a.png')
 }
 

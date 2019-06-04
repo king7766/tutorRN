@@ -138,7 +138,7 @@ class LessonDetailSelectView extends Component<Props> {
         }
 
     return (
-      <ScrollView style = {{backgroundColor:'rgba(233,233,233,1)'}}>
+      <ScrollView style = {{backgroundColor:layout.backgroundColor}}>
         <TutorCVCell 
           tutor = {tutor}
         />

@@ -328,7 +328,7 @@ class SearchHomeView extends Component<Props> {
           <View
             key = {i}
           >
-            <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
+            <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
             <TutorRowFlatList
               title = {tagName}
               height = {120}
@@ -346,7 +346,7 @@ class SearchHomeView extends Component<Props> {
   render() {
     
     return (
-      <ScrollView style = {{backgroundColor:'rgba(233,233,233,1)'}}>
+      <ScrollView style = {{backgroundColor:layout.backgroundColor}}>
 
         <TopMenuBar 
           //TopMenuBar
@@ -360,7 +360,7 @@ class SearchHomeView extends Component<Props> {
           onClicked={ this.TopMenuBarOnClicked }
         />
 
-        <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
+        <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
 
         <ListView     //创建ListView     
           initialListSize={this.getRows().length} 
@@ -421,7 +421,7 @@ class SearchHomeView extends Component<Props> {
           height = {120}
           data = {this.state.tutorRowData}
         />
-        <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
+        <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
 
         <TutorRowFlatList
           title = '優惠'
@@ -438,7 +438,7 @@ class SearchHomeView extends Component<Props> {
           data = {this.state.locationData}
           numberOfItem = {4}
         />
-        <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
+        <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
 
         <SegmentControl
           //onClicked = {this.tabOnClicked}
@@ -447,7 +447,7 @@ class SearchHomeView extends Component<Props> {
           data = {this.state.currentDistrictData}
           numberOfItem = {3}
         />
-        <View style = {{backgroundColor:'rgba(233,233,233,1)', height: 5}}/>
+        <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
 
         <SegmentControl
           //onClicked = {this.tabOnClicked}

@@ -55,7 +55,7 @@ const layout = require('tutorRN/src/Layout')
 const numberOfItem = 4
 
 
-class ProfileHomeView extends Component<Props> {
+class ProfileHomeEditView extends Component<Props> {
 
   constructor(props) {
     super(props);
@@ -140,11 +140,6 @@ class ProfileHomeView extends Component<Props> {
   _signOutAsync = async () => {
 
    
-    this.props.navigation.navigate('ProfileHomeEditView',{ 
-      }
-    )
-
-    return;
 
     console.log('_signOutAsync from ProfileHome')
     //await AsyncStorage.clear();
@@ -184,16 +179,6 @@ class ProfileHomeView extends Component<Props> {
     
   }
 
-  selectTutor(index)
-  {
-    console.log('selectTutor : ' + index)
-  }
-
-  startEdit()
-  {
-    this.props.navigation.navigate('ProfileHomeEditView',{})
-  }
-
 
   displayContent()
   {
@@ -205,32 +190,51 @@ class ProfileHomeView extends Component<Props> {
         //pagingEnabled = {true}
         //horizontal = {false}
       >
-        <TutorProfilePreviewBlock 
-          onClicked = {()=> this.startEdit()}
-        />
         <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
-        <FilteringToolsBar 
-          onClicked = {(index)=>this.ListingCatBtnOnClick(index)}
-          catName = {[strings.favouritTutor, strings.appliedLesson, strings.confirmedLesson, strings.teachedLesson]}
-          imageSource = {[Assets.actions.doc, Assets.actions.doc, Assets.actions.doc, Assets.actions.doc]}
+        <TutorProfileBlock
+          tag = {0}
+          tutor = {this.state.tutor}
+          //tutor = {userViewModel.getUser()}
+          arrowOn = {false}
+          //onClicked = {this.arrowOnClicked}
         />
-        <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
-        <ScrollView>
-          {
-            this.state.data ? this.state.data.map((item, index) =>
-            (
-              <TutorSelectCell
-                key = {index}
-                onClicked = {() => this.selectTutor(index) }
-                id = {item.id}
-                item = {item}
-                
-              />
-            )) : null
-          }
-        </ScrollView>
 
         <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
+
+        <TutorProfileTextBlock
+            arrowOn = {false}
+            title = {strings.education}
+            description = {this.state.tutor.achievement}  
+        />
+
+        <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
+
+        <TutorProfileTextBlock
+          tag = {1}
+          arrowOn = {false}
+          title = {strings.description}
+          description = {this.state.tutor.user_occupation}
+          //description = {userViewModel.getUser().user_occupation}
+          onClicked = {this.arrowOnClicked}
+          
+        />
+
+        
+
+        <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
+
+        
+        
+
+        <TutorRatingBlock
+          arrowOn = {false}
+        />
+
+        <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
+
+        <PhotoShowView
+          source = {userViewModel.getFacebookPhotos()}
+        />
         
     
       </ScrollView> 
@@ -265,14 +269,15 @@ class ProfileHomeView extends Component<Props> {
         style = {{flex:1}}
       >
         {
-          this.state.haveLogin == true ? this.displayContent() : this.displayNonLoginContent() 
+          this.displayContent()
+          //this.state.haveLogin == true ? this.displayContent() : this.displayNonLoginContent() 
         }
       </View>
     );
   }
 }
 
-export default ProfileHomeView;
+export default ProfileHomeEditView;
 
 const styles = StyleSheet.create({   
   
