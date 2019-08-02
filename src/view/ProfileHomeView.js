@@ -140,11 +140,11 @@ class ProfileHomeView extends Component<Props> {
   _signOutAsync = async () => {
 
    
-    this.props.navigation.navigate('ProfileHomeEditView',{ 
-      }
-    )
+    ///this.props.navigation.navigate('ProfileHomeEditView',{ 
+      //}
+    //)
 
-    return;
+    
 
     console.log('_signOutAsync from ProfileHome')
     //await AsyncStorage.clear();

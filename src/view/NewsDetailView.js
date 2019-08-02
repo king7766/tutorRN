@@ -39,9 +39,8 @@ class NewsDetailView extends Component<Props> {
 
   constructor(props) {
     super(props);
-    // /this.handleFacebookLogin = this.handleFacebookLogin.bind(this)
-    //this.selectTutor = this.selectTutor.bind(this)
-
+    
+    this.ratingBlockOnClicked = this.ratingBlockOnClicked.bind(this)
 
     this.state = {
       sgData : ['所有課堂', '即將開始', '等待確認'],
@@ -74,6 +73,12 @@ class NewsDetailView extends Component<Props> {
 
   componentWillMount() {
 
+  }
+
+  ratingBlockOnClicked()
+  {
+    console.log('ratingBlockOnClicked');
+    this.props.navigation.navigate('CommentPageView',{})
   }
 
   render() {
@@ -116,7 +121,9 @@ class NewsDetailView extends Component<Props> {
           <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
 
           <TutorRatingBlock
+            viewOnClicked = {this.ratingBlockOnClicked}
             arrowOn = {false}
+            
           />
           <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
         </ScrollView>

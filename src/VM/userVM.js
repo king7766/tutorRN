@@ -79,6 +79,70 @@ export default class userVM{
 		return  this.callLoginAPI(login, password)
 	}
 
+	async checkFavourite(user_id, course_id)
+	{
+		var data = {
+			token:'xRW8DwqoIxZBSlF83b2P',
+			user_id: user_id,
+			course_id : course_id
+		}
+		
+		return C.getResponseFromApi(E.CHECK_FAVOURITE, 'POST', data)
+		.then ( (json)=>{
+			if ( json.statusCode == 200)
+			{
+				return json
+			}
+			else
+         	{
+				console.log('this is error code : ' + json.data);	
+         	}
+		})
+	}
+
+	async addFavourite(user_id, course_id)
+	{
+		var data = {
+			token:'xRW8DwqoIxZBSlF83b2P',
+			user_id: user_id,
+			course_id : course_id
+		}
+
+		return C.getResponseFromApi(E.ADD_FAVOURITE, 'POST', data)
+		.then ( (json)=>{
+			if ( json.statusCode == 200)
+			{
+				return json
+			}
+			else
+         	{
+				console.log('this is error code : ' + json.data);	
+         	}
+		})
+	}
+
+	async addRating(user_id, course_id, rating)
+	{
+		var data = {
+			token:'xRW8DwqoIxZBSlF83b2P',
+			user_id: user_id,
+			course_id : course_id,
+			rating: rating
+		}
+
+		return C.getResponseFromApi(E.ADD_RATING, 'POST', data)
+		.then ( (json)=>{
+			if ( json.statusCode == 200)
+			{
+				return json
+			}
+			else
+         	{
+				console.log('this is error code : ' + json.data);	
+         	}
+		})
+	}
+
 	async callRegister(data)
 	{
 		//REGISTER_USER

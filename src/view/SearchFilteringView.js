@@ -211,6 +211,10 @@ class SearchFilteringView extends Component<Props> {
   //renderItem={({item, index})=>
   //renderItem({ item, index }) {
   
+  filteringToolsBtnOnClicked(index)
+  {
+    console.log('filteringToolsBtnOnClicked = ' + index)
+  }
 
   render() {
     return (
@@ -226,6 +230,7 @@ class SearchFilteringView extends Component<Props> {
           <Text style = {{margin:10, color:'rgb(231,121,98)', fontWeight:'bold'}}>{strings.order}</Text>
 
           <FilteringToolsBar 
+            onClicked = {(index)=>this.filteringToolsBtnOnClicked(index)}
             catName = {['評分', '最多收藏', '收費','距離']}
             //imageSource = {[Assets.actions.doc, Assets.actions.doc, Assets.actions.doc, Assets.actions.doc]}
           />

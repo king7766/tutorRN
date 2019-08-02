@@ -24,11 +24,10 @@ import {
 } from 'react-native';
 import PopupDialog, {DialogTitle, SlideAnimation} from 'react-native-popup-dialog';
 import Picker from 'react-native-picker';
-
 import locationVM from 'tutorRN/src/VM/locationVM'
+import * as C from 'tutorRN/src/service/connection'
+import * as E from 'tutorRN/src/service/env-config'
 
-//import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
-//const layout = require('tutorRN/src/Layout')
 
 const layout = require('tutorRN/src/Layout')
 /*
@@ -59,7 +58,7 @@ class Register extends Component<Props> {
     this.next = this.next.bind(this)
     this.uploadPhoto = this.uploadPhoto.bind(this)
     this.selectedPhoto = this.selectedPhoto.bind(this)
-  
+    this.uploadData = this.uploadData.bind(this)
 
     this.state = {
 
@@ -283,9 +282,53 @@ class Register extends Component<Props> {
       this.setState({
         photo: this.state.photos[index]
       })
-      console.log('data = ' + this.state.photo.data)
-      console.log('callback - will be called immediately ' + index)
+      //this.uploadData(this.state.photo, {'user_id':1, 'token':'xRW8DwqoIxZBSlF83b2P'})
+      
+      const data = this.uploadData(this.state.photos[index], {user_id:'1', token:'xRW8DwqoIxZBSlF83b2P'})
+      
+      fetch(E.UPLOAD_FILE, {
+        method: "POST",
+        //body: createFormData(this.state.photo, { userId: "123" })
+        body: data,
+      })
+        .then(response => response.json())
+        .then(response => {
+          console.log("upload succes : ", response);
+        })
+        .catch(error => {
+          console.log("upload error", error);
+        });
+      /*
+      C.getResponseFromApi(E.UPLOAD_FILE, 'POST', data).then( (json)=>{
+        if( json.statusCode == 200)	
+        {
+          console.log('json = ' + json);
+        }
+      })
+        */
+
     });
+  }
+
+  uploadData (photo, body)
+  {
+    console.log(photo.node.image.uri)
+    console.log( photo.node.type)
+    
+    const data = new FormData();
+    
+    data.append("fileToUpload", {
+      name: "123imageFile",
+      type: photo.node.type,
+      //uri: Platform.OS === "android" ? photo.uri : photo.node.image.uri.replace("assets-library://", "")
+      uri : photo.node.image.uri,
+    });
+    
+    Object.keys(body).forEach(key => {
+      data.append(key, body[key]);
+    });
+    
+    return data;
   }
     
   _createDateData() {

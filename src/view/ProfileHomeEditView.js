@@ -22,6 +22,7 @@ import {
   AsyncStorage,
   DeviceEventEmitter
 } from 'react-native';
+import CommentPageView from 'tutorRN/src/view/CommentPageView';
 
 import * as M from 'tutorRN/src/service/membership'
 
@@ -81,7 +82,7 @@ class ProfileHomeEditView extends Component<Props> {
     }
 
     this.ListingCatBtnOnClick = this.ListingCatBtnOnClick.bind(this)
-
+    this.ratingBlockOnClicked = this.ratingBlockOnClicked.bind(this)
     
     
 
@@ -156,6 +157,12 @@ class ProfileHomeEditView extends Component<Props> {
     M.logoutAction();
   }
 
+  ratingBlockOnClicked()
+  {
+    console.log('ratingBlockOnClicked');
+    this.props.navigation.navigate('CommentPageView',{})
+  }
+
   async ListingCatBtnOnClick (index)
   {
     console.log('ListingCatBtnOnClick ' + index)
@@ -192,6 +199,7 @@ class ProfileHomeEditView extends Component<Props> {
       >
         <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
         <TutorProfileBlock
+          allowEdit = {true}
           tag = {0}
           tutor = {this.state.tutor}
           //tutor = {userViewModel.getUser()}
@@ -202,14 +210,16 @@ class ProfileHomeEditView extends Component<Props> {
         <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
 
         <TutorProfileTextBlock
-            arrowOn = {false}
-            title = {strings.education}
-            description = {this.state.tutor.achievement}  
+          allowEdit = {true}
+          arrowOn = {false}
+          title = {strings.education}
+          description = {this.state.tutor.achievement}  
         />
 
         <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
 
         <TutorProfileTextBlock
+          allowEdit = {true}
           tag = {1}
           arrowOn = {false}
           title = {strings.description}
@@ -227,6 +237,7 @@ class ProfileHomeEditView extends Component<Props> {
         
 
         <TutorRatingBlock
+          viewOnClicked = {this.ratingBlockOnClicked}
           arrowOn = {false}
         />
 

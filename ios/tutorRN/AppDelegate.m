@@ -19,8 +19,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   
-  [self redirectLogToDocuments];
-  [self printLogFile];
+  //[self redirectLogToDocuments];
+  //[self printLogFile];
   
   
   [[FBSDKApplicationDelegate sharedInstance] application:application

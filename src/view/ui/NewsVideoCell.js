@@ -212,15 +212,17 @@ class NewsVideoCell extends Component{
 
     this.props.onClicked( this.props.index )
 
+    /*
     var getUIState = this.state.hiddenUI
     this.setState({
       hiddenUI:!getUIState
     })
+    */
   }
 
   soundBtnOnClick()
   {
-
+    this.props.soundBtnOnClicked()
   }
 
   likeBtnOnClick()
@@ -229,14 +231,13 @@ class NewsVideoCell extends Component{
     this.setState({      
       like: !this.state.like
     })
+    this.props.likeBtnOnClicked()
     //M.logoutAction();
   }
 
   commentBtnOnClick()
   {
-    //console.log(this.state.comment)
-    
-    
+    this.props.commentBtnOnClicked()
   }
 
 

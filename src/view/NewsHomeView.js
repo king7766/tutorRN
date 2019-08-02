@@ -35,6 +35,7 @@ import newsVM from 'tutorRN/src/VM/newsVM'
 
 import locationVM from 'tutorRN/src/VM/locationVM'
 import categoryVM from 'tutorRN/src/VM/categoryVM'
+import userVM from 'tutorRN/src/VM/userVM'
 
 //import AddBtnPopUpDialog from 'tutorRN/src/view/ui/AddBtnPopUpDialog'
 import PopupDialog, {DialogTitle, SlideAnimation, DialogButton, FadeAnimation, ScaleAnimation} from 'react-native-popup-dialog';
@@ -45,6 +46,7 @@ const layout = require('tutorRN/src/Layout')
 const viewModel = newsVM.getInstance()
 const locationViewModel = locationVM.getInstance()
 const categoryViewModel = categoryVM.getInstance()
+const userViewModel = userVM.getInstance()
 
 const slideAnimation = new SlideAnimation({ slideFrom: 'bottom',useNativeDriver: true });
 const scaleAnimation = new ScaleAnimation();
@@ -64,6 +66,7 @@ class NewsHomeView extends Component<Props> {
     //});
 
     this.state = {
+      
       newsVM: viewModel.getNews(),
       locationVM : locationViewModel,
     
@@ -269,6 +272,21 @@ class NewsHomeView extends Component<Props> {
     })
   }
 
+  soundBtnOnClicked (index)
+  {
+    console.log('soundBtnOnClicked : ' + index)
+  }
+
+  likeBtnOnClicked(index)
+  {
+    userViewModel.addFavourite(userViewModel.getUser().user_id, this.state.newsVM[index].id)
+  }
+
+  commentBtnOnClicked(index)
+  {
+    console.log('commentBtnOnClicked : ' + index)
+  }
+
   cellOnPressed(index)
   {
     console.log('cell OnPressed ' + index)
@@ -416,6 +434,9 @@ class NewsHomeView extends Component<Props> {
                 index = {index}
                 showingIndex = {this.state.showingIndex}
                 onClicked = {this.cellOnPressed}
+                commentBtnOnClicked = {()=>this.commentBtnOnClicked(index)}
+                likeBtnOnClicked = {()=>this.likeBtnOnClicked(index)}
+                soundBtnOnClicked = {()=>this.soundBtnOnClicked(index)}
               />
               
              

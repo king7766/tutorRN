@@ -8,7 +8,7 @@ import strings from 'tutorRN/src/service/strings'
 import SearchHomeView from 'tutorRN/src/view/SearchHomeView';
 import NewsHomeView from 'tutorRN/src/view/NewsHomeView'
 import NewsDetailView from 'tutorRN/src/view/NewsDetailView'
-
+import CommentPageView from 'tutorRN/src/view/CommentPageView'
 
 const layout = require('tutorRN/src/Layout')
 
@@ -45,6 +45,24 @@ var NewsStack = StackNavigator({
         />
       ),
       //title: '搜尋33',
+    },
+  },
+  CommentPageView:{
+    screen:  CommentPageView,
+    navigationOptions: {
+      title: strings.profile,
+      tabBarIcon: ({ tintColor }) => (
+        <Image
+          source={require('tutorRN/src/image/icons8-customer-filled-100.png')}
+          //style={[styles.icon, { tintColor: tintColor }]}
+          style={[layout.styles.icon, { tintColor: tintColor }]}
+        />
+      ),
+      headerStyle: {
+        borderBottomColor: layout.themeTextColor,
+        borderBottomWidth: 1,
+        backgroundColor: 'white',
+      },
     },
   },
 

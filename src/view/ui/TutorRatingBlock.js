@@ -86,6 +86,11 @@ class TutorRatingBlock extends Component{
     }
   }
 
+  viewOnClicked()
+  {
+    console.log('viewOnClicked')
+    this.props.viewOnClicked()
+  }
 
   render (){
 
@@ -95,9 +100,13 @@ class TutorRatingBlock extends Component{
 
     return(
 
+      <TouchableHighlight
+          onPress={ ()=>this.viewOnClicked()}
+      >
         
-   
+      
       <View style = {styles.background}>
+        
         {this.props.arrowOn && 
           <TouchableHighlight 
               underlayColor = {this.props.touchColor}
@@ -110,53 +119,53 @@ class TutorRatingBlock extends Component{
             />
           </TouchableHighlight>
         }
-
-        <View style = {styles.ratingBG}>
-          <View style = {styles.averageBG}>
-            <Text style = {styles.averageMark}>
-              4.4
-            </Text>
-            
-            <View
-              style = {this.starShowingBG()}
-            >
+        
+          <View style = {styles.ratingBG}>
+            <View style = {styles.averageBG}>
+              <Text style = {styles.averageMark}>
+                4.4
+              </Text>
+              
+              <View
+                style = {this.starShowingBG()}
+              >
+              {
+                this.state.rating.map((item, index) =>
+                  <Image 
+                    key = {index}
+                    source={require('tutorRN/src/image/star-503.png')} 
+                    style={{width: starSize, height: starSize}} />
+                )
+              }
+              
+              </View>
+            </View>
+            <View style = {styles.overallBG}>
             {
               this.state.rating.map((item, index) =>
-                <Image 
+                <View 
+                  style = {styles.voteBG} 
                   key = {index}
-                  source={require('tutorRN/src/image/star-503.png')} 
-                  style={{width: starSize, height: starSize}} />
+                >
+                  <Text style = {styles.voteCount}>
+                      {5 - index}
+                  </Text>
+
+                  <View 
+                    ref = '_voteBar'
+                    style = {styles.voteBar} 
+                    onLayout={(event) => this.measureView(event)}
+                  >
+                    <View style = {this.voteBarFull(index)} />
+                  </View>
+
+                </View>
               )
             }
-            
             </View>
-            
-            
           </View>
-          <View style = {styles.overallBG}>
-          {
-            this.state.rating.map((item, index) =>
-              <View 
-                style = {styles.voteBG} 
-                key = {index}
-              >
-                <Text style = {styles.voteCount}>
-                    {5 - index}
-                </Text>
-
-                <View 
-                  ref = '_voteBar'
-                  style = {styles.voteBar} 
-                  onLayout={(event) => this.measureView(event)}
-                >
-                  <View style = {this.voteBarFull(index)} />
-                </View>
-
-              </View>
-            )
-          }
-          </View>
-        </View>
+        
+        
 
         {this.props.arrowOn && 
           <TouchableHighlight 
@@ -170,7 +179,9 @@ class TutorRatingBlock extends Component{
             />
           </TouchableHighlight>
         }
+        
       </View>
+      </TouchableHighlight>
       
       )
   }

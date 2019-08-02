@@ -17,6 +17,12 @@ export const GET_COURSE_BY_TAG = domain + 'get_course_by_tag.php';
 export const GET_CHAT = domain + 'get_chat.php';
 export const ADD_CHAT = domain + 'add_chat.php';
 
+export const ADD_FAVOURITE = domain + 'add_favorite.php';
+export const CHECK_FAVOURITE = domain + 'get_favorite_by_id.php';
+
+export const ADD_RATING = domain + 'add_rating.php';
+export const GET_RATING = domain + 'get_rating_by_id.php';
+
 export const token = 'xRW8DwqoIxZBSlF83b2P';
 
 export const stringsSizeBig = 18;
