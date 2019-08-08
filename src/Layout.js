@@ -13,7 +13,7 @@ let backgroundColor = 'rgba(233,233,233,1)'
 
 let stringsSizeBig = 18
 let stringsSizeMid = 16
-let stringsSizeSmall = 12
+let stringsSizeSmall = 14
 
 const styles = StyleSheet.create({
 	icon: {

@@ -29,9 +29,7 @@ import Assets from 'tutorRN/src/view/ui/Assets';
 import strings from '../service/strings'
 
 import {
-
-  TutorSelectCell,
-
+  Avatar,
 } from 'tutorRN/src/view/ui/UIComponent';
 
 
@@ -98,20 +96,31 @@ class CommentPageView extends Component<Props> {
     //this.props.navigation.navigate('ProfileHomeEditView',{})
   }
 
+  AvatarOnClicked(index)
+  {
+    console.log('AvatarOnClicked ' + index)
+  }
+
   cellContent(item, index)
   //cellContent(rowData, sectionID, rowID, higlightRow)
   {
     return (
       <View style = {styles.cellContainer}>
         <View style ={styles.cellImageBoxStyle}>
-          <Text>{item.user}</Text>
+          <Avatar
+            onPress={() => {this.AvatarOnClicked(index)}}
+            round = {true}
+            size = {50}
+            type = 'edit'
+            url = {'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p320x320/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=110&_nc_oc=AQm5NxA1rY7W4d8YqPG0djDuG9uowyIbyAUwRkq7JOcJ9huJWbhhO2YfJ-37dviIEtA&_nc_ht=scontent-hkg3-1.xx&oh=c643ddf949263ca18a4c0eead81e1da3&oe=5DD86A90'}
+          />
         </View>
         
         <View style ={styles.cellTextBoxStyle}>
-          <Text>{item.user}</Text>
-          <Text style={{fontWeight: 'bold'}}>{item.lesson}</Text>
-          <Text style= {{margin:5}}>{item.comment}</Text>
-          <Text style = {{color:'gray'}} >{item.date}</Text>
+          <Text style = {{margin:5}}>{item.user}</Text>
+          <Text style = {{margin:5, fontWeight: 'bold'}}>{item.lesson}</Text>
+          <Text style = {{margin:5}}>{item.comment}</Text>
+          <Text style = {{margin:5, color:'gray'}} >{item.date}</Text>
         </View>  
       </View>
     )
@@ -163,7 +172,7 @@ const styles = StyleSheet.create({
     flex:1,
   },
   cellTextBoxStyle:{
-    flex:3,
+    flex:4,
   },
 
   container: {

@@ -17,8 +17,10 @@ import {
   StatusBar,
   TouchableOpacity,
   TouchableHighlight,
-  ScrollView
+  ScrollView,
+  Modal
 } from 'react-native';
+import ImageViewer from 'react-native-image-zoom-viewer';
 
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
@@ -30,7 +32,7 @@ import TutorProfileBlock from 'tutorRN/src/view/ui/TutorProfileBlock'
 import TutorProfileTextBlock from './ui/TutorProfileTextBlock'
 import TutorRatingBlock from './ui/TutorRatingBlock'
 import strings from 'tutorRN/src/service/strings'
-
+import LessonDetailView from 'tutorRN/src/view/LessonDetailView'
 
 const layout = require('tutorRN/src/Layout')
 
@@ -41,8 +43,12 @@ class NewsDetailView extends Component<Props> {
     super(props);
     
     this.ratingBlockOnClicked = this.ratingBlockOnClicked.bind(this)
-
+    this.lessonDetailBackBtnOnClicked = this.lessonDetailBackBtnOnClicked.bind(this)
     this.state = {
+      //lessonDetailViewVisible: props.navigation.state.params.lessonDetailShow,
+      params: props.navigation.state.params,
+      
+      //lessonDetailViewVisible : this.props.lessonDetailShow ? this.props.lessonDetailShow : false,
       sgData : ['所有課堂', '即將開始', '等待確認'],
       data: 
         {
@@ -72,7 +78,13 @@ class NewsDetailView extends Component<Props> {
   
 
   componentWillMount() {
+    
+  }
 
+  componentDidMount(){
+    this.setState({
+      lessonDetailViewVisible : this.state.params.lessonDetailShow ? this.state.params.lessonDetailShow : false,
+    })
   }
 
   ratingBlockOnClicked()
@@ -81,9 +93,82 @@ class NewsDetailView extends Component<Props> {
     this.props.navigation.navigate('CommentPageView',{})
   }
 
+  lessonDetailBackBtnOnClicked()
+  {
+    console.log('lessonDetailBackBtnOnClicked')
+    this.setState({
+      lessonDetailViewVisible : false,
+    })
+  }
+
+  imageOnClicked(index)
+  {
+    console.log('NewsDetailView - imageOnClicked : ' + index)
+    this.setState({
+      lessonDetailViewVisible : false,
+      fullScreenViewerVisible : true,
+      thumbnailImageOnClickedIndex: index,
+    })
+  }
+
+  modalContent (data)
+  {
+    if (this.state.lessonDetailViewVisible){
+      return (
+        <LessonDetailView 
+          imageOnClicked = {(index)=>this.imageOnClicked(index)}
+          imageSource = {data}
+          backBtnOnClicked = {()=>this.lessonDetailBackBtnOnClicked()}
+        />
+      )
+    }else {
+      return (
+        <ImageViewer 
+          index = {this.state.thumbnailImageOnClickedIndex}
+          onClick = {()=>this.fullScreenViewerOnClicked()}
+          imageUrls={data}
+        />
+      )      
+    }
+  }
+
+  fullScreenViewerOnClicked (){
+    console.log('fullScreenViewerOnClicked')
+    this.setState({
+      lessonDetailViewVisible : true,
+      fullScreenViewerVisible : false,
+    })
+  }
+
   render() {
 
     const { params } = this.props.navigation.state;
+
+    const data = [
+      {
+        url:'https://images.unsplash.com/photo-1485832329521-e944d75fa65e?auto=format&fit=crop&w=1000&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D',
+      },
+      {
+        url:'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/3a7803bf022db91704584b7297b38bc6.jpg',
+        
+      },
+      {
+        url:'https://images.unsplash.com/photo-1485832329521-e944d75fa65e?auto=format&fit=crop&w=1000&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D',
+        
+      },
+      {
+        url:'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/3a7803bf022db91704584b7297b38bc6.jpg',
+        
+      },
+      {
+        url:'https://images.unsplash.com/photo-1485832329521-e944d75fa65e?auto=format&fit=crop&w=1000&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D',
+        
+      },
+      {
+        url:'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/3a7803bf022db91704584b7297b38bc6.jpg',
+        
+      },
+    ]
 
     return (
       <View>
@@ -127,8 +212,16 @@ class NewsDetailView extends Component<Props> {
           />
           <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
         </ScrollView>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible = {this.state.lessonDetailViewVisible || this.state.fullScreenViewerVisible}
+        >
+        {
+          this.modalContent(data)   
+        }
+        </Modal>  
       </View>
-      
     );
   }
 }
@@ -145,20 +238,13 @@ const styles = StyleSheet.create ({
 
   descriptionTitle:{
     color: 'rgba(41,62,107,1)',
-    //backgroundColor: 'red',
     fontSize: 18,
     fontWeight: 'bold',
-    //padding : 10,
-    //paddingLeft : 10,
-
   },
   description:{
     lineHeight:20,
     fontSize: 14,
     paddingTop: 10,
-    //paddingLeft: 10,
-    // paddingLeft: 10,
-    //paddingLeft : 10,
   },
 
 });

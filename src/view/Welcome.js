@@ -129,6 +129,7 @@ class Welcome extends Component<Props> {
   logoutFinished()
   {
     console.log('logoutFinished')
+    
   }
 
   initUser() {
@@ -393,23 +394,7 @@ class Welcome extends Component<Props> {
     }
   }
   */
-  /*
-  handleFacebookLogin () {
-
-    LoginManager.logInWithReadPermissions(['public_profile', 'email', 'user_friends']).then(
-      function (result) {
-        if (result.isCancelled) {
-          console.log('Login cancelled')
-        } else {
-          console.log('Login success with permissions: ' + result.grantedPermissions.toString())
-        }
-      },
-      function (error) {
-        console.log('Login fail with error: ' + error)
-      }
-    )
-  }
-  */
+  
 
   handleInputChange(event) {
     console.log(JSON.stringify(event.nativeEvent))
@@ -440,140 +425,139 @@ class Welcome extends Component<Props> {
 
 
   render() {
-
+    console.log('Welcome loginMethod ' + this.state.loginMethod)
     return (
       <View style = {styles.background}>  
-        <Image source={require('tutorRN/src/image/background.jpg')} style={styles.image} /> 
+        <Image source={require('tutorRN/src/image/background-01.jpg')} style={styles.image} > 
         
-        <View style = {{width: layout.deviceWidth, backgroundColor:'transparent', top:70, alignItems: 'center', justifyContent: 'center'}}>
-          <Image source={require('tutorRN/src/image/iconLogo1.png')} style= {styles.welcomeIcon}/> 
-        </View>
-
-
-        <View style = {styles.ButtonContainer}>
+          <View style = {styles.upperPartContainer}></View>
+          <View style = {styles.ButtonContainer}>
           
+            <View  style = {styles.emailField}>
+              <TextInput
+                ref= {(accountInput) => { this.accountInput = accountInput }}
+                style = {{paddingLeft : 5, paddingRight : 5, backgroundColor: 'rgba(200, 200, 200, 0.9)', height: '100%'}}
+                //style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+                //onChangeText={(text) => this.setState({account: text})}
+                placeholder = {strings.emailPlaceHolder}
+                placeholderTextColor='white'
+              
 
-          <View  style = {styles.emailField}>
-            <TextInput
-              ref= {(accountInput) => { this.accountInput = accountInput }}
-              style = {{paddingLeft : 5, paddingRight : 5, backgroundColor: 'rgba(200, 200, 200, 0.9)', height: '100%'}}
-              //style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-              //onChangeText={(text) => this.setState({account: text})}
-              placeholder = {strings.emailPlaceHolder}
-              placeholderTextColor='white'
-              //value={this.state.text}
-
-              name= "account"
-              //onChangeText={ (text) => this.handleInputChange(text)}
-              onChange= {this.handleInputChange}
-              //value={this.state.account}
-              onFocus = { (event) => this.onFocus(event)}
-            />
-          </View>
-
-          <View 
-            style = {styles.passwordField}
-          >
-            <TextInput
-              ref= {(passwordInput) => { this.passwordInput = passwordInput }}
-              style = {{paddingLeft : 5, paddingRight : 5, backgroundColor: 'rgba(200, 200, 200, 0.9)', height: '100%'}}
-              //style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-              name= "password"
-              secureTextEntry = {true}
-              placeholderTextColor='white'
-              //onChangeText={(text) => this.setState({password: text})}
-              onChange= {this.handleInputChange}
-              placeholder = {strings.passwordPlaceHolder}
-              //value={this.state.password}
-              onFocus = { (event) => this.onFocus(event)}
-            />
-          </View>
-
-          <TouchableHighlight 
-            onPress={()=>this.registerAction()} 
-            style = {styles.registerBtnStyle}
-          >
-            <View>
-              <Text style = {styles.loginText}>
-                {strings.registrationText}
-              </Text>
+                name= "account"
+                //onChangeText={ (text) => this.handleInputChange(text)}
+                onChange= {this.handleInputChange}
+                //value={this.state.account}
+                onFocus = { (event) => this.onFocus(event)}
+              />
             </View>
-          </TouchableHighlight>
 
-
-          <TouchableHighlight 
-            onPress={()=>this.loginAction(this.state.accountID, this.state.password, null)}
-            style = {styles.loginBtnStyle}
-          >
-            <View>
-              <Text style = {styles.loginText}>
-                {strings.loginText}
-              </Text>
+            <View 
+              style = {styles.passwordField}
+            >
+              <TextInput
+                ref= {(passwordInput) => { this.passwordInput = passwordInput }}
+                style = {{paddingLeft : 5, paddingRight : 5, backgroundColor: 'rgba(200, 200, 200, 0.9)', height: '100%'}}
+                //style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+                name= "password"
+                secureTextEntry = {true}
+                placeholderTextColor='white'
+                //onChangeText={(text) => this.setState({password: text})}
+                onChange= {this.handleInputChange}
+                placeholder = {strings.passwordPlaceHolder}
+                //value={this.state.password}
+                onFocus = { (event) => this.onFocus(event)}
+              />
             </View>
-          </TouchableHighlight>
 
-          <View style = {styles.fbBtnStyle}>
-            <LoginButton 
-            
-            readPermissions={[
-              "public_profile",
-              "email",
-              "user_friends",
-              "user_hometown",
-              "user_location",
-              "user_birthday",
-              "user_likes",
-              "user_photos",
-              "user_posts",
-              "user_tagged_places",
-              "user_videos",
-              "user_events",
-              'pages_show_list',
-              'user_videos',
-              //161110067273366
-              //'manage_pages',
-            ]}
-            onLoginFinished = {
-              (error, result) => {
-
-              if (error) {
-
-                // must use FacebookSDKs-iOS-4.38.0 sdk , else will be cannot connect
-
-                console.log("login has error: " + error + ", " + result);
-                //console.log("login has error: " + result);
-
-                var newArr = Object.keys(error);
-                var mappedArr = newArr.map(function(i) {
-                  return [i, error[i]];
-                });
-                console.log(mappedArr);
+            <TouchableOpacity 
+              onPress={()=>this.registerAction()} 
+              style = {styles.registerBtnStyle}
+            >
+              <View>
+                <Text style = {styles.loginText}>
+                  {strings.registrationText}
+                </Text>
+              </View>
+            </TouchableOpacity>
 
 
-              } else if (result.isCancelled) {
-                console.log("login has isCancelled: " );
-                //alert("login is cancelled.");
-              } else {
-                this.facebookFetchingFinished(result)
+            <TouchableOpacity 
+              onPress={()=>this.loginAction(this.state.accountID, this.state.password, null)}
+              style = {styles.loginBtnStyle}
+            >
+              <View>
+                <Text style = {styles.loginText}>
+                  {strings.loginText}
+                </Text>
+              </View>
+            </TouchableOpacity>
+
+            <View style = {styles.fbBtnStyle}>
+              <LoginButton 
+              
+              readPermissions={[
+                "public_profile",
+                "email",
+                "user_friends",
+                "user_hometown",
+                "user_location",
+                "user_birthday",
+                "user_likes",
+                "user_photos",
+                "user_posts",
+                "user_tagged_places",
+                "user_videos",
+                "user_events",
+                'pages_show_list',
+                'user_videos',
+                //161110067273366
+                //'manage_pages',
+              ]}
+              onLoginFinished = {
+                (error, result) => {
+
+                if (error) {
+
+                  // must use FacebookSDKs-iOS-4.38.0 sdk , else will be cannot connect
+
+                  console.log("login has error: " + error + ", " + result);
+                  //console.log("login has error: " + result);
+
+                  var newArr = Object.keys(error);
+                  var mappedArr = newArr.map(function(i) {
+                    return [i, error[i]];
+                  });
+                  console.log(mappedArr);
+
+
+                } else if (result.isCancelled) {
+                  console.log("login has isCancelled: " );
+                  //alert("login is cancelled.");
+                } else {
+                  this.facebookFetchingFinished(result)
+                }
+              }}
+              onLogoutFinished = {
+                this.logoutFinished
               }
-            }}
-            onLogoutFinished = {
-              this.logoutFinished
-            }
-            />
-          
-          </View>
-
-
-          <TouchableHighlight onPress={this.guestInAction}>
-            <View style={styles.guestButtonStyle}>
-              <Text style = {styles.guestBtnText}>
-                {strings.guestLoginText}
-              </Text>
+              />
+            
             </View>
-          </TouchableHighlight>
-          
-        </View>
+
+
+            
+            
+          </View>
+          <View style = {styles.lowerPartContainer}>
+            <TouchableOpacity onPress={this.guestInAction}>
+                <View style={styles.guestButtonStyle}>
+                  <Text style = {styles.guestBtnText}>
+                    {strings.guestLoginText}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+          </View>
+        </Image>
       </View>
     );
   }
@@ -583,24 +567,24 @@ const styles = StyleSheet.create({
 
   emailField: {
     //top:200,
+    marginTop:5,
     width: '100%',
     height: 40,
     //backgroundColor : 'rgba(242,242,242,0.7)'
 
   },
   passwordField:{
-    top:5,
+    //top:5,
     //top:205,
+    marginTop:5,
     width: '100%',
     height: 40,
     //backgroundColor : 'rgba(242,242,242,0.7)'
   },
 
   background:{
-
     flex: 1,
-    //backgroundColor:'red',
-    
+
   },
 
   welcomeIcon:{
@@ -624,7 +608,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     //resizeMode :'center',
-    position: 'absolute',
+    //position: 'absolute',
     //alignItems:'center', 
     //backgroundColor:'transparent'
     //justifyContent: 'center',
@@ -632,22 +616,20 @@ const styles = StyleSheet.create({
 
   registerBtnStyle:{
 
-    top:10,
-    //width:'100%',
-    //flex:1,
+    //top:10,
+    marginTop:5,
     
     justifyContent: 'center',
     alignItems: 'center',
-    height:40,
+    height:30,
     //backgroundColor: layout.themeTextColor,
     backgroundColor: 'rgba(200, 200, 200, 0.9)',
     width: layout.deviceWidth,
 
   },
   loginBtnStyle:{
-    top:10,
-    //width:'100%',
-    //flex:1,
+    //top:10,
+    
     
     justifyContent: 'center',
     alignItems: 'center',
@@ -660,7 +642,7 @@ const styles = StyleSheet.create({
 
 
   fbBtnStyle:{
-    top:15,
+    //top:15,
   },
 
   loginText:{
@@ -674,9 +656,9 @@ const styles = StyleSheet.create({
     
   },
   guestButtonStyle: {
-    top:240,
+    //top:240,
     width: '100%',
-    //flex:1,
+    
     justifyContent: 'center',
     alignItems: 'center',
     //backgroundColor : 'rgba(61,89,148,1)',
@@ -687,14 +669,24 @@ const styles = StyleSheet.create({
   },
 
   ButtonContainer: {
+    flex:1,
+    
     flexDirection: 'column',
-    //backgroundColor: 'green',
-    position: 'absolute',
-    top: layout.deviceHeight - 500,
-    height:layout.deviceHeight - 500,
-    width: layout.deviceWidth,
-    justifyContent: 'flex-start',
+    
+    //position: 'absolute',
+    //top: layout.deviceHeight - 500,
+    //height:layout.deviceHeight - 500,
+    //width: layout.deviceWidth,
+    //justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center',
+  },
+  upperPartContainer:{
+    flex:1,
+  },
+  lowerPartContainer:{
+    flex:1,
+    justifyContent:'center',
   }
 
 });

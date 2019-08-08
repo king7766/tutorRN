@@ -34,7 +34,7 @@ class TutorProfileTextBlock extends Component{
     super(props);
     this.state = {
       descriptionHeight: 50,
-      editmode: false,
+      editmode: true,
     }
     this.arrowOnClick = this.arrowOnClick.bind(this)
     this._keyboardDidHide = this._keyboardDidHide.bind(this)
@@ -96,14 +96,11 @@ class TutorProfileTextBlock extends Component{
 
   descriptionContentStyle ()
   {
-    
     return {
       lineHeight:20,
-      fontSize: 14,
-      paddingTop: 10,
-      borderColor: this.state.editmode ? 'gray' : 'white',
-      borderWidth: 1,
-
+      fontSize: layout.stringsSizeSmall,
+      //paddingTop: 10,
+      margin:5,
     }
     
   }
@@ -129,7 +126,7 @@ class TutorProfileTextBlock extends Component{
         }
 
         <View style = {styles.descriptionBG}>
-          <View style = {{height:30, flexDirection:'row', justifyContent:'space-between'}}
+          <View style = {{height:20, flexDirection:'row', justifyContent:'space-between'}}
           >
             <Text
               style = {styles.descriptionTitle}   
@@ -140,7 +137,8 @@ class TutorProfileTextBlock extends Component{
               onPress={()=>this.editBtnOnClick()}
             >
             {
-              this.props.allowEdit && 
+              //this.props.allowEdit && 
+              false && 
               <Image
                 style = {{width: 30, height:30}}
                 source= {this.state.editmode ? require('tutorRN/src/image/icons8-completed-90.png') : require('tutorRN/src/image/icons8-pencil-90.png')}
@@ -154,7 +152,8 @@ class TutorProfileTextBlock extends Component{
             value = {this.state.descriptionContent}
             multiline={true}
             scrollEnabled = {false}
-            editable = {this.state.editmode}
+            editable = {this.props.allowEdit}
+            //editable = {this.state.editmode}
             onChangeText={(descriptionContent) => this.setState({descriptionContent})}
             onChange={() => this.onChange.bind(this)}
             onContentSizeChange={(event) => this.onContentSizeChange(event)}
@@ -193,7 +192,7 @@ const styles = StyleSheet.create ({
 
   background :{
     flexDirection:'row',
-    width: layout.deviceWidth,
+    //width: layout.deviceWidth,
     //height: 150,
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -207,23 +206,17 @@ const styles = StyleSheet.create ({
   },
 
   descriptionTitle:{
-    height:30,
     color: 'rgba(41,62,107,1)',
     //backgroundColor: 'red',
-    fontSize: 18,
+    
+    fontSize: layout.stringsSizeMid,
     fontWeight: 'bold',
-    padding : 5,
-    //paddingLeft : 10,
-
   },
   description:{
     //backgroundColor: 'green',
     lineHeight:20,
-    fontSize: 14,
+    fontSize: layout.stringsSizeSmall,
     paddingTop: 10,
-    //paddingLeft: 10,
-    // paddingLeft: 10,
-    //paddingLeft : 10,
   },
 })
 

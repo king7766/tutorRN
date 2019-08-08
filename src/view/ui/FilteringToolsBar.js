@@ -3,8 +3,9 @@ import {
    Text, 
    Image, 
    View, 
-   StyleSheet, 
-   ScrollView ,
+   FlatList, 
+   StyleSheet,
+   TouchableOpacity ,
    ListView,
    Linking,
    TouchableHighlight
@@ -39,6 +40,31 @@ class FilteringToolsBar extends React.Component{
     }
   }
 
+  buttonContainerStyle()
+  {
+    var imageHeight = 0 
+    var titleHeight = 0
+    if( this.props.imageSource )
+    {
+      imageHeight = 30
+    }
+
+    if ( this.props.catName )
+    {
+      titleHeight = 20
+    }
+    else
+    {
+      titleHeight = 2
+    }
+    return {
+      height:imageHeight + titleHeight, 
+      alignItems:'center',
+      flexDirection: 'column',
+      justifyContent:'space-between'
+    }
+  }
+
   textStyle(index)
   {
     return {
@@ -46,6 +72,17 @@ class FilteringToolsBar extends React.Component{
       alignItems:'center', 
       marginTop:5, 
       color: index == this.state.selectedItem ? 'black' : 'gray'
+    }
+  }
+
+  underlineStyle(index)
+  {
+    return {
+      height:2,
+      width:30,
+      backgroundColor :index == this.state.selectedItem ? 'black' : 'white',
+      //borderBottomColor: index == this.state.selectedItem ? 'black' : 'white',
+      //borderBottomWidth: 2 
     }
   }
 
@@ -61,15 +98,7 @@ class FilteringToolsBar extends React.Component{
     }
   }
 
-  titleViewStyle()
-  {
-    return {
-      //flex:1,
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-    }
-  }
-
+  
 
   OnClicked(index, key)
   {
@@ -81,21 +110,15 @@ class FilteringToolsBar extends React.Component{
     this.props.onClicked(index)
   }
 
+
   render (){
-    
-
     return(
-      
       <View style = {styles.ToolBarStyle}>
-      
-   
-
-        
         <View style = {styles.background}>
           {
-            this.props.catName.map((item, index) =>{
+            this.props.imageSource.map((item, index) =>{
               return (
-                <TouchableHighlight 
+                <TouchableOpacity 
                   //onPress={this.props.onClicked}
                   //underlayColor = {this.props.touchColor}
                   underlayColor = { 'rgba(52, 52, 52, 0.0)'}
@@ -104,14 +127,15 @@ class FilteringToolsBar extends React.Component{
                   //<Image style = {this.imageStyle(index)} source = {Assets.actions.search} />
                   key = {index}
                 >
-                  <View style = {{ width:layout.deviceWidth/5, height:50, alignItems:'center'}}>
-                    <Image style = {this.imageStyle(index)} source = {this.props.imageSource[index]} />
-                    <Text style = {this.textStyle(index)}>
-                        {item}
-                    </Text>
-                    
+                  <View style = {this.buttonContainerStyle()}>
+                  {
+                    this.props.imageSource && <Image style = {this.imageStyle(index)} source = {this.props.imageSource[index]} />
+                  }
+                  {  
+                    this.props.catName ? <Text style = {this.textStyle(index)}>{this.props.catName[index]}</Text> : <View style = {this.underlineStyle(index)}/>
+                  }
                   </View>
-                </TouchableHighlight>
+                </TouchableOpacity>
               );
             })
           }
@@ -133,8 +157,8 @@ FilteringToolsBar.defaultProps = {
   pressEnable: true,
   numberOfItem: 3,
   height: 100,
-  imageSource : [Assets.actions.search, Assets.actions.search, Assets.actions.search, Assets.actions.search],
-  catName: ['評分', '最多收藏', '收費','距離']
+  imageSource : [Assets.actions.search,Assets.actions.search, Assets.actions.search, Assets.actions.search, Assets.actions.search],
+  //catName: ['評分', '最多收藏', '收費','距離']
 };
 
 export default FilteringToolsBar;
@@ -142,22 +166,18 @@ export default FilteringToolsBar;
 const styles = StyleSheet.create ({
   background:{
     backgroundColor: 'white',
-    //flex: 1,
     flexWrap:'wrap',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    //justifyContent: 'center',
-    //justifyContent: 'flex-start',
+    
     alignItems: 'center',
-    //backgroundColor: 'green',
-    width: layout.deviceWidth,
     paddingTop:5,
     paddingBottom:5,
-    //height: 50,
-    //padding: 5
+    
   },
   ToolBarStyle:{
     flexDirection: 'column',
+    
 
   }
   /*

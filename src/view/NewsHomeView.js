@@ -290,7 +290,9 @@ class NewsHomeView extends Component<Props> {
   cellOnPressed(index)
   {
     console.log('cell OnPressed ' + index)
-    this.props.navigation.navigate('NewsDetailView',{})
+    this.props.navigation.navigate('NewsDetailView',{
+      lessonDetailShow: true,
+    })
     //this.props.navigation.navigate('SearchTutorDetailView');
     /*
     this.props.navigation.navigate('SearchTutorDetailView',{

@@ -99,16 +99,18 @@ class ProfileHomeEditView extends Component<Props> {
       headerRight: (
 
         //<Button onPress={params.increaseCount} title="Info" />
-        <TouchableHighlight 
-          onPress={params.leftBtnOnClick}
+        <TouchableOpacity 
+          //onPress={params.leftBtnOnClick}
           //onPress={params.increaseCount}
           underlayColor = {layout.touchHighlightColor}
         >
-          <View style = {{height: 30, width: 100, justifyContent: 'center', flexDirection: 'row'}}>
-            <Image source={require('tutorRN/src/image/exit-100.png')} style={{height: 30, width: 30, marginLeft:10}} /> 
+          <View style = {{borderWidth:1,borderRadius:5, height: 30, width: 80, marginRight:10, justifyContent: 'center', flexDirection: 'row', alignItems:'center'}}>
+
+            <Text>更新</Text>
+            
           </View>
 
-        </TouchableHighlight>
+        </TouchableOpacity>
       ),
     };
   };

@@ -12,6 +12,10 @@ import {
    TextInput
 } from 'react-native';
 import strings from '../../service/strings';
+import {
+  Avatar,
+} from 'tutorRN/src/view/ui/UIComponent';
+
 const layout = require('tutorRN/src/Layout')
 
 class TutorProfilePreviewBlock extends Component{
@@ -51,19 +55,28 @@ class TutorProfilePreviewBlock extends Component{
     this.props.onClicked()
   }
 
+  avatarOnClicked()
+  {
+    console.log('avatarOnClicked')
+  }
+
   upperPartUI()
   {
     return (
       <View
         style = {styles.upperPartUIStyles}
       >
-        <Image 
-          style = {styles.imageStyle}
-          //source = {{uri: this.props.tutor.user_thumb}}
-          source = {{uri:'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=c36a9365035e76d990a0b0ca07145494&oe=5B55A6D7'}}
-          defaultSource = {require('tutorRN/src/image/icons8-customer-filled-100.png') }
-          rezizeMode = 'contain'
-        />
+        <View style = {styles.imageStyle} >
+          <Avatar
+            onPress={() => {this.avatarOnClicked()}}
+            round = {true}
+            size = {60}
+            type = 'edit'
+            url = {'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p320x320/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=110&_nc_oc=AQm5NxA1rY7W4d8YqPG0djDuG9uowyIbyAUwRkq7JOcJ9huJWbhhO2YfJ-37dviIEtA&_nc_ht=scontent-hkg3-1.xx&oh=c643ddf949263ca18a4c0eead81e1da3&oe=5DD86A90'}
+          />
+        </View>
+        
+        
         <View
           style = {{flexDirection:'column',  flex:3}}
         >
@@ -109,10 +122,10 @@ class TutorProfilePreviewBlock extends Component{
   {
     //E.stringsSizeBig
     return (
-      <View style = {{ flex:1}}>
+      <View style = {{ flex:1, margin:5}}>
 
-        <Text style = {{margin: 5, fontSize:layout.stringsSizeMid, fontWeight:'bold'}} >KingTai Leung</Text>
-        <Text numberOfLines= {3} style = {{margin: 5, fontSize:layout.stringsSizeSmall}} >詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡</Text>
+        <Text style = {{margin: 10, fontSize:layout.stringsSizeMid, fontWeight:'bold'}} >KingTai Leung</Text>
+        <Text numberOfLines= {3} style = {{marginBottom: 10,marginLeft:10, marginRight:10, fontSize:layout.stringsSizeSmall}} >詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡</Text>
       </View>
     )
   }
@@ -126,7 +139,7 @@ class TutorProfilePreviewBlock extends Component{
         {
           this.upperPartUI()
         }
-        <View style = {{backgroundColor:layout.backgroundColor, height: 2}}/>
+       
         
         {
           this.lowerPartUI()
@@ -148,6 +161,7 @@ export default TutorProfilePreviewBlock;
 const styles = StyleSheet.create ({
 
   upperPartUIStyles:{
+    
     flexDirection: 'row',
     alignItems:'center',
     flex:1,
@@ -175,15 +189,15 @@ const styles = StyleSheet.create ({
   },
 
   imageStyle :{
-    margin: 10,
+    marginLeft: 10,
     //marginTop:10,
     //backgroundColor: 'rgba(61,89,148,1)',
-    backgroundColor: 'grey',
+    //backgroundColor: 'grey',
     //paddingTop: 10,
-    height:80,
-    width: 80,
+    //height:80,
+    //width: 80,
     
-    borderRadius:40,
+    //borderRadius:40,
     //flex:1,
     
     //width:layout.deviceWidth

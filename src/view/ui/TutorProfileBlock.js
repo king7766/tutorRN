@@ -11,6 +11,9 @@ import {
    TouchableOpacity,
    TextInput
 } from 'react-native';
+import {
+  Avatar,
+} from 'tutorRN/src/view/ui/UIComponent';
 const layout = require('tutorRN/src/Layout')
 
 class TutorProfileBlock extends Component{
@@ -19,7 +22,7 @@ class TutorProfileBlock extends Component{
     super(props);
     
     this.state = {
-      editmode: false,
+      editmode: true,
       job: this.props.tutor.job,
       title : this.props.tutor.title,
       exp: this.props.tutor.exp,
@@ -50,47 +53,42 @@ class TutorProfileBlock extends Component{
   content()
   {
     return (
-      <View >
-        <View style = {{height:40, flexDirection:'row', justifyContent:'space-between'}}
+      <View>
+        <Text
+          style = {styles.profileTitleStyle}
         >
-          <Text
+          自我介紹
+        </Text>
+        <Text
             style = {styles.nameStyle}
           >
             {this.props.tutor.user_nickname}
           </Text>
-          
-          <TouchableOpacity
-              onPress={()=>this.editBtnOnClick()}
-          >
-            {
-              this.props.allowEdit && 
-              <Image
-                style = {{width: 30, height:30, padding:5}}
-                source= {this.state.editmode ? require('tutorRN/src/image/icons8-completed-90.png') : require('tutorRN/src/image/icons8-pencil-90.png')}
-                resizeMode =  'contain'
-              />
-            }
-            
-          </TouchableOpacity>
-        </View>
         <TextInput 
           style = {styles.subtextStyle}
           value = {this.state.job}
-          editable = {this.state.editmode}
+          editable = {this.props.allowEdit}
+          //editable = {this.state.editmode}
           onChangeText={(job) => this.setState({job})}
         />
         <TextInput 
           style = {styles.subtextStyle}
           value = {this.state.title}
-          editable = {this.state.editmode}
+          editable = {this.props.allowEdit}
+          //editable = {this.state.editmode}
           onChangeText={(title) => this.setState({title})}
         />
         <TextInput 
           style = {styles.subtextStyle}
           value = {this.state.exp}
-          editable = {this.state.editmode}
+          editable = {this.props.allowEdit}
+          
+          //editable = {this.state.editmode}
           onChangeText={(exp) => this.setState({exp})}
-        /> 
+          
+        > 
+        
+        </TextInput>
         </View>
     )
   } 
@@ -99,13 +97,14 @@ class TutorProfileBlock extends Component{
 
 
     return (
-      <View style = {{flexDirection:'row', width:layout.deviceWidth, height:120,  backgroundColor:'white'}}>
-        <View style = {{flex:1, alignItems:'center', justifyContent:'center'}}>
-          <Image 
-            style = {styles.imageStyle}
-            source = {{uri: this.props.tutor.user_thumb}}
-            defaultSource = {require('tutorRN/src/image/icons8-customer-filled-100.png') }
-            rezizeMode = 'contain'
+      <View style = {{flexDirection:'row', width:layout.deviceWidth, height:130,  backgroundColor:'white'}}>
+        <View style = {styles.imageStyle} >
+          <Avatar
+            onPress={() => {this.avatarOnClicked()}}
+            round = {true}
+            size = {80}
+            type = 'edit'
+            url = {'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p320x320/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=110&_nc_oc=AQm5NxA1rY7W4d8YqPG0djDuG9uowyIbyAUwRkq7JOcJ9huJWbhhO2YfJ-37dviIEtA&_nc_ht=scontent-hkg3-1.xx&oh=c643ddf949263ca18a4c0eead81e1da3&oe=5DD86A90'}
           />
         </View>
         <View style = {{flex:2, backgroundColor:'white' }}>
@@ -113,7 +112,6 @@ class TutorProfileBlock extends Component{
           this.content()
         }
         </View>
-        
       </View>
     )
   }
@@ -122,14 +120,11 @@ class TutorProfileBlock extends Component{
 TutorProfileBlock.defaultProps = {
   tag : 1,
   touchColor: 'rgba(107,157,242,1)',
-  
 };
 
 export default TutorProfileBlock;
 
 const styles = StyleSheet.create ({
-
-
   background:{
     backgroundColor: 'white',
     flexDirection: 'row',
@@ -140,54 +135,41 @@ const styles = StyleSheet.create ({
   },
 
   photoViewStyle:{
-    //flex: 3,
     paddingLeft: 5,
     paddingRight: 5,
-    //flexDirection: 'column',
     backgroundColor: 'red',
-    //alignItems: 'center',
-    //justifyContent: 'center'
-    
   },
 
   imageStyle :{
-
-    //marginTop:10,
-    //backgroundColor: 'rgba(61,89,148,1)',
-    backgroundColor: 'grey',
-    //paddingTop: 10,
-    height:80,
-    width: 80,
-    borderRadius:40,
     
-    //width:layout.deviceWidth
-
+    flex:1, 
+    alignItems:'center', 
+    justifyContent:'center',
+  
   },
-
+  profileTitleStyle:{
+    fontSize: layout.stringsSizeMid,
+    marginTop:10,
+    margin:5,
+  },
   tutorViewStyle:{
     backgroundColor: 'red',
     flex: 5,
     padding : 5,
     flexDirection: 'column',
-    //alignItems: 'center'
     justifyContent: 'flex-start'
   },
-
   nameStyle:{
-    color: 'rgba(41,62,107,1)',
-    //backgroundColor: 'red',
-    fontSize: 18,
+    fontSize: layout.stringsSizeSmall,
     fontWeight: 'bold',
-    padding : 5,
-    height:30,
+    margin:5, 
+    
   },
-
   subtextStyle:{
-    //backgroundColor: 'green',
-    color: 'rgba(107,157,242,1)',
-    fontSize: 12,
-    padding : 2,
-    paddingLeft : 10,
-    height:20,
+    fontSize: layout.stringsSizeSmall,
+    marginLeft:5,
+    marginTop:10,
+    height:10,
+
   }
 })
