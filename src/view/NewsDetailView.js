@@ -3,8 +3,6 @@
  * https://github.com/facebook/react-native
  * @flow
  */
-
-
 import React, { Component } from 'react';
 import {
   Platform,
@@ -95,9 +93,10 @@ class NewsDetailView extends Component<Props> {
 
   lessonDetailBackBtnOnClicked()
   {
-    console.log('lessonDetailBackBtnOnClicked')
+    console.log('lessonDetailBackBtnOnClicked ')
     this.setState({
       lessonDetailViewVisible : false,
+      fullScreenViewerVisible : false,
     })
   }
 
@@ -142,6 +141,8 @@ class NewsDetailView extends Component<Props> {
 
   render() {
 
+   
+
     const { params } = this.props.navigation.state;
 
     const data = [
@@ -171,7 +172,7 @@ class NewsDetailView extends Component<Props> {
     ]
 
     return (
-      <View>
+      <View style = {layout.styles.basicViewStyle}>
         <ScrollView>
           <TutorProfileBlock
             allowEdit = {false}

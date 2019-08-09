@@ -22,7 +22,9 @@ import {
 } from 'react-native';
 import TutorProfileTextBlock from 'tutorRN/src/view/ui/TutorProfileTextBlock'
 import PhotoThumbnailView from 'tutorRN/src/view/ui/PhotoThumbnailView'
-import FilteringToolsBar from 'tutorRN/src/view/ui/FilteringToolsBar';
+import FilteringToolsBar from 'tutorRN/src/view/ui/FilteringToolsBar'
+import { Calendar, CalendarList, Agenda } from 'react-native-calendars'
+import CalendarCell from 'tutorRN/src/view/ui/CalendarCell'
 import Assets from 'tutorRN/src/view/ui/Assets';
 
 import SegmentControl from './ui/SegmentControl'
@@ -37,7 +39,16 @@ class LessonDetailView extends Component<Props> {
     
     this.backBtnOnClicked = this.backBtnOnClicked.bind(this)
     // /this.handleFacebookLogin = this.handleFacebookLogin.bind(this)
-   
+    this.state = {
+      mark: {
+        '2018-05-06': {selected: true, dotColor: 'green', selectedColor: 'green'},
+        '2018-05-07': {selected: true, dotColor: 'green', selectedColor: 'green'},
+        '2018-05-08': {selected: true, dotColor: 'green', selectedColor: 'green'},
+        '2018-05-01': {selected: true, dotColor: 'green', selectedColor: 'green'},
+        '2018-05-05': {selected: true, dotColor: 'green', selectedColor: 'green'},
+       
+      },
+    }
   }
 
   componentWillMount() {
@@ -55,6 +66,14 @@ class LessonDetailView extends Component<Props> {
 
   ListingCatBtnOnClick(index){
     console.log('ListingCatBtnOnClick = ' + index)
+  }
+
+  onDayPress(day){
+    console.log('onDayPress : ' + day.dateString);
+    var dateArray = []
+    let dates = {};
+    dates[day.dateString] = {selected: true, dotColor: 'green', selectedColor: 'green'}
+    this.setState({ mark:dates})
   }
 
   render() {
@@ -109,6 +128,50 @@ class LessonDetailView extends Component<Props> {
               //catName = {['favourite', '聯絡', '報名']}
               //imageSource = {[Assets.actions.doc, Assets.actions.doc, Assets.actions.doc, Assets.actions.doc]}
             />
+            <Calendar
+              style = {styles.calendarStyle}
+              // Initially visible month. Default = Date()
+              current={Date()}
+              // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
+              //minDate={'2012-05-10'}
+              // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
+              //maxDate={'2019-04-11'}
+              // Handler which gets executed on day press. Default = undefined
+              //onDayPress={(day) => {console.log('selected day', day)}}
+              onDayPress={ (day) => {this.onDayPress(day)}}   
+              //onDayPress={ this.hihi() }
+
+              // Handler which gets executed on day long press. Default = undefined
+              onDayLongPress={(day) => {console.log('selected day', day)}}
+              // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
+              monthFormat={'yyyy MM'}
+              // Handler which gets executed when visible month changes in calendar. Default = undefined
+              onMonthChange={(month) => {console.log('month changed', month)}}
+              // Hide month navigation arrows. Default = false
+              hideArrows={false}
+              // Replace default arrows with custom ones (direction can be 'left' or 'right')
+              //renderArrow={(direction) => (<Arrow />)}
+              // Do not show days of other months in month page. Default = false
+              hideExtraDays={false}
+              // If hideArrows=false and hideExtraDays=false do not switch month when tapping on greyed out
+              // day from another month that is visible in calendar page. Default = false
+              disableMonthChange={false}
+              // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday.
+              firstDay={1}
+              // Hide day names. Default = false
+              hideDayNames={false}
+              // Show week numbers to the left. Default = false
+              showWeekNumbers={false}
+              // Handler which gets executed when press arrow icon left. It receive a callback can go back month
+              onPressArrowLeft={substractMonth => substractMonth()}
+              // Handler which gets executed when press arrow icon left. It receive a callback can go next month
+              onPressArrowRight={addMonth => addMonth()}
+
+              markedDates={
+                this.state.mark
+              }
+
+            />
           </ScrollView>
         </View>
       </View>
@@ -131,17 +194,6 @@ const styles = StyleSheet.create({
     //justifyContent:'center',
     alignItems: 'center',
   },
-
-  hihi:{
-
-    height:500,
-    width:500,
-    top:50,
-    left:25,
-    right:25,
-    position:'absolute'
-  },
-
   container:{
     
     borderRadius:20,

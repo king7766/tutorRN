@@ -1,5 +1,8 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'
+import { Platform } from 'react-native'
+//import DeviceInfo from 'react-native-device-info';
 
+//const deviceId = DeviceInfo.getDeviceId();
 const Dimensions = require('Dimensions');
 const window = Dimensions.get('window');
 let deviceWidth = Dimensions.get('window').width
@@ -15,7 +18,55 @@ let stringsSizeBig = 18
 let stringsSizeMid = 16
 let stringsSizeSmall = 14
 
+const deviceInfo=()=>{
+	/*
+	8+
+	deviceHeight = 736
+Layout.js:23 deviceWidth = 414
+Layout.js:24 1.7777777777777777
+
+X
+deviceHeight = 812
+Layout.js:28 deviceWidth = 375
+Layout.js:29 2.1653333333333333
+
+8
+deviceHeight = 667
+Layout.js:28 deviceWidth = 375
+Layout.js:29 1.7786666666666666
+
+SE
+deviceHeight = 568
+Layout.js:28 deviceWidth = 320
+Layout.js:29 1.775
+connection.js:120 
+*/
+	console.log('deviceHeight = '  + deviceHeight)
+	console.log('deviceWidth = '  + deviceWidth)
+	//console.log(deviceHeight/deviceWidth)
+	if ( (deviceHeight/deviceWidth ) > 2 )
+	{
+		return deviceHeight - 170;
+	}
+	else
+	{
+		
+		return deviceHeight - 110;
+		//return (deviceHeight +1000);
+	}
+	
+}
+
 const styles = StyleSheet.create({
+
+	basicViewStyle:{
+		backgroundColor:'blue',
+		//height:deviceHeight - 170,
+		//height: deviceId ? deviceHeight - 170 : deviceHeight,
+		height: deviceInfo(),
+		//height:50,
+	},
+
 	icon: {
 	  marginTop: 10,
 	  width: 20,
@@ -24,7 +75,10 @@ const styles = StyleSheet.create({
 });
 
 
+
+
 module.exports = {
+
 	searchFieldHeight: 50,
 	recommendationViewHeight : 200,
 	deviceHeight: deviceHeight,

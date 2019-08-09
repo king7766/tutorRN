@@ -279,7 +279,7 @@ class ProfileHomeEditView extends Component<Props> {
     console.log('haveLogin = ' + this.state.haveLogin)
     return (
       <View 
-        style = {{flex:1}}
+        style = {layout.styles.basicViewStyle}
       >
         {
           this.displayContent()
