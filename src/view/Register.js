@@ -27,7 +27,7 @@ import Picker from 'react-native-picker';
 import locationVM from 'tutorRN/src/VM/locationVM'
 import * as C from 'tutorRN/src/service/connection'
 import * as E from 'tutorRN/src/service/env-config'
-
+import * as M from 'tutorRN/src/service/membership'
 
 const layout = require('tutorRN/src/Layout')
 /*
@@ -172,9 +172,53 @@ class Register extends Component<Props> {
     console.log(err);
   }
 
-  next ()
+  async next ()
   {
     console.log('next')
+
+    var registerData = {
+      token : E.token,
+      //login : result.id,
+      login : '201908211518@gmail.com',
+      password : 'abcd1234',
+      nickname : "222p",
+      sex : 'null',
+      occupation : 'IT',
+      education : 'Degree',
+      birth : "1987-06-23 00:00:00",
+      location : "HK",
+      thumb : 
+      {
+        name: this.state.photo.node.image.uri.split("=")[1].split("&")[0],
+        type: this.state.photo.node.type,
+        //uri: Platform.OS === "android" ? photo.uri : photo.node.image.uri.replace("assets-library://", "")
+        uri : this.state.photo.node.image.uri,
+      },
+    }
+    /*
+    const data = new FormData()
+    data.append("fileToUpload", {
+      name: "123imageFile",
+      type: this.state.photo.node.type,
+      //uri: Platform.OS === "android" ? photo.uri : photo.node.image.uri.replace("assets-library://", "")
+      uri : this.state.photo.node.image.uri,
+    });
+    
+    Object.keys(body).forEach(key => {
+      data.append(key, body[key]);
+    });
+    */
+    //const uploadData = this.uploadData(this.state.photos[index],registerData)
+    const res = M.registrationAction( registerData)
+    if ( res == true )
+    {
+      this.props.navigation.navigate('App')
+    }
+    else
+    {
+
+    }
+    //this.loginAction(data.login, data.password, data)
 
     /*
     Picker.init({
@@ -196,7 +240,7 @@ class Register extends Component<Props> {
     */
 
     // call update profile API
-    this.props.navigation.navigate('App')
+    
     //this.props.navigation.navigate('App') 
   }
 
@@ -285,7 +329,7 @@ class Register extends Component<Props> {
       //this.uploadData(this.state.photo, {'user_id':1, 'token':'xRW8DwqoIxZBSlF83b2P'})
       
       const data = this.uploadData(this.state.photos[index], {user_id:'1', token:'xRW8DwqoIxZBSlF83b2P'})
-      
+      /*
       fetch(E.UPLOAD_FILE, {
         method: "POST",
         //body: createFormData(this.state.photo, { userId: "123" })
@@ -298,27 +342,23 @@ class Register extends Component<Props> {
         .catch(error => {
           console.log("upload error", error);
         });
-      /*
-      C.getResponseFromApi(E.UPLOAD_FILE, 'POST', data).then( (json)=>{
-        if( json.statusCode == 200)	
-        {
-          console.log('json = ' + json);
-        }
-      })
-        */
+      */
 
     });
   }
 
   uploadData (photo, body)
   {
-    console.log(photo.node.image.uri)
-    console.log( photo.node.type)
+    //console.log(photo.node.image.uri)
+    //console.log( photo.node.type)
+    
+    var imageName = photo.node.image.uri.split("=")[1].split("&")[0]
+    console.log('imageName = ' + photo.node.image.uri.split("=")[1].split("&")[0])
     
     const data = new FormData();
     
     data.append("fileToUpload", {
-      name: "123imageFile",
+      name: photo.node.image.uri.split("=")[1].split("&")[0],
       type: photo.node.type,
       //uri: Platform.OS === "android" ? photo.uri : photo.node.image.uri.replace("assets-library://", "")
       uri : photo.node.image.uri,
@@ -373,19 +413,12 @@ class Register extends Component<Props> {
     console.log('AvatarOnClicked')
     this.uploadPhoto()
   }
-  
-  //renderItem={({item, index})=>
-  //renderItem({ item, index }) {
-  
 
   renderItem = ({item, index}) =>
     <TouchableHighlight onPress={()=>this.selectedPhoto(index)}>
       <View style={{
         flex: 1,
         margin: 5,
-        //minWidth: 170,
-        //maxWidth: 223,
-        //width: 50,
         width: (layout.deviceWidth- 20)/2,
         maxWidth: (layout.deviceWidth- 20)/2,
         height: (layout.deviceWidth- 20)/2,
@@ -458,9 +491,6 @@ class Register extends Component<Props> {
         
 
         <ScrollView>
-          
-          
-       
           <View style={{ height:40, justifyContent: 'center'}}>
             <Text style = {{ color: 'black', paddingLeft: 10 }}>
               {strings.avatar}
@@ -528,19 +558,11 @@ class Register extends Component<Props> {
             style = {styles.inputTextFieldStyle}
             placeholder = {strings.name}
           />
-
-          
-          
-
-
-
           <View style={{ height:40, flex:1, justifyContent: 'center'}}>
             <Text style = {styles.headingText}>
               {strings.detailInformation}
             </Text>
           </View>
-
-
           <View>
             {
               this.state.rowTitle.map(
@@ -561,12 +583,6 @@ class Register extends Component<Props> {
                       </Text> 
                       <Text
                         style = {styles.inputTextStyle}
-                        //ref= {"index" + index}
-                        //style = {{ paddingRight:10 }}
-                        //color = {layout.themeTextColor}
-                        //value = {this.state.rowData[index]}
-                        //value = {this.state.rowData[1]}
-                        //value = {'1231233'}
                       >
                         {this.state.rowData[index]}
                       </Text> 

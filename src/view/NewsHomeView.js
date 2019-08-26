@@ -28,7 +28,8 @@ import {
 } from 'react-native';
 
 
-//import Navigator from 'react-native-deprecated-custom-components'
+import * as E from 'tutorRN/src/service/env-config'
+import * as C from 'tutorRN/src/service/connection'
 
 import NewsVideoCell from './ui/NewsVideoCell'
 import newsVM from 'tutorRN/src/VM/newsVM'
@@ -37,7 +38,7 @@ import locationVM from 'tutorRN/src/VM/locationVM'
 import categoryVM from 'tutorRN/src/VM/categoryVM'
 import userVM from 'tutorRN/src/VM/userVM'
 
-//import AddBtnPopUpDialog from 'tutorRN/src/view/ui/AddBtnPopUpDialog'
+
 import PopupDialog, {DialogTitle, SlideAnimation, DialogButton, FadeAnimation, ScaleAnimation} from 'react-native-popup-dialog';
 import strings from 'tutorRN/src/service/strings'
 
@@ -287,12 +288,33 @@ class NewsHomeView extends Component<Props> {
     console.log('commentBtnOnClicked : ' + index)
   }
 
-  cellOnPressed(index)
+  async cellOnPressed(index)
   {
     console.log('cell OnPressed ' + index)
+    console.log('this.state.newsVM[index].tutor_id = ' + this.state.newsVM[index].tutor_id)
+    console.log('this.state.newsVM[index].tutor_id = ' + this.state.newsVM[index].id)
+
+    const json = await C.getResponseFromApi(E.GET_USER, 'POST', {token:'x1RW8DwqoIxZBSlF83b2P', user_id:this.state.newsVM[index].tutor_id}).then((json)=>{
+      return json 
+    })
+    if ( json.statusCode == 200 && json.data != -100)
+    {
+      console.log('json = ' + json)
+      this.props.navigation.navigate('NewsDetailView',{
+        lessonDetailShow: true,
+        tutor_id : this.state.newsVM[index].tutor_id,
+        lesson_id : this.state.newsVM[index].id
+      })
+    }
+    
+    /*
     this.props.navigation.navigate('NewsDetailView',{
       lessonDetailShow: true,
+      tutor_id : this.state.newsVM[index].tutor_id,
+      lesson_id : this.state.newsVM[index].id
     })
+    */
+
     //this.props.navigation.navigate('SearchTutorDetailView');
     /*
     this.props.navigation.navigate('SearchTutorDetailView',{

@@ -101,11 +101,11 @@ class NewsVideoCell extends Component{
           <Image  style = {{ top: layout.deviceHeight * 0.8 - 80, left : layout.deviceWidth - 50, height: 40,width: 40}} source={this.state.comment ? Assets.actions.comment : Assets.actions.comment} />
         </TouchableHighlight>
 
-        <View style = {{position: 'absolute', top : layout.deviceHeight * 0.05, left:45, height: 30, width: 100, justifyContent:'center', alignItems:'center'}}>
-          <Text style = {{ color:'white', fontWeight:'bold',  }} >{this.props.item.creator}</Text>
+        <View style = {styles.tutorNameStyle}>
+          <Text style = {{ color:'white', fontWeight:'bold', backgroundColor: 'rgba(0,0,0,0)' }} >{this.props.item.tutor_name}</Text>
         </View>
             
-        <Image style = {{height: 30, width: 30, borderRadius:15, borderColor:'white'  , borderWidth:2,  position: 'absolute', top : layout.deviceHeight * 0.05, left:10}} source = {{uri: this.props.item.profilePic}}/>
+        <Image style = {{height: 30, width: 30, borderRadius:15, borderColor:'white'  , borderWidth:2,  position: 'absolute', top : layout.deviceHeight * 0.05, left:10}} source = {{uri: this.props.item.tutor_thumb}}/>
 
             
         <View style = {{position: 'absolute', top : layout.deviceHeight * 0.8 - 30  , height: 30, width: layout.deviceWidth, paddingLeft:10, paddingRight:layout.deviceWidth*0.1, justifyContent:'flex-start',  backgroundColor:'rgba(0, 0, 0, 0.5)'}}>
@@ -133,6 +133,7 @@ class NewsVideoCell extends Component{
 
   showPhotoVideo()
   {
+    
     var photos = [this.props.item.news_thumb]
     return (
       //<View/>
@@ -327,6 +328,14 @@ const styles = StyleSheet.create ({
     width: layout.deviceWidth,
     height: 150 + 20 + 50 + 20 + 20 + 25, // last is padding
     padding: 5
+  },
+
+  tutorNameStyle:{
+    position: 'absolute', 
+    top : layout.deviceHeight * 0.05, 
+    left:45, height: 30, width: 100, 
+    justifyContent:'center', 
+    //alignItems:'center'
   },
 
   fullViewStyle :{

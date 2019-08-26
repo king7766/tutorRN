@@ -283,13 +283,11 @@ class Welcome extends Component<Props> {
       })
     }
 
-    const res = M.loginAction(id, password, info)
+    const res = await M.loginAction(this.state.account, this.state.password, info)
 
-    
     if ( res == true )
     {
-      
-      //console.log('loginAction success : ' + userViewModel.getUser() )
+      console.log('loginAction success : ' + userViewModel.getUser().user_login )
     }
     else
     {
@@ -398,18 +396,18 @@ class Welcome extends Component<Props> {
 
   handleInputChange(event) {
     console.log(JSON.stringify(event.nativeEvent))
-    /*
+    
     const element = ReactNativeComponentTree.getInstanceFromNode(event.nativeEvent.target);
     const name = element._currentElement.props.name
-    //element._currentElement.props.name == 'account' ? this.setState({
-    //  account: event.nativeEvent.text
-    //}) : this.setState({
-    //  password: event.nativeEvent.text
-    //})
+    element._currentElement.props.name == 'account' ? this.setState({
+      account: event.nativeEvent.text
+    }) : this.setState({
+      password: event.nativeEvent.text
+    })
     this.setState({
       name: event.nativeEvent.text
     })
-    */
+    
   }
 
   onFocus (event)
@@ -441,8 +439,6 @@ class Welcome extends Component<Props> {
                 //onChangeText={(text) => this.setState({account: text})}
                 placeholder = {strings.emailPlaceHolder}
                 placeholderTextColor='white'
-              
-
                 name= "account"
                 //onChangeText={ (text) => this.handleInputChange(text)}
                 onChange= {this.handleInputChange}
@@ -482,7 +478,7 @@ class Welcome extends Component<Props> {
 
 
             <TouchableOpacity 
-              onPress={()=>this.loginAction(this.state.accountID, this.state.password, null)}
+              onPress={()=>this.loginAction(this.state.account, this.state.password, null)}
               style = {styles.loginBtnStyle}
             >
               <View>

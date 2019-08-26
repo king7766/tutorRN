@@ -12,11 +12,14 @@ import {
    TextInput
 } from 'react-native';
 import strings from '../../service/strings';
+import userVM from 'tutorRN/src/VM/userVM'
+
 import {
   Avatar,
 } from 'tutorRN/src/view/ui/UIComponent';
 
 const layout = require('tutorRN/src/Layout')
+const userViewModel = userVM.getInstance()
 
 class TutorProfilePreviewBlock extends Component{
 
@@ -108,8 +111,6 @@ class TutorProfilePreviewBlock extends Component{
               >
                 {strings.startEditProfile}
               </Text>
-
-
             </TouchableHighlight>
           </View>
 
@@ -123,8 +124,7 @@ class TutorProfilePreviewBlock extends Component{
     //E.stringsSizeBig
     return (
       <View style = {{ flex:1, margin:5}}>
-
-        <Text style = {{margin: 10, fontSize:layout.stringsSizeMid, fontWeight:'bold'}} >KingTai Leung</Text>
+        <Text style = {{margin: 10, fontSize:layout.stringsSizeMid, fontWeight:'bold'}} >{userViewModel.getUser().user_nickname}</Text>
         <Text numberOfLines= {3} style = {{marginBottom: 10,marginLeft:10, marginRight:10, fontSize:layout.stringsSizeSmall}} >詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡</Text>
       </View>
     )
@@ -178,30 +178,13 @@ const styles = StyleSheet.create ({
   },
 
   photoViewStyle:{
-    //flex: 3,
     paddingLeft: 5,
     paddingRight: 5,
-    //flexDirection: 'column',
     backgroundColor: 'red',
-    //alignItems: 'center',
-    //justifyContent: 'center'
-    
   },
 
   imageStyle :{
     marginLeft: 10,
-    //marginTop:10,
-    //backgroundColor: 'rgba(61,89,148,1)',
-    //backgroundColor: 'grey',
-    //paddingTop: 10,
-    //height:80,
-    //width: 80,
-    
-    //borderRadius:40,
-    //flex:1,
-    
-    //width:layout.deviceWidth
-
   },
 
   tutorViewStyle:{

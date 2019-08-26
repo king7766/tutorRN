@@ -4,6 +4,9 @@ import {observable, computed} from 'mobx'
 export class newsModel{
 
    id : integer 
+   tutor_id : string = ''
+   tutor_name : string = ''
+   tutor_thumb : string = ''
    news_title : string = ''
    news_short_desc : string = ''
    news_content : string = ''
@@ -25,6 +28,9 @@ export class newsModel{
         return 
         {
             id: this.id
+            tutor_id : this.tutor_id
+            tutor_name : this.tutor_name
+            tutor_thumb : this.tutor_thumb
             news_title: this.news_title
             news_short_desc: this.news_short_desc
             news_content: this.news_content
@@ -40,6 +46,11 @@ export class newsModel{
    static deserialize( jsonObject: Object){
        const model = new newsModel()
         model.id = jsonObject.id
+        
+        model.tutor_id = jsonObject.tutor_id
+        model.tutor_name = jsonObject.tutor_name
+        model.tutor_thumb = jsonObject.tutor_thumb
+        
         model.news_title = jsonObject.news_title
         model.news_short_desc = jsonObject.news_short_desc
         model.news_content = jsonObject.news_content

@@ -102,14 +102,15 @@ export async function loginAction(id, password, result)
     //const res = await userViewModel.login(id , password)
     const res = await callLoginAPI(id , password)
 
-    if ( res.data.verify_status == 'success')
+    //if ( res.data.verify_status == 'success')
+    if ( res.data.user_login)
     {
         //console.log(data)
         userViewModel.setUserProfile(res.data)
-        if ( result.photos)
-        {
-            userViewModel.setFacebookPhotos(result.photos.data)
-        }
+        //if ( result.photos)
+        //{
+        //    userViewModel.setFacebookPhotos(result.photos.data)
+        //}
         
         //console.log('success : ' + userViewModel.getUser().user_login )
 
@@ -159,7 +160,7 @@ async function callLoginAPI (login, password)
          else
          {
              //console.log('error ')
-             console.log('this is error code : ' + json.data);
+            console.log('this is error code : ' + json.data);
          
              return false
          }
@@ -167,10 +168,47 @@ async function callLoginAPI (login, password)
     })
 }
 
-export function registrationAction(id, password, data)
+export async function registrationAction( data)
 {
-    console.log('registrationAction id : ' +id +', pw : '+ password)
+    const res = await callingRegistrationAction(data)
+    if ( res.data.user_id )
+    {
+        userViewModel.setUserProfile(res.data)
+        if ( res.data.user_thumb)
+        {
+            userViewModel.setFacebookPhotos(res.data.user_thumb)
+        }
+
+        await AsyncStorage.setItem('userToken', res.data.user_login )
+        await AsyncStorage.setItem('userPassword', res.data.user_password )
+
+        N.loginAction( userViewModel.getUser().user_login )
+      
+        return true
+    }
+    else
+    {
+        console.log('registrationAction fail')
+        return false
+    }
+}
+
+async function callingRegistrationAction (data)
+{
+    console.log('data : ' + data);
     
+    return C.getResponseFromApi(E.REGISTER_USER, 'POST', data ).then( (json ) =>{
+        if( json.statusCode == 200)	
+        {
+            console.log('REGISTER_USER data = ' + JSON.stringify(json.data, null, 2) )
+            return json
+        }
+        else
+        {
+            console.log('this is error code : ' + json.data);
+            return false
+        }
+    });
 }
 
 export function logoutAction ()

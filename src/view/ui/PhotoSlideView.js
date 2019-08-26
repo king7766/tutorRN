@@ -24,37 +24,9 @@ class ImageLoader extends Component {
     super(props);
     this.state = {
       //fadeAnim: new Animated.Value(0),
-
       opacity: new Animated.Value(0),
       move : new Animated.Value(-1),
-     
       data: this.props.photos,
-      /*
-      data : [
-        
-        'https://www.joinin-education.com/uploads/1/0/1/8/101845694/img-7578-web_orig.jpg',
-        
-        'https://www.joinin-education.com/uploads/1/0/1/8/101845694/img-7298-web_orig.jpg',
-        'https://www.joinin-education.com/uploads/1/0/1/8/101845694/img-7270-web_orig.jpg',
-        'https://www.joinin-education.com/uploads/1/0/1/8/101845694/img-7283-web_orig.jpg',
-        'https://www.joinin-education.com/uploads/1/0/1/8/101845694/20180630215229-img-7919_1_orig.jpg',
-        'https://www.joinin-education.com/uploads/1/0/1/8/101845694/img-7563-web_1_orig.jpg',
-        */
-        /*
-        'https://images.unsplash.com/photo-1485832329521-e944d75fa65e?auto=format&fit=crop&w=1000&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D',
-        */
-       /*
-        'http://www.modern.edu.hk/ext/asset/tutor/5b6e6e6fcb716_norm.jpg',
-        'http://www.modern.edu.hk/ext/asset/tutor/5b6e740c50d31_norm.jpg',
-        
-        'http://www.modern.edu.hk/ext/asset/tutor/5b6e74320bbc3_norm.jpg',
-        'http://www.modern.edu.hk/ext/asset/tutor/5b6e7214e41b5_norm.jpg',
-        'http://www.modern.edu.hk/ext/asset/tutor/5b6e6f3860c1b_norm.jpg',
-        'http://www.modern.edu.hk/ext/asset/tutor/5b6e6f8e9f527_norm.jpg',
-        'http://www.modern.edu.hk/ext/asset/tutor/5b6e7046d2cca_norm.jpg',
-        'http://www.modern.edu.hk/ext/asset/tutor/5b6e6da28b03b_norm.jpg',
-          */
-      //],
       displayingIndex : 0,
       landscape : false,
       imageHeight: 0,
@@ -62,13 +34,6 @@ class ImageLoader extends Component {
       //loading : true,
       //displayContent : this.displayContent.bind(this)
     }
-
-    /*
-    this.state.left = this.state.move.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0, 100],
-    });
-    */
     this.displayContent = this.displayContent.bind(this)
   }
 
@@ -172,39 +137,39 @@ class ImageLoader extends Component {
 
   }
 
-  animate () {
+  animate() {
 
-    console.log('animate')
     if ( this.state.landscape )
     {
+      console.log('landscape animate')
       Animated.sequence([
         Animated.timing(
-          this.state.move,
-        {
-          toValue: 1,
-          duration: 3000,
-          //easing: Easing.linear
-        }
+          this.state.move,{
+            toValue: 1,
+            duration: 3000,
+            //easing: Easing.linear
+          }
         ),
         Animated.timing(
-          this.state.move,
-        {
-          toValue: 0,
-          duration: 3000,
-          //easing: Easing.linear
-        }
+          this.state.move,{
+            toValue: 0,
+            duration: 3000,
+            //easing: Easing.linear
+          }
         ),
-  
-        Animated.timing(this.state.opacity,{
-          toValue: 0 ,
-          duration: 1000,
-          useNativeDriver: true,
-          easing: Easing.linear})
-  
+        Animated.timing(
+          this.state.opacity,{
+            toValue: 0 ,
+            duration: 1000,
+            useNativeDriver: true,
+            easing: Easing.linear
+          }
+        )
       ]).start(() => this.animationFinishWithIndex( this.state.displayingIndex) )
     }
     else
     {
+      console.log('postirat animate')
       Animated.sequence(
         [
         Animated.timing(this.state.opacity,{
@@ -252,23 +217,16 @@ class ImageLoader extends Component {
 
   displayContent ()
   {
-    return (
-      /*
-      <Animated.Image
-        source = {{uri : this.state.data[this.state.displayingIndex]}}
-        style = {[{ opacity: this.state.opacity }, styles.fullViewStyle]}
-      />
-      */
-
+    const movingMargin = this.animatedValue.interpolate({
+      inputRange: [0, 0.5, 1],
+      outputRange: [0, 300, 0]
+    })
+    if ( this.state.landscape )
+    {
       <View
         style = {styles.fullViewStyle}
-        //style = {{backgroundColor: 'transparent'}}
       >
-
-
-     
-
-      <Image 
+        <Image 
           style = {styles.backgroundStyle}
           resizeMode='cover'
           source= {{uri : this.state.data[this.state.displayingIndex]}}
@@ -276,27 +234,23 @@ class ImageLoader extends Component {
         />
 
 
-          <Animated.Image
+        <Animated.Image
         //onLoad={this.onLoad(this.state.displayingIndex)}
         //onLoad={this.onLoad(0)}
-        onLoad = {evt => this.onLoad(evt)}
+        //onLoad = {evt => this.onLoad(evt)}
         //{...this.props}
-        resizeMode = 'stretch'
-        source = {{uri : this.state.data[this.state.displayingIndex]}}
-        //source = {{uri : this.state.data[0]}}
-        style={[
+          resizeMode = 'stretch'
+          source = {{uri : this.state.data[this.state.displayingIndex]}}
+          //source = {{uri : this.state.data[0]}}
+          style={[
           {
             
             //opacity: this.state.imageHeight > this.state.imageWidth ? this.state.opacity : 1, 
             opacity: this.state.landscape ?  1 : this.state.opacity , 
-            
-              
-                left: this.state.landscape ?  this.state.move.interpolate({
-                  inputRange:[-1,1],
-                  outputRange:[-150,0] 
-                }) : 0 ,
-              
-            
+            left: this.state.landscape ?  this.state.move.interpolate({
+              inputRange:[-1,1],
+              outputRange:[-150,0] 
+            }) : 0 ,
             /*
             transform: [
               {
@@ -314,11 +268,68 @@ class ImageLoader extends Component {
           this.animateImageStyle()
         ]}
       />
+      </View>
+      
+    }
+    
+    return (
+      /*
+      <Animated.Image
+        source = {{uri : this.state.data[this.state.displayingIndex]}}
+        style = {[{ opacity: this.state.opacity }, styles.fullViewStyle]}
+      />
+      */
 
-      
-      
-       
-      
+      <View
+        style = {styles.fullViewStyle}
+        //style = {{backgroundColor: 'transparent'}}
+      >
+
+
+     
+
+      <Image 
+        style = {styles.backgroundStyle}
+        resizeMode='cover'
+        source= {{uri : this.state.data[this.state.displayingIndex]}}
+        blurRadius={10}
+      />
+
+
+        <Animated.Image
+        //onLoad={this.onLoad(this.state.displayingIndex)}
+        //onLoad={this.onLoad(0)}
+        //onLoad = {evt => this.onLoad(evt)}
+        //{...this.props}
+          resizeMode = 'stretch'
+          source = {{uri : this.state.data[this.state.displayingIndex]}}
+          //source = {{uri : this.state.data[0]}}
+          style={[
+          {
+            
+            //opacity: this.state.imageHeight > this.state.imageWidth ? this.state.opacity : 1, 
+            opacity: this.state.landscape ?  1 : this.state.opacity , 
+            left: this.state.landscape ?  this.state.move.interpolate({
+              inputRange:[-1,1],
+              outputRange:[-150,0] 
+            }) : 0 ,
+            /*
+            transform: [
+              {
+                scale: this.state.opacity.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [1, 1.3],
+                })
+              },
+            ],
+            */
+          },
+          //this.props.style,
+          //styles.fullViewStyle
+          //styles.animateImageStyle
+          this.animateImageStyle()
+        ]}
+      />
       </View>
       
     )

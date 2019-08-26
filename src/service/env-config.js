@@ -4,6 +4,8 @@ const domain = 'http://tutor.ho2find.com/';
 
 export const LOGIN_AUTH = domain + 'login_auth.php';
 export const REGISTER_USER = domain + 'register_user.php';
+
+export const GET_USER = domain + 'get_user_by_id.php';
 export const GET_CATEGORY = domain + 'get_category.php';
 export const GET_NEWS = domain + 'get_news.php';
 export const GET_LOCATION = domain + 'get_location.php';
