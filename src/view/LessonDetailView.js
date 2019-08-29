@@ -22,7 +22,7 @@ import {
 } from 'react-native';
 
 import {
-  TopMenuBar,
+  RowMenuListingBar,
 } from 'tutorRN/src/view/ui/UIComponent';
 
 import TutorProfileTextBlock from 'tutorRN/src/view/ui/TutorProfileTextBlock'
@@ -31,18 +31,16 @@ import FilteringToolsBar from 'tutorRN/src/view/ui/FilteringToolsBar'
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars'
 import CalendarCell from 'tutorRN/src/view/ui/CalendarCell'
 import Assets from 'tutorRN/src/view/ui/Assets';
+import strings from 'tutorRN/src/service/strings'
 
-import SegmentControl from './ui/SegmentControl'
-import TutorRowFlatList from './ui/TutorRowFlatList';
 const layout = require('tutorRN/src/Layout')
-const numberOfItem = 4
 
 
 class LessonDetailView extends Component<Props> {
 
   constructor(props) {
     super(props)
-   
+    this.timeList = []
     for ( var i = 0; i < 48; i ++){
       var min = ""
       if ( i % 2  == 0){
@@ -51,12 +49,11 @@ class LessonDetailView extends Component<Props> {
       {
         min = "30"
       }
-      var s = "" + i/2 + ":" + min
-      timeList.push(s)
+      var s = ""+ (parseInt(i/2) < 10 ? "0"+parseInt(i/2) : parseInt(i/2) ) + ":" + min
+      this.timeList.push(s)
     }
     
     this.backBtnOnClicked = this.backBtnOnClicked.bind(this)
-    // /this.handleFacebookLogin = this.handleFacebookLogin.bind(this)
     this.state = {
       mark: {
         '2018-05-06': {selected: true, dotColor: 'green', selectedColor: 'green'},
@@ -213,19 +210,30 @@ class LessonDetailView extends Component<Props> {
                 }
 
               />
-              <View style = {{flexDirection:'row', height:50}}>
-                <Text style = {{flex:1}}>開始時間 : </Text>
-                <TopMenuBar 
-                  //TopMenuBar
-                  firstItem = {"請選擇"}
-                  style = {{flex:1}}
+              <View style = {{flexDirection:'row', height:50, alignItems:'center'}}>
+                <Text style = {{flex:1}}>{strings.startTime}</Text>
+                <RowMenuListingBar 
+                  
+                  firstItemShowIcon = {false}
+                  style = {{flex:1, marginRight:20}}
                   data = {this.timeList}
                   size = {30}
                   itemHeight = {30}
                   itemWidth = {50}
-                  selected = {0}
-                  //multiSelected ={[0,1,2,3,4,5,6,7,8]}
-                  //multiSelect = {true}
+                  
+                  onClicked={ this.timeSelected }
+                />
+              </View>
+              <View style = {{flexDirection:'row', height:50, alignItems:'center'}}>
+                <Text style = {{flex:1}}>{strings.intervalTime} </Text>
+                <RowMenuListingBar 
+
+                  firstItemShowIcon = {false}
+                  style = {{flex:1, marginRight:20}}
+                  data = {["30", "60", "90"]}
+                  size = {30}
+                  itemHeight = {30}
+                  itemWidth = {50}
                   onClicked={ this.timeSelected }
                 />
               </View>

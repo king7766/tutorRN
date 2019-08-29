@@ -1,4 +1,6 @@
-import TopMenuBar from 'tutorRN/src/view/ui/TopMenuBar'
+
+
+import RowMenuListingBar from 'tutorRN/src/view/ui/RowMenuListingBar'
 import TutorRowFlatList from 'tutorRN/src/view/ui/TutorRowFlatList'
 import TutorSelectCell from 'tutorRN/src/view/ui/TutorSelectCell'
 import SegmentControl from 'tutorRN/src/view/ui/SegmentControl'
@@ -15,7 +17,7 @@ import Assets from 'tutorRN/src/view/ui/Assets'
 export {
   Avatar,
   Assets,
-  TopMenuBar,
+  RowMenuListingBar,
   TutorRowFlatList,
   TutorSelectCell,
   SegmentControl,

@@ -26,7 +26,7 @@ import SegmentControl from './ui/SegmentControl'
 
 import {
   TutorRowFlatList,
-  TopMenuBar,
+  RowMenuListingBar,
 } from 'tutorRN/src/view/ui/UIComponent';
 
 import categoryVM from 'tutorRN/src/VM/categoryVM'
@@ -410,9 +410,9 @@ class SearchHomeView extends Component<Props> {
       <View style = {layout.styles.basicViewStyle}>
         <ScrollView style = {{backgroundColor:layout.backgroundColor}}>
 
-          <TopMenuBar 
-            //TopMenuBar
+          <RowMenuListingBar 
             
+            firstItemShowIcon = {true}
             data = {this.state.courseTagNames}
             size = {50}
             itemHeight = {30}

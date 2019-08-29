@@ -29,7 +29,7 @@ interface TopMenuBarProps {
 
 //export default class AvaterComponent extends React.Component<AvaterProps, AvaterState> {
   //constructor(props: AvaterProps) {
-class TopMenuBar extends Component <TopMenuBarProps>{
+class RowMenuListingBar extends Component <TopMenuBarProps>{
 
   constructor (props: TopMenuBarProps){
     super(props);
@@ -120,25 +120,6 @@ class TopMenuBar extends Component <TopMenuBarProps>{
       color : multiSelect ? ( this.state.multiSelectArray[index] ? 'black' : 'gray' ) : ( this.state.selected == index ? 'black' : 'gray') ,
       fontWeight: 'bold'
     }
-
-    /*
-    if ( multiSelect )
-    {
-      return{
-        color : this.state.multiSelectArray[index] ? 'black' : 'gray',
-        fontWeight: 'bold'
-      }
-    }
-    else
-    {
-      return{
-        //flex:1,
-        color: this.state.selected == index ? 'black' : 'gray',
-        fontWeight:'bold',        
-      }
-    }
-    */
-    
   }
 
   borderStyle(index)
@@ -159,7 +140,8 @@ class TopMenuBar extends Component <TopMenuBarProps>{
       justifyContent:'center', 
       height: itemHeight, 
       width: itemWidth, 
-      borderWidth: bWidth + selected * 1 ,
+      //borderWidth: bWidth + selected * 1 ,
+      borderWidth: bWidth ,
       borderRadius:2, 
     
     }
@@ -194,10 +176,10 @@ class TopMenuBar extends Component <TopMenuBarProps>{
   
   itemComponent(item, index)
   {
-    const { multiSelect, itemHeight, itemWidth } = this.props;
+    const { firstItemShowIcon,multiSelect, itemHeight, itemWidth } = this.props;
     
     
-    if (index == 0){
+    if (index == 0 && firstItemShowIcon == true){
       return (
         <View
        
@@ -303,7 +285,7 @@ class TopMenuBar extends Component <TopMenuBarProps>{
   }
 }
 
-export default TopMenuBar;
+export default RowMenuListingBar;
 
 const styles = StyleSheet.create ({   
   
