@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PureC} from 'react';
 import { 
    Text, 
    Image, 
@@ -6,8 +6,12 @@ import {
    StyleSheet, 
    ScrollView ,
    TouchableHighlight,
-   Animated
+   Animated,
+   DeviceEventEmitter,
+   Easing,
 } from 'react-native';
+import TimerMixin from 'react-timer-mixin';
+mixins: [TimerMixin];
 
 import YouTube from 'react-native-youtube'
 
@@ -51,6 +55,7 @@ class NewsVideoCell extends Component{
     super(props);
   
     this.state = {
+      showingIndex : 0 ,
       hiddenCover: false,
       hiddenUI: false,
 
@@ -77,8 +82,30 @@ class NewsVideoCell extends Component{
 
   componentWillMount(){
     console.log('NewsVideoCell componentWillMount')
-    //this.mounted = true
+    
   } 
+
+  componentDidMount(){
+
+  }
+
+  /*
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('shouldComponentUpdate : ' + nextProps.showingIndex)
+    this.setState({
+      showingIndex : nextProps.showingIndex
+    })
+    return true
+  }
+  
+  
+  componentWillReceiveProps(nextProps, nextState) {
+    console.log('componentWillReceiveProps : ' + nextProps.showingIndex)
+
+    
+    //console.log(nextProps.showingIndex)
+  }
+  */
 
   showUI()
   {
@@ -125,8 +152,8 @@ class NewsVideoCell extends Component{
     return (
       //layout.deviceWidth*0.1
       //<Image source={{uri: this.props.item.news_thumb }} style={styles.fullViewStyle} /> 
-      <Image source={{uri: this.props.item.cover }} style={styles.fullViewStyle} /> 
-      //<Image source={{uri:'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/5895592a166f19435e4e127ae1b1f336.jpg'}} style={styles.fullViewStyle} /> 
+      //<Image source={{uri: this.props.item.cover }} style={styles.fullViewStyle} /> 
+      <Image source={{uri:'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/5895592a166f19435e4e127ae1b1f336.jpg'}} style={styles.fullViewStyle} /> 
 
     )
   }
@@ -134,19 +161,31 @@ class NewsVideoCell extends Component{
   showPhotoVideo()
   {
     
-    var photos = [this.props.item.news_thumb]
+    const photos = [
+      'https://images.unsplash.com/photo-1485832329521-e944d75fa65e?auto=format&fit=crop&w=1000&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D',
+      'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/3a7803bf022db91704584b7297b38bc6.jpg',
+      'https://images.unsplash.com/photo-1485832329521-e944d75fa65e?auto=format&fit=crop&w=1000&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D',
+      'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/3a7803bf022db91704584b7297b38bc6.jpg', 
+      'https://images.unsplash.com/photo-1485832329521-e944d75fa65e?auto=format&fit=crop&w=1000&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D',
+      'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/3a7803bf022db91704584b7297b38bc6.jpg',
+      ]
+    //var photos = [this.props.item.news_thumb]
     return (
+      <ImageLoader
+        showingIndex = {this.props.showingIndex}
+        photos = {photos}
+      />
       //<View/>
       //<Image source={{uri: 'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/3a7803bf022db91704584b7297b38bc6.jpg' }} style={styles.fullViewStyle} /> 
       
       
 
 
-      <PhotoSlideView
-        photos  = {photos}
-        onReady = { this.onLoad }
-        onPress = { this.displayViewOnClick }
-      />
+      //<PhotoSlideView
+      //  photos  = {photos}
+      //  onReady = { this.onLoad }
+      //  onPress = { this.displayViewOnClick }
+      ///>
       
     )
   }
@@ -210,6 +249,7 @@ class NewsVideoCell extends Component{
   displayViewOnClick()
   {
     console.log('displayViewOnClick')
+    DeviceEventEmitter.emit('stopAnimate', {});
 
     this.props.onClicked( this.props.index )
 
@@ -244,9 +284,27 @@ class NewsVideoCell extends Component{
 
   displayViewLogic(index)
   {
+    
+    return (
+      <TouchableHighlight 
+        onPress={ this.displayViewOnClick}
+        underlayColor = {layout.touchHighlightColor}
+      >
+        <View style = {{backgroundColor:'black'}}>  
+        {
+          this.showPhotoVideo()
+        }
+        {
+          this.showUI()
+        }
+        </View>
+      </TouchableHighlight>
+    )
+    
   
+
     //if (0)
-    if ( index == this.props.showingIndex )
+    if ( index == this.state.showingIndex )
     {
       // viewable view -> show video
   
@@ -385,3 +443,253 @@ const styles = StyleSheet.create ({
 })
 
 
+
+
+
+
+class ImageLoader extends Component {
+
+  constructor (props){
+    super(props);
+    this.animatedValue = new Animated.Value(0),
+    this.opacity = new Animated.Value(0),
+    this.state = {
+      //fadeAnim: new Animated.Value(0),
+      
+      //opacity: new Animated.Value(0),
+      move : new Animated.Value(0),
+      data: this.props.photos,
+      displayingIndex : 0,
+      landscape : false,
+      imageHeight: 0,
+      imageWidth: 0,
+      //loading : true,
+      //displayContent : this.displayContent.bind(this)
+    }
+    //this.displayContent = this.displayContent.bind(this)
+  }
+   componentDidMount() {
+    
+    this.preloadImageSize()
+
+    this.deEmitter = DeviceEventEmitter.addListener('stopAnimate', (a) => {
+      //this.animatedValue.stopAnimation(({value}) => console.log("Final Value: " + value))
+      //clearInterval(this.interval);
+    });
+
+    this.interval = setInterval(() => {
+      console.log('going to next image by interval')
+
+      index = this.state.displayingIndex + 1
+      if ( index == this.state.data.length )
+      {
+        index = 0 
+      }
+      Image.getSize(this.state.data[index], (width, height) =>{
+        var landscape = false
+        if ( height < width)
+        {
+          landscape = true
+          
+        }
+        this.setState({
+          displayingIndex : index,
+          landscape: landscape,
+        })
+        
+        //this.animate()
+  
+      }, (error) =>{
+        console.log(error)
+      })
+
+    }, 5000); //6 seconds
+
+    
+    //this.props.onReady()
+   
+  }
+
+  preloadImageSize ()
+  {
+    Image.getSize(this.state.data[this.state.displayingIndex], (width, height) =>{
+      var landscape = false
+      if ( height < width)
+      {
+        landscape = true
+        
+      }
+      this.setState({
+        landscape: landscape,
+      })
+      
+      this.animate()
+
+    }, (error) =>{
+      console.log(error)
+    })
+  }
+
+  animationFinishWithIndex(index)
+  {
+    index = index + 1
+    if ( index == this.state.data.length )
+    {
+      index = 0 
+    }
+    
+    console.log('coming display = ' + index)
+
+    this.setState({
+      displayingIndex: index,
+      //loading: true,
+    })
+    // load next image 
+    this.preloadImageSize()
+
+  }
+
+  animate() {
+
+    this.animatedValue.setValue(0)
+    Animated.timing(
+      this.animatedValue,
+      {
+        toValue: 1,
+        duration: 5000,
+        easing: Easing.linear
+      }
+    ).start(() => this.animate())
+
+    return
+
+    if ( this.state.landscape ){
+      this.animatedValue.setValue(0)
+      Animated.timing(
+        this.animatedValue,
+        {
+          toValue: 1,
+          duration: 6000,
+          easing: Easing.linear
+        }
+      ).start(() => this.animate())
+    }
+    else{
+      this.opacity.setValue(0)
+      Animated.timing(
+        this.state.opacity,
+        {
+          toValue:1,
+          duration: 3000,
+          useNativeDriver: true,
+          easing: Easing.linear
+        }
+      ).start(()=>this.animate())
+    }
+    
+    //this.animationFinishWithIndex( this.state.displayingIndex)
+    //).start(() => this.animationFinishWithIndex( this.state.displayingIndex) )
+
+    //return ;
+  }
+
+  animateImageStyle ()
+  {
+    if ( this.state.landscape )
+    {
+      return {
+        height: layout.deviceHeight * 1/3,
+        width: (layout.deviceHeight * 1/3 )* 1.78 ,
+        position:'absolute',
+        //top: layout.deviceHeight * 1/3 - 50, 
+        top: 150, 
+        
+      }
+    }
+    else
+    {
+      return {
+        height: layout.deviceHeight,
+        width: layout.deviceWidth,
+        position:'absolute',
+        //top: layout.deviceHeight * 1/3, 
+  
+      }
+    } 
+  }
+
+  portraintContent(){
+    const opacity = this.animatedValue.interpolate({
+      inputRange: [0, 0.5, 1],
+      outputRange: [0, 1, 0]
+    })
+
+    return (
+      <View
+        style = {styles.fullViewStyle}
+        //style = {{backgroundColor: 'transparent'}}
+      >
+        <Image 
+          style = {styles.backgroundStyle}
+          resizeMode='cover'
+          source= {{uri : this.state.data[this.state.displayingIndex]}}
+          blurRadius={10}
+        />
+        <Animated.Image
+          resizeMode = 'stretch'
+          source = {{uri : this.state.data[this.state.displayingIndex]}}
+          //source = {{uri : this.state.data[0]}}
+          style={{
+            opacity: opacity , 
+            height: layout.deviceHeight,
+            width: layout.deviceHeight,
+            position:'absolute',
+          }}
+        />
+      </View>
+    )
+   
+  }
+
+  landscapeContent(){
+    const movingMargin = this.animatedValue.interpolate({
+      inputRange: [0, 0.5, 1],
+      outputRange: [-50, 50, 0]
+    })
+
+    return (
+      <View
+        style = {styles.fullViewStyle}
+        //style = {{backgroundColor: 'transparent'}}
+      >
+        <Image 
+          style = {styles.backgroundStyle}
+          resizeMode='cover'
+          source= {{uri : this.state.data[this.state.displayingIndex]}}
+          blurRadius={10}
+        />
+        <Animated.Image
+          resizeMode = 'stretch'
+          source = {{uri : this.state.data[this.state.displayingIndex]}}
+          //source = {{uri : this.state.data[0]}}
+          style={{
+            opacity:1,
+            marginLeft: movingMargin,
+            height: layout.deviceHeight * 1/3,
+            width: (layout.deviceHeight * 1/3 )* 1.78 ,
+            marginTop:150,
+            position:'absolute',
+          }}
+        />
+      </View>
+    )
+  }
+
+  render() {
+    
+    return (
+      //this.state.landscape ? this.landscapeContent() : this.portraintContent()
+      1 ? this.landscapeContent() : this.portraintContent()
+    )
+  }
+}

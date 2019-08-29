@@ -260,7 +260,7 @@ class NoticeHomeView extends Component<Props> {
   render() {
 
     return (
-      <View style = {{flex:1}}>
+      <View style = {layout.styles.basicViewStyle}>
 
         {
           this.state.haveLogin == true ? this.displayContent() : this.displayNonLoginContent()

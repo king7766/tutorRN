@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent} from 'react';
 import { 
    Text, 
    Image, 
@@ -8,6 +8,7 @@ import {
    TouchableHighlight,
    Animated,
    Easing,
+   //animatedValue,
    ActivityIndicator
 } from 'react-native';
 import Dimensions from 'Dimensions';
@@ -22,10 +23,12 @@ class ImageLoader extends Component {
 
   constructor (props){
     super(props);
+    this.animatedValue = new Animated.Value(0),
     this.state = {
       //fadeAnim: new Animated.Value(0),
+      
       opacity: new Animated.Value(0),
-      move : new Animated.Value(-1),
+      move : new Animated.Value(0),
       data: this.props.photos,
       displayingIndex : 0,
       landscape : false,
@@ -139,6 +142,19 @@ class ImageLoader extends Component {
 
   animate() {
 
+    this.animatedValue.setValue(0)
+    Animated.timing(
+      this.animatedValue,
+      {
+        toValue: 1,
+        duration: 6000,
+        easing: Easing.linear
+      }
+    //).start(() => this.animate())
+    //this.animationFinishWithIndex( this.state.displayingIndex)
+    ).start(() => this.animationFinishWithIndex( this.state.displayingIndex) )
+
+  return ;
     if ( this.state.landscape )
     {
       console.log('landscape animate')
@@ -214,17 +230,16 @@ class ImageLoader extends Component {
     
   }
 
-
-  displayContent ()
-  {
+  displayLandscapeContent(){
     const movingMargin = this.animatedValue.interpolate({
       inputRange: [0, 0.5, 1],
-      outputRange: [0, 300, 0]
+      outputRange: [-50, 50, 0]
     })
-    if ( this.state.landscape )
-    {
+
+    return (
       <View
         style = {styles.fullViewStyle}
+        //style = {{backgroundColor: 'transparent'}}
       >
         <Image 
           style = {styles.backgroundStyle}
@@ -235,42 +250,27 @@ class ImageLoader extends Component {
 
 
         <Animated.Image
-        //onLoad={this.onLoad(this.state.displayingIndex)}
-        //onLoad={this.onLoad(0)}
-        //onLoad = {evt => this.onLoad(evt)}
-        //{...this.props}
+    
           resizeMode = 'stretch'
           source = {{uri : this.state.data[this.state.displayingIndex]}}
           //source = {{uri : this.state.data[0]}}
-          style={[
-          {
-            
-            //opacity: this.state.imageHeight > this.state.imageWidth ? this.state.opacity : 1, 
-            opacity: this.state.landscape ?  1 : this.state.opacity , 
-            left: this.state.landscape ?  this.state.move.interpolate({
-              inputRange:[-1,1],
-              outputRange:[-150,0] 
-            }) : 0 ,
-            /*
-            transform: [
-              {
-                scale: this.state.opacity.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [1, 1.3],
-                })
-              },
-            ],
-            */
-          },
-          //this.props.style,
-          //styles.fullViewStyle
-          //styles.animateImageStyle
-          this.animateImageStyle()
-        ]}
-      />
+          style={{
+            marginLeft: movingMargin,
+            height: layout.deviceHeight * 1/3,
+            width: (layout.deviceHeight * 1/3 )* 1.78 ,
+            marginTop:150,
+            position:'absolute',
+          }}
+        />
       </View>
-      
-    }
+    )
+  }
+
+  displayContent ()
+  {
+    
+    
+    
     
     return (
       /*
@@ -336,17 +336,13 @@ class ImageLoader extends Component {
   }
 
   render() {
-    let { fadeAnim } = this.state;
-    /*
-    const movingMargin = this.animatedValue.interpolate({
-      inputRange: [0, 0.5, 1],
-      outputRange: [0, 300, 0]
-    })
-    */
+    //let { fadeAnim } = this.state;
+   
+    
     return (
       //<Image source={{uri: 'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/3a7803bf022db91704584b7297b38bc6.jpg' }} style={styles.fullViewStyle} /> 
-      
-        this.displayContent()
+        this.displayLandscapeContent()
+        //this.displayContent()
       
     )
   }
@@ -404,8 +400,10 @@ class PhotoSlideView extends Component{
         
         <ImageLoader
           style={styles.image}
-          data = {this.props.photos}
-          photos = {this.props.photos}
+          //data = {data}
+          //data = {this.props.photos}
+          //photos = {this.props.photos}
+          photos = {data}
           //source={{ uri: 'https://images.unsplash.com/photo-1485832329521-e944d75fa65e?auto=format&fit=crop&w=1000&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D' }}
         />
       //</TouchableHighlight>

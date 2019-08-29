@@ -62,8 +62,73 @@ class SearchHomeView extends Component<Props> {
     this.state = {
       courseTagNames : courseTagNames,
       courseTagSelection : courseTagSelection,
-      categories : ds.cloneWithRows(categoryViewModel.getCategories()),
-      
+      //categories : ds.cloneWithRows(categoryViewModel.getCategories()),
+      categories : ds.cloneWithRows(
+        [{
+          name:'學術',
+          image:require('tutorRN/src/image/icons/1.png'),
+         },
+         {
+          name:'學術',
+          image:require('tutorRN/src/image/icons/2.png'),
+         },
+         {
+          name:'學術',
+          image:require('tutorRN/src/image/icons/3.png'),
+         },
+         {
+          name:'學術',
+          image:require('tutorRN/src/image/icons/4.png'),
+         },
+         {
+          name:'學術',
+          image:require('tutorRN/src/image/icons/5.png'),
+         },
+         {
+          name:'學術',
+          image:require('tutorRN/src/image/icons/6.png'),
+         },
+         {
+          name:'學術',
+          image:require('tutorRN/src/image/icons/7.png'),
+         },
+         {
+          name:'學術',
+          image:require('tutorRN/src/image/icons/8.png'),
+         },
+         {
+          name:'學術',
+          image:require('tutorRN/src/image/icons/9.png'),
+         },
+         {
+          name:'學術',
+          image:require('tutorRN/src/image/icons/10.png'),
+         },
+         {
+          name:'學術',
+          image:require('tutorRN/src/image/icons/11.png'),
+         },
+         {
+          name:'學術',
+          image:require('tutorRN/src/image/icons/12.png'),
+         },
+         {
+          name:'學術',
+          image:require('tutorRN/src/image/icons/13.png'),
+         },
+         {
+          name:'學術',
+          image:require('tutorRN/src/image/icons/14.png'),
+         },
+         {
+          name:'學術',
+          image:require('tutorRN/src/image/icons/15.png'),
+         },
+         {
+          name:'學術',
+          image:require('tutorRN/src/image/icons/16.png'),
+         },
+        ]),
       districtData : ['中西區', '灣仔', '東區','南區','油尖旺', '深水埗', '九龍城','黃大仙','觀塘', '葵青', '荃灣', '屯門','元朗','北區','大埔','沙田','西貢','離島'],
       currentDistrictData:['中西區', '灣仔', '東區','南區'],
       educationData : ['小學', '中學', '大學以上'],
@@ -179,7 +244,7 @@ class SearchHomeView extends Component<Props> {
       alignItems: 'center',
       //backgroundColor : 'red',
       width:width, //cell的宽度        
-      height: 100,
+      height: 80,
       marginLeft:5, 
       marginRight:5,        
       marginTop:10 
@@ -217,11 +282,11 @@ class SearchHomeView extends Component<Props> {
       justifyContent: 'center',
       alignItems: 'center',
 
-      
-      borderColor: color,
-      borderWidth: 0.5,
-      borderRadius: width/2,
-      backgroundColor : color,
+      //borderColor: color,
+      //borderWidth: 0.5,
+      //borderRadius: width/2,
+      //backgroundColor : color,
+
       width: width,
       height: width,
       //paddingTop: 5
@@ -301,11 +366,6 @@ class SearchHomeView extends Component<Props> {
           courseTagSelection: t
         })
       }
-
-      
-
-      
-      
       console.log('courseTagSelection :' + this.state.courseTagSelection)  
     }
     console.log('TopMenuBarOnClicked :' + index)  
@@ -321,6 +381,7 @@ class SearchHomeView extends Component<Props> {
     return this.state.courseTagNames.map((tagName, i) =>
     {
       var courseID = courseTagViewModel.getCourseIDByName(tagName)
+      //courseID = 1
       if ( i > 0 && this.state.courseTagSelection[i] == true)
       {
         return (
@@ -331,7 +392,7 @@ class SearchHomeView extends Component<Props> {
             <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
             <TutorRowFlatList
               title = {tagName}
-              height = {120}
+              height = {130}
               iconOnClick = {(itemDataSelected)=>this.iconOnClick(itemDataSelected)}
               //data = {this.state.tutorRowData}
               id = {courseID}
@@ -346,59 +407,62 @@ class SearchHomeView extends Component<Props> {
   render() {
     
     return (
-      <ScrollView style = {{backgroundColor:layout.backgroundColor}}>
+      <View style = {layout.styles.basicViewStyle}>
+        <ScrollView style = {{backgroundColor:layout.backgroundColor}}>
 
-        <TopMenuBar 
-          //TopMenuBar
-          
-          data = {this.state.courseTagNames}
-          size = {50}
-          itemHeight = {30}
-          itemWidth = {50}
-          selected = {0}
-          multiSelect = {true}
-          onClicked={ this.TopMenuBarOnClicked }
-        />
-
-        <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
-
-        <ListView     //创建ListView     
-          initialListSize={this.getRows().length} 
-          backgroundColor = 'white'     
-          dataSource={this.state.categories} //设置数据源               
-          //renderRow={this.renderRow} //设置cell               
-          renderRow={(rowData, rowID) =>
-            <TouchableOpacity 
-              key = {rowID}
-              onPress={()=>this.ListingCatBtnOnClick (rowData) }
-              //underlayColor = {layout.touchHighlightColor}
-            >
-              <View style={this.cellStyle(rowData)}>   
-                <View style = {this.iconImageStyle(rowData)}>
-                  <Image 
-                    style = {{ width: 30, height: 30}}
-                    //source={rowData.image}
-                    source = {require('tutorRN/src/image/icons8-document-100.png')}
-                    //resizeMode =  'center'
-                    resizeMode =  'contain'
-                  />
-                </View>
-
-               
-
-                <Text style={this.iconTextStyle(rowData)}>{rowData.name}</Text>
-              </View>
-            </TouchableOpacity>
-          }
+          <TopMenuBar 
+            //TopMenuBar
             
-                         
-          contentContainerStyle={styles.listViewStyle}//设置cell的样式
-        />
-        {
-          this.tutorRowListUI()
-        }
-        
-      </ScrollView>
+            data = {this.state.courseTagNames}
+            size = {50}
+            itemHeight = {30}
+            itemWidth = {50}
+            selected = {0}
+            //multiSelected ={[0,1,2,3,4,5,6,7,8]}
+            multiSelect = {true}
+            onClicked={ this.TopMenuBarOnClicked }
+          />
+
+          <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
+
+          <ListView     //创建ListView     
+            initialListSize={this.getRows().length} 
+            backgroundColor = 'white'     
+            dataSource={this.state.categories} //设置数据源               
+            //renderRow={this.renderRow} //设置cell               
+            renderRow={(rowData, rowID) =>
+              <TouchableOpacity 
+                key = {rowID}
+                onPress={()=>this.ListingCatBtnOnClick (rowData) }
+                //underlayColor = {layout.touchHighlightColor}
+              >
+                <View style={this.cellStyle(rowData)}>   
+                  <View style = {this.iconImageStyle(rowData)}>
+                    <Image 
+                      style = {{ width: 40, height: 40}}
+                      source={(rowData.image)}
+                      //source = {require('tutorRN/src/image/icons/1.png')}
+                      //resizeMode =  'center'
+                      resizeMode =  'contain'
+                    />
+                  </View>
+
+                
+
+                  <Text style={this.iconTextStyle(rowData)}>{rowData.name}</Text>
+                </View>
+              </TouchableOpacity>
+            }
+              
+                          
+            contentContainerStyle={styles.listViewStyle}//设置cell的样式
+          />
+          {
+            this.tutorRowListUI()
+          }
+          
+        </ScrollView>
+      </View>
 
      
       

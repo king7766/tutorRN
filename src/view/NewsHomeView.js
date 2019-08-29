@@ -12,17 +12,11 @@ import {
   StyleSheet,
   Text,
   View,
-  SafeAreaView,
-  Button,
-  Image,
-  StatusBar,
-  TouchableOpacity,
-  TouchableHighlight,
-  ScrollView,
+  FlatList,
+  //ScrollView,
   AsyncStorage,
   RefreshControl,
   DeviceEventEmitter,
-  FlatList,
   WebView
 
 } from 'react-native';
@@ -266,11 +260,23 @@ class NewsHomeView extends Component<Props> {
 
     // Divide the horizontal offset by the width of the view to see which page is visible
     let pageNum = Math.floor(contentOffset.y / viewSize.height);
+    
+
+    if ( pageNum == -1 ){
+      this.list.scrollToIndex({animated: true,index:0})
+      pageNum = 0
+    }
     console.log('scrolled to page ', pageNum);
 
-    this.setState({
-      showingIndex: pageNum
-    })
+    if ( pageNum != this.state.showingIndex )
+    {
+      //DeviceEventEmitter.emit('showingNewsIndex', {showingIndex:pageNum});
+      //console.log('setting showingIndex : ' + pageNum)
+      //this.setState({
+      //  showingIndex: this.state.showingIndex++
+      //})
+    }
+    
   }
 
   soundBtnOnClicked (index)
@@ -292,9 +298,9 @@ class NewsHomeView extends Component<Props> {
   {
     console.log('cell OnPressed ' + index)
     console.log('this.state.newsVM[index].tutor_id = ' + this.state.newsVM[index].tutor_id)
-    console.log('this.state.newsVM[index].tutor_id = ' + this.state.newsVM[index].id)
+    console.log('this.state.newsVM[index].id = ' + this.state.newsVM[index].id)
 
-    const json = await C.getResponseFromApi(E.GET_USER, 'POST', {token:'x1RW8DwqoIxZBSlF83b2P', user_id:this.state.newsVM[index].tutor_id}).then((json)=>{
+    const json = await C.getResponseFromApi(E.GET_USER, 'POST', {token:'xRW8DwqoIxZBSlF83b2P', user_id:this.state.newsVM[index].tutor_id}).then((json)=>{
       return json 
     })
     if ( json.statusCode == 200 && json.data != -100)
@@ -345,7 +351,33 @@ class NewsHomeView extends Component<Props> {
 
   render() {
    
-    
+    return (
+      <View style = {{flex:1}}>
+        <FlatList
+          ref={(ref) => { this.list = ref; }}
+          onMomentumScrollEnd={this.onScrollEnd}
+          pagingEnabled={true}
+          data={this.state.newsVM}
+          showsVerticalScrollIndicator={false}
+          renderItem=
+          {
+            ({item, index, separators}) =>
+              <NewsVideoCell
+                //news = {item}
+                
+                key = {index}
+                item = {item}
+                index = {index}
+                showingIndex = {this.state.showingIndex}
+                onClicked = {this.cellOnPressed}
+                commentBtnOnClicked = {()=>this.commentBtnOnClicked(index)}
+                likeBtnOnClicked = {()=>this.likeBtnOnClicked(index)}
+                soundBtnOnClicked = {()=>this.soundBtnOnClicked(index)}
+              />
+          }
+        />
+      </View>
+    )
    
 
     return (
