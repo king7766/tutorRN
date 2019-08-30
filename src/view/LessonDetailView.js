@@ -161,11 +161,7 @@ class LessonDetailView extends Component<Props> {
               />
               <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
 
-              <FilteringToolsBar 
-                onClicked = {(index)=>this.ListingCatBtnOnClick(index)}
-                //catName = {['favourite', '聯絡', '報名']}
-                //imageSource = {[Assets.actions.doc, Assets.actions.doc, Assets.actions.doc, Assets.actions.doc]}
-              />
+              
               <Calendar
                 style = {styles.calendarStyle}
                 // Initially visible month. Default = Date()
@@ -210,12 +206,12 @@ class LessonDetailView extends Component<Props> {
                 }
 
               />
-              <View style = {{flexDirection:'row', height:50, alignItems:'center'}}>
-                <Text style = {{flex:1}}>{strings.startTime}</Text>
+              <View style = {styles.rowContainerStyle}>
+                <Text style = {{flex:1, marginLeft:10, fontSize:strings.stringsSizeMid}}>{strings.startTime}</Text>
                 <RowMenuListingBar 
                   
                   firstItemShowIcon = {false}
-                  style = {{flex:1, marginRight:20}}
+                  style = {{flex:1}}
                   data = {this.timeList}
                   size = {30}
                   itemHeight = {30}
@@ -224,10 +220,9 @@ class LessonDetailView extends Component<Props> {
                   onClicked={ this.timeSelected }
                 />
               </View>
-              <View style = {{flexDirection:'row', height:50, alignItems:'center'}}>
-                <Text style = {{flex:1}}>{strings.intervalTime} </Text>
+              <View style = {styles.rowContainerStyle}>
+                <Text style = {{flex:1, marginLeft:10, fontSize:strings.stringsSizeMid}}>{strings.intervalTime} </Text>
                 <RowMenuListingBar 
-
                   firstItemShowIcon = {false}
                   style = {{flex:1, marginRight:20}}
                   data = {["30", "60", "90"]}
@@ -237,6 +232,23 @@ class LessonDetailView extends Component<Props> {
                   onClicked={ this.timeSelected }
                 />
               </View>
+              <View style = {styles.rowContainerStyle}>
+                <Text >!! 請先登入 !!</Text>
+              </View>
+              <TouchableOpacity
+              >
+                <View style = {{
+                  flexDirection:'row', 
+                  height:50, 
+                  alignItems:'center',
+                  justifyContent:'center',
+                  backgroundColor:layout.themeTextColor}}
+                >
+                  
+                  <Text style = {{fontSize:layout.stringsSizeBig, color:'white', fontWeight:'bold'}}>立即報名</Text>
+                    
+                </View>
+              </TouchableOpacity>
               
             </ScrollView>
           </View>
@@ -247,9 +259,6 @@ class LessonDetailView extends Component<Props> {
     );
   }
 }
-
-
-export default LessonDetailView;
 
 const styles = StyleSheet.create({  
   background:{
@@ -269,7 +278,7 @@ const styles = StyleSheet.create({
     height:layout.deviceHeight - 100,
     width:layout.deviceWidth - 50,
     flexDirection:'column',
-    //justifyContent:'space-between',
+    justifyContent:'space-between',
     //alignItems:'center',
     top:50,
     bottom:50,
@@ -278,6 +287,12 @@ const styles = StyleSheet.create({
     position:'absolute'
   },
 
+  rowContainerStyle:{
+    flexDirection:'row', 
+    height:50, 
+    alignItems:'center',
+    justifyContent:'center'
+  },
   titleBarStyle:{
     flex:1,
     flexDirection:'row',
@@ -295,6 +310,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: layout.stringsSizeMid,
   },
+  
   scrollViewStyle :{
     flex:1,
 
@@ -307,7 +323,7 @@ const styles = StyleSheet.create({
   }
   
 });
-
+export default LessonDetailView;
 
 /*
 <View style = {styles.container}>
@@ -338,4 +354,10 @@ const styles = StyleSheet.create({
           </ScrollView>
           
         </View>
+
+        <FilteringToolsBar 
+                onClicked = {(index)=>this.ListingCatBtnOnClick(index)}
+                //catName = {['favourite', '聯絡', '報名']}
+                //imageSource = {[Assets.actions.doc, Assets.actions.doc, Assets.actions.doc, Assets.actions.doc]}
+              />
         */

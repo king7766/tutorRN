@@ -39,7 +39,7 @@ import courseVM from 'tutorRN/src/VM/courseVM'
 import userVM from 'tutorRN/src/VM/userVM'
 
 import Assets from 'tutorRN/src/view/ui/Assets';
-import strings from '../service/strings'
+import strings from 'tutorRN/src/service/strings'
 
 import {
 

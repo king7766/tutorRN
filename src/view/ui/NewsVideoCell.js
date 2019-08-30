@@ -85,9 +85,7 @@ class NewsVideoCell extends Component{
     
   } 
 
-  componentDidMount(){
-
-  }
+  
 
   /*
   shouldComponentUpdate(nextProps, nextState) {
@@ -508,6 +506,12 @@ class ImageLoader extends Component {
     
     //this.props.onReady()
    
+  }
+
+  componentWillUnmount(){
+    console.log('ImageLoader componentWillUnmount :')
+    
+    clearInterval(this.interval);
   }
 
   preloadImageSize ()

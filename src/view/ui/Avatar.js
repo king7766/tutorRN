@@ -5,6 +5,7 @@ import {
    View, 
    StyleSheet, 
    ScrollView ,
+   TouchableOpacity,
    TouchableHighlight
 } from 'react-native';
 import Dimensions from 'Dimensions';
@@ -118,7 +119,10 @@ class Avatar extends Component <AvaterProps>{
   {
     console.log('Avatar onPress ')
     //onPress()
-    this.props.onPress()
+    if ( this.props.onPress){
+      this.props.onPress()
+    }
+    
   }
 
   
@@ -134,7 +138,7 @@ class Avatar extends Component <AvaterProps>{
     console.log(typeof Assets.profile.default_avatar_man);
     return(
 
-      <TouchableHighlight
+      <TouchableOpacity
         //onPress={() => onPress ? this.onPress() : null}
         onPress={ ()=>this.onPress() ? this.onPress() : null}
         underlayColor = {layout.touchHighlightColor}
@@ -160,7 +164,7 @@ class Avatar extends Component <AvaterProps>{
           
 
         </View> 
-      </TouchableHighlight>
+      </TouchableOpacity>
 
     )
   }

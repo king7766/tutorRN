@@ -60,13 +60,22 @@ class NewsHomeView extends Component<Props> {
     //  onTabFocus: this.handleTabFocus
     //});
 
+    var data = []
+    for ( var i = 0; i < 2; i ++){
+      data.push(viewModel.getNews()[i])
+    }
+
+
     this.state = {
       
       newsVM: viewModel.getNews(),
+      data: data,
+      //dataCount : 2,
       locationVM : locationViewModel,
-    
+      isFetching: false ,
 
       showingIndex: 0,
+      /*
       data :[
         {
           creator:'KingTai Leung',
@@ -153,10 +162,13 @@ class NewsHomeView extends Component<Props> {
           type: 0,
         }
       ]
+      */
     }
     this.cellItemOnClicked = this.cellItemOnClicked.bind(this)
     this.onScrollEnd = this.onScrollEnd.bind(this)
     this.cellOnPressed = this.cellOnPressed.bind(this)
+    this.fetchMore = this.fetchMore.bind(this)
+    this.pullToRefresh = this.pullToRefresh.bind(this)
   }
 
 
@@ -339,6 +351,28 @@ class NewsHomeView extends Component<Props> {
   }
 
  
+  fetchMore(){
+    console.log('fetchMore')
+    const { data, newsVM } = this.state;
+    if ( newsVM.length > data.length){
+      this.setState({
+        data:data.concat(newsVM[data.length])
+      })
+    }else{
+      console.log('End of newsVM data ! Update the data in newsVM now')
+    }
+  }
+
+  pullToRefresh(){
+    var data = []
+    for ( var i = 0; i < 2; i ++){
+      data.push(viewModel.getNews()[i])
+    }
+    this.setState({
+      data : data,
+      isFetching: false,
+    })
+  }
   
   
   /*
@@ -354,11 +388,20 @@ class NewsHomeView extends Component<Props> {
     return (
       <View style = {{flex:1}}>
         <FlatList
+          onEndReached={this.fetchMore}
+          onEndReachedThreshold={0.7}
+          //windowSize={1}
           ref={(ref) => { this.list = ref; }}
           onMomentumScrollEnd={this.onScrollEnd}
           pagingEnabled={true}
-          data={this.state.newsVM}
+          data={this.state.data}
           showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.isFetching}
+              onRefresh={this.pullToRefresh}
+            />
+          }
           renderItem=
           {
             ({item, index, separators}) =>

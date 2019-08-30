@@ -7,7 +7,7 @@ const Dimensions = require('Dimensions');
 const window = Dimensions.get('window');
 let deviceWidth = Dimensions.get('window').width
 let deviceHeight = Dimensions.get('window').height
-let touchHighlightColor = 'rgba(237,182,202,0)'
+let touchHighlightColor = 'rgba(237,182,202,1)'
 let themeTextColor = 'rgba(225,19,101,1)'
 let shadowColor = 'rgba(233,233,233,1)'
 let systemBlueColor = 'rgba(21,126,250,1)'
@@ -60,7 +60,7 @@ connection.js:120
 const styles = StyleSheet.create({
 
 	basicViewStyle:{
-		backgroundColor:'blue',
+		//backgroundColor:'blue',
 		//height:deviceHeight - 170,
 		//height: deviceId ? deviceHeight - 170 : deviceHeight,
 		height: deviceInfo(),

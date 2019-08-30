@@ -100,10 +100,11 @@ class TutorProfileBlock extends Component{
       <View style = {{flexDirection:'row', width:layout.deviceWidth, height:130,  backgroundColor:'white'}}>
         <View style = {styles.imageStyle} >
           <Avatar
-            onPress={() => {this.avatarOnClicked()}}
+            //onPress={() => {this.avatarOnClicked()}}
             round = {true}
             size = {80}
-            type = 'edit'
+            type = {this.props.allowEdit == true ? 'edit' :''}
+            //type = 'edit'
             url = {'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p320x320/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=110&_nc_oc=AQm5NxA1rY7W4d8YqPG0djDuG9uowyIbyAUwRkq7JOcJ9huJWbhhO2YfJ-37dviIEtA&_nc_ht=scontent-hkg3-1.xx&oh=c643ddf949263ca18a4c0eead81e1da3&oe=5DD86A90'}
           />
         </View>
