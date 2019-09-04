@@ -15,6 +15,7 @@ const strings = new LocalizedStrings({
 
         second:"मैं ठीक हूँ ?",
 
+        // search
         errorTitle: '錯誤',
         hotSearch: '熱門搜尋',
         promotion: '優惠',
@@ -40,11 +41,14 @@ const strings = new LocalizedStrings({
         name: '名字',
         lessonName: '課程名稱',
 
+        // lesson 
         relatedPhoto : '相關照片',
         uploadPhoto : '上載照片',
         generalInformation : '基本資料',
         detailInformation : '詳細資料',
         location : '教學地區',
+        price :'價錢',
+        
         
         gender: '性別', 
         job: '職業',

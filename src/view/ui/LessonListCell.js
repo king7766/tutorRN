@@ -7,6 +7,7 @@ import {
    ScrollView ,
    ListView,
    Linking,
+   TouchableOpacity,
    TouchableHighlight
 } from 'react-native';
 import Dimensions from 'Dimensions';
@@ -34,13 +35,23 @@ class LessonListCell extends Component{
   }
   */
 
-  selectTutor = (index) => {
+ selectLesson = (index) => {
     //NewsHomeView
     //console.log('handleSettingsPress' + index)
     this.props.onClicked(index)
     //this.props.navigation.navigate('NewsHomeView');
 
   }
+
+  actionBtnOnClick(){
+    console.log('actionBtnOnClick')
+  }
+
+  actionBtnViewStyle(){
+    
+  }
+
+
 
   render (){
 
@@ -54,55 +65,80 @@ class LessonListCell extends Component{
     const rating = '4.5' + '  \uE803'
 
     return(
-      <TouchableHighlight 
+      <TouchableOpacity 
 
-        onPress={ ()=>this.selectTutor(this.props.index)}
+        onPress={ ()=>this.selectLesson(this.props.index)}
         //onPress={this.selectTutor }
-        underlayColor = {layout.touchHighlightColor}
+        //underlayColor = {layout.touchHighlightColor}
         //underlayColor = 'gray'
-        >
-      <View style = {styles.background}>
+      >
+        <View style = {styles.background}>
         
-
-       
-        <View style = {styles.photoViewStyle}>
-          <Image 
-            style = {styles.imageStyle}
-            source = {{uri: this.props.item.tutor_img}}
-            // cover, contain, stretch, center
-            rezizeMode = 'contain'
-          />
-          <Text style = {{fontSize: 14, padding : 5, fontFamily: "fontello"}}>
-            {this.props.item.course_ranking}
-          </Text>
-        </View>
-
-        <View style = {styles.tutorViewStyle}>
-          <Text style = {styles.nameStyle}>
-            {this.props.item.course_introduction}
-          </Text>
-
-          <Text style = {styles.subjectStyle}>
-            {this.props.item.course_name}
-          </Text>
-
-          <View style = {{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center',}}>
-            <Text style = {styles.locationStyle}>
-              {this.props.item.tag_name}
-            </Text>
-
-            <Text style = {styles.priceStyle}>
-              {course_fee}
+          <View style = {styles.photoViewStyle}>
+            <Image 
+              style = {styles.imageStyle}
+              source = {{uri: this.props.item.tutor_img}}
+              // cover, contain, stretch, center
+              rezizeMode = 'contain'
+            />
+            <Text style = {{fontSize: 14, padding : 5, fontFamily: "fontello"}}>
+              {this.props.item.course_ranking}
             </Text>
           </View>
+
+          <View style = {styles.tutorViewStyle}>
+            <Text style = {styles.nameStyle}>
+              {this.props.item.course_introduction}
+            </Text>
+
+            <Text style = {styles.subjectStyle}>
+              {this.props.item.course_name}
+            </Text>
+
+            <View style = {{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center',}}>
+              <Text style = {styles.locationStyle}>
+                {this.props.item.tag_name}
+              </Text>
+
+              <Text style = {styles.priceStyle}>
+                {course_fee}
+              </Text>
+            </View>
+          </View>
+          <View
+            style = {styles.actionBtnViewStyle}
+          >
+            { 
+              this.props.action && <TouchableOpacity
+                onPress = {()=>this.actionBtnOnClick()}
+                style = {{flex:1,margin:5, backgroundColor:'gray', justifyContent:'center', alignItems:'center'}}
+              >
+                <Text style = {{color:'white'}}>
+                  聯絡
+                </Text>
+              </TouchableOpacity>
+
+            }
+            { 
+              this.props.action && <TouchableOpacity
+                onPress = {()=>this.actionBtnOnClick()}
+                style = {{flex:1,margin:5, backgroundColor:'gray', justifyContent:'center', alignItems:'center'}}
+              >
+                <Text style = {{color:'white'}}>
+                  取消
+                </Text>
+              </TouchableOpacity>
+
+            }
+            
+          </View>
+              
+            
+            
+            
+          
         </View>
-
-        
-
-        
-
-      </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
       )
   }
 }
@@ -115,7 +151,7 @@ const styles = StyleSheet.create ({
     //flex: 1,
     flexDirection: 'row',
     width: layout.deviceWidth,
-    height: 100,
+    height: 80,
     //borderTopColor: 'gray',
     //borderTopWidth: 0.5,
     backgroundColor: 'white',
@@ -143,6 +179,7 @@ const styles = StyleSheet.create ({
   },
 
   photoViewStyle:{
+    flex:2,
     padding: 5,
     flexDirection: 'column',
     alignItems: 'center',
@@ -164,6 +201,7 @@ const styles = StyleSheet.create ({
   },
 
   tutorViewStyle:{
+    flex:6,
     padding : 5,
     paddingLeft : 10,
     flexDirection: 'column',
@@ -200,6 +238,11 @@ const styles = StyleSheet.create ({
     fontSize: 14,
     color : 'gray',
     //fontFamily: "vincHand",
+  },
+  actionBtnViewStyle:{
+    flex:2,
+    flexDirection:'column',
+    //backgroundColor:'red',
   }
 })
 

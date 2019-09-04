@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Text,
   View,
+  FlatList,
   SafeAreaView,
   Button,
   Image,
@@ -24,6 +25,7 @@ import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
 import SegmentControl from './ui/SegmentControl'
 
+import targetUserVM from 'tutorRN/src/VM/targetUserVM'
 import TutorCVCell from './ui/TutorCVCell'
 import CalendarCell from './ui/CalendarCell'
 import TutorProfileBlock from 'tutorRN/src/view/ui/TutorProfileBlock'
@@ -33,18 +35,26 @@ import strings from 'tutorRN/src/service/strings'
 import LessonDetailView from 'tutorRN/src/view/LessonDetailView'
 
 const layout = require('tutorRN/src/Layout')
-
+const targetUserViewModel = targetUserVM.getInstance()
 
 class NewsDetailView extends Component<Props> {
 
   constructor(props) {
     super(props);
-    
+
+
+    this.lessonContent = this.lessonContent.bind(this)
     this.ratingBlockOnClicked = this.ratingBlockOnClicked.bind(this)
     this.lessonDetailBackBtnOnClicked = this.lessonDetailBackBtnOnClicked.bind(this)
+
+    //console.log('1 lesson_id = ' + props.navigation.state.params.lesson_id)
     this.state = {
-      //lessonDetailViewVisible: props.navigation.state.params.lessonDetailShow,
       params: props.navigation.state.params,
+      
+      lessonDetailViewVisible : props.navigation.state.params.lessonDetailShow,
+      //lessonDetailViewVisible: props.navigation.state.params.lessonDetailShow,
+      
+      lesson_id : props.navigation.state.params.lesson_id,
       
       //lessonDetailViewVisible : this.props.lessonDetailShow ? this.props.lessonDetailShow : false,
       sgData : ['所有課堂', '即將開始', '等待確認'],
@@ -68,7 +78,180 @@ class NewsDetailView extends Component<Props> {
         '2018-04-01': {selected: false, marked: true},
         '2018-04-05': {selected: true},
        
-      } 
+      } ,
+      
+      lessonData:[
+        {
+            "id": "2",
+            "course_name": "DSE 中文寫作技巧 I",
+            "course_introduction": "描寫文寫作",
+            "course_fee": "100",
+            "course_ranking": "5",
+            "course_seq": "1",
+            "course_priority": "1",
+            "category_name": "中文",
+            "parent_category_name": "學術",
+            "tag_name": "推介",
+            "tutor_img": "http://tutor.ho2find.com/uploads/IMG_E0196.JPG",
+            "location": [
+                {
+                    "id": "4",
+                    "district_id": "1",
+                    "location_name": "九龍灣",
+                    "location_seq": null
+                }
+            ],
+            "district": [
+                {
+                    "id": "1",
+                    "district_name": "觀塘綫",
+                    "district_seq": null,
+                    "location_list": null,
+                    "create_user": null,
+                    "create_date": null,
+                    "update_user": null,
+                    "update_date": null,
+                    "version_no": null
+                }
+            ]
+        },
+        {
+            "id": "3",
+            "course_name": "朱古力甜品",
+            "course_introduction": "心太軟",
+            "course_fee": "200",
+            "course_ranking": "5",
+            "course_seq": "1",
+            "course_priority": "1",
+            "category_name": "甜品",
+            "parent_category_name": "烹飪",
+            "tag_name": "優惠",
+            "tutor_img": "http://tutor.ho2find.com/uploads/IMG_E0196.JPG",
+            "location": [
+                {
+                    "id": "16",
+                    "district_id": "2",
+                    "location_name": "荃灣",
+                    "location_seq": null
+                }
+            ],
+            "district": [
+                {
+                    "id": "2",
+                    "district_name": "荃灣綫",
+                    "district_seq": null,
+                    "location_list": null,
+                    "create_user": null,
+                    "create_date": null,
+                    "update_user": null,
+                    "update_date": null,
+                    "version_no": null
+                }
+            ]
+        },
+        {
+            "id": "4",
+            "course_name": "一 take 過包搞掂",
+            "course_introduction": "自動波",
+            "course_fee": "3000",
+            "course_ranking": "5",
+            "course_seq": "1",
+            "course_priority": "1",
+            "category_name": "私家車",
+            "parent_category_name": "駕駛",
+            "tag_name": "熱門",
+            "tutor_img": "http://tutor.ho2find.com/uploads/IMG_E0196.JPG",
+            "location": [
+                {
+                    "id": "31",
+                    "district_id": "3",
+                    "location_name": "香港大學",
+                    "location_seq": null
+                }
+            ],
+            "district": [
+                {
+                    "id": "3",
+                    "district_name": "港島綫",
+                    "district_seq": null,
+                    "location_list": null,
+                    "create_user": null,
+                    "create_date": null,
+                    "update_user": null,
+                    "update_date": null,
+                    "version_no": null
+                }
+            ]
+        },
+        {
+            "id": "5",
+            "course_name": "商業應EXCEL 應用",
+            "course_introduction": "Pivot Table 應用",
+            "course_fee": "250",
+            "course_ranking": "5",
+            "course_seq": "1",
+            "course_priority": "1",
+            "category_name": "Word & Excel",
+            "parent_category_name": "電腦",
+            "tag_name": "新進",
+            "tutor_img": "http://tutor.ho2find.com/uploads/IMG_E0196.JPG",
+            "location": [
+                {
+                    "id": "47",
+                    "district_id": "4",
+                    "location_name": "金鐘",
+                    "location_seq": null
+                }
+            ],
+            "district": [
+                {
+                    "id": "4",
+                    "district_name": "南港島綫",
+                    "district_seq": null,
+                    "location_list": null,
+                    "create_user": null,
+                    "create_date": null,
+                    "update_user": null,
+                    "update_date": null,
+                    "version_no": null
+                }
+            ]
+        },
+        {
+            "id": "6",
+            "course_name": "鋼琴試",
+            "course_introduction": "演奏級導師指導",
+            "course_fee": "2000",
+            "course_ranking": "5",
+            "course_seq": "1",
+            "course_priority": "1",
+            "category_name": "鋼琴",
+            "parent_category_name": "音樂",
+            "tag_name": "得獎",
+            "tutor_img": "http://tutor.ho2find.com/uploads/IMG_E0196.JPG",
+            "location": [
+                {
+                    "id": "52",
+                    "district_id": "5",
+                    "location_name": "康城",
+                    "location_seq": null
+                }
+            ],
+            "district": [
+                {
+                    "id": "5",
+                    "district_name": "將軍澳綫",
+                    "district_seq": null,
+                    "location_list": null,
+                    "create_user": null,
+                    "create_date": null,
+                    "update_user": null,
+                    "update_date": null,
+                    "version_no": null
+                }
+            ]
+        }
+      ],
       
     }
   }
@@ -78,11 +261,11 @@ class NewsDetailView extends Component<Props> {
   componentWillMount() {
     
   }
-
+ 
   componentDidMount(){
-    this.setState({
-      lessonDetailViewVisible : this.state.params.lessonDetailShow ? this.state.params.lessonDetailShow : false,
-    })
+    //this.setState({
+    //  lessonDetailViewVisible : this.state.params.lessonDetailShow ? this.state.params.lessonDetailShow : false,
+    //})
   }
 
   ratingBlockOnClicked()
@@ -110,11 +293,20 @@ class NewsDetailView extends Component<Props> {
     })
   }
 
-  modalContent (data)
+  lessonContent (data)
   {
+    //console.log('lesson_id = ' + this.state.params.lesson_id)
+    //let result = this.state.params.tutor.course_list.map(a => a.id);
+
+    var lesson_id = this.state.lesson_id
+    const result = this.state.params.tutor.course_list.filter(course => course.id == lesson_id);
+
+    //console.log('result = ' + result[0].course_name)
+
     if (this.state.lessonDetailViewVisible){
       return (
         <LessonDetailView 
+          course = {result[0]}
           imageOnClicked = {(index)=>this.imageOnClicked(index)}
           imageSource = {data}
           backBtnOnClicked = {()=>this.lessonDetailBackBtnOnClicked()}
@@ -139,11 +331,16 @@ class NewsDetailView extends Component<Props> {
     })
   }
 
+  listItemOnPressed(lesson_id){
+    this.setState({
+      lesson_id: lesson_id,
+      lessonDetailViewVisible: true,
+    })
+  }
+
   render() {
 
-   
-
-    const { params } = this.props.navigation.state;
+    console.log('d rendering')
 
     const data = [
       {
@@ -193,7 +390,8 @@ class NewsDetailView extends Component<Props> {
             allowEdit = {false}
             arrowOn = {false}
             title = {strings.education}
-            description = {this.state.data.achievement}
+            //description = {this.state.data.achievement}
+            description = {this.state.params.tutor.user_education}
           />
 
           <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
@@ -202,7 +400,8 @@ class NewsDetailView extends Component<Props> {
             allowEdit = {false}
             arrowOn = {false}
             title = {strings.description}
-            description = {this.state.data.description}
+            //description = {this.state.data.description}
+            description = {this.state.params.tutor.user_introduction}
           />
           <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
 
@@ -211,7 +410,32 @@ class NewsDetailView extends Component<Props> {
             arrowOn = {false}
             
           />
-          <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
+          
+           <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
+          <FlatList
+            removeClippedSubviews={false}
+            data = {this.state.params.tutor.course_list}
+            //data = {this.state.lessonData}
+            //data = {targetUserViewModel.getUserProfile().course_list}
+            renderItem = {
+              ({item, index, separators})=>
+              <TouchableOpacity 
+                onPress = {()=>this.listItemOnPressed(item.id)}
+              >
+                <View style = {{backgroundColor:'white', marginTop:5}}>
+                  <View>
+                    <Text style={{flex:1, margin:5, fontSize:layout.stringsSizeMid, fontWeight:'bold'}}>{item.course_name}</Text>
+                  </View>
+                  <View style = {{flexDirection:'row'}}>
+                    <Text style={{flex:1, margin:10, color:layout.themeTextColor}}>{item.location[0].location_name}</Text>
+                    <Text style={{flex:1, margin:10}}>{item.course_fee}</Text>
+                  </View>
+
+                </View>
+              </TouchableOpacity>
+
+            }
+          />
         </ScrollView>
         <Modal
           animationType="slide"
@@ -219,7 +443,7 @@ class NewsDetailView extends Component<Props> {
           visible = {this.state.lessonDetailViewVisible || this.state.fullScreenViewerVisible}
         >
         {
-          this.modalContent(data)   
+          this.lessonContent(data)   
         }
         </Modal>  
       </View>

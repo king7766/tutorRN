@@ -63,72 +63,90 @@ class SearchHomeView extends Component<Props> {
       courseTagNames : courseTagNames,
       courseTagSelection : courseTagSelection,
       //categories : ds.cloneWithRows(categoryViewModel.getCategories()),
+      
       categories : ds.cloneWithRows(
         [{
+          id:'1',
           name:'學術',
           image:require('tutorRN/src/image/icons/1.png'),
          },
          {
+          id:'1',
           name:'學術',
           image:require('tutorRN/src/image/icons/2.png'),
          },
          {
+          id:'1',
           name:'學術',
           image:require('tutorRN/src/image/icons/3.png'),
          },
          {
+          id:'1',
           name:'學術',
           image:require('tutorRN/src/image/icons/4.png'),
          },
          {
+          id:'1',
           name:'學術',
           image:require('tutorRN/src/image/icons/5.png'),
          },
          {
+          id:'1',
           name:'學術',
           image:require('tutorRN/src/image/icons/6.png'),
          },
          {
+          id:'1',
           name:'學術',
           image:require('tutorRN/src/image/icons/7.png'),
          },
          {
+          id:'1',
           name:'學術',
           image:require('tutorRN/src/image/icons/8.png'),
          },
          {
+          id:'1',
           name:'學術',
           image:require('tutorRN/src/image/icons/9.png'),
          },
          {
+          id:'1',
           name:'學術',
           image:require('tutorRN/src/image/icons/10.png'),
          },
          {
+          id:'1',
           name:'學術',
           image:require('tutorRN/src/image/icons/11.png'),
          },
          {
+          id:'1',
           name:'學術',
           image:require('tutorRN/src/image/icons/12.png'),
          },
          {
+          id:'1',
           name:'學術',
           image:require('tutorRN/src/image/icons/13.png'),
          },
          {
+          id:'1',
           name:'學術',
           image:require('tutorRN/src/image/icons/14.png'),
          },
          {
+          id:'1',
           name:'學術',
           image:require('tutorRN/src/image/icons/15.png'),
          },
          {
+          id:'1',
           name:'學術',
           image:require('tutorRN/src/image/icons/16.png'),
          },
         ]),
+        
       districtData : ['中西區', '灣仔', '東區','南區','油尖旺', '深水埗', '九龍城','黃大仙','觀塘', '葵青', '荃灣', '屯門','元朗','北區','大埔','沙田','西貢','離島'],
       currentDistrictData:['中西區', '灣仔', '東區','南區'],
       educationData : ['小學', '中學', '大學以上'],
@@ -316,12 +334,13 @@ class SearchHomeView extends Component<Props> {
     const res = await courseViewModel.loadCourse('TAG',rowData.id)
     if (res == true)
     {
-      
+      //console.log('tag = ' + tag)
+      console.log(courseViewModel.getCourseByTag(rowData.id))
       this.props.navigation.navigate('SearchTutorView',{
         tag:rowData.id,
         data : res
       });
-      console.log(courseViewModel.getCourseByTag(rowData.id))
+      
     }
     else
     {

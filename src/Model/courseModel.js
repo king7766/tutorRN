@@ -1,6 +1,7 @@
 
 import {observable, computed} from 'mobx'
-
+import {locationModel} from 'tutorRN/src/Model/locationModel'
+import {districtModel} from 'tutorRN/src/Model/districtModel'
 export class courseModel{
 
    id : integer 
@@ -14,6 +15,8 @@ export class courseModel{
    parent_category_name : string = ''
    tag_name : string = ''
    tutor_img : string = ''
+   location : [locationModel]
+   district : [districtModel]
 
    
 
@@ -50,6 +53,18 @@ export class courseModel{
         model.parent_category_name = jsonObject.parent_category_name
         model.tag_name = jsonObject.tag_name
         model.tutor_img = jsonObject.tutor_img
+
+        var tempLocation = []
+        for ( var i = 0; i < jsonObject.location.length; i ++){
+            tempLocation.push(locationModel.deserialize( jsonObject.location[i] ) ) 
+        }
+        model.location = tempLocation
+
+        var tempDistrict = []
+        for ( var i = 0; i < jsonObject.district.length; i ++){
+            tempDistrict.push(districtModel.deserialize( jsonObject.district[i] ) ) 
+        }
+        model.district = tempDistrict
     
       return model
    }

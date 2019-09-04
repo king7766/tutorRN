@@ -2,7 +2,7 @@
 
 import RowMenuListingBar from 'tutorRN/src/view/ui/RowMenuListingBar'
 import TutorRowFlatList from 'tutorRN/src/view/ui/TutorRowFlatList'
-import TutorSelectCell from 'tutorRN/src/view/ui/TutorSelectCell'
+import LessonListCell from 'tutorRN/src/view/ui/LessonListCell'
 import SegmentControl from 'tutorRN/src/view/ui/SegmentControl'
 import Avatar from 'tutorRN/src/view/ui/Avatar'
 import FilteringToolsBar from 'tutorRN/src/view/ui/FilteringToolsBar'
@@ -19,7 +19,7 @@ export {
   Assets,
   RowMenuListingBar,
   TutorRowFlatList,
-  TutorSelectCell,
+  LessonListCell,
   SegmentControl,
   FilteringToolsBar,
   AddBtnPopUpDialog,

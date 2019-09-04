@@ -1,5 +1,6 @@
 
 import {observable, computed} from 'mobx'
+import {courseModel} from 'tutorRN/src/Model/courseModel'
 
 export class userModel{
 
@@ -21,6 +22,8 @@ export class userModel{
    user_introduction : string = ''
    user_age : integer 
    
+   //cert_list : any 
+   course_list : [] 
    //user_email : string  = ''
    
    
@@ -45,7 +48,7 @@ export class userModel{
             verify_status : this.verify_status
             user_login : this.user_login
             user_password : this.user_password
-
+            
             user_nickname: this.user_nickname
             user_sex : this.user_sex
 
@@ -59,6 +62,7 @@ export class userModel{
 
             user_introduction : this.user_introduction
             user_age : this.user_age
+            course_list : this.course_list
     
 
             //model.user_email = jsonObject.result.email
@@ -97,7 +101,16 @@ export class userModel{
         model.user_introduction = jsonObject.user_introduction
         model.user_age = jsonObject.user_age
 
+        var temp = []
+        
+        for( var i = 0; i < jsonObject.course_list.length; i ++)
+        {
+            temp.push(courseModel.deserialize(jsonObject.course_list[i]) )
+        }
+        
+        model.course_list = temp
 
+        //temp.push(courseModel.deserialize(c) )
         
         //model.user_email = jsonObject.result.email
 

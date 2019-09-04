@@ -16,16 +16,11 @@ mixins: [TimerMixin];
 import YouTube from 'react-native-youtube'
 
 import Dimensions from 'Dimensions';
-//import Hyperlink from 'react-native-hyperlink'
 import ParsedText from 'react-native-parsed-text';
 
 import Video from 'react-native-video';
 
 import PhotoSlideView from 'tutorRN/src/view/ui/PhotoSlideView'
-//import navigation from 'tutorRN/src/service/navigation'
-
-//const navigation = require ('tutorRN/src/service/navigation')
-//import * as N from 'tutorRN/src/service/navigation'
 import * as M from 'tutorRN/src/service/membership'
 
 import YoutubePlayer from 'tutorRN/src/view/ui/component/YoutubePlayer'
@@ -158,7 +153,7 @@ class NewsVideoCell extends Component{
 
   showPhotoVideo()
   {
-    
+    /*
     const photos = [
       'https://images.unsplash.com/photo-1485832329521-e944d75fa65e?auto=format&fit=crop&w=1000&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D',
       'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/3a7803bf022db91704584b7297b38bc6.jpg',
@@ -167,7 +162,8 @@ class NewsVideoCell extends Component{
       'https://images.unsplash.com/photo-1485832329521-e944d75fa65e?auto=format&fit=crop&w=1000&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D',
       'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/3a7803bf022db91704584b7297b38bc6.jpg',
       ]
-    //var photos = [this.props.item.news_thumb]
+    */
+    var photos = [this.props.item.news_thumb]
     return (
       <ImageLoader
         showingIndex = {this.props.showingIndex}
@@ -363,10 +359,6 @@ class NewsVideoCell extends Component{
 
   render (){
 
-    //const { key } = params;
-    //console.log('this.props.key = ' + this.props.index)
-    //console.log('title = ' + this.props.item.news_title)
-    //console.log('title = ' + this.props.index)
     return(
       this.displayViewLogic(this.props.index)
     )
@@ -384,6 +376,9 @@ const styles = StyleSheet.create ({
     width: layout.deviceWidth,
     height: 150 + 20 + 50 + 20 + 20 + 25, // last is padding
     padding: 5
+  },
+  backgroundStyle :{
+    flex:1,
   },
 
   tutorNameStyle:{
@@ -633,23 +628,19 @@ class ImageLoader extends Component {
         style = {styles.fullViewStyle}
         //style = {{backgroundColor: 'transparent'}}
       >
-        <Image 
-          style = {styles.backgroundStyle}
-          resizeMode='cover'
-          source= {{uri : this.state.data[this.state.displayingIndex]}}
-          blurRadius={10}
-        />
         <Animated.Image
           resizeMode = 'stretch'
+          //resizeMode='contain'
           source = {{uri : this.state.data[this.state.displayingIndex]}}
           //source = {{uri : this.state.data[0]}}
           style={{
-            opacity: opacity , 
+            opacity: opacity ,      
             height: layout.deviceHeight,
-            width: layout.deviceHeight,
+            width: layout.deviceWidth,
             position:'absolute',
           }}
         />
+        
       </View>
     )
    
@@ -692,8 +683,8 @@ class ImageLoader extends Component {
   render() {
     
     return (
-      //this.state.landscape ? this.landscapeContent() : this.portraintContent()
-      1 ? this.landscapeContent() : this.portraintContent()
+      this.state.landscape ? this.landscapeContent() : this.portraintContent()
+      //1 ? this.landscapeContent() : this.portraintContent()
     )
   }
 }

@@ -27,7 +27,7 @@ import * as C from 'tutorRN/src/service/connection'
 
 import NewsVideoCell from './ui/NewsVideoCell'
 import newsVM from 'tutorRN/src/VM/newsVM'
-
+import targetUserVM from 'tutorRN/src/VM/targetUserVM'
 import locationVM from 'tutorRN/src/VM/locationVM'
 import categoryVM from 'tutorRN/src/VM/categoryVM'
 import userVM from 'tutorRN/src/VM/userVM'
@@ -42,6 +42,7 @@ const viewModel = newsVM.getInstance()
 const locationViewModel = locationVM.getInstance()
 const categoryViewModel = categoryVM.getInstance()
 const userViewModel = userVM.getInstance()
+const targetUserViewModel = targetUserVM.getInstance()
 
 const slideAnimation = new SlideAnimation({ slideFrom: 'bottom',useNativeDriver: true });
 const scaleAnimation = new ScaleAnimation();
@@ -308,23 +309,37 @@ class NewsHomeView extends Component<Props> {
 
   async cellOnPressed(index)
   {
-    console.log('cell OnPressed ' + index)
-    console.log('this.state.newsVM[index].tutor_id = ' + this.state.newsVM[index].tutor_id)
-    console.log('this.state.newsVM[index].id = ' + this.state.newsVM[index].id)
+    var tutor_id = this.state.newsVM[index].tutor_id
+    var lesson_id = this.state.newsVM[index].id
+    //console.log('cell OnPressed ' + index)
+    //console.log('this.state.newsVM[index].tutor_id = ' + this.state.newsVM[index].tutor_id)
+    //console.log('this.state.newsVM[index].id = ' + this.state.newsVM[index].id)
 
-    const json = await C.getResponseFromApi(E.GET_USER, 'POST', {token:'xRW8DwqoIxZBSlF83b2P', user_id:this.state.newsVM[index].tutor_id}).then((json)=>{
-      return json 
-    })
-    if ( json.statusCode == 200 && json.data != -100)
-    {
-      console.log('json = ' + json)
+    tutor_id = 3
+    lesson_id = 2
+    
+    const flag = await targetUserViewModel.setUserProfile(tutor_id)
+
+
+    if ( flag ){
+
+      //console.log(targetUserViewModel.getUserProfile().course_list)
+
+      
+
       this.props.navigation.navigate('NewsDetailView',{
         lessonDetailShow: true,
-        tutor_id : this.state.newsVM[index].tutor_id,
-        lesson_id : this.state.newsVM[index].id
+        tutor : targetUserViewModel.getUserProfile(),
+        //tutor_id : 3,
+        tutor_id : targetUserViewModel.getUserProfile().user_id,
+        lesson_id : lesson_id,
+        //lesson_list : targetUserViewModel.getUserProfile().course_list,
       })
+
+      //console.log(targetUserViewModel.getUserProfile().user_id)
     }
-    
+   
+
     /*
     this.props.navigation.navigate('NewsDetailView',{
       lessonDetailShow: true,
@@ -341,13 +356,7 @@ class NewsHomeView extends Component<Props> {
     });
     */
     
-    //console.log(locationViewModel.getLocationListFromDistrict(1) );
-    //console.log(locationViewModel.getDistrictList() )
-
-    //console.log(categoryViewModel.getCategory() )
-    //console.log(categoryViewModel.getSubCategory() )
-    //console.log(categoryViewModel.getSubCatFromCat(1))
-
+    
   }
 
  

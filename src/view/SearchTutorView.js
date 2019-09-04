@@ -21,12 +21,12 @@ import {
 } from 'react-native';
 
 //import SegmentControl from './ui/SegmentControl'
-//import TutorSelectCell from './ui/TutorSelectCell'
+//import LessonListCell from './ui/LessonListCell'
 
 import {
   SegmentControl,
-  TutorSelectCell,
-  TopMenuBar
+  LessonListCell,
+  RowMenuListingBar
 } from 'tutorRN/src/view/ui/UIComponent';
 
 
@@ -36,20 +36,26 @@ import {
 import courseVM from 'tutorRN/src/VM/courseVM'
 import categoryVM from 'tutorRN/src/VM/categoryVM'
 import courseTagVM from 'tutorRN/src/VM/courseTagVM'
+import targetUserVM from 'tutorRN/src/VM/targetUserVM'
 
 const layout = require('tutorRN/src/Layout')
 const courseViewModel = courseVM.getInstance()
 const categoryViewModel = categoryVM.getInstance()
 const courseTagViewModel = courseTagVM.getInstance()
+const targetUserViewModel = targetUserVM.getInstance()
 
 class SearchTutorView extends Component<Props> {
 
   constructor(props) {
     super(props);
+    
+    
     // /this.handleFacebookLogin = this.handleFacebookLogin.bind(this)
     const { params } = this.props.navigation.state;
     const tag = params ? params.tag : null
-    this.selectTutor = this.selectTutor.bind(this)
+    this.selectLessonWithIndex = this.selectLessonWithIndex.bind(this)
+
+    console.log('tag = ' +courseViewModel.getCourseByTag(tag))
     this.state = {
       sgData : ['所有課堂', '即將開始', '等待確認'],
       tag: tag,
@@ -116,13 +122,33 @@ class SearchTutorView extends Component<Props> {
     console.log('tabOnClicked ' + index + ' , ' + key)
   }
 
-  selectTutor (index ){
-    console.log('selectTutor ' + index)
-    this.props.navigation.navigate('SearchTutorDetailView',{
-      id :'121',
-      allowEdit: false,
+  async selectLessonWithIndex ( item ){
+    console.log('selectLessonWithIndex ' + item.id)
+
+    var lesson_id = item.id
+    var tutor_id = 3
+
+    const flag = await targetUserViewModel.setUserProfile(tutor_id)
+
+    if( flag ){
+      this.props.navigation.navigate('NewsDetailView',{
+        lessonDetailShow: true,
+        tutor : targetUserViewModel.getUserProfile(),
+        tutor_id : targetUserViewModel.getUserProfile().user_id,
+        lesson_id : lesson_id,
+      })
+    }
+
+    /*
+    this.props.navigation.navigate('NewsDetailView',{
+      lesson_id: this.state.data[index].id,
+      tutor_id : 1,
+      lessonDetailShow: true,
+      //id :'121',
+      //allowEdit: false,
       }
     )
+    */
   }
 
   async TopMenuBarOnClicked(index)
@@ -154,7 +180,8 @@ class SearchTutorView extends Component<Props> {
     return (
       <View>
         
-        <TopMenuBar 
+        <RowMenuListingBar 
+          firstItemShowIcon = {true}
           //data = {['推介', '限時', '優惠', '熱門', '節日', '新到', '復古']}
           data = {condition}
           size = {50}
@@ -170,24 +197,14 @@ class SearchTutorView extends Component<Props> {
           
           this.state.data.map((item, index) =>
             (
+              <LessonListCell
+                key = {index}
+                onClicked = {()=>this.selectLessonWithIndex(item) }
+                id = {item.id}
+                item = {item}
+                action = {false}
+              />
               
-                <TutorSelectCell
-                  key = {index}
-
-                  onClicked = {this.selectTutor }
-                  id = {item.id}
-                  item = {item}
-                  /*
-                  imageURL = {item.image}
-                  name = {item.name}
-                  subject = {item.subject}
-                  rating = {item.rating}
-                  location = {item.location}
-                  price = {item.price}
-                  */
-                />
-              
-
             )
           )
           

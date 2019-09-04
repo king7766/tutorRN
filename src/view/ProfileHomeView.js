@@ -42,7 +42,7 @@ import strings from '../service/strings'
 
 import {
 
-  TutorSelectCell,
+  LessonListCell,
 
 } from 'tutorRN/src/view/ui/UIComponent';
 
@@ -219,11 +219,12 @@ class ProfileHomeView extends Component<Props> {
           {
             this.state.data ? this.state.data.map((item, index) =>
             (
-              <TutorSelectCell
+              <LessonListCell
                 key = {index}
                 onClicked = {() => this.selectTutor(index) }
                 id = {item.id}
                 item = {item}
+                action = {true}
                 
               />
             )) : null

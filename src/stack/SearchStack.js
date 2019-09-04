@@ -8,6 +8,7 @@ import SearchHomeView from 'tutorRN/src/view/SearchHomeView';
 import SearchTutorView from 'tutorRN/src/view/SearchTutorView';
 import SearchTutorDetailView from 'tutorRN/src/view/SearchTutorDetailView';
 import SearchFilteringView from 'tutorRN/src/view/SearchFilteringView';
+import NewsDetailView from 'tutorRN/src/view/NewsDetailView';
 
 //import * as Strings from 'tutorRN/src/service/strings'
 import strings from 'tutorRN/src/service/strings'
@@ -79,7 +80,22 @@ var SearchStack = StackNavigator({
       ),
       //title: '搜尋44',
     },
-  }
+  },
+
+  NewsDetailView: { 
+    screen: NewsDetailView,
+    navigationOptions: {
+      title: strings.home,
+      tabBarIcon: ({ tintColor }) => (
+        <Image
+        source={require('tutorRN/src/image/icons8-home-100.png')}
+          //style={[styles.icon, { tintColor: tintColor }]}
+          style={[layout.styles.icon, { tintColor: tintColor }]}
+        />
+      ),
+      //title: '搜尋33',
+    },
+  },
 });
 
 

@@ -43,7 +43,7 @@ import strings from 'tutorRN/src/service/strings'
 
 import {
 
-  TutorSelectCell,
+  LessonListCell,
 
 } from 'tutorRN/src/view/ui/UIComponent';
 

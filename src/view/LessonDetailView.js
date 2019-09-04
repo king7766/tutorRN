@@ -40,6 +40,8 @@ class LessonDetailView extends Component<Props> {
 
   constructor(props) {
     super(props)
+    //const { params } = this.props.navigation.state;
+
     this.timeList = []
     for ( var i = 0; i < 48; i ++){
       var min = ""
@@ -68,7 +70,6 @@ class LessonDetailView extends Component<Props> {
 
   componentWillMount() {
 
-   
   }
  
 
@@ -132,7 +133,7 @@ class LessonDetailView extends Component<Props> {
                 source= {require('tutorRN/image/icons8-back-100.png')} 
               />
             </TouchableOpacity>
-            <Text style = {styles.titleTextStyle}>英語</Text>
+            <Text style = {styles.titleTextStyle}>{this.props.course.course_name}</Text>
             <View style = {{height:30, width:30}}/>
           </View>
           <View style = {{flex:8}}>
@@ -144,20 +145,22 @@ class LessonDetailView extends Component<Props> {
               <TutorProfileTextBlock
                 allowEdit = {false}
                 arrowOn = {false}
-                title = {'課堂簡介'}
-                description = {'於約30分鐘課堂內, 以自創的「5老師口訣」配合圖像記憶法幫助學生記憶及學習, 並以魔術手法引發學生學習興趣及貫穿整個課程, 同時於課堂內運用多種教學技巧及方法, 使學生快樂而有效地進行學習。'}
+                title = {strings.generalInformation}
+                //description = {'於約30分鐘課堂內, 以自創的「5老師口訣」配合圖像記憶法幫助學生記憶及學習, 並以魔術手法引發學生學習興趣及貫穿整個課程, 同時於課堂內運用多種教學技巧及方法, 使學生快樂而有效地進行學習。'}
+                description = {this.props.course.course_introduction}
               />
               <TutorProfileTextBlock
                 allowEdit = {false}
                 arrowOn = {false}
-                title = {'地點'}
-                description = {'九龍塘'}
+                title = {strings.location}
+                //description = {'九龍塘'}
+                description = {this.props.course.location[0].location_name}
               />
               <TutorProfileTextBlock
                 allowEdit = {false}
                 arrowOn = {false}
-                title = {'價格'}
-                description = {'$ 100'}
+                title = {strings.price}
+                description = {this.props.course.course_fee}
               />
               <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
 
