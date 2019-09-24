@@ -16,6 +16,7 @@ import {
   View,
   TouchableOpacity,
   ListView,
+  FlatList,
   
   DeviceEventEmitter
 } from 'react-native';
@@ -52,24 +53,31 @@ class ChatBox extends Component< Props>{
   chatLayout()
   {
 
-    if ( this.props.data.sender_id == this.props.sender_id )
+    //if ( this.props.data.sender_id != this.props.sender_id )
+    if ( this.props.data.sender_id != this.props.sender_id )
       // sender
       return(
         <View 
           style = {{backgroundColor:'white', flexDirection:'row', justifyContent:'flex-end', alignItems:'center', padding:5}}
         >
-          <View style = {{width:10, height:10}}/>
-          <Text style ={[styles.ownerSideStyle, {padding:5}]}>{this.props.data.message}</Text>
-          <View style = {{width:10, height:10}}/>
-          <Avatar
-            onPress={() => {//this.AvatarOnClicked()
-            }}
-            round = {true}
-            size = {40}
-            type = 'edit'
-            url = {Assets.profile.default_avatar_man}
-          />
-          <View style = {{width:10, height:10}}/>
+          <View
+            style ={styles.ownerSideStyle}
+          >
+            <Text>{this.props.data.message}</Text>
+          </View>
+          
+          <View
+            style = {{padding:5}}
+          >
+            <Avatar
+              onPress={() => {//this.AvatarOnClicked()
+              }}
+              round = {true}
+              size = {40}
+              //type = 'edit'
+              url = {Assets.profile.default_avatar_man}
+            />
+          </View>
         </View>
     )
     else
@@ -78,18 +86,25 @@ class ChatBox extends Component< Props>{
         <View 
           style = {{ backgroundColor:'white',flexDirection:'row', justifyContent:'flex-start', alignItems:'center', paddingBottom:10}}
         >
-          <View style = {{width:10, height:10}}/>
-          <Avatar
-            onPress={() => {//this.AvatarOnClicked()
-              }}
-            round = {true}
-            size = {40}
-            type = 'edit'
-            url = {Assets.profile.default_avatar_man}
-          />
-          <View style = {{width:10, height:10}}/>
-          <Text style ={[styles.opponentSideStyle, {padding:5}]}>{this.props.data.message}</Text>
-          <View style = {{width:10, height:10}}/>
+          
+          <View
+            style = {{padding:5}}
+          >
+            <Avatar
+              onPress={() => {//this.AvatarOnClicked()
+                }}
+              round = {true}
+              size = {40}
+              //type = 'edit'
+              url = {Assets.profile.default_avatar_man}
+            />
+          </View>
+          
+          <View
+            style ={styles.opponentSideStyle}
+          >
+            <Text >{this.props.data.message}</Text>
+          </View>
         </View>
       )
     }
@@ -143,6 +158,7 @@ class ChatHomeView extends Component<Props> {
       chatVM: chatViewModel,
       keyboardOnShow: false,
       dataSource: ds.cloneWithRows(data.sort(function(a,b){return a.id - b.id})),
+      ddd : chatViewModel.getChat(),
 
       update_token: params ? params.update_token : null,
       sender_id: userViewModel.getUser().user_id,
@@ -231,17 +247,24 @@ class ChatHomeView extends Component<Props> {
       update_token: token,
     })
 
-    this.chatListRefresh()
+    this.refs.chatList.scrollTo(0)
+
+    //this.chatListRefresh()
     
   }
 
   chatListRefresh()
   {
+    
+    //this.refs.chatList.scrollToEnd()
+
+    /*
     setTimeout(()=>{
       // Update UI
       //Put All Your Code Here, Which You Want To Execute After Some Delay Time.
       this.refs.chatList.scrollToEnd({ animated:true })
     }, this.state.chatRefreshDelay); 
+    */
   }
 
   confirmDateBtnOnClick()
@@ -392,14 +415,18 @@ class ChatHomeView extends Component<Props> {
           this.topMessageUI()
         }
         <View style = {{height:10}}/>
-        <ListView
-          ref='chatList'
+        <FlatList
+          inverted = {false}
+          keyExtractor={(item, index) => index.toString()}
+          ref="chatList"
           style = {{height:layout.deviceHeight - 100 - 200 - (this.state.keyboardOnShow ? 260:0) }}
-          removeClippedSubviews={false}
-          enableEmptySections={true}
-          dataSource={this.state.dataSource}
-          renderRow = {(rowData, sectionID, rowID, higlightRow) => <ChatBox data={rowData} sender_id={this.state.sender_id}/>}
+          removeClippedSubviews = {false}
+          data = {this.state.ddd}
+          renderItem={({item})=>(
+            <ChatBox data={item} sender_id={1}/>
+          )}
         />
+        
         {
           this.textFieldUI()
         }  
@@ -413,22 +440,23 @@ export default ChatHomeView;
 const styles = StyleSheet.create({   
   
   ownerSideStyle:{  
+    padding:5,
     borderRadius:15,
     borderWidth: 1,
     backgroundColor:'white',
     //borderColor: layout.themeTextColor,
     borderColor: layout.shadowColor,
-    color: 'black',
+    //color: 'black',
     overflow: 'hidden',
   },
 
   opponentSideStyle:{
-    
+    padding:5,
     borderRadius:15,
     borderWidth: 1,
     backgroundColor:layout.shadowColor,
     borderColor: layout.shadowColor,
-    color: 'black',
+    //color: 'black',
     overflow: 'hidden',
   },
   inputTextStyle:{
@@ -460,3 +488,21 @@ const styles = StyleSheet.create({
   },
 
 });
+
+
+/*
+
+<ListView
+          //onContentSizeChange={() => this.chatList.scrollToEnd({animated: true})}
+          ref='chatList'
+          style = {{height:layout.deviceHeight - 100 - 200 - (this.state.keyboardOnShow ? 260:0) }}
+          removeClippedSubviews={false}
+          enableEmptySections={true}
+          dataSource={this.state.dataSource}
+          renderRow = {
+            (rowData, sectionID, rowID, higlightRow) => 
+            //<ChatBox data={rowData} sender_id={this.state.sender_id}/>
+            <ChatBox data={rowData} sender_id={1}/>
+          }
+        />
+        */

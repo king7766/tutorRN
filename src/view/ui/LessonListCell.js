@@ -10,9 +10,9 @@ import {
    TouchableOpacity,
    TouchableHighlight
 } from 'react-native';
-import Dimensions from 'Dimensions';
-//import Hyperlink from 'react-native-hyperlink'
-import ParsedText from 'react-native-parsed-text';
+import {
+  Avatar,
+} from 'tutorRN/src/view/ui/UIComponent';
 
 const layout = require('tutorRN/src/Layout')
 
@@ -54,16 +54,13 @@ class LessonListCell extends Component{
 
 
   render (){
-
-
-    const imageURL = this.props.imageURL
     const content = this.props.content
-    console.log('imageURL = ' + imageURL)
-
+  
     const location = '\uE801  ' + '赤柱'
     const course_fee = '\t\uF155  ' + this.props.item.course_fee
     const rating = '4.5' + '  \uE803'
 
+    console.log('this.props.item.tutor_thumb = ' + this.props.item.tutor_thumb)
     return(
       <TouchableOpacity 
 
@@ -75,12 +72,15 @@ class LessonListCell extends Component{
         <View style = {styles.background}>
         
           <View style = {styles.photoViewStyle}>
-            <Image 
-              style = {styles.imageStyle}
-              source = {{uri: this.props.item.tutor_img}}
-              // cover, contain, stretch, center
-              rezizeMode = 'contain'
+            <Avatar
+              
+              round = {true}
+              size = {50}
+              //type = 'edit'      
+              //url = {this.props.item.tutor_thumb}
+              url = {'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p80x80/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=831d0ee264e5772b4b15faa60c7d16c4&oe=5BD89683'}   
             />
+            
             <Text style = {{fontSize: 14, padding : 5, fontFamily: "fontello"}}>
               {this.props.item.course_ranking}
             </Text>

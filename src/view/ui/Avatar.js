@@ -134,6 +134,7 @@ class Avatar extends Component <AvaterProps>{
     const {  badge, url, size, style, badgeStyle, avatarStyle } = this.props;
     const { imageSource } = this.state
 
+
     //console.log('default_avatar_man = ' + Assets.profile.default_avatar_man)
     console.log(typeof Assets.profile.default_avatar_man);
     return(
@@ -141,7 +142,7 @@ class Avatar extends Component <AvaterProps>{
       <TouchableOpacity
         //onPress={() => onPress ? this.onPress() : null}
         onPress={ ()=>this.onPress() ? this.onPress() : null}
-        underlayColor = {layout.touchHighlightColor}
+        //underlayColor = {layout.touchHighlightColor}
       >
         <View
           style = {{ alignItems:'center', height: size, width: size}}

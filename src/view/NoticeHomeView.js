@@ -27,6 +27,10 @@ const chatViewModel = chatVM.getInstance()
 import userVM from 'tutorRN/src/VM/userVM'
 const userViewModel = userVM.getInstance()
 
+import targetUserVM from 'tutorRN/src/VM/targetUserVM'
+const targetUserViewModel = targetUserVM.getInstance()
+//targetUserViewModel
+
 import NoticeCell from './ui/NoticeCell'
 import SegmentControl from './ui/SegmentControl'
 import strings from '../service/strings'
@@ -38,6 +42,7 @@ class NoticeHomeView extends Component<Props> {
 
   constructor(props) {
     super(props);
+    this.cellOnPressed = this.cellOnPressed.bind(this)
     // /this.handleFacebookLogin = this.handleFacebookLogin.bind(this)
 
 
@@ -46,100 +51,73 @@ class NoticeHomeView extends Component<Props> {
       haveLogin : false,
       data: [
         {
-          'image': 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=c36a9365035e76d990a0b0ca07145494&oe=5B55A6D7',
-          'content': 'content111',
-          'day' : '2018-05-10',
-          'title': 'title 111',
-          'name' : '李小明',
-          'location' : '深水埗',
-          'price' : '500',
-          'subject' : '英國語文',
-          'startTime' : '0900 am',
-          'endTime' : '1000 am',
-          'rating' : '4.5',
-          'type' : 1,
-          'id': '1',
-          'read':true,
+          user_id:1,
+          'oppo_id':2,
+          oppo_name: '陸永權',
+          'type': 1,
+          last_updated:'2019-09-04',
+          lesson_id:3,
+          lesson_name:'英國語文',
+          lesson_date:'2019-06-09',
+          message:'你好',
+
+
+        
         },
         {
-          'image': 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=c36a9365035e76d990a0b0ca07145494&oe=5B55A6D7',
-          'content': 'content111',
-          'title': 'title 111',
-          'day' : '2018-05-10',
-          'location' : '深水埗',
-          'name' : '李小明',
-          'price' : '500',
-          'subject' : '英國語文',
-          'startTime' : '0900 am',
-          'endTime' : '1000 am',
-          'rating' : '4.5',
-          'type' : 2,
-          'id': '2',
-          'read':true,
+          user_id:1,
+          oppo_id:2,
+          oppo_name: '陸永權',
+          type: 2,
+          last_updated:'2019-09-04',
+          lesson_id:3,
+          lesson_name:'英國語文',
+          lesson_date:'2019-06-09',
+          message:'你好',
         },
         {
-          'image': 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=c36a9365035e76d990a0b0ca07145494&oe=5B55A6D7',
-          'content': 'content111',
-          'title': 'title 111',
-          'day' : '2018-05-10',
-          'location' : '深水埗',
-          'name' : '李小明',
-          'price' : '500',
-          'subject' : '英國語文',
-          'startTime' : '0900 am',
-          'endTime' : '1000 am',
-          'rating' : '4.5',
-          'type' : 3,
-          'id': '3',
-          'read':false,
+          user_id:1,
+          oppo_id:2,
+          oppo_name: '陸永權',
+          type: 3,
+          last_updated:'2019-09-04',
+          lesson_id:3,
+          lesson_name:'英國語文',
+          lesson_date:'2019-06-09',
+          message:'你好',
         },
         {
-          'image': 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=c36a9365035e76d990a0b0ca07145494&oe=5B55A6D7',
-          'content': 'content111',
-          'title': 'title 111',
-          'day' : '2018-05-10',
-          'location' : '深水埗',
-          'name' : '李小明',
-          'price' : '500',
-          'subject' : '英國語文',
-          'startTime' : '0900 am',
-          'endTime' : '1000 am',
-          'rating' : '4.5',
-          'type' : 1,
-          'id': '4',
-          'read':true,
+          user_id:1,
+          oppo_id:2,
+          oppo_name: '陸永權',
+          type: 4,
+          last_updated:'2019-09-04',
+          lesson_id:3,
+          lesson_name:'英國語文',
+          lesson_date:'2019-06-09',
+          message:'你好',
         },
         {
-          'image': 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=c36a9365035e76d990a0b0ca07145494&oe=5B55A6D7',
-          'content': 'content111',
-          'title': 'title 111',
-          'day' : '2018-05-10',
-          'location' : '深水埗',
-          'name' : '李小明',
-          'price' : '500',
-          'subject' : '英國語文',
-          'startTime' : '0900 am',
-          'endTime' : '1000 am',
-          'rating' : '4.5',
-          'type' : 2,
-          'id': '5',
-          'read':false,
+          user_id:1,
+          oppo_id:2,
+          oppo_name: '陸永權',
+          type: 5,
+          last_updated:'2019-09-04',
+          lesson_id:3,
+          lesson_name:'英國語文',
+          lesson_date:'2019-06-09',
+          message:'你好',
         },
         {
-          'image': 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=c36a9365035e76d990a0b0ca07145494&oe=5B55A6D7',
-          'content': 'content111',
-          'title': 'title 111',
-          'day' : '2018-05-10',
-          'location' : '深水埗',
-          'name' : '李小明',
-          'price' : '500',
-          'subject' : '英國語文',
-          'startTime' : '0900 am',
-          'endTime' : '1000 am',
-          'rating' : '4.5',
-          'type' : 2,
-          'id': '6',
-          'read':true,
+          user_id:1,
+          oppo_id:2,
+          oppo_name: '陸永權',
+          type: 6,
+          last_updated:'2019-09-04',
+          lesson_id:3,
+          lesson_name:'英國語文',
+          lesson_date:'2019-06-09',
+          message:'你好',
         },
       ]
     };
@@ -197,17 +175,58 @@ class NoticeHomeView extends Component<Props> {
 
   async cellOnPressed (index)
   {
-    console.log('going to chat : ' + index)
-    const res = await chatViewModel.setUpInstance(userViewModel.getUser().user_id, index)
-
-    if (res)
+    console.log('index : ' + index)
+    var item = this.state.data[index]
+    console.log('going to chat : ' + item.oppo_id)
+    if ( item.type == 3 || item.type == 6)
     {
-      this.props.navigation.navigate('ChatHomeView',{
-        //sender_id : res.sender_id,
-        //receiver_id : res.receiver_id,
-        update_token : res,
+      //const res = await chatViewModel.setUpInstance(userViewModel.getUser().user_id, item.oppo_id)
+      const res = await chatViewModel.setUpInstance(1, 4)
+      if (res)
+      {
+        this.props.navigation.navigate('ChatHomeView',{
+        
+          update_token : res,
+        })
+      }
+    }else if ( item.type == 1){
+      // go to user profile
+      this.props.navigation.navigate('ProfileHomeView');
+
+      /*
+      NavigationActions.navigate({
+        routeName: 'App',
+        action: NavigationActions.navigate({
+          routeName: 'ProfileHomeView'
+       })
       })
+      */
+    }else if ( item.type == 2){
+      // go to lesson profile
+
+      /*
+      var tutor_id = 3
+      var lesson_id = 2
+      const flag = await targetUserViewModel.setUserProfile(tutor_id)
+      if ( flag ){
+
+        this.props.navigation.navigate('NewsDetailView',{
+          lessonDetailShow: true,
+          tutor : targetUserViewModel.getUserProfile(),
+          tutor_id : targetUserViewModel.getUserProfile().user_id,
+          lesson_id : lesson_id,
+        })
+
+      }
+      */
+    }else if ( item.type == 4){
+      // no action here
+      
+    }else if ( item.type == 5){
+      // go rating 
+      
     }
+    
     
   }
 
@@ -228,7 +247,8 @@ class NoticeHomeView extends Component<Props> {
                 
                 //title = {item.title}
                 //content = {item.content}
-                onPress= {(index)=>this.cellOnPressed(index)}
+                //onPress= {(index)=>this.cellOnPressed(index)}
+                onPress= {this.cellOnPressed}
               />
 
             )

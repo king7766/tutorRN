@@ -61,17 +61,23 @@ class NewsHomeView extends Component<Props> {
     //  onTabFocus: this.handleTabFocus
     //});
 
+    //console.log('viewModel = ' + viewModel.getNews()[0])
+
+    /*
     var data = []
     for ( var i = 0; i < 2; i ++){
+      
       data.push(viewModel.getNews()[i])
     }
-
+    */
 
     this.state = {
       
-      newsVM: viewModel.getNews(),
-      data: data,
-      //dataCount : 2,
+      dataSource : viewModel.getNews(),
+      //dataSource : viewModel.tempNews(),
+      //newsVM: viewModel.getNews(),
+      //data: data,
+      //data: viewModel.getNews(),
       locationVM : locationViewModel,
       isFetching: false ,
 
@@ -276,8 +282,11 @@ class NewsHomeView extends Component<Props> {
     
 
     if ( pageNum == -1 ){
-      this.list.scrollToIndex({animated: true,index:0})
-      pageNum = 0
+      if ( viewModel.getNews().length > 0){
+        this.list.scrollToIndex({animated: true,index:0})
+        pageNum = 0
+      }
+      
     }
     console.log('scrolled to page ', pageNum);
 
@@ -299,7 +308,9 @@ class NewsHomeView extends Component<Props> {
 
   likeBtnOnClicked(index)
   {
-    userViewModel.addFavourite(userViewModel.getUser().user_id, this.state.newsVM[index].id)
+    //dataSource
+    //userViewModel.addFavourite(userViewModel.getUser().user_id, this.state.newsVM[index].id)
+    userViewModel.addFavourite(userViewModel.getUser().user_id, this.state.dataSource[index].id)
   }
 
   commentBtnOnClicked(index)
@@ -309,11 +320,9 @@ class NewsHomeView extends Component<Props> {
 
   async cellOnPressed(index)
   {
-    var tutor_id = this.state.newsVM[index].tutor_id
-    var lesson_id = this.state.newsVM[index].id
-    //console.log('cell OnPressed ' + index)
-    //console.log('this.state.newsVM[index].tutor_id = ' + this.state.newsVM[index].tutor_id)
-    //console.log('this.state.newsVM[index].id = ' + this.state.newsVM[index].id)
+    var tutor_id = this.state.dataSource[index].tutor_id
+    var lesson_id = this.state.dataSource[index].id
+    
 
     tutor_id = 3
     lesson_id = 2
@@ -362,6 +371,8 @@ class NewsHomeView extends Component<Props> {
  
   fetchMore(){
     console.log('fetchMore')
+    viewModel.loadMore()
+    /*
     const { data, newsVM } = this.state;
     if ( newsVM.length > data.length){
       this.setState({
@@ -370,15 +381,31 @@ class NewsHomeView extends Component<Props> {
     }else{
       console.log('End of newsVM data ! Update the data in newsVM now')
     }
+    */
   }
 
-  pullToRefresh(){
+  async pullToRefresh(){
+    console.log('pullToRefresh')
+    //viewModel.refresh()
+    //viewModel.refresh()
+
+    const res = await viewModel.refresh()
+    if ( res )
+    {
+      this.setState({
+        isFetching: false,
+      })
+    }
+    return
+
+    
+
     var data = []
     for ( var i = 0; i < 2; i ++){
       data.push(viewModel.getNews()[i])
     }
     this.setState({
-      data : data,
+      dataSource : data,
       isFetching: false,
     })
   }
@@ -393,6 +420,8 @@ class NewsHomeView extends Component<Props> {
   
 
   render() {
+
+    
    
     return (
       <View style = {{flex:1}}>
@@ -403,7 +432,10 @@ class NewsHomeView extends Component<Props> {
           ref={(ref) => { this.list = ref; }}
           onMomentumScrollEnd={this.onScrollEnd}
           pagingEnabled={true}
-          data={this.state.data}
+          //data={this.state.dataSource}
+          data = { viewModel.getNews()}
+          extraData={this.state}
+
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl

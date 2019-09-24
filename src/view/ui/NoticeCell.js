@@ -7,11 +7,15 @@ import {
    ScrollView ,
    ListView,
    Linking,
-   TouchableHighlight
+   TouchableOpacity,
 } from 'react-native';
 import Dimensions from 'Dimensions';
 //import Hyperlink from 'react-native-hyperlink'
 import ParsedText from 'react-native-parsed-text';
+
+import {
+  Avatar,
+} from 'tutorRN/src/view/ui/UIComponent';
 
 const layout = require('tutorRN/src/Layout')
 
@@ -20,6 +24,8 @@ class NoticeCell extends Component{
 
   constructor (props){
     super(props);
+
+    this.contentString = this.contentString.bind(this)
 
   }
   componentWillMount(){
@@ -61,6 +67,29 @@ class NoticeCell extends Component{
     }
   }
 
+  nameString(){
+    
+  }
+
+  contentString(){
+    console.log('contentString = ' + this.props.item.type)
+    if (this.props.item.type == 1 ){
+      return '已對你評分'
+    }else if ( this.props.item.type == 2){
+      
+    }else if ( this.props.item.type == 3){
+      return '報讀了你的 ' + this.props.item.lesson_name 
+    }else if ( this.props.item.type == 4){
+      return '已確認 ' + this.props.item.lesson_date + ' 的 ' + this.props.item.lesson_name 
+    }else if ( this.props.item.type == 5){
+      return '已完成 ' + this.props.item.lesson_date + ' 的 ' + this.props.item.lesson_name  + ', 馬上評分'
+    }else if ( this.props.item.type == 6){
+      return '對 你 發出私人信息'
+    }
+
+    return 'CONTENT CONTENT CONTENT CONTENT CONTENT CONTENT CONTENT CONTENT CONTENT'
+  }
+
   render (){
 
     const title = '已對你有新評論'
@@ -76,57 +105,60 @@ class NoticeCell extends Component{
     //const rating = this.props.lesson.rating + '  \uE803'
 
     return(
-      <TouchableHighlight 
+      <TouchableOpacity 
         //onPress={this.handleSettingsPress}
         onPress = { () => this.onPress(this.props.index)}
-        underlayColor = {layout.touchHighlightColor}
+        //underlayColor = {layout.touchHighlightColor}
         //underlayColor = 'gray'
-        >
-      <View style = {styles.background}>
+      >
+        <View style = {styles.background}>
 
-        <View style = {styles.photoViewStyle}>
-          <Image 
-            style = {styles.imageStyle}
-            source = {{uri: this.props.item.image}}
-            defaultSource = {require('tutorRN/src/image/icons8-customer-filled-100.png') }
-            // cover, contain, stretch, center
-            rezizeMode = 'contain'
-          />
-          
-        </View>
+          <View style = {styles.photoViewStyle}>
+            <Avatar
+              //onPress={() => {this.avatarOnClicked()}}
+              round = {true}
+              size = {60}
+              //type = {this.props.allowEdit == true ? 'edit' :''}
+              type = 'edit'
+              url = {'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p320x320/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=110&_nc_oc=AQm5NxA1rY7W4d8YqPG0djDuG9uowyIbyAUwRkq7JOcJ9huJWbhhO2YfJ-37dviIEtA&_nc_ht=scontent-hkg3-1.xx&oh=c643ddf949263ca18a4c0eead81e1da3&oe=5DD86A90'}
+            />
+            
+          </View>
 
-        <View style = {styles.noticeViewStyle}>
-          <Text style = {styles.titleStyle}>
-            {status}
-          </Text>
+          <View style = {styles.noticeViewStyle}>
+            <Text 
+              style = {styles.titleStyle}
+              numberOfLines={1}
+            >
+              NAME NAME NAME NAME NAME NAME NAME NAME NAME NAME NAME NAME
+            </Text>
 
-          <Text 
-            style = {styles.contentStyle}
-            numberOfLines={2}
-            color = 'gray'
-          >
-            {content}
-          </Text>
+            <Text 
+              style = {styles.contentStyle}
+              numberOfLines={2}
+              color = 'gray'
+            >
+              {this.contentString()}
+            </Text>
+            <Text style = {styles.timeStyle}>
+                2 小時前
+            </Text>
+          </View>
 
-
-        </View>
-
-        <View
-          style = {{flex:1, flexDirection: 'row', alignItems:'center'}}
-        >
-          <Text style = {styles.timeStyle}>
-              2 小時前
-          </Text>
           <View
-            style = {{backgroundColor:this.props.item.read ? 'transparent': 'red', height: 10, width:10, borderRadius:5}}
-          />
+            style = {styles.trailViewStyle}
+            //style = {{flex:1, flexDirection: 'row', alignItems:'center'}}
+          >
+            <View
+              //style = {{backgroundColor:this.props.item.read ? 'transparent': 'red', height: 10, width:10, borderRadius:5}}
+            />
+          </View>
+          
+
+          
+
         </View>
-        
-
-        
-
-      </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
       )
   }
 }
@@ -152,7 +184,7 @@ const styles = StyleSheet.create ({
   },
 
   photoViewStyle:{
-    flex:1,
+    flex:2,
     padding: 10,
     flexDirection: 'column',
     alignItems: 'center',
@@ -172,7 +204,7 @@ const styles = StyleSheet.create ({
   },
 
   noticeViewStyle:{
-    flex:3,
+    flex:7,
     padding : 5,
     paddingLeft : 10,
     flexDirection: 'column',
@@ -180,23 +212,29 @@ const styles = StyleSheet.create ({
     justifyContent: 'center'
   },
 
+  trailViewStyle:{
+    flex:1, 
+    alignItems:'center',
+    justifyContent:'center'
+  },
+
   titleStyle:{
-    padding: 3,
-    fontSize: 17,
+    
+    fontSize: layout.stringsSizeMid,
     fontWeight: 'bold',
   },
 
   contentStyle:{
-    padding: 3,
+    
     fontFamily: "fontello",
     //fontWeight: 'bold',
-    fontSize: 14,
+    fontSize: layout.stringsSizeSmall,
     color : 'gray',
   },
 
 
   locationStyle:{
-    padding: 3,
+    
     fontFamily: "fontello",
     fontSize: 14,
     color : layout.themeTextColor,
@@ -205,9 +243,9 @@ const styles = StyleSheet.create ({
   },
 
   timeStyle:{
-    padding: 3,
+    
     fontFamily: "fontello",
-    fontSize: 12,
+    fontSize: layout.stringsSizeSmall,
     color : 'gray',
     //fontFamily: "vincHand",
   }

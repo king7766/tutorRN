@@ -15,8 +15,8 @@ export class courseModel{
    parent_category_name : string = ''
    tag_name : string = ''
    tutor_img : string = ''
-   location : [locationModel]
-   district : [districtModel]
+   //location : [locationModel]
+   //district : [districtModel]
 
    
 
@@ -54,6 +54,7 @@ export class courseModel{
         model.tag_name = jsonObject.tag_name
         model.tutor_img = jsonObject.tutor_img
 
+        /*
         var tempLocation = []
         for ( var i = 0; i < jsonObject.location.length; i ++){
             tempLocation.push(locationModel.deserialize( jsonObject.location[i] ) ) 
@@ -65,7 +66,7 @@ export class courseModel{
             tempDistrict.push(districtModel.deserialize( jsonObject.district[i] ) ) 
         }
         model.district = tempDistrict
-    
+        */
       return model
    }
 }
