@@ -1,0 +1,58 @@
+如果是因为下载了最新的react-native-cli，然后init的项目
+
+在package.json里面，看到自己的react-native的版本是0.45.*以后的，出现这个错误
+
+这是因为是0.45官方有重大改动，无法使用react-native init项目来启动，
+
+直接react-native init mydemo --version 0.44.3指定之前的版本就可以了
+
+
+//react-native upgrade
+改port 位 : 
+
+到xcode里面search所有的8081，将它们替换为8889
+
+最后xcode找到 Libiaries/React.xcodeproj/Build Phases/Run Scripts. 替换8081.
+
+这样操作完之后运行就正常了，这个问题我纠结了非常长的时间，特此记录。
+
+====
+
+// decorator 
+
+npm install babel-plugin-transform-decorators-legacy --save-dev
+Create a .babelrc in your project directory with these options:
+
+{
+ "presets": ["react-native"],
+ "plugins": ["transform-decorators-legacy"]
+}
+
+npm i react-native-image-zoom-viewer --save
+
+// fb
+npm install --save react-native-fbsdk
+
+react-native install react-native-fbsdk
+
+react-native link react-native-fbsdk
+
+add framework and place @ Document/facebookSDK
+
+// youtube 
+
+npm install react-native-youtube -S
+
+yarn add react-native-youtube
+
+npm run build:ios
+
+"build:ios": "react-native bundle --entry-file='index.ios.js' --bundle-output='./ios/
+YourAppName/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'"
+
+
+react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ./ios/main.jsbundle --assets-dest ./ios
+
+
+//jetcodevuse@gmail.com
+Jetco123
