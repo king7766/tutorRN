@@ -154,7 +154,7 @@ class NewsVideoCell extends Component{
   showPhotoVideo()
   {
     /*
-    const photos = [
+    var photos = [
       'https://images.unsplash.com/photo-1485832329521-e944d75fa65e?auto=format&fit=crop&w=1000&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D',
       'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/3a7803bf022db91704584b7297b38bc6.jpg',
       'https://images.unsplash.com/photo-1485832329521-e944d75fa65e?auto=format&fit=crop&w=1000&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D',
@@ -162,6 +162,14 @@ class NewsVideoCell extends Component{
       'https://images.unsplash.com/photo-1485832329521-e944d75fa65e?auto=format&fit=crop&w=1000&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D',
       'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/3a7803bf022db91704584b7297b38bc6.jpg',
       ]
+    */
+      /*
+    var photos = [
+      require('tutorRN/src/image/background.jpg'),
+      require('tutorRN/src/image/background.jpg'),
+      require('tutorRN/src/image/background.jpg'),
+      require('tutorRN/src/image/background.jpg'),
+    ]
     */
     var photos = [this.props.item.news_thumb]
     return (
@@ -472,12 +480,16 @@ class ImageLoader extends Component {
 
     this.interval = setInterval(() => {
       console.log('going to next image by interval')
+      
 
       index = this.state.displayingIndex + 1
       if ( index == this.state.data.length )
       {
         index = 0 
       }
+
+      //this.preloadImageSize()
+
       Image.getSize(this.state.data[index], (width, height) =>{
         var landscape = false
         if ( height < width)
@@ -631,8 +643,9 @@ class ImageLoader extends Component {
         <Animated.Image
           resizeMode = 'stretch'
           //resizeMode='contain'
+          //source = { this.state.data[this.state.displayingIndex]}
           source = {{uri : this.state.data[this.state.displayingIndex]}}
-          //source = {{uri : this.state.data[0]}}
+          
           style={{
             opacity: opacity ,      
             height: layout.deviceHeight,
@@ -640,7 +653,6 @@ class ImageLoader extends Component {
             position:'absolute',
           }}
         />
-        
       </View>
     )
    

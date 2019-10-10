@@ -22,6 +22,8 @@ import {
   FlatList,
   KeyboardAvoidingView
 } from 'react-native';
+import ReactNativeComponentTree from 'react-native/Libraries/Renderer/src/renderers/native/ReactNativeComponentTree';
+
 import PopupDialog, {DialogTitle, SlideAnimation} from 'react-native-popup-dialog';
 import Picker from 'react-native-picker';
 import locationVM from 'tutorRN/src/VM/locationVM'
@@ -49,20 +51,30 @@ import {
 } from 'tutorRN/src/view/ui/UIComponent';
 import strings from '../service/strings';
 
+var albumPhoto = null
+
 @observer
 class Register extends Component<Props> {
 
+  
+
   constructor(props) {
+
+    
     super(props);
+
+
     // /this.handleFacebookLogin = this.handleFacebookLogin.bind(this)
     this.next = this.next.bind(this)
     this.uploadPhoto = this.uploadPhoto.bind(this)
     this.selectedPhoto = this.selectedPhoto.bind(this)
     this.uploadData = this.uploadData.bind(this)
+    this.handleInputChange = this.handleInputChange.bind(this)
 
     this.state = {
 
       photo: '',
+      //albumPhoto:'',
       email:'',
       password: '',
       name: '',
@@ -86,7 +98,7 @@ class Register extends Component<Props> {
       jobSelectArray :['文員', '運輸','教學', '體育' ],
 
 
-      rowData :['','','','','','','',''],
+      rowData :['','','','',''],
 
       tutorRowData:[
         {
@@ -140,18 +152,36 @@ class Register extends Component<Props> {
       paddingLeft: 5,
       color: 'gray',
       backgroundColor: 'white',
-      //textAlign: 'center',
-      //flex: 1,
-      //justifyContent: 'center',
-      //alignItems: 'center',
-      //height : '100%'
+      
     }
 
   } 
 
-  handleTextChange(event, index)
+  handleInputChange(event)
   {
-    console.log('handleTextChange = ' + event.text + ': '+ index)
+    console.log(JSON.stringify(event.nativeEvent))
+    
+    const element = ReactNativeComponentTree.getInstanceFromNode(event.nativeEvent.target);
+    const name = element._currentElement.props.name
+    if ( element._currentElement.props.name == 'account'){
+      this.setState({
+        account: event.nativeEvent.text
+      })
+    }else if ( element._currentElement.props.name == 'password'){
+      this.setState({
+        password: event.nativeEvent.text
+      })
+    }else if ( element._currentElement.props.name == 'name'){
+      this.setState({
+        name: event.nativeEvent.text
+      })
+    }
+
+    
+    
+     
+    
+    
     
   }
 
@@ -174,9 +204,26 @@ class Register extends Component<Props> {
 
   async next ()
   {
-    console.log('next')
+    console.log('next : ' +this.state.account)
 
-    var registerData = {
+    //const birth = this.state.rowData[4][0] + '' +this.state.rowData[4][1] + '' + this.state.rowData[4][2]
+    const occupation = this.state.rowData[1]
+    console.log('occupation : ' +occupation)
+
+    const rawData = {
+      token : 'xRW8DwqoIxZBSlF83b2P',
+      login : this.state.account,
+      password : this.state.password,
+      nickname : this.state.name,
+      sex: this.state.rowData[0],
+      occupation: this.state.rowData[1],
+      education : this.state.rowData[2],
+      location : this.state.rowData[3],
+      birth : this.state.rowData[4],
+    }
+
+    /*
+    const rawData = {
       token : E.token,
       //login : result.id,
       login : '201908211518@gmail.com',
@@ -185,8 +232,40 @@ class Register extends Component<Props> {
       sex : 'null',
       occupation : 'IT',
       education : 'Degree',
-      birth : "1987-06-23 00:00:00",
-      location : "HK",
+    }
+    */
+
+    //const registerData = this.uploadData(albumPhoto,rawData)
+    const registerData = rawData
+    
+    
+    //return 
+
+    /*
+    fetch(E.REGISTER_USER, {
+      method: "POST",
+      //body: createFormData(this.state.photo, { userId: "123" })
+      body: registerData,
+    })
+      .then(response => response.json())
+      .then(response => {
+        console.log("upload succes : ", response);
+      })
+      .catch(error => {
+        console.log("upload error", error);
+      });
+    */
+
+
+      //login : '201908211518@gmail.com',
+      //password : 'abcd1234',
+      //nickname : "222p",
+      //sex : 'null',
+      //occupation : 'IT',
+      //education : 'Degree',
+      
+      //location : "HK",
+      /*
       thumb : 
       {
         name: this.state.photo.node.image.uri.split("=")[1].split("&")[0],
@@ -194,7 +273,43 @@ class Register extends Component<Props> {
         //uri: Platform.OS === "android" ? photo.uri : photo.node.image.uri.replace("assets-library://", "")
         uri : this.state.photo.node.image.uri,
       },
-    }
+      */
+    
+
+    //return 
+    //const data = this.uploadData(albumPhoto, {user_id:'1', token:'xRW8DwqoIxZBSlF83b2P'})
+
+    /*
+    const registerData = this.uploadData(albumPhoto,
+      {
+        token : 'xRW8DwqoIxZBSlF83b2P',
+        login : this.state.account,
+        password : this.state.password,
+        nickname : this.state.name,
+        sex: this.state.rowData[0],
+        occupation: this.state.rowData[1],
+        education : this.state.rowData[2],
+        location : this.state.rowData[3],
+        birth : birth,
+      })
+    */
+    //const data = this.uploadData(this.state.photos[index], {user_id:'1', token:'xRW8DwqoIxZBSlF83b2P'})
+      
+    /*
+      fetch(E.UPLOAD_FILE, {
+        method: "POST",
+        //body: createFormData(this.state.photo, { userId: "123" })
+        body: data,
+      })
+        .then(response => response.json())
+        .then(response => {
+          console.log("upload succes : ", response);
+        })
+        .catch(error => {
+          console.log("upload error", error);
+        });
+    */
+
     /*
     const data = new FormData()
     data.append("fileToUpload", {
@@ -209,39 +324,19 @@ class Register extends Component<Props> {
     });
     */
     //const uploadData = this.uploadData(this.state.photos[index],registerData)
-    const res = M.registrationAction( registerData)
+    const res = await M.registrationAction(registerData)
     if ( res == true )
     {
+      await AsyncStorage.setItem('userPassword', this.state.password )
       this.props.navigation.navigate('App')
+      
     }
     else
     {
-
+      console.log('register failed ')
     }
     //this.loginAction(data.login, data.password, data)
 
-    /*
-    Picker.init({
-      pickerData: ['a','b','c'],
-      pickerTitleText:'請選擇',
-      selectedValue: ['河北', '唐山', '古冶区'],
-      onPickerConfirm: pickedValue => {
-          console.log('area', pickedValue);
-      },
-      onPickerCancel: pickedValue => {
-          console.log('area', pickedValue);
-      },
-      onPickerSelect: pickedValue => {
-          //Picker.select(['山东', '青岛', '黄岛区'])
-          console.log('area', pickedValue);
-      }
-    });
-    Picker.show();
-    */
-
-    // call update profile API
-    
-    //this.props.navigation.navigate('App') 
   }
 
   rowOnClick(index)
@@ -249,43 +344,37 @@ class Register extends Component<Props> {
     console.log('rowOnClick ' + index )
     var tempArray 
     var rowData = this.state.rowData
-    if( 1 )
+    if ( index < 4)
     {
-      if ( index < 4)
-      {
-        tempArray = this.state.rowDataChoose[index]
-      }
-      else{
-        tempArray = this._createDateData()
-      }
+      tempArray = this.state.rowDataChoose[index]
+    }
+    else{
+      tempArray = this._createDateData()
+    }
       
-      Picker.init({
-        pickerData: tempArray,
-        pickerTitleText:strings.pleaseChoose,
-        pickerConfirmBtnText:strings.confirm,
-        pickerCancelBtnText: strings.cancel,
-        selectedValue: tempArray,
-        onPickerConfirm: pickedValue => {
-            console.log('area', pickedValue);
-            rowData.splice(index, 1, pickedValue)
-            this.setState({
-              rowData: rowData
-            })
-        },
-        onPickerCancel: pickedValue => {
-            console.log('area', pickedValue);
-        },
-        onPickerSelect: pickedValue => {
-            //Picker.select(['山东', '青岛', '黄岛区'])
-            console.log('area', pickedValue);
+    Picker.init({
+      pickerData: tempArray,
+      pickerTitleText:strings.pleaseChoose,        pickerConfirmBtnText:strings.confirm,
+      pickerCancelBtnText: strings.cancel,
+      selectedValue: tempArray,
+      onPickerConfirm: pickedValue => {
+        var pickerData = ''
+        if ( index == 4){
+          pickerData = pickedValue[0] + '' + pickedValue[1] +''+ pickedValue[2]
+        }else {
+          pickerData = pickedValue[0]
         }
-      });
-      Picker.show();
-    }
-    else
-    {
-      this.refs["index" + index].focus(); 
-    }
+        rowData.splice(index, 1, pickerData)
+        this.setState({ rowData: rowData })
+      },
+      onPickerCancel: pickedValue => {            
+        console.log('area', pickedValue);
+      },
+      onPickerSelect: pickedValue => {
+        console.log('area', pickedValue);
+      }
+    });
+    Picker.show();
   }
 
   uploadPhoto () {
@@ -302,12 +391,13 @@ class Register extends Component<Props> {
     })
     .then(r => {
       let a = this.state.photos.slice()
-      a[0] = Assets.profile.default_avatar_man
-      a[1] = Assets.profile.default_avatar_girl
+      //a[0] = Assets.profile.default_avatar_man
+      //a[1] = Assets.profile.default_avatar_girl
       
       for ( var i = 0; i< r.edges.length; i ++ )
       {
-        a[2+i] = r.edges[i]
+        //a[2+i] = r.edges[i]
+        a[i] = r.edges[i]
       }
       this.setState({ photos: a });
       
@@ -321,15 +411,25 @@ class Register extends Component<Props> {
 
   selectedPhoto(index)
   {
-    //console.log('selectedPhoto = ' + index)
+    //photoSelected = this.state.photos[index]
     this.defaultAnimationDialog.dismiss(() => {
+
+      //var p =  this.state.photos[index]
       this.setState({
-        photo: this.state.photos[index]
+        albumPhoto: this.state.photos[index]
       })
+
+      albumPhoto = this.state.photos[index]
+
       //this.uploadData(this.state.photo, {'user_id':1, 'token':'xRW8DwqoIxZBSlF83b2P'})
       
-      const data = this.uploadData(this.state.photos[index], {user_id:'1', token:'xRW8DwqoIxZBSlF83b2P'})
-      /*
+      const data = this.uploadData(albumPhoto, {user_id:'2', token:'xRW8DwqoIxZBSlF83b2P'})
+      
+      
+
+      //console.log('uploadData = ' + JSON.stringify(data) )
+      //return
+
       fetch(E.UPLOAD_FILE, {
         method: "POST",
         //body: createFormData(this.state.photo, { userId: "123" })
@@ -342,7 +442,7 @@ class Register extends Component<Props> {
         .catch(error => {
           console.log("upload error", error);
         });
-      */
+      
 
     });
   }
@@ -353,17 +453,36 @@ class Register extends Component<Props> {
     //console.log( photo.node.type)
     
     var imageName = photo.node.image.uri.split("=")[1].split("&")[0]
-    console.log('imageName = ' + photo.node.image.uri.split("=")[1].split("&")[0])
+    //console.log('imageName = ' + photo.node.image.uri.split("=")[1].split("&")[0])
     
     const data = new FormData();
     
-    data.append("fileToUpload", {
-      name: photo.node.image.uri.split("=")[1].split("&")[0],
+    data.append("image_thumb", {
+      //name: photo.node.image.uri.split("=")[1].split("&")[0],
+      name: imageName,
       type: photo.node.type,
       //uri: Platform.OS === "android" ? photo.uri : photo.node.image.uri.replace("assets-library://", "")
       uri : photo.node.image.uri,
     });
+
+    var d = {
+      image_thumb: {
+        //name: photo.node.image.uri.split("=")[1].split("&")[0],
+        name: imageName,
+        type: photo.node.type,
+        //uri: Platform.OS === "android" ? photo.uri : photo.node.image.uri.replace("assets-library://", "")
+        uri : photo.node.image.uri,
+      },
+      
+      msg:'hihihi',
+      user_id:'1', 
+      token:'xRW8DwqoIxZBSlF83b2P'
+    }
+
+    //console.log('d = ' + JSON.stringify(d));
+
     
+
     Object.keys(body).forEach(key => {
       data.append(key, body[key]);
     });
@@ -433,25 +552,6 @@ class Register extends Component<Props> {
       </View>
     </TouchableHighlight>
   
-  /*
-  <Text style = {{margin:10, color:'rgb(231,121,98)', fontWeight:'bold'}}>排序</Text>
-
-          <FilteringToolsBar />
-
-          <Text style = {{margin:10, color:'rgb(231,121,98)', fontWeight:'bold'}}>篩選</Text>
-        
-          <TutorRowFlatList
-            title = '熱門推介'
-            height = {120}
-            data = {this.state.tutorRowData}
-          />
-
-          <TutorRowFlatList
-            title = '優惠'
-            height = {120}
-            data = {this.state.tutorRowData}
-          />
-          */
   render() {
     
     return (
@@ -501,7 +601,7 @@ class Register extends Component<Props> {
             //underlayColor = {layout.themeTextColor}
           >
           {
-            this.state.photo ? 
+            albumPhoto ? 
               <View
                 style = {{ alignItems:'center', backgroundColor : 'white'}}
               >
@@ -516,7 +616,7 @@ class Register extends Component<Props> {
                   size = {70}
                   type = 'edit'
                   //url = {this.state.photo.node.image.uri}
-                  url = {this.state.photo}
+                  url = {albumPhoto}
                   //url = { this.state.photo.node ? this.state.photo.node.image.uri : this.state.photo }
                 />
                 
@@ -545,16 +645,22 @@ class Register extends Component<Props> {
           </View>
 
           <TextInput 
+            onChange= {this.handleInputChange}
+            name = 'account'
             style = {styles.inputTextFieldStyle}
             placeholder = {strings.emailPlaceHolder}
           />
           <TextInput 
+            onChange= {this.handleInputChange}
+            name = 'password'
             style = {styles.inputTextFieldStyle}
             secureTextEntry={true}
             placeholder = {strings.passwordPlaceHolder}
           />
 
           <TextInput 
+            onChange= {this.handleInputChange}
+            name = 'name'
             style = {styles.inputTextFieldStyle}
             placeholder = {strings.name}
           />

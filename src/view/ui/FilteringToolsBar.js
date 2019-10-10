@@ -116,7 +116,7 @@ class FilteringToolsBar extends React.Component{
       <View style = {styles.ToolBarStyle}>
         <View style = {styles.background}>
           {
-            this.props.imageSource.map((item, index) =>{
+             this.props.imageSource.map((item, index) =>{
               return (
                 <TouchableOpacity 
                   //onPress={this.props.onClicked}

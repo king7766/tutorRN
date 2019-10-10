@@ -4,7 +4,8 @@ import {observable, computed} from 'mobx'
 export class categoryModel{
 
    id : integer 
-   name : string = ''
+   category_name : string = ''
+   category_image : string = ''
    sub_category : []
 
    sequence : integer 
@@ -24,7 +25,8 @@ export class categoryModel{
         return 
         {
             id: this.id
-            name: this.name
+            category_image: this.category_image
+            category_name: this.category_name
             sequence: this.sequence
             sub_category: this.sub_category
 
@@ -42,7 +44,8 @@ export class categoryModel{
        const model = new categoryModel()
 
         model.id = jsonObject.id
-        model.name = jsonObject.name
+        model.category_name = jsonObject.category_name
+        model.category_image = jsonObject.category_image
         model.sequence = jsonObject.sequence
         model.sub_category = jsonObject.sub_category
 

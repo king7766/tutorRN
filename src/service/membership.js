@@ -180,7 +180,7 @@ export async function registrationAction( data)
         }
 
         await AsyncStorage.setItem('userToken', res.data.user_login )
-        await AsyncStorage.setItem('userPassword', res.data.user_password )
+        //await AsyncStorage.setItem('userPassword', res.data.user_password )
 
         N.loginAction( userViewModel.getUser().user_login )
       

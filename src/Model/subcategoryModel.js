@@ -5,8 +5,10 @@ export class subcategoryModel{
 
    id : integer 
    name : string = ''
+   category_name : string = ''
+   category_image : string = ''
    parent_category_id : integer
-
+    
    sequence : integer 
 
    create_user : string = ''
@@ -24,6 +26,8 @@ export class subcategoryModel{
         return 
         {
             id: this.id
+            category_name: this.category_name
+            category_image: this.category_image
             name: this.name
             sequence: this.sequence
             parent_category_id: this.parent_category_id
@@ -42,6 +46,8 @@ export class subcategoryModel{
        const model = new subcategoryModel()
 
         model.id = jsonObject.id
+        model.category_name = jsonObject.category_name
+        model.category_image = jsonObject.category_image
         model.name = jsonObject.name
         model.sequence = jsonObject.sequence
         model.parent_category_id = jsonObject.parent_category_id

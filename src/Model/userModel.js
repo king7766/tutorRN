@@ -6,7 +6,7 @@ export class userModel{
 
    //id : integer 
    user_id : string = ''
-   verify_status : string = ''
+   //verify_status : string = ''
    user_login : string = ''
    user_password : string = ''
    user_nickname : string = ''
@@ -45,7 +45,7 @@ export class userModel{
         {
             //id: this.id
             user_id : this.user_id
-            verify_status : this.verify_status
+            //verify_status : this.verify_status
             user_login : this.user_login
             user_password : this.user_password
             
@@ -85,7 +85,7 @@ export class userModel{
         //model.id = jsonObject.result.user_id
         //user_token : string = ''
         model.user_id = jsonObject.user_id
-        model.verify_status = jsonObject.verify_status
+        //model.verify_status = jsonObject.verify_status
         model.user_login = jsonObject.user_login
         model.user_password = jsonObject.user_password
 
@@ -99,16 +99,18 @@ export class userModel{
         model.user_registered = jsonObject.user_registered
         model.user_thumb = jsonObject.user_thumb
         model.user_introduction = jsonObject.user_introduction
-        model.user_age = jsonObject.user_age
+        //model.user_age = jsonObject.user_age
 
         var temp = []
-        
-        for( var i = 0; i < jsonObject.course_list.length; i ++)
-        {
-            temp.push(courseModel.deserialize(jsonObject.course_list[i]) )
+        if ( jsonObject.course_list ){
+            for( var i = 0; i < jsonObject.course_list.length; i ++)
+            {
+                temp.push(courseModel.deserialize(jsonObject.course_list[i]) )
+            }
         }
-        
+
         model.course_list = temp
+        
 
         //temp.push(courseModel.deserialize(c) )
         

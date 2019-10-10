@@ -57,26 +57,33 @@ class CalendarCell extends Component{
     console.log('onDayPress === ' + day.dateString);
     
 
-    //var dateArray = Object.keys(this.state.refDate);
-    var dateArray = []
+    var dateArray = Object.keys(this.state.refDate);
 
     //console.log('dateArray === ' + dateArray);
 
     dateArray.push(day.dateString)
 
-    /*
     let dates = {};
-    dates[day.dateString] = {selected: true, dotColor: 'green', selectedColor: 'green'}
-   
+    dateArray.forEach((val) => {
+      if( val === day.dateString)
+      {
+        dates[val] = {selected: true};
+      }
+      else
+      {
+       dates[val] = {selected: true, dotColor: 'green', selectedColor: 'green'}; 
+      }
+    });
+
     //let dates = {};
     //dates[day.dateString] = {selected: true};
      
     this.setState({ mark:dates})
 
-    */
+    
 
     //this.refs._scrollView.markedDates = mark
-    //this.refs._scrollView.scrollTo({x:layout.deviceWidth, animated: true})
+    this.refs._scrollView.scrollTo({x:layout.deviceWidth, animated: true})
   }
 
   timeBoxOnClick(rowData, sectionID, rowID, higlightRow)
@@ -211,7 +218,7 @@ const styles = StyleSheet.create ({
     flexDirection:'row',
   },
   calendarStyle:{
-    //width: layout.deviceWidth
+    width: layout.deviceWidth
   },
 
   timeSlotStyle:{

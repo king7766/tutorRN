@@ -45,6 +45,7 @@ class AuthLoadingScreen extends React.Component {
 
     const userToken = await AsyncStorage.getItem('userToken');
     const userPassword = await AsyncStorage.getItem('userPassword');
+    //userPassword = '1111'
 
     console.log('userToken = ' + userToken + ' , password = ' + userPassword)
     //M.facebookAccountCheck()

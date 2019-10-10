@@ -22,6 +22,14 @@ var NewsStack = StackNavigator({
       header: null,
       //tabBarVisible: true,
       title: strings.home,
+      tabBarOptions: { 
+        showIcon: false,
+        activeTintColor: 'red',
+        inactiveTintColor: 'red',
+        style: {
+          backgroundColor:'red',
+        }
+      },
       tabBarIcon: ({ tintColor }) => (
         <Image
           source={require('tutorRN/src/image/icons8-home-100.png')}
@@ -29,8 +37,14 @@ var NewsStack = StackNavigator({
           style={[layout.styles.icon, { tintColor: tintColor }]}
         />
       ),
+      //tabBarOptions: {
+      //  backgroundColor:'white',
+      //  activeTintColor: 'black',
+      //  inactiveTintColor: 'gray',
+      //},
       
     },
+   
   },
 
   NewsDetailView: { 

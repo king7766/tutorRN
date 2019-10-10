@@ -247,10 +247,7 @@ class ImageLoader extends Component {
           source= {{uri : this.state.data[this.state.displayingIndex]}}
           blurRadius={10}
         />
-
-
         <Animated.Image
-    
           resizeMode = 'stretch'
           source = {{uri : this.state.data[this.state.displayingIndex]}}
           //source = {{uri : this.state.data[0]}}

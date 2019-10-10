@@ -443,6 +443,9 @@ class NewsHomeView extends Component<Props> {
               onRefresh={this.pullToRefresh}
             />
           }
+
+          keyExtractor={(item, index) => index.toString()}
+
           renderItem=
           {
             ({item, index, separators}) =>

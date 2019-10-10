@@ -62,8 +62,9 @@ class SearchHomeView extends Component<Props> {
     this.state = {
       courseTagNames : courseTagNames,
       courseTagSelection : courseTagSelection,
-      //categories : ds.cloneWithRows(categoryViewModel.getCategories()),
-      
+      ccc: categoryViewModel.getCategories(), 
+      categories : ds.cloneWithRows(categoryViewModel.getCategories()),
+      /*
       categories : ds.cloneWithRows(
         [{
           id:'1',
@@ -146,7 +147,7 @@ class SearchHomeView extends Component<Props> {
           image:require('tutorRN/src/image/icons/16.png'),
          },
         ]),
-        
+       */ 
       districtData : ['中西區', '灣仔', '東區','南區','油尖旺', '深水埗', '九龍城','黃大仙','觀塘', '葵青', '荃灣', '屯門','元朗','北區','大埔','沙田','西貢','離島'],
       currentDistrictData:['中西區', '灣仔', '東區','南區'],
       educationData : ['小學', '中學', '大學以上'],
@@ -423,6 +424,76 @@ class SearchHomeView extends Component<Props> {
     })
   }
 
+  lessonIconUI()
+  {
+    /*
+    return this.state.ccc.map((item, i) =>
+    {
+      console.log('item ' + item.category_image)
+      return (
+        <TouchableOpacity
+          key = {i}
+          onPress={()=>this.ListingCatBtnOnClick (item) }
+        >
+          <View style={this.cellStyle(item)}>   
+            <View style = {this.iconImageStyle(item)}>
+              <Image 
+                style = {{ width: 40, height: 40}}
+                  //source={(rowData.category_image)}
+                  //source = {{uri:'http://tutor.ho2find.com/icon/academic.png'}}
+                  source = {{uri: 'https://facebook.github.io/react/logo-og.png'}}
+                  //source = {{uri: rowData.category_image}}
+                  //source = {require('tutorRN/src/image/icons/1.png')}
+                  //resizeMode =  'center'
+                  resizeMode =  'contain'
+              />
+            </View>
+            <Text style={this.iconTextStyle(item)}>{item.category_name}</Text>
+          </View>
+        </TouchableOpacity>
+      )
+
+    })
+    */
+    
+    
+    return (
+      <ListView     //创建ListView     
+        //initialListSize={this.getRows().length} 
+        backgroundColor = 'white'     
+        dataSource={this.state.categories} //设置数据源               
+        //renderRow={this.renderRow} //设置cell               
+        renderRow={(rowData, rowID) =>
+          <TouchableOpacity 
+            key = {rowID}
+            onPress={()=>this.ListingCatBtnOnClick (rowData) }
+            //underlayColor = {layout.touchHighlightColor}
+          >
+            <View style={this.cellStyle(rowData)}>   
+              <View style = {this.iconImageStyle(rowData)}>
+                <Image 
+                  style = {{ width: 40, height: 40}}
+                  //source={(rowData.category_image)}
+                  //source = {{uri:'http://tutor.ho2find.com/icon/academic.png'}}
+                  //source = {{uri: 'https://facebook.github.io/react/logo-og.png'}}
+                  //source = {{uri: rowData.category_image}}
+                  source={rowData.category_image != null ? {uri: rowData.category_image} : null}
+                  //source = {require('tutorRN/src/image/icons/1.png')}
+                  //resizeMode =  'center'
+                  resizeMode =  'contain'
+                />
+              </View>
+              <Text style={this.iconTextStyle(rowData)}>{rowData.category_name}</Text>
+            </View>
+                
+          </TouchableOpacity>
+        }        
+        contentContainerStyle={styles.listViewStyle}//设置cell的样式
+      />
+    )
+    
+  }
+
   render() {
     
     return (
@@ -443,52 +514,17 @@ class SearchHomeView extends Component<Props> {
           />
 
           <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
-
-          <ListView     //创建ListView     
-            initialListSize={this.getRows().length} 
-            backgroundColor = 'white'     
-            dataSource={this.state.categories} //设置数据源               
-            //renderRow={this.renderRow} //设置cell               
-            renderRow={(rowData, rowID) =>
-              <TouchableOpacity 
-                key = {rowID}
-                onPress={()=>this.ListingCatBtnOnClick (rowData) }
-                //underlayColor = {layout.touchHighlightColor}
-              >
-                <View style={this.cellStyle(rowData)}>   
-                  <View style = {this.iconImageStyle(rowData)}>
-                    <Image 
-                      style = {{ width: 40, height: 40}}
-                      source={(rowData.image)}
-                      //source = {require('tutorRN/src/image/icons/1.png')}
-                      //resizeMode =  'center'
-                      resizeMode =  'contain'
-                    />
-                  </View>
-
-                
-
-                  <Text style={this.iconTextStyle(rowData)}>{rowData.name}</Text>
-                </View>
-              </TouchableOpacity>
-            }
-              
-                          
-            contentContainerStyle={styles.listViewStyle}//设置cell的样式
-          />
+          {
+            this.lessonIconUI()
+          }
+          
           {
             this.tutorRowListUI()
           }
           
         </ScrollView>
-      </View>
-
-     
-      
+      </View> 
     );
-    
-
-
   }
 }
 /*

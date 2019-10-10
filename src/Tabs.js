@@ -7,7 +7,7 @@ import {
   Button,
   DeviceEventEmitter,
   SafeAreaView,
-  TouchableOpacity,
+  TouchableHighlight,
   AsyncStorage
 } from 'react-native';
 import { TabNavigator, StackNavigator, SwitchNavigator, NavigationActions, createBottomTabNavigator} from 'react-navigation';
@@ -55,7 +55,25 @@ const slideAnimation = new SlideAnimation({
   slideFrom: 'bottom',
 });
 
-class Tabs extends Component {
+/*
+const backgroundColor = props.position.interpolate({
+  inputRange: [0,1,2],
+  outputRange: ['#e74c3c','#9b59b6','#3498db'],
+})
+*/
+class onTopView2 extends TabNavigator{
+
+  constructor (props){
+    super(props);
+
+  }
+
+  render(){
+    return <Tabs/>
+  }
+}
+
+class onTopView extends Component {
 
   constructor(props) {
     super(props);
@@ -116,10 +134,7 @@ class Tabs extends Component {
 
     this.state.listeners.push (DeviceEventEmitter.addListener('add', (a)=>{
       this.setAddBtnOnTopViewVisible(true)
-      
       //this.defaultAnimationDialog.show()
-
-      
     }))
 
     this.state.listeners.push (DeviceEventEmitter.addListener('alert', (info)=>{
@@ -129,10 +144,6 @@ class Tabs extends Component {
     this.state.listeners.push (DeviceEventEmitter.addListener('loading', (info)=>{
       this.setLoadingVisible(info.flag)
     }))
-
-    
-
-    
   
 
     /*
@@ -180,14 +191,16 @@ class Tabs extends Component {
   addBtnOnClick(){
     console.log('addBtnOnClick')
     this.setAddBtnOnTopViewVisible(true)
-    /*
-    NavigationActions.navigate({
-      routeName: Tabs,
-      action: NavigationActions.navigate({
-        routeName: 'ProfileHomeView'
-     })
-    })
-    */
+    //this.setCreateLessonViewVisible(true)
+    //this.setUploadScreenVisible(true)
+    
+    
+    //this.showDialog()
+
+    //DeviceEventEmitter.emit('popUp', {flag:true, age:23});
+    //return ; //test
+    
+    //this.defaultAnimationDialog.show()
   }
 
   addBtnOnTopViewOnClickWithIndex (index)
@@ -255,11 +268,12 @@ class Tabs extends Component {
         >
           <CreateLessonView/>
         </PopupDialog>
-        <TabNav 
+        <Tabs 
           addBtnOnClicked={ this.addBtnOnClicked }
         />
+        
         <View style = {{ left:(layout.deviceWidth - 30 )/2, top: -70, height: 30, width: 30,backgroundColor :'white', borderRadius:25  }} >
-          <TouchableOpacity style={{ backgroundColor: layout.touchHighlightColor, width: 30, height: 30, borderRadius: 15, borderWidth:1, borderColor:layout.touchHighlightColor ,alignItems: 'center'}} 
+          <TouchableHighlight style={{ backgroundColor: layout.touchHighlightColor, width: 30, height: 30, borderRadius: 15, borderWidth:1, borderColor:layout.touchHighlightColor ,alignItems: 'center'}} 
             onPress={()=>{this.addBtnOnClick()}}  
           >
             <Text
@@ -267,22 +281,33 @@ class Tabs extends Component {
             >
               +
             </Text>
-          </TouchableOpacity>
+          </TouchableHighlight>
         </View>
+          
+        
       </View>
       
     )
   }
 }
 
-const TabNav = TabNavigator({
+const Tabs = TabNavigator({
+
+  //news: NewsHomeView,
   news: NewsStack,
   search: SearchStack,
+  //news: NewsStack,
+  //search:animatedbasic,
   add: LessonStack,
+  //lesson : LessonStack,
+  //search : SearchStack,
   notice: NoticeStack,
   profile : ProfileStack,
 
   },
+
+  
+  
   {
     lazy: true,
     
@@ -298,13 +323,15 @@ const TabNav = TabNavigator({
       */
       showIcon: true,
       showLabel: false,
-      activeTintColor: '#fff',
-      //inactiveTintColor: '#A9A9A9',
-      inactiveTintColor : '#696969',
+      //activeTintColor: '#fff',
+      activeTintColor: '#808080',
+      inactiveTintColor: '#D3D3D3',
+      //inactiveTintColor : '#696969',
       
-
+      
       style: {
-        backgroundColor: 'rgba(22, 22, 22, 0.3)',
+        //backgroundColor: 'rgba(22, 22, 22, 0.3)',
+        backgroundColor:'black',
         borderTopWidth: 3,
         //borderTopColor: '#996600',
         position: 'absolute',
@@ -352,9 +379,9 @@ const TabNav = TabNavigator({
   
 );
 
-const defaultGetStateForAction = TabNav.router.getStateForAction
+const defaultGetStateForAction = Tabs.router.getStateForAction
 
-TabNav.router.getStateForAction = (action, state) => {
+Tabs.router.getStateForAction = (action, state) => {
 
   /*
   //const userToken = AsyncStorage.getItem('userToken').then
@@ -427,7 +454,9 @@ TabNav.router.getStateForAction = (action, state) => {
   return defaultGetStateForAction(action, state)
 }
 
-export default Tabs;
+//export default onTopView2;
+export default onTopView;
+//export default Tabs;
 
 
 /*
