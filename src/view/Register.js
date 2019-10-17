@@ -86,10 +86,10 @@ class Register extends Component<Props> {
       photos : [],
       rowTitle:[strings.gender, strings.job, strings.education,strings.location ,'出生日期'],
       rowDataChoose: [
-        ['男', '女'],
+        [strings.gender_m, strings.gender_f],
         ['文員', '運輸','教學', '體育' ],
-        ['小學', '中學', '大學以上'],
-        ['中西區', '灣仔', '東區','南區','油尖旺', '深水埗', '九龍城','黃大仙','觀塘', '葵青', '荃灣', '屯門','元朗','北區','大埔','沙田','西貢','離島'],
+        [strings.education_low, strings.education_mid, strings.education_high, strings.education_exHigh],
+        [locationViewModel.getLocationName()]
       ],
       
       //locationSelectArray : ['中西區', '灣仔', '東區','南區','油尖旺', '深水埗', '九龍城','黃大仙','觀塘', '葵青', '荃灣', '屯門','元朗','北區','大埔','沙田','西貢','離島'],
@@ -218,7 +218,7 @@ class Register extends Component<Props> {
       sex: this.state.rowData[0],
       occupation: this.state.rowData[1],
       education : this.state.rowData[2],
-      location : this.state.rowData[3],
+      location : locationViewModel.getLocationIdByName(this.state.rowData[3]),
       birth : this.state.rowData[4],
     }
 
@@ -344,9 +344,12 @@ class Register extends Component<Props> {
     console.log('rowOnClick ' + index )
     var tempArray 
     var rowData = this.state.rowData
-    if ( index < 4)
+    if ( index < 3)
     {
       tempArray = this.state.rowDataChoose[index]
+    }else if ( index == 3)
+    {
+      tempArray = locationViewModel.getLocationName()
     }
     else{
       tempArray = this._createDateData()
@@ -453,32 +456,29 @@ class Register extends Component<Props> {
     //console.log( photo.node.type)
     
     var imageName = photo.node.image.uri.split("=")[1].split("&")[0]
-    //console.log('imageName = ' + photo.node.image.uri.split("=")[1].split("&")[0])
+    console.log('imageName = ' + photo.node.image.uri.split("=")[1].split("&")[0])
     
     const data = new FormData();
     
     data.append("image_thumb", {
       //name: photo.node.image.uri.split("=")[1].split("&")[0],
-      name: imageName,
+      name: "aaa",
       type: photo.node.type,
       //uri: Platform.OS === "android" ? photo.uri : photo.node.image.uri.replace("assets-library://", "")
       uri : photo.node.image.uri,
     });
 
     var d = {
-      image_thumb: {
-        //name: photo.node.image.uri.split("=")[1].split("&")[0],
-        name: imageName,
-        type: photo.node.type,
-        //uri: Platform.OS === "android" ? photo.uri : photo.node.image.uri.replace("assets-library://", "")
-        uri : photo.node.image.uri,
-      },
       
       msg:'hihihi',
       user_id:'1', 
       token:'xRW8DwqoIxZBSlF83b2P'
     }
 
+    Object.keys(d).forEach(key =>{
+      data.append(key, d[key])
+    })
+    return data
     //console.log('d = ' + JSON.stringify(d));
 
     

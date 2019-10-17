@@ -84,6 +84,22 @@ export default class courseVM{
 	{
 		return this.refCoursesFromTag[t_id]
 	}
+
+	async createCourse (post_body)
+	{
+		return C.getResponseFromApi(E.CREATE_COURSE, 'POST', post_body).then((json)=>{
+			if ( json.statusCode == 200)
+			{
+				console.log('::: ' +  json )
+				
+				return true
+			}
+			else
+			{
+				return false
+			}
+		})
+	}
 	
 	callAPI()
 	{	

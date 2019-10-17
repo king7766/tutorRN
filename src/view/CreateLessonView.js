@@ -23,17 +23,19 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity
 } from 'react-native';
+import * as E from 'tutorRN/src/service/env-config'
+
 import PopupDialog, {DialogTitle, SlideAnimation} from 'react-native-popup-dialog';
 import Picker from 'react-native-picker';
 
 import locationVM from 'tutorRN/src/VM/locationVM'
+import courseVM from 'tutorRN/src/VM/courseVM'
 import strings from 'tutorRN/src/service/strings'
-//import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
-//const layout = require('tutorRN/src/Layout')
 
 const layout = require('tutorRN/src/Layout')
 
 const locationViewModel = locationVM.getInstance()
+const courseViewModel = courseVM.getInstance()
 
 import {
   Avatar,
@@ -56,16 +58,18 @@ export default class CreateLessonView extends React.Component {
     this.uploadPhoto = this.uploadPhoto.bind(this)
     this.selectedPhoto = this.selectedPhoto.bind(this)
     this.confirmBtnOnClick = this.confirmBtnOnClick.bind(this)
+    this.uploadData = this.uploadData.bind(this)
 
     this.state = {
 
       photos : [],
       //rowTitle:['電郵地址 / 電話', '密碼', '名稱', '性別', '職業', '學歷', '出生日期', '地區'],
-      rowTitle:[strings.location, strings.category, strings.level],
+      rowTitle:[strings.location, strings.category, strings.education, strings.price],
       rowDataChoose : [
         ['中西區', '灣仔', '東區','南區','油尖旺', '深水埗', '九龍城','黃大仙','觀塘', '葵青', '荃灣', '屯門','元朗','北區','大埔','沙田','西貢','離島'],
         ['文員', '運輸','教學', '體育' ],
-        ['小學', '中學', '大學以上']
+        [strings.education_low, strings.education_mid,strings.education_high, strings.education_exHigh],
+        [strings.price_low, strings.price_mid, strings.price_high]
       ],
 
       genderSelectArray: ['男', '女'],
@@ -148,6 +152,8 @@ export default class CreateLessonView extends React.Component {
   next ()
   {
     console.log('next')
+
+  
     /*
     Picker.init({
       pickerData: ['a','b','c'],
@@ -168,8 +174,8 @@ export default class CreateLessonView extends React.Component {
     */
 
     // call update profile API
-    this.props.navigation.navigate('App')
-    //this.props.navigation.navigate('App') 
+    //this.props.navigation.navigate('App')
+    
   }
 
   rowOnClick(index)
@@ -257,12 +263,13 @@ export default class CreateLessonView extends React.Component {
     })
     .then(r => {
       let a = this.state.photos.slice()
-      a[0] = Assets.profile.default_avatar_man
-      a[1] = Assets.profile.default_avatar_girl
+      //a[0] = Assets.profile.default_avatar_man
+      //a[1] = Assets.profile.default_avatar_girl
       
       for ( var i = 0; i< r.edges.length; i ++ )
       {
-        a[2+i] = r.edges[i]
+        //a[2+i] = r.edges[i]
+        a[i] = r.edges[i]
       }
       this.setState({ photos: a });
       
@@ -281,9 +288,78 @@ export default class CreateLessonView extends React.Component {
       this.setState({
         photo: this.state.photos[index]
       })
+
+      return 
+      
+      var d = {
+        token : E.token,
+        course_tutor_id : 3,
+        course_name : 'name',
+        course_introduction :'in',
+        course_fee :'200',
+        'course_category_ids[]' : 4,
+        'course_location_ids[]' : 1,
+        'course_district_ids[]' : 3,
+        //'course_medias[]' :
+  
+      }
+
+      courseViewModel.createCourse(JSON.stringify(d))
+
+      return 
+
+      fetch(E.CREATE_COURSE, {
+        method: "POST",
+        body: JSON.stringify(d), 
+      })
+      .then (response => response.json())
+      .then (response => {
+        console.log("CREATE_COURSE : " + response)
+      })
+      .catch(error => {
+        console.log("CREATE_COURSE error", error);
+      });
+      //let body = new FormData();
+      //body.append('course_medias[]', {uri: this.state.photos[index],name: 'photo.png',filename :'imageName.png',type: 'image/png'});
+      //body.append('Content-Type', 'image/png');
+
+
+      //const rawData = this.uploadData (this.state.photos[index], d)
+  
+      //const res = courseViewModel.createCourse(rawData)
+
       //console.log('data = ' + this.state.photo.data)
       //console.log('callback - will be called immediately ' + index)
     });
+
+    
+  }
+
+  uploadData (photo, body)
+  {
+    //console.log(photo.node.image.uri)
+    //console.log( photo.node.type)
+    
+    var imageName = photo.node.image.uri.split("=")[1].split("&")[0]
+    console.log('imageName = ' + photo.node.image.uri.split("=")[1].split("&")[0])
+    
+    const data = new FormData();
+    
+    /*
+    data.append("image_thumb", {
+      //name: photo.node.image.uri.split("=")[1].split("&")[0],
+      name: "aaa",
+      type: photo.node.type,
+      //uri: Platform.OS === "android" ? photo.uri : photo.node.image.uri.replace("assets-library://", "")
+      uri : photo.node.image.uri,
+    });
+    */
+
+    Object.keys(body).forEach(key => {
+      data.append(key, body[key]);
+    });
+    
+    return data;
   }
     
   _createDateData() {
@@ -332,7 +408,8 @@ export default class CreateLessonView extends React.Component {
   confirmBtnOnClick()
   {
     console.log('confirmBtnOnClick')
-    this.props.onClose()
+    this.next()
+    //this.props.onClose()
   }
   
   //renderItem={({item, index})=>

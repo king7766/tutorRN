@@ -47,12 +47,23 @@ const strings = new LocalizedStrings({
         generalInformation : '基本資料',
         detailInformation : '詳細資料',
         location : '教學地區',
-        price :'價錢',
-        
+        price :'價錢(每節)',
+        price_low : '$100 以下',
+        price_mid : '$101 ~ 200',
+        price_high : '$201 以上',
         
         gender: '性別', 
+        gender_m : '男',
+        gender_f : '女',
+
         job: '職業',
+
         education :'學歷',
+        education_low:'小學',
+        education_mid:'中學',
+        education_high:'大專',
+        education_exHigh:'大學或以上',
+
         description: '簡介',
         descriptionSample : '例如 : 本人畢業於香港教育大學教育學系畢業,具有多年補習經驗, ...',
 //特別擅長教育英文及地理科 教學手法簡單直接, 容易理解,且為人有耐性,並會根據學生的進度而施予相關教學'        ,
