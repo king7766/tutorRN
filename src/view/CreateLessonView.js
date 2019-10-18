@@ -289,8 +289,8 @@ export default class CreateLessonView extends React.Component {
         photo: this.state.photos[index]
       })
 
-      return 
       
+      /*
       var d = {
         token : E.token,
         course_tutor_id : 3,
@@ -301,10 +301,62 @@ export default class CreateLessonView extends React.Component {
         'course_location_ids[]' : 1,
         'course_district_ids[]' : 3,
         //'course_medias[]' :
-  
+      }
+      */
+
+      var d = {
+        token: 'xRW8DwqoIxZBSlF83b2P',
+        user_id : 1,
       }
 
-      courseViewModel.createCourse(JSON.stringify(d))
+
+      //courseViewModel.createCourse(d)
+      var photo = this.state.photos[index]
+      var imageName = photo.node.image.uri.split("=")[1].split("&")[0] +'.' + photo.node.image.uri.split("=")[2]
+      var type = photo.node.type
+      var uri = photo.node.image.uri
+      
+
+      console.log('name = ' + imageName)
+      console.log('type = ' + type)
+      console.log('uri = ' + uri)
+
+
+      const data = new FormData();
+
+      data.append('fileToUpload', {
+        name: imageName,
+        type: type,
+        uri:uri          
+      });
+
+      Object.keys(d).forEach(key => {
+        data.append(key, d[key]);
+      });
+
+      fetch(E.UPLOAD_FILE, {
+        method: "POST",
+        body : data
+        
+        /*JSON.stringify({
+          fileToUpload : {
+            name: imageName,
+            type: photo.node.type,          
+            uri : photo.node.image.uri,
+          },
+          token: 'xRW8DwqoIxZBSlF83b2P',
+          user_id : 1,
+        })*/
+      })
+      .then ( response => response.json()) 
+      .then ( response => {
+        console.log('sss : ' + JSON.stringify(response) )
+      })
+      .catch (error =>{
+        console.log( 'rrr :' + error)
+      })
+
+
 
       return 
 

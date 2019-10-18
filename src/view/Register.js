@@ -207,9 +207,10 @@ class Register extends Component<Props> {
     console.log('next : ' +this.state.account)
 
     //const birth = this.state.rowData[4][0] + '' +this.state.rowData[4][1] + '' + this.state.rowData[4][2]
-    const occupation = this.state.rowData[1]
-    console.log('occupation : ' +occupation)
+    //const occupation = this.state.rowData[1]
+    //console.log('occupation : ' +occupation)
 
+    /*
     const rawData = {
       token : 'xRW8DwqoIxZBSlF83b2P',
       login : this.state.account,
@@ -221,40 +222,58 @@ class Register extends Component<Props> {
       location : locationViewModel.getLocationIdByName(this.state.rowData[3]),
       birth : this.state.rowData[4],
     }
-
-    /*
-    const rawData = {
-      token : E.token,
-      //login : result.id,
-      login : '201908211518@gmail.com',
-      password : 'abcd1234',
-      nickname : "222p",
-      sex : 'null',
-      occupation : 'IT',
-      education : 'Degree',
-    }
     */
+    
+    const rawData = {
+      token : 'xRW8DwqoIxZBSlF83b2P',
+      login : 'T003@g.com',
+      password : '1111',
+      nickname : 'T003',
+      sex: 'M',
+      occupation: 'IT',
+      education : 'U',
+      location : 1,
+      birth : '1990-01-01',
+    }
+    
+
+    const registerData = new FormData();
+
+    var photo = this.state.photos[this.state.selectedAlbumPhotoIndex]
+    var imageName = photo.node.image.uri.split("=")[1].split("&")[0] +'.' + photo.node.image.uri.split("=")[2]
+    var type = photo.node.type
+    var uri = photo.node.image.uri
+
+    console.log('name = ' + imageName)
+    console.log('type = ' + type)
+    console.log('uri = ' + uri)
+
+    registerData.append('image_thumb', {
+      name: imageName,
+      type: type,
+      uri: uri          
+    });
+
+    Object.keys(rawData).forEach(key => {
+      registerData.append(key, rawData[key]);
+    });
 
     //const registerData = this.uploadData(albumPhoto,rawData)
-    const registerData = rawData
+    //const registerData = rawData
     
     
     //return 
 
-    /*
+    
     fetch(E.REGISTER_USER, {
       method: "POST",
       //body: createFormData(this.state.photo, { userId: "123" })
       body: registerData,
     })
-      .then(response => response.json())
-      .then(response => {
-        console.log("upload succes : ", response);
-      })
-      .catch(error => {
-        console.log("upload error", error);
-      });
-    */
+    .then(response => 
+      console.log(JSON.stringify(response) )
+    )
+    
 
 
       //login : '201908211518@gmail.com',
@@ -324,6 +343,9 @@ class Register extends Component<Props> {
     });
     */
     //const uploadData = this.uploadData(this.state.photos[index],registerData)
+
+    return 
+
     const res = await M.registrationAction(registerData)
     if ( res == true )
     {
@@ -419,9 +441,12 @@ class Register extends Component<Props> {
 
       //var p =  this.state.photos[index]
       this.setState({
-        albumPhoto: this.state.photos[index]
+        //selectedAlbumPhotoIndex: this.state.photos[index]
+        photo : this.state.photos[index],
+        selectedAlbumPhotoIndex: index
       })
 
+      return 
       albumPhoto = this.state.photos[index]
 
       //this.uploadData(this.state.photo, {'user_id':1, 'token':'xRW8DwqoIxZBSlF83b2P'})
@@ -601,7 +626,7 @@ class Register extends Component<Props> {
             //underlayColor = {layout.themeTextColor}
           >
           {
-            albumPhoto ? 
+            this.state.photo ? 
               <View
                 style = {{ alignItems:'center', backgroundColor : 'white'}}
               >
@@ -616,7 +641,7 @@ class Register extends Component<Props> {
                   size = {70}
                   type = 'edit'
                   //url = {this.state.photo.node.image.uri}
-                  url = {albumPhoto}
+                  url = {this.state.photo}
                   //url = { this.state.photo.node ? this.state.photo.node.image.uri : this.state.photo }
                 />
                 
