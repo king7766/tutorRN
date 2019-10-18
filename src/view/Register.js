@@ -12,7 +12,7 @@ import {
   Text,
   View,
   SafeAreaView,
-  Button,
+  Modal,
   Image,
   TouchableHighlight,
   ScrollView,
@@ -20,8 +20,9 @@ import {
   AsyncStorage,
   CameraRoll,
   FlatList,
-  KeyboardAvoidingView
 } from 'react-native';
+
+
 import ReactNativeComponentTree from 'react-native/Libraries/Renderer/src/renderers/native/ReactNativeComponentTree';
 
 import PopupDialog, {DialogTitle, SlideAnimation} from 'react-native-popup-dialog';
@@ -30,6 +31,9 @@ import locationVM from 'tutorRN/src/VM/locationVM'
 import * as C from 'tutorRN/src/service/connection'
 import * as E from 'tutorRN/src/service/env-config'
 import * as M from 'tutorRN/src/service/membership'
+
+import alert from 'tutorRN/src/service/alert'
+import LoadingScreen from 'tutorRN/src/view/LoadingScreen'
 
 const layout = require('tutorRN/src/Layout')
 /*
@@ -51,28 +55,19 @@ import {
 } from 'tutorRN/src/view/ui/UIComponent';
 import strings from '../service/strings';
 
-var albumPhoto = null
-
 @observer
 class Register extends Component<Props> {
-
-  
-
-  constructor(props) {
-
-    
+  constructor(props) {    
     super(props);
-
 
     // /this.handleFacebookLogin = this.handleFacebookLogin.bind(this)
     this.next = this.next.bind(this)
     this.uploadPhoto = this.uploadPhoto.bind(this)
     this.selectedPhoto = this.selectedPhoto.bind(this)
-    this.uploadData = this.uploadData.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
 
     this.state = {
-
+      loadingVisible : false,
       photo: '',
       //albumPhoto:'',
       email:'',
@@ -92,38 +87,10 @@ class Register extends Component<Props> {
         [locationViewModel.getLocationName()]
       ],
       
-      //locationSelectArray : ['中西區', '灣仔', '東區','南區','油尖旺', '深水埗', '九龍城','黃大仙','觀塘', '葵青', '荃灣', '屯門','元朗','北區','大埔','沙田','西貢','離島'],
-      locationSelectArray : [],
-      eductionSelectArray :['小學', '中學', '大學以上'],
-      jobSelectArray :['文員', '運輸','教學', '體育' ],
-
-
       rowData :['','','','',''],
 
-      tutorRowData:[
-        {
-          name:'name111',
-          id:'111',
-          url:'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p80x80/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=831d0ee264e5772b4b15faa60c7d16c4&oe=5BD89683',
-        },
-        {
-          name:'name222',
-          id:'222',
-          url:'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p80x80/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=831d0ee264e5772b4b15faa60c7d16c4&oe=5BD89683',
-        },
-        {
-          name:'name333',
-          id:'333',
-          url:'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p80x80/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=831d0ee264e5772b4b15faa60c7d16c4&oe=5BD89683',
-        },
-      ]
-
-
     }
-
   }
-
-  
 
   componentWillMount() {
     this.mounted = true
@@ -175,19 +142,7 @@ class Register extends Component<Props> {
       this.setState({
         name: event.nativeEvent.text
       })
-    }
-
-    
-    
-     
-    
-    
-    
-  }
-
-  onFocus (index)
-  {
-    //console.log('onFocus : ' + index)
+    } 
   }
 
   storeImages(data) {
@@ -204,13 +159,13 @@ class Register extends Component<Props> {
 
   async next ()
   {
+
+    this.setState({
+      loadingVisible: true
+    })
+
     console.log('next : ' +this.state.account)
 
-    //const birth = this.state.rowData[4][0] + '' +this.state.rowData[4][1] + '' + this.state.rowData[4][2]
-    //const occupation = this.state.rowData[1]
-    //console.log('occupation : ' +occupation)
-
-    /*
     const rawData = {
       token : 'xRW8DwqoIxZBSlF83b2P',
       login : this.state.account,
@@ -222,20 +177,20 @@ class Register extends Component<Props> {
       location : locationViewModel.getLocationIdByName(this.state.rowData[3]),
       birth : this.state.rowData[4],
     }
-    */
     
+    /*
     const rawData = {
       token : 'xRW8DwqoIxZBSlF83b2P',
-      login : 'T003@g.com',
+      login : 'T013@g.com',
       password : '1111',
-      nickname : 'T003',
+      nickname : 'T013',
       sex: 'M',
       occupation: 'IT',
       education : 'U',
       location : 1,
       birth : '1990-01-01',
     }
-    
+    */
 
     const registerData = new FormData();
 
@@ -258,21 +213,54 @@ class Register extends Component<Props> {
       registerData.append(key, rawData[key]);
     });
 
-    //const registerData = this.uploadData(albumPhoto,rawData)
-    //const registerData = rawData
-    
-    
-    //return 
-
-    
-    fetch(E.REGISTER_USER, {
+    const res = await fetch(E.REGISTER_USER, {
       method: "POST",
       //body: createFormData(this.state.photo, { userId: "123" })
       body: registerData,
     })
-    .then(response => 
-      console.log(JSON.stringify(response) )
-    )
+    .then( response => response.json())
+    .then( response => {
+      console.log('sss : ' + JSON.stringify(response) )
+      
+      this.setState({ loadingVisible: false }, function() {
+        setTimeout(
+          () => {
+            if ( response.user_id != undefined )
+            {
+              AsyncStorage.setItem('userPassword', this.state.password )
+              alert.getInstance().showAlert({title:'創立成功', message:'你的會員帳號: ' + this.state.account})
+              this.props.navigation.navigate('App')    
+            }
+            else
+            {
+              console.log('register failed ')
+              alert.getInstance().showAlert({title:'創立失敗', message:'Error : ' + response})
+            }
+          },
+          500
+        )
+      });      
+    })
+    .catch (error =>{
+ 
+      this.setState(
+        { loadingVisible: false }, 
+        () => 
+        setTimeout(
+          () => {alert.getInstance().showAlert({title:'創立失敗', message:'Error : ' + error}) },
+          500
+        )
+         
+      )
+        //alert.getInstance().showAlert({title:'創立失敗', message:'Error : ' + error})
+      //})
+      
+      //return error
+      
+    })
+
+    
+    
     
 
 
@@ -296,24 +284,7 @@ class Register extends Component<Props> {
     
 
     //return 
-    //const data = this.uploadData(albumPhoto, {user_id:'1', token:'xRW8DwqoIxZBSlF83b2P'})
-
-    /*
-    const registerData = this.uploadData(albumPhoto,
-      {
-        token : 'xRW8DwqoIxZBSlF83b2P',
-        login : this.state.account,
-        password : this.state.password,
-        nickname : this.state.name,
-        sex: this.state.rowData[0],
-        occupation: this.state.rowData[1],
-        education : this.state.rowData[2],
-        location : this.state.rowData[3],
-        birth : birth,
-      })
-    */
-    //const data = this.uploadData(this.state.photos[index], {user_id:'1', token:'xRW8DwqoIxZBSlF83b2P'})
-      
+    
     /*
       fetch(E.UPLOAD_FILE, {
         method: "POST",
@@ -342,10 +313,11 @@ class Register extends Component<Props> {
       data.append(key, body[key]);
     });
     */
-    //const uploadData = this.uploadData(this.state.photos[index],registerData)
+    
 
-    return 
+    //return 
 
+    /*
     const res = await M.registrationAction(registerData)
     if ( res == true )
     {
@@ -357,6 +329,7 @@ class Register extends Component<Props> {
     {
       console.log('register failed ')
     }
+    */
     //this.loginAction(data.login, data.password, data)
 
   }
@@ -436,7 +409,6 @@ class Register extends Component<Props> {
 
   selectedPhoto(index)
   {
-    //photoSelected = this.state.photos[index]
     this.defaultAnimationDialog.dismiss(() => {
 
       //var p =  this.state.photos[index]
@@ -445,76 +417,9 @@ class Register extends Component<Props> {
         photo : this.state.photos[index],
         selectedAlbumPhotoIndex: index
       })
-
-      return 
-      albumPhoto = this.state.photos[index]
-
-      //this.uploadData(this.state.photo, {'user_id':1, 'token':'xRW8DwqoIxZBSlF83b2P'})
-      
-      const data = this.uploadData(albumPhoto, {user_id:'2', token:'xRW8DwqoIxZBSlF83b2P'})
-      
-      
-
-      //console.log('uploadData = ' + JSON.stringify(data) )
-      //return
-
-      fetch(E.UPLOAD_FILE, {
-        method: "POST",
-        //body: createFormData(this.state.photo, { userId: "123" })
-        body: data,
-      })
-        .then(response => response.json())
-        .then(response => {
-          console.log("upload succes : ", response);
-        })
-        .catch(error => {
-          console.log("upload error", error);
-        });
-      
-
     });
   }
 
-  uploadData (photo, body)
-  {
-    //console.log(photo.node.image.uri)
-    //console.log( photo.node.type)
-    
-    var imageName = photo.node.image.uri.split("=")[1].split("&")[0]
-    console.log('imageName = ' + photo.node.image.uri.split("=")[1].split("&")[0])
-    
-    const data = new FormData();
-    
-    data.append("image_thumb", {
-      //name: photo.node.image.uri.split("=")[1].split("&")[0],
-      name: "aaa",
-      type: photo.node.type,
-      //uri: Platform.OS === "android" ? photo.uri : photo.node.image.uri.replace("assets-library://", "")
-      uri : photo.node.image.uri,
-    });
-
-    var d = {
-      
-      msg:'hihihi',
-      user_id:'1', 
-      token:'xRW8DwqoIxZBSlF83b2P'
-    }
-
-    Object.keys(d).forEach(key =>{
-      data.append(key, d[key])
-    })
-    return data
-    //console.log('d = ' + JSON.stringify(d));
-
-    
-
-    Object.keys(body).forEach(key => {
-      data.append(key, body[key]);
-    });
-    
-    return data;
-  }
-    
   _createDateData() {
     var today = new Date();
     let date = [];
@@ -584,6 +489,12 @@ class Register extends Component<Props> {
       //  styles = {{flex:1}}
       //>
       <View>
+        <Modal 
+          transparent={true}
+          visible = {this.state.loadingVisible}
+        >
+          <LoadingScreen />
+        </Modal>
         <PopupDialog
           //style = {{position:'absolute', top: 10}}
           dialogTitle={<DialogTitle title={strings.pleaseSelectPhoto}/>}
@@ -825,29 +736,3 @@ const styles = StyleSheet.create({
 
 
 export default Register;
-
-/*
-<TextInput             
-                      style = {this.textInputStyle(index)}
-                      key = {index}
-                      //style = {{paddingLeft : 5, paddingRight : 5, backgroundColor: 'clear', height: '100%'}}
-                      onFocus = { this.onFocus(index) }
-                      onChangeText={(text) => this.handleTextChange({text}, index)}
-                      placeholder = {item}
-                      //value={this.state.text}
-                    >
-                      <View>
-
-                      </View>
-                    </TextInput>
-
-
-                      <TopMenuBar 
-            data = {['推介', '限時', '優惠', '熱門', '節日', '新到', '復古']}
-            size = {50}
-            itemHeight = {30}
-            itemWidth = {50}
-            selected = {0}
-          />
-          
-                    */

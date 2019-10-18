@@ -41,7 +41,7 @@ export default class alert{
             this.isAlertVisible = true
     
             Alert.alert(
-                strings.warning , 
+                info.title ? info.title : strings.warning , 
                 info.message, 
                 [
                     {
@@ -50,12 +50,7 @@ export default class alert{
                             this.isAlertVisible = false 
                         }
                     },
-                    {
-                        text: strings.confirm, onPress: () => {
-
-                            this.isAlertVisible = false 
-                        }
-                    }
+                    
                 ], { cancelable: false }
             );
 
