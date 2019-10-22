@@ -22,6 +22,10 @@
   //[self redirectLogToDocuments];
   //[self printLogFile];
   
+  NSLog(@"Printing Facebook SDK version %@ ", [FBSDKSettings sdkVersion]);
+
+  NSLog(@"Printing Facebook graphAPIVersion %@ ", [FBSDKSettings graphAPIVersion]);
+  
   
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
