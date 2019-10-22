@@ -56,3 +56,8 @@ react-native bundle --entry-file index.js --platform ios --dev false --bundle-ou
 
 //jetcodevuse@gmail.com
 Jetco123
+
+
+Debug fix:
+https://github.com/facebook/react-native/pull/25146/files#diff-263fc157dfce55895cdc16495b55d190
+

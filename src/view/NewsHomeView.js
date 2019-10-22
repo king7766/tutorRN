@@ -322,6 +322,7 @@ class NewsHomeView extends Component<Props> {
   {
     var tutor_id = this.state.dataSource[index].tutor_id
     var lesson_id = this.state.dataSource[index].id
+   
     
 
     tutor_id = 3
@@ -331,6 +332,8 @@ class NewsHomeView extends Component<Props> {
 
 
     if ( flag ){
+
+      console.log('flag = ' + flag)
 
       //console.log(targetUserViewModel.getUserProfile().course_list)
 

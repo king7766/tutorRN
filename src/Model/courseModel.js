@@ -14,9 +14,13 @@ export class courseModel{
    category_name : string = ''
    parent_category_name : string = ''
    tag_name : string = ''
-   tutor_img : string = ''
-   //location : [locationModel]
-   //district : [districtModel]
+
+   tutor_id : string = ''
+   tutor_name : string = ''
+   tutor_thumb : string = ''
+
+   location : [locationModel]
+   district : [districtModel]
 
    
 
@@ -33,8 +37,11 @@ export class courseModel{
             category_name: this.category_name
             parent_category_name: this.parent_category_name
             tag_name: this.tag_name
-            tutor_img: this.tutor_img
-           
+            tutor_id: this.tutor_id
+            tutor_name : this.tutor_name
+            tutor_thumb : this.tutor_thumb
+            location : this.location
+            district : this.district
          
         }
    }
@@ -52,9 +59,12 @@ export class courseModel{
         model.category_name = jsonObject.category_name
         model.parent_category_name = jsonObject.parent_category_name
         model.tag_name = jsonObject.tag_name
-        model.tutor_img = jsonObject.tutor_img
 
-        /*
+        model.tutor_id = jsonObject.tutor_id
+        model.tutor_name = jsonObject.tutor_name
+        model.tutor_thumb = jsonObject.tutor_thumb
+
+        
         var tempLocation = []
         for ( var i = 0; i < jsonObject.location.length; i ++){
             tempLocation.push(locationModel.deserialize( jsonObject.location[i] ) ) 
@@ -66,7 +76,7 @@ export class courseModel{
             tempDistrict.push(districtModel.deserialize( jsonObject.district[i] ) ) 
         }
         model.district = tempDistrict
-        */
+        
       return model
    }
 }

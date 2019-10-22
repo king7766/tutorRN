@@ -443,6 +443,7 @@ class NewsDetailView extends Component<Props> {
           visible = {this.state.lessonDetailViewVisible || this.state.fullScreenViewerVisible}
         >
         {
+          //{item.location[0].location_name
           this.lessonContent(data)   
         }
         </Modal>  

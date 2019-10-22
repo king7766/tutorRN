@@ -64,90 +64,7 @@ class SearchHomeView extends Component<Props> {
       courseTagSelection : courseTagSelection,
       ccc: categoryViewModel.getCategories(), 
       categories : ds.cloneWithRows(categoryViewModel.getCategories()),
-      /*
-      categories : ds.cloneWithRows(
-        [{
-          id:'1',
-          name:'學術',
-          image:require('tutorRN/src/image/icons/1.png'),
-         },
-         {
-          id:'1',
-          name:'學術',
-          image:require('tutorRN/src/image/icons/2.png'),
-         },
-         {
-          id:'1',
-          name:'學術',
-          image:require('tutorRN/src/image/icons/3.png'),
-         },
-         {
-          id:'1',
-          name:'學術',
-          image:require('tutorRN/src/image/icons/4.png'),
-         },
-         {
-          id:'1',
-          name:'學術',
-          image:require('tutorRN/src/image/icons/5.png'),
-         },
-         {
-          id:'1',
-          name:'學術',
-          image:require('tutorRN/src/image/icons/6.png'),
-         },
-         {
-          id:'1',
-          name:'學術',
-          image:require('tutorRN/src/image/icons/7.png'),
-         },
-         {
-          id:'1',
-          name:'學術',
-          image:require('tutorRN/src/image/icons/8.png'),
-         },
-         {
-          id:'1',
-          name:'學術',
-          image:require('tutorRN/src/image/icons/9.png'),
-         },
-         {
-          id:'1',
-          name:'學術',
-          image:require('tutorRN/src/image/icons/10.png'),
-         },
-         {
-          id:'1',
-          name:'學術',
-          image:require('tutorRN/src/image/icons/11.png'),
-         },
-         {
-          id:'1',
-          name:'學術',
-          image:require('tutorRN/src/image/icons/12.png'),
-         },
-         {
-          id:'1',
-          name:'學術',
-          image:require('tutorRN/src/image/icons/13.png'),
-         },
-         {
-          id:'1',
-          name:'學術',
-          image:require('tutorRN/src/image/icons/14.png'),
-         },
-         {
-          id:'1',
-          name:'學術',
-          image:require('tutorRN/src/image/icons/15.png'),
-         },
-         {
-          id:'1',
-          name:'學術',
-          image:require('tutorRN/src/image/icons/16.png'),
-         },
-        ]),
-       */ 
+     
       districtData : ['中西區', '灣仔', '東區','南區','油尖旺', '深水埗', '九龍城','黃大仙','觀塘', '葵青', '荃灣', '屯門','元朗','北區','大埔','沙田','西貢','離島'],
       currentDistrictData:['中西區', '灣仔', '東區','南區'],
       educationData : ['小學', '中學', '大學以上'],
@@ -181,6 +98,8 @@ class SearchHomeView extends Component<Props> {
     this.tabOnClicked = this.tabOnClicked.bind(this)
     this.TopMenuBarOnClicked = this.TopMenuBarOnClicked.bind(this)
     this.ListingCatBtnOnClick = this.ListingCatBtnOnClick.bind(this)
+    this.categorysViewUI =this.categorysViewUI.bind(this)
+    this.categoryItemUI = this.categoryItemUI.bind(this)
   }
 
   componentWillMount() {
@@ -257,6 +176,7 @@ class SearchHomeView extends Component<Props> {
     
     var width = (layout.deviceWidth - 50 )/numberOfItem //cell的宽度        
     return {
+      
       //flex:1,
       flexDirection: 'column',
       justifyContent: 'center',
@@ -336,7 +256,7 @@ class SearchHomeView extends Component<Props> {
     if (res == true)
     {
       //console.log('tag = ' + tag)
-      console.log(courseViewModel.getCourseByTag(rowData.id))
+      console.log('getCourseByTag : ' +JSON.stringify(courseViewModel.getCourseByTag(rowData.id)) )
       this.props.navigation.navigate('SearchTutorView',{
         tag:rowData.id,
         data : res
@@ -424,37 +344,45 @@ class SearchHomeView extends Component<Props> {
     })
   }
 
+  categorysViewUI()
+  {
+    return (
+      <View style = {styles.listViewStyle}>
+        {
+          this.state.ccc.map((rowData, i )=>{
+            return (
+              <TouchableOpacity 
+                key = {i}
+                onPress={()=>this.ListingCatBtnOnClick (rowData) }
+              >
+                <View style={this.cellStyle(rowData)}>   
+                  <View style = {this.iconImageStyle(rowData)}>
+                    <Image 
+                      style = {{ width: 40, height: 40}}
+                      source={rowData.category_image != null ? {uri: rowData.category_image} : null}
+                      resizeMode =  'contain'
+                    />
+                  </View>
+                  <Text style={this.iconTextStyle(rowData)}>{rowData.category_name}</Text>
+                </View> 
+              </TouchableOpacity>
+            )
+          })
+        }
+      </View>
+    )
+  }
+
+  categoryItemUI()
+  {
+    
+  }
+
+  
+
   lessonIconUI()
   {
-    /*
-    return this.state.ccc.map((item, i) =>
-    {
-      console.log('item ' + item.category_image)
-      return (
-        <TouchableOpacity
-          key = {i}
-          onPress={()=>this.ListingCatBtnOnClick (item) }
-        >
-          <View style={this.cellStyle(item)}>   
-            <View style = {this.iconImageStyle(item)}>
-              <Image 
-                style = {{ width: 40, height: 40}}
-                  //source={(rowData.category_image)}
-                  //source = {{uri:'http://tutor.ho2find.com/icon/academic.png'}}
-                  source = {{uri: 'https://facebook.github.io/react/logo-og.png'}}
-                  //source = {{uri: rowData.category_image}}
-                  //source = {require('tutorRN/src/image/icons/1.png')}
-                  //resizeMode =  'center'
-                  resizeMode =  'contain'
-              />
-            </View>
-            <Text style={this.iconTextStyle(item)}>{item.category_name}</Text>
-          </View>
-        </TouchableOpacity>
-      )
-
-    })
-    */
+    console.log(':::')
     
     
     return (
@@ -515,7 +443,7 @@ class SearchHomeView extends Component<Props> {
 
           <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
           {
-            this.lessonIconUI()
+            this.categorysViewUI()
           }
           
           {
@@ -582,21 +510,9 @@ class SearchHomeView extends Component<Props> {
 export default SearchHomeView;
 
 const styles = StyleSheet.create({    
-  listViewStyle:{        
+  listViewStyle:{     
+    backgroundColor:'white',
     flexDirection:'row', //设置横向布局       
     flexWrap:'wrap'    //设置换行显示
   },    
-        bgStyle:{        
-              backgroundColor:'gray',        
-              width:(layout.deviceWidth-50)/2, //cell的宽度        
-              height:250,        
-              marginLeft:10,        
-              marginTop:10    
-        },    
-        imageStyle:{        
-              width:(layout.deviceWidth-30)/2,       
-              height:230,        
-              backgroundColor:'gray',        
-              marginBottom:0,    
-      }
 });

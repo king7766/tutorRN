@@ -153,6 +153,48 @@ export default class CreateLessonView extends React.Component {
   {
     console.log('next')
 
+    var d = {
+        token: 'xRW8DwqoIxZBSlF83b2P',
+        course_fee: '1',
+        course_name : 'name name name ',
+        course_introduction:'iiiiii',
+        'course_district_ids[]': '1',
+        'course_location_ids[]': '2',
+        'course_category_ids[]': '3',
+        course_tutor_id : '3',
+      }
+
+
+      //courseViewModel.createCourse(d)
+      
+
+
+      const data = new FormData();
+
+      
+
+      Object.keys(d).forEach(key => {
+        data.append(key, d[key]);
+      });
+
+
+
+      console.log('fetching.... ' + JSON.stringify(data) )
+
+      fetch(E.CREATE_COURSE, {
+        method: "POST",
+        body : data
+        
+      })
+      .then ( response => response.json()) 
+      .then ( response => {
+        console.log('sss : ' + JSON.stringify(response) )
+      })
+      .catch (error =>{
+        console.log( 'rrr :' + error)
+      })
+
+
   
     /*
     Picker.init({
@@ -281,7 +323,7 @@ export default class CreateLessonView extends React.Component {
     })
   }
 
-  selectedPhoto(index)
+  async selectedPhoto(index)
   {
     //console.log('selectedPhoto = ' + index)
     this.defaultAnimationDialog.dismiss(() => {
@@ -306,7 +348,13 @@ export default class CreateLessonView extends React.Component {
 
       var d = {
         token: 'xRW8DwqoIxZBSlF83b2P',
-        user_id : 1,
+        course_fee: '1',
+        course_name : 'name name name ',
+        course_introduction:'iiiiii',
+        'course_district_ids[]': '1',
+        'course_location_ids[]': '2',
+        'course_category_ids[]': '3',
+        user_id : '3',
       }
 
 
@@ -324,29 +372,24 @@ export default class CreateLessonView extends React.Component {
 
       const data = new FormData();
 
-      data.append('fileToUpload', {
+      data.append('course_meidas[]', {
         name: imageName,
         type: type,
-        uri:uri          
+        uri: uri          
       });
 
       Object.keys(d).forEach(key => {
         data.append(key, d[key]);
       });
 
-      fetch(E.UPLOAD_FILE, {
+
+
+      console.log('fetching.... ' + JSON.stringify(data) )
+
+      fetch(E.CREATE_COURSE, {
         method: "POST",
         body : data
         
-        /*JSON.stringify({
-          fileToUpload : {
-            name: imageName,
-            type: photo.node.type,          
-            uri : photo.node.image.uri,
-          },
-          token: 'xRW8DwqoIxZBSlF83b2P',
-          user_id : 1,
-        })*/
       })
       .then ( response => response.json()) 
       .then ( response => {
@@ -356,7 +399,7 @@ export default class CreateLessonView extends React.Component {
         console.log( 'rrr :' + error)
       })
 
-
+      console.log('end fetch ')
 
       return 
 
