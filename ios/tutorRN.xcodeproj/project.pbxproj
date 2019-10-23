@@ -332,6 +332,7 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = tutorRN/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		1E25D8D2B4954C28B1B429DD /* libRCTVideo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTVideo.a; sourceTree = "<group>"; };
+		230F7A9E2360AF63005D2424 /* tutorRNDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = tutorRNDebug.entitlements; path = tutorRN/tutorRNDebug.entitlements; sourceTree = "<group>"; };
 		235ECA012340B593009EAEB6 /* FBSDKCoreKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = FBSDKCoreKit; path = ../../../../FacebookSDK/FBSDKCoreKit; sourceTree = "<group>"; };
 		23B5ED5423531DFA00140BEB /* FBSDKPlacesKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKPlacesKit.framework; sourceTree = "<group>"; };
 		23B5ED5523531DFB00140BEB /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
@@ -516,6 +517,7 @@
 		13B07FAE1A68108700A75B9A /* tutorRN */ = {
 			isa = PBXGroup;
 			children = (
+				230F7A9E2360AF63005D2424 /* tutorRNDebug.entitlements */,
 				E33F7DE521DA066D0069CE64 /* YTPlayerView-iframe-player.html */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -1368,6 +1370,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = tutorRN/tutorRNDebug.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = KBBWW8T84A;

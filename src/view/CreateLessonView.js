@@ -30,11 +30,13 @@ import Picker from 'react-native-picker';
 
 import locationVM from 'tutorRN/src/VM/locationVM'
 import courseVM from 'tutorRN/src/VM/courseVM'
+import userVM from 'tutorRN/src/VM/userVM'
 import strings from 'tutorRN/src/service/strings'
 
 const layout = require('tutorRN/src/Layout')
 
 const locationViewModel = locationVM.getInstance()
+const userViewModel = userVM.getInstance()
 const courseViewModel = courseVM.getInstance()
 
 import {
@@ -153,37 +155,53 @@ export default class CreateLessonView extends React.Component {
   {
     console.log('next')
 
-    var d = {
+    var rawData = {
         token: 'xRW8DwqoIxZBSlF83b2P',
-        course_fee: '1',
+        course_fee: '$11111',
         course_name : 'name name name ',
         course_introduction:'iiiiii',
         'course_district_ids[]': '1',
         'course_location_ids[]': '2',
         'course_category_ids[]': '3',
-        course_tutor_id : '3',
+        course_tutor_id : userViewModel.getUser().user_id,
       }
 
 
-      //courseViewModel.createCourse(d)
+      const submitData = new FormData();
       
+      var photo = this.state.photos[this.state.selectedAlbumPhotoIndex]
+      var imageName = photo.node.image.uri.split("=")[1].split("&")[0] +'.' + photo.node.image.uri.split("=")[2]
+      var type = photo.node.type
+      var uri = photo.node.image.uri
 
-
-      const data = new FormData();
+      console.log('name = ' + imageName)
+      console.log('type = ' + type)
+      console.log('uri = ' + uri)
 
       
-
-      Object.keys(d).forEach(key => {
-        data.append(key, d[key]);
+      submitData.append('course_medias[]', {
+        name: imageName,
+        type: type,
+        uri: uri          
       });
 
+      submitData.append('course_medias[]', {
+        name: imageName,
+        type: type,
+        uri: uri          
+      });
+      
+      
 
+      Object.keys(rawData).forEach(key => {
+        submitData.append(key, rawData[key]);
+      });
 
-      console.log('fetching.... ' + JSON.stringify(data) )
+      console.log('fetching.... ' + JSON.stringify(submitData) )
 
       fetch(E.CREATE_COURSE, {
         method: "POST",
-        body : data
+        body : submitData
         
       })
       .then ( response => response.json()) 
@@ -323,14 +341,16 @@ export default class CreateLessonView extends React.Component {
     })
   }
 
-  async selectedPhoto(index)
+  selectedPhoto(index)
   {
     //console.log('selectedPhoto = ' + index)
     this.defaultAnimationDialog.dismiss(() => {
       this.setState({
-        photo: this.state.photos[index]
+        photo: this.state.photos[index],
+        selectedAlbumPhotoIndex: index
       })
 
+      return
       
       /*
       var d = {
