@@ -91,9 +91,124 @@ facebookDataCallback = (error, result) => {
         }
         */
         //loginAction(data.login, data.password, result)
-        loginAction(result.id, 'abcd1234', result)
+        //loginAction(result.id, 'abcd1234', result)
+        //facebookLoginAction(result.id, 'abcd1234', result)
+        facebookLoginAction(result.email, result.id, result)
     }
 }
+
+async function facebookLoginAction(id, password, result)
+{
+    console.log('facebookLoginAction = '+ id + ', pw: ' + password)
+    const res = await callLoginAPI(id , password)
+    //if ( res.data.verify_status == 'success')
+    
+    console.log('facebookLoginAction result = ' + JSON.stringify(res))
+    if ( res.data.user_login !== undefined)
+    {
+        //console.log(data)
+        userViewModel.setUserProfile(res.data)
+        //if ( result.photos)
+        //{
+        //    userViewModel.setFacebookPhotos(result.photos.data)
+        //}
+        
+        //console.log('success : ' + userViewModel.getUser().user_login )
+
+        await AsyncStorage.setItem('userToken', id );
+        await AsyncStorage.setItem('userPassword', password );
+        
+        N.loginAction( userViewModel.getUser().user_login );
+      
+        return true
+    }
+    else{
+
+        //facebookRegistrationAction (id, password, result)
+        console.log('no this account , go to registration ' + JSON.stringify(result) )
+        console.log( result.name)
+        console.log( result.id)
+        console.log( result.birthday)
+        console.log( result.location)
+        console.log( result.picture.data.url)
+
+        var data = {
+            token: E.token,
+            login: result.email,
+            password : result.id,
+            nickname : result.name,
+            sex: result.gender !== undefined ? result.gender : '0',
+            occupation : '0',
+            education : '0',
+            birth : result.birthday !== undefined ? result.birthday : '0',
+            location : result.location !== undefined ? result.location.name : '0',
+            thumb : result.picture.data.url !== undefined ? result.picture.data.url : '0',
+        } 
+
+        console.log( JSON.stringify(data))
+        facebookRegistrationAction (data)
+
+        //return false
+
+        //DeviceEventEmitter.emit('alert', {message : strings.notRegisterMessage});
+
+        // go registration 
+        //registrationAction(id, password, data)
+    }
+}
+
+async function facebookRegistrationAction(data)
+{
+    registrationAction(data) 
+
+}
+
+export async function registrationAction( data)
+{
+    const res = await callingRegistrationAction(data)
+    console.log('registrationAction : ' + JSON.stringify(res))
+    if ( res.data.user_id !== undefined )
+    {
+        userViewModel.setUserProfile(res.data)
+        //if ( res.data.user_thumb)
+        //{
+        //    userViewModel.setFacebookPhotos(res.data.user_thumb)
+        //}
+
+        //await AsyncStorage.setItem('userToken', res.data.user_login )
+        //await AsyncStorage.setItem('userPassword', res.data.user_password )
+        await AsyncStorage.setItem('userToken', data.login )
+        await AsyncStorage.setItem('userPassword', data.password )
+
+        N.loginAction( userViewModel.getUser().user_login )
+      
+        return true
+    }
+    else
+    {
+        console.log('registrationAction fail')
+        return false
+    }
+}
+
+async function callingRegistrationAction (data)
+{
+    console.log('data : ' +JSON.stringify (data) )
+    
+    return C.getResponseFromApi(E.REGISTER_USER, 'POST', data ).then( (json ) =>{
+        if( json.statusCode == 200)	
+        {
+            console.log('REGISTER_USER data = ' + JSON.stringify(json.data, null, 2) )
+            return json
+        }
+        else
+        {
+            console.log('this is error code : ' + json.data);
+            return false
+        }
+    });
+}
+
 
 export async function loginAction(id, password, result)
 {
@@ -136,7 +251,7 @@ export async function loginAction(id, password, result)
 async function callLoginAPI (login, password)
 {
     var data = {
-        token:'xRW8DwqoIxZBSlF83b2P',
+        token: E.token,
         login: login,
         password : password
     }  
@@ -168,48 +283,7 @@ async function callLoginAPI (login, password)
     })
 }
 
-export async function registrationAction( data)
-{
-    const res = await callingRegistrationAction(data)
-    if ( res.data.user_id )
-    {
-        userViewModel.setUserProfile(res.data)
-        if ( res.data.user_thumb)
-        {
-            userViewModel.setFacebookPhotos(res.data.user_thumb)
-        }
 
-        await AsyncStorage.setItem('userToken', res.data.user_login )
-        //await AsyncStorage.setItem('userPassword', res.data.user_password )
-
-        N.loginAction( userViewModel.getUser().user_login )
-      
-        return true
-    }
-    else
-    {
-        console.log('registrationAction fail')
-        return false
-    }
-}
-
-async function callingRegistrationAction (data)
-{
-    console.log('data : ' + data);
-    
-    return C.getResponseFromApi(E.REGISTER_USER, 'POST', data ).then( (json ) =>{
-        if( json.statusCode == 200)	
-        {
-            console.log('REGISTER_USER data = ' + JSON.stringify(json.data, null, 2) )
-            return json
-        }
-        else
-        {
-            console.log('this is error code : ' + json.data);
-            return false
-        }
-    });
-}
 
 export function logoutAction ()
 {

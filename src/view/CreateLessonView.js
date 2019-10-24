@@ -60,8 +60,7 @@ export default class CreateLessonView extends React.Component {
     this.uploadPhoto = this.uploadPhoto.bind(this)
     this.selectedPhoto = this.selectedPhoto.bind(this)
     this.confirmBtnOnClick = this.confirmBtnOnClick.bind(this)
-    this.uploadData = this.uploadData.bind(this)
-
+  
     this.state = {
 
       photos : [],
@@ -352,129 +351,7 @@ export default class CreateLessonView extends React.Component {
 
       return
       
-      /*
-      var d = {
-        token : E.token,
-        course_tutor_id : 3,
-        course_name : 'name',
-        course_introduction :'in',
-        course_fee :'200',
-        'course_category_ids[]' : 4,
-        'course_location_ids[]' : 1,
-        'course_district_ids[]' : 3,
-        //'course_medias[]' :
-      }
-      */
-
-      var d = {
-        token: 'xRW8DwqoIxZBSlF83b2P',
-        course_fee: '1',
-        course_name : 'name name name ',
-        course_introduction:'iiiiii',
-        'course_district_ids[]': '1',
-        'course_location_ids[]': '2',
-        'course_category_ids[]': '3',
-        user_id : '3',
-      }
-
-
-      //courseViewModel.createCourse(d)
-      var photo = this.state.photos[index]
-      var imageName = photo.node.image.uri.split("=")[1].split("&")[0] +'.' + photo.node.image.uri.split("=")[2]
-      var type = photo.node.type
-      var uri = photo.node.image.uri
-      
-
-      console.log('name = ' + imageName)
-      console.log('type = ' + type)
-      console.log('uri = ' + uri)
-
-
-      const data = new FormData();
-
-      data.append('course_meidas[]', {
-        name: imageName,
-        type: type,
-        uri: uri          
-      });
-
-      Object.keys(d).forEach(key => {
-        data.append(key, d[key]);
-      });
-
-
-
-      console.log('fetching.... ' + JSON.stringify(data) )
-
-      fetch(E.CREATE_COURSE, {
-        method: "POST",
-        body : data
-        
-      })
-      .then ( response => response.json()) 
-      .then ( response => {
-        console.log('sss : ' + JSON.stringify(response) )
-      })
-      .catch (error =>{
-        console.log( 'rrr :' + error)
-      })
-
-      console.log('end fetch ')
-
-      return 
-
-      fetch(E.CREATE_COURSE, {
-        method: "POST",
-        body: JSON.stringify(d), 
-      })
-      .then (response => response.json())
-      .then (response => {
-        console.log("CREATE_COURSE : " + response)
-      })
-      .catch(error => {
-        console.log("CREATE_COURSE error", error);
-      });
-      //let body = new FormData();
-      //body.append('course_medias[]', {uri: this.state.photos[index],name: 'photo.png',filename :'imageName.png',type: 'image/png'});
-      //body.append('Content-Type', 'image/png');
-
-
-      //const rawData = this.uploadData (this.state.photos[index], d)
-  
-      //const res = courseViewModel.createCourse(rawData)
-
-      //console.log('data = ' + this.state.photo.data)
-      //console.log('callback - will be called immediately ' + index)
     });
-
-    
-  }
-
-  uploadData (photo, body)
-  {
-    //console.log(photo.node.image.uri)
-    //console.log( photo.node.type)
-    
-    var imageName = photo.node.image.uri.split("=")[1].split("&")[0]
-    console.log('imageName = ' + photo.node.image.uri.split("=")[1].split("&")[0])
-    
-    const data = new FormData();
-    
-    /*
-    data.append("image_thumb", {
-      //name: photo.node.image.uri.split("=")[1].split("&")[0],
-      name: "aaa",
-      type: photo.node.type,
-      //uri: Platform.OS === "android" ? photo.uri : photo.node.image.uri.replace("assets-library://", "")
-      uri : photo.node.image.uri,
-    });
-    */
-
-    Object.keys(body).forEach(key => {
-      data.append(key, body[key]);
-    });
-    
-    return data;
   }
     
   _createDateData() {

@@ -74,6 +74,9 @@ class Welcome extends Component<Props> {
   }
 
   componentWillMount() {
+
+    LoginManager.logOut()
+
     this.mounted = true
     //this.getFacebookData()
     
@@ -516,7 +519,7 @@ class Welcome extends Component<Props> {
 
                   // must use FacebookSDKs-iOS-4.38.0 sdk , else will be cannot connect
 
-                  console.log("login has error: " + error + ", " + result);
+                  console.log("login has error: " + JSON.stringify(error) + ", " + JSON.stringify(result) );
                   //console.log("login has error: " + result);
 
                   var newArr = Object.keys(error);
