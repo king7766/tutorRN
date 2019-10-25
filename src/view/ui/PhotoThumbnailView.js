@@ -7,6 +7,8 @@ import {
    FlatList,
    TouchableOpacity ,
 } from 'react-native';
+
+import Assets from 'tutorRN/src/view/ui/Assets';
 import Dimensions from 'Dimensions';
 //import Hyperlink from 'react-native-hyperlink'
 import ParsedText from 'react-native-parsed-text';
@@ -30,8 +32,15 @@ class PhotoThumbnailView extends Component{
   }
 
   imageOnClicked(index) {
-    console.log('imageOnClicked : ' + index)
-    this.props.imageOnClicked(index)
+    
+    if ( this.props.addBtnVisible && index == this.props.imageSource.length - 1)
+    {
+      this.props.addBtnOnClicked()
+    }
+    else
+    {
+      this.props.imageOnClicked(index)
+    }
   }
 
   slideOnClick()
@@ -44,32 +53,39 @@ class PhotoThumbnailView extends Component{
   render (){
 
     
-    const data = [
-      'https://images.unsplash.com/photo-1485832329521-e944d75fa65e?auto=format&fit=crop&w=1000&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D',
-      'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/3a7803bf022db91704584b7297b38bc6.jpg',
-      'https://images.unsplash.com/photo-1485832329521-e944d75fa65e?auto=format&fit=crop&w=1000&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D',
-      'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/3a7803bf022db91704584b7297b38bc6.jpg', 
-      'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/3a7803bf022db91704584b7297b38bc6.jpg', 
-      'https://images.unsplash.com/photo-1485832329521-e944d75fa65e?auto=format&fit=crop&w=1000&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D',
-      'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/3a7803bf022db91704584b7297b38bc6.jpg',
-      'https://images.unsplash.com/photo-1485832329521-e944d75fa65e?auto=format&fit=crop&w=1000&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D',
-    ]
+    var imageSource = this.props.imageSource
+    console.log('imageSource = ' + JSON.stringify(this.props.imageSource))
+    if ( this.props.addBtnVisible)
+    {
+      // add last image here
+      imageSource.push('add')
+    }
 
     return(
 
       <View style = {styles.background}>
         <FlatList
           horizontal = {true}
-          data = {this.props.imageSource}
+          //data = {this.props.imageSource}
+          data = {imageSource}
           renderItem={({item, index, separators}) => 
             <TouchableOpacity
               style = {{marginLeft:5, marginRight:5}}
               onPress={()=>this.imageOnClicked(index)}
             >
-              <Image 
-                style = {{ height:100, width:100}}
-                source={{uri: item.url }}
-              />
+              {
+                item.media_file !== undefined ? 
+                  <Image 
+                    style = {{ height:100, width:100}}
+                    source={{uri: item.media_file }}
+                    //source = { url.node ?  { uri: url.node.image.uri } : (typeof url) == 'string' ?  {uri:url} : url  }
+                  /> : 
+                  <Image 
+                    style = {{ height:40, width:40,bottom:0, top:60}}
+                    source=  {Assets.icon.addPhoto}
+                  />
+                  
+              }
             </TouchableOpacity>
           }
         />

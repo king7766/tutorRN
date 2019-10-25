@@ -23,7 +23,12 @@ const actions = {
   //trytry: require('image/icons8-scan-stock-100a.png')
 }
 
+const icon = {
+  addPhoto : require('tutorRN/src/image/addPhoto.png'),
+}
+
 const Assets = {
+  icon,
   profile,
   tabs,
   actions,

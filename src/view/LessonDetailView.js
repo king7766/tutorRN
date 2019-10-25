@@ -77,8 +77,13 @@ class LessonDetailView extends Component<Props> {
     this.props.backBtnOnClicked()
   }
 
-  imageOnClicked(index){
-    this.props.imageOnClicked(index)
+  photoThumbnailImageOnClicked(index){
+    this.props.photoThumbnailImageOnClicked(index)
+  }
+
+  photoThumbnailAddBtnOnClicked()
+  {
+    this.props.photoThumbnailAddBtnOnClicked()
   }
 
   ListingCatBtnOnClick(index){
@@ -139,8 +144,10 @@ class LessonDetailView extends Component<Props> {
           <View style = {{flex:8}}>
             <ScrollView style = {styles.scrollViewStyle}>
               <PhotoThumbnailView
-                imageOnClicked = {(index)=>this.imageOnClicked(index)}
+                imageOnClicked = {(index)=>this.photoThumbnailImageOnClicked(index)}
+                addBtnOnClicked = {()=>this.photoThumbnailAddBtnOnClicked()}
                 imageSource = {this.props.imageSource}
+                addBtnVisible = {true}
               />
               <TutorProfileTextBlock
                 allowEdit = {false}

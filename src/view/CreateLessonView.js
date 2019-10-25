@@ -32,6 +32,7 @@ import locationVM from 'tutorRN/src/VM/locationVM'
 import courseVM from 'tutorRN/src/VM/courseVM'
 import userVM from 'tutorRN/src/VM/userVM'
 import strings from 'tutorRN/src/service/strings'
+import PhotoThumbnailView from 'tutorRN/src/view/ui/PhotoThumbnailView'
 
 const layout = require('tutorRN/src/Layout')
 
@@ -62,7 +63,7 @@ export default class CreateLessonView extends React.Component {
     this.confirmBtnOnClick = this.confirmBtnOnClick.bind(this)
   
     this.state = {
-
+      imageSource : [],
       photos : [],
       //rowTitle:['電郵地址 / 電話', '密碼', '名稱', '性別', '職業', '學歷', '出生日期', '地區'],
       rowTitle:[strings.location, strings.category, strings.education, strings.price],
@@ -136,6 +137,16 @@ export default class CreateLessonView extends React.Component {
   onFocus (index)
   {
     //console.log('onFocus : ' + index)
+  }
+
+  photoThumbnailImageOnClicked(index){
+    console.log('photoThumbnailImageOnClicked : '+index )
+    //this.props.photoThumbnailImageOnClicked(index)
+  }
+  photoThumbnailAddBtnOnClicked()
+  {
+    console.log('photoThumbnailAddBtnOnClicked')
+    //this.props.photoThumbnailAddBtnOnClicked()
   }
 
   storeImages(data) {
@@ -343,10 +354,25 @@ export default class CreateLessonView extends React.Component {
   selectedPhoto(index)
   {
     //console.log('selectedPhoto = ' + index)
+
+    var photo = this.state.photos[index]
+    var imageName = photo.node.image.uri.split("=")[1].split("&")[0] +'.' + photo.node.image.uri.split("=")[2]
+    var type = photo.node.type
+    var uri = photo.node.image.uri
+
+    
+
+    var imageSource = this.state.imageSource
+    imageSource.splice(0, 0, {media_file:uri})
+    //imageSource.push({url:uri})
+
+    console.log('selectedPhoto = ' + JSON.stringify(imageSource))
+
     this.defaultAnimationDialog.dismiss(() => {
       this.setState({
         photo: this.state.photos[index],
-        selectedAlbumPhotoIndex: index
+        selectedAlbumPhotoIndex: index,
+        imageSource : imageSource,
       })
 
       return
@@ -526,6 +552,13 @@ export default class CreateLessonView extends React.Component {
             {strings.generalInformation}
           </Text>
         </View>
+          <PhotoThumbnailView
+            imageOnClicked = {(index)=>this.photoThumbnailImageOnClicked(index)}
+            addBtnOnClicked = {()=>this.photoThumbnailAddBtnOnClicked()}
+            imageSource = {this.state.imageSource}
+            addBtnVisible = {true}
+          />
+
           <TouchableHighlight
             onPress={this.uploadPhoto}
             //underlayColor = {layout.themeTextColor}

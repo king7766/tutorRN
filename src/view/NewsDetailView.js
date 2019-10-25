@@ -283,9 +283,10 @@ class NewsDetailView extends Component<Props> {
     })
   }
 
-  imageOnClicked(index)
+  photoThumbnailImageOnClicked(index)
   {
-    console.log('NewsDetailView - imageOnClicked : ' + index)
+    console.log('NewsDetailView - photoThumbnailImageOnClicked : ' + index)
+    
     this.setState({
       lessonDetailViewVisible : false,
       fullScreenViewerVisible : true,
@@ -293,7 +294,12 @@ class NewsDetailView extends Component<Props> {
     })
   }
 
-  lessonContent (data)
+  photoThumbnailAddBtnOnClicked ()
+  {
+    console.log('photoThumbnailAddBtnOnClicked')
+  }
+
+  lessonContent (imageSource)
   {
     //console.log('lesson_id = ' + this.state.params.lesson_id)
     //let result = this.state.params.tutor.course_list.map(a => a.id);
@@ -301,14 +307,19 @@ class NewsDetailView extends Component<Props> {
     var lesson_id = this.state.lesson_id
     const result = this.state.params.tutor.course_list.filter(course => course.id == lesson_id);
 
-    //console.log('result = ' + result[0].course_name)
+    var ImageViewerArray = []
+    for ( var i = 0; i < imageSource.length ; i ++)
+    {
+      ImageViewerArray.push({url:imageSource[i].media_file})
+    }
 
     if (this.state.lessonDetailViewVisible){
       return (
         <LessonDetailView 
           course = {result[0]}
-          imageOnClicked = {(index)=>this.imageOnClicked(index)}
-          imageSource = {data}
+          photoThumbnailImageOnClicked = {(index)=>this.photoThumbnailImageOnClicked(index)}
+          photoThumbnailAddBtnOnClicked = {this.photoThumbnailAddBtnOnClicked}
+          imageSource = {imageSource}
           backBtnOnClicked = {()=>this.lessonDetailBackBtnOnClicked()}
         />
       )
@@ -317,7 +328,7 @@ class NewsDetailView extends Component<Props> {
         <ImageViewer 
           index = {this.state.thumbnailImageOnClickedIndex}
           onClick = {()=>this.fullScreenViewerOnClicked()}
-          imageUrls={data}
+          imageUrls={ImageViewerArray}
         />
       )      
     }
@@ -344,28 +355,18 @@ class NewsDetailView extends Component<Props> {
 
     const data = [
       {
-        url:'https://images.unsplash.com/photo-1485832329521-e944d75fa65e?auto=format&fit=crop&w=1000&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D',
+        "id": "15",
+        "course_id": "22",
+        "media_file": "http://tutor.ho2find.com/uploads/Simulator Screen Shot - iPhone 11 Pro Max - 2019-10-19 at 16.06.11.png",
+        "media_seq": null
       },
       {
-        url:'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/3a7803bf022db91704584b7297b38bc6.jpg',
-        
-      },
-      {
-        url:'https://images.unsplash.com/photo-1485832329521-e944d75fa65e?auto=format&fit=crop&w=1000&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D',
-        
-      },
-      {
-        url:'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/3a7803bf022db91704584b7297b38bc6.jpg',
-        
-      },
-      {
-        url:'https://images.unsplash.com/photo-1485832329521-e944d75fa65e?auto=format&fit=crop&w=1000&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D',
-        
-      },
-      {
-        url:'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/3a7803bf022db91704584b7297b38bc6.jpg',
-        
-      },
+        "id": "16",
+        "course_id": "22",
+        "media_file": "http://tutor.ho2find.com/uploads/Simulator Screen Shot - iPhone 11 Pro Max - 2019-10-20 at 01.35.57.png",
+        "media_seq": null
+      }
+      //require('tutorRN/image/icons8-back-100.png')
     ]
 
     return (
@@ -374,7 +375,7 @@ class NewsDetailView extends Component<Props> {
           <TutorProfileBlock
             allowEdit = {false}
             tag = {0}
-            tutor = {this.state.data}
+            tutor = {this.state.params.tutor.user_nickname}
             //tutor = {userViewModel.getUser()}
             arrowOn = {false}
             //onClicked = {this.arrowOnClicked}
