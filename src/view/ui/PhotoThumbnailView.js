@@ -22,18 +22,17 @@ class PhotoThumbnailView extends Component{
     this.imageOnClicked = this.imageOnClicked.bind(this)
 
   }
+
   componentWillMount(){
     this.mounted = true
     //this.props.onReady()
   } 
 
-  setNativeProps = (nativeProps) => {
-    this._root.setNativeProps(nativeProps);
-  }
-
   imageOnClicked(index) {
     
-    if ( this.props.addBtnVisible && index == this.props.imageSource.length - 1)
+    console.log('imageOnClicked = ' + index)
+    
+    if ( this.props.addBtnVisible && (index == this.props.imageSource.length-1) )
     {
       this.props.addBtnOnClicked()
     }
@@ -41,13 +40,7 @@ class PhotoThumbnailView extends Component{
     {
       this.props.imageOnClicked(index)
     }
-  }
-
-  slideOnClick()
-  {
     
-    console.log('PhotoSlideView on slideOnClick')
-    //this.props.onPress()
   }
 
   render (){
@@ -55,36 +48,44 @@ class PhotoThumbnailView extends Component{
     
     var imageSource = this.props.imageSource
     console.log('imageSource = ' + JSON.stringify(this.props.imageSource))
-    if ( this.props.addBtnVisible)
+    if ( this.props.addBtnVisible && imageSource[imageSource.length-1] != 'add' )
     {
       // add last image here
       imageSource.push('add')
     }
 
+ 
+
     return(
 
       <View style = {styles.background}>
         <FlatList
+          style={{ flex: 0 }}
+          removeClippedSubviews={false}
           horizontal = {true}
           //data = {this.props.imageSource}
           data = {imageSource}
           renderItem={({item, index, separators}) => 
             <TouchableOpacity
-              style = {{marginLeft:5, marginRight:5}}
+              //style = {{marginLeft:5, marginRight:5}}
               onPress={()=>this.imageOnClicked(index)}
             >
               {
                 item.media_file !== undefined ? 
                   <Image 
-                    style = {{ height:100, width:100}}
+                    style = {{ height:90, width:90, margin:5}}
                     source={{uri: item.media_file }}
                     //source = { url.node ?  { uri: url.node.image.uri } : (typeof url) == 'string' ?  {uri:url} : url  }
                   /> : 
-                  <Image 
-                    style = {{ height:40, width:40,bottom:0, top:60}}
-                    source=  {Assets.icon.addPhoto}
-                  />
-                  
+                  <View
+                    style = {{justifyContent:'center', alignItems:'center', height:100, width:100}}
+                  >
+                    <Image 
+                      style = {{height: 40, width:40}}
+                      //style = {{ height:40, width:40,bottom:0, top:60}}
+                      source=  {Assets.icon.addImage}
+                    />
+                  </View>
               }
             </TouchableOpacity>
           }

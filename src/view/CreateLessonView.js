@@ -143,10 +143,11 @@ export default class CreateLessonView extends React.Component {
     console.log('photoThumbnailImageOnClicked : '+index )
     //this.props.photoThumbnailImageOnClicked(index)
   }
+
   photoThumbnailAddBtnOnClicked()
   {
     console.log('photoThumbnailAddBtnOnClicked')
-    //this.props.photoThumbnailAddBtnOnClicked()
+    this.uploadPhoto()
   }
 
   storeImages(data) {
@@ -552,12 +553,17 @@ export default class CreateLessonView extends React.Component {
             {strings.generalInformation}
           </Text>
         </View>
+        <View
+          style = {{height:100}}
+        >
           <PhotoThumbnailView
             imageOnClicked = {(index)=>this.photoThumbnailImageOnClicked(index)}
             addBtnOnClicked = {()=>this.photoThumbnailAddBtnOnClicked()}
             imageSource = {this.state.imageSource}
             addBtnVisible = {true}
           />
+        </View>
+          
 
           <TouchableHighlight
             onPress={this.uploadPhoto}

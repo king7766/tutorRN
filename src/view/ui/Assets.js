@@ -24,7 +24,8 @@ const actions = {
 }
 
 const icon = {
-  addPhoto : require('tutorRN/src/image/addPhoto.png'),
+  addImage : require('tutorRN/image/addImageIcon.png'),
+  addImage1 : require('tutorRN/image/addImageIcon1.png'),
 }
 
 const Assets = {
