@@ -46,7 +46,7 @@ const strings = new LocalizedStrings({
         uploadPhoto : '上載照片',
         generalInformation : '基本資料',
         detailInformation : '詳細資料',
-        location : '教學地區',
+        location : '教學地點',
         price :'價錢(每節)',
         price_low : '$100 以下',
         price_mid : '$101 ~ 200',

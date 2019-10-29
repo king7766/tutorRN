@@ -79,6 +79,19 @@ export default class locationVM{
 	
 	}
 
+	getDistrictIdByLocationId(location_Index)
+	{
+		for ( var i = 0 ; i < this.refDistrictArray.length ; i++ )
+		{
+			for ( var j = 0 ; j < this.refDistrictArray[i].location_list.length; j ++){		
+				if ( location_Index == this.refDistrictArray[i].location_list[j].id)
+				{
+					return this.refDistrictArray[i].id
+				}
+			}
+		}
+	}
+
 	setupLocationArray ()
 	{
 		var locationArray = []
@@ -112,6 +125,17 @@ export default class locationVM{
 			if ( this.refLocations[i].location_name == name)
 			{
 				return this.refLocations[i].id
+			}
+		}
+	}
+
+	getLocationNameById (location_index)
+	{
+		for ( var i = 0; i < this.refLocations.length; i ++)
+		{
+			if ( this.refLocations[i].id == location_index)
+			{
+				return this.refLocations[i].location_name
 			}
 		}
 	}

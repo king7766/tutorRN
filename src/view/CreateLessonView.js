@@ -27,16 +27,22 @@ import * as E from 'tutorRN/src/service/env-config'
 
 import PopupDialog, {DialogTitle, SlideAnimation} from 'react-native-popup-dialog';
 import Picker from 'react-native-picker';
+import ReactNativeComponentTree from 'react-native/Libraries/Renderer/src/renderers/native/ReactNativeComponentTree'
 
+
+import categoryVM from 'tutorRN/src/VM/categoryVM'
 import locationVM from 'tutorRN/src/VM/locationVM'
 import courseVM from 'tutorRN/src/VM/courseVM'
 import userVM from 'tutorRN/src/VM/userVM'
 import strings from 'tutorRN/src/service/strings'
+import alert from 'tutorRN/src/service/alert'
+
 import PhotoThumbnailView from 'tutorRN/src/view/ui/PhotoThumbnailView'
 
-const layout = require('tutorRN/src/Layout')
 
+const layout = require('tutorRN/src/Layout')
 const locationViewModel = locationVM.getInstance()
+const categoryViewModel = categoryVM.getInstance()
 const userViewModel = userVM.getInstance()
 const courseViewModel = courseVM.getInstance()
 
@@ -61,27 +67,23 @@ export default class CreateLessonView extends React.Component {
     this.uploadPhoto = this.uploadPhoto.bind(this)
     this.selectedPhoto = this.selectedPhoto.bind(this)
     this.confirmBtnOnClick = this.confirmBtnOnClick.bind(this)
-  
+    this.handleInputChange = this.handleInputChange.bind(this)
+
     this.state = {
       imageSource : [],
       photos : [],
-      //rowTitle:['電郵地址 / 電話', '密碼', '名稱', '性別', '職業', '學歷', '出生日期', '地區'],
-      rowTitle:[strings.location, strings.category, strings.education, strings.price],
-      rowDataChoose : [
-        ['中西區', '灣仔', '東區','南區','油尖旺', '深水埗', '九龍城','黃大仙','觀塘', '葵青', '荃灣', '屯門','元朗','北區','大埔','沙田','西貢','離島'],
-        ['文員', '運輸','教學', '體育' ],
-        [strings.education_low, strings.education_mid,strings.education_high, strings.education_exHigh],
+      
+      //rowTitle:[strings.location, strings.category, strings.education, strings.price],
+      rowTitle:[strings.location, strings.category, strings.price],
+      rowDataChoosableArray : [
+        locationViewModel.getLocationName(),
+        //['文員', '運輸','教學', '體育' ],
+        categoryViewModel.getCategories(),
+        //[strings.education_low, strings.education_mid,strings.education_high, strings.education_exHigh],
         [strings.price_low, strings.price_mid, strings.price_high]
       ],
-
-      genderSelectArray: ['男', '女'],
-      //locationSelectArray : ['中西區', '灣仔', '東區','南區','油尖旺', '深水埗', '九龍城','黃大仙','觀塘', '葵青', '荃灣', '屯門','元朗','北區','大埔','沙田','西貢','離島'],
-      locationSelectArray : [],
-      eductionSelectArray :['小學', '中學', '大學以上'],
-      jobSelectArray :['文員', '運輸','教學', '體育' ],
-
-
-      rowData :['','',''],
+      rowDataSelectedArray :['','',''],
+      rowDataSelectedIndexArray : ['', '',''],
     }
 
   }
@@ -95,21 +97,6 @@ export default class CreateLessonView extends React.Component {
   componentWillMount() {
     this.mounted = true
 
-    var tmp = []
-    for ( var i = 0; i < locationViewModel.getFullList().length ; i ++)
-    {
-      tmp.push ('=== ' + locationViewModel.getDistrict()[i].district_name  + ' ===')
-  
-      for (var j = 0 ; j < locationViewModel.getLocationListFromDistrict(i).length ; j ++ )
-      {
-        var item = locationViewModel.getLocationListFromDistrict(i)[j].location_name
-        tmp.push(item)
-      }
-    }
-
-    this.setState({
-      locationSelectArray: tmp,
-    })
   }
 
   textInputStyle(index)
@@ -125,23 +112,20 @@ export default class CreateLessonView extends React.Component {
       //alignItems: 'center',
       //height : '100%'
     }
-
-  } 
-
-  handleTextChange(event, index)
-  {
-    console.log('handleTextChange = ' + event.text + ': '+ index)
-    
   }
 
-  onFocus (index)
+  handleInputChange(event)
   {
-    //console.log('onFocus : ' + index)
+    //console.log(JSON.stringify(event.nativeEvent))
+    const element = ReactNativeComponentTree.getInstanceFromNode(event.nativeEvent.target);
+    this.setState({
+      [element._currentElement.props.name]:  event.nativeEvent.text
+    })
   }
 
   photoThumbnailImageOnClicked(index){
-    console.log('photoThumbnailImageOnClicked : '+index )
-    //this.props.photoThumbnailImageOnClicked(index)
+    console.log('photoThumbnailImageOnClicked : '+index )    
+    this.setState(this.state.imageSource.splice(index,1))
   }
 
   photoThumbnailAddBtnOnClicked()
@@ -158,28 +142,32 @@ export default class CreateLessonView extends React.Component {
     });
   }
 
-  logImageError(err) {
-    console.log(err);
-  }
-
   next ()
   {
-    console.log('next')
+    //console.log('next ' + JSON.stringify(this.state.rowDataSelectedIndexArray ) )
+    //locationViewModel.getLocationIdByName(this.state.rowDataSelectedIndexArray[0])
+
+    //console.log('next ' + JSON.stringify(this.state.rowDataSelectedArray[1]) )
+
+    var location_id = locationViewModel.getLocationIdByName(this.state.rowDataSelectedArray[0])
+    var district_id = locationViewModel.getDistrictIdByLocationId(location_id)
 
     var rawData = {
         token: 'xRW8DwqoIxZBSlF83b2P',
-        course_fee: '$11111',
-        course_name : 'name name name ',
-        course_introduction:'iiiiii',
-        'course_district_ids[]': '1',
-        'course_location_ids[]': '2',
-        'course_category_ids[]': '3',
-        course_tutor_id : userViewModel.getUser().user_id,
+        course_fee: this.state.rowDataSelectedIndexArray[2],
+        course_name : this.state.course_name,
+        course_introduction: this.state.course_introduction,
+        'course_district_ids[]': district_id,
+        'course_location_ids[]': location_id,
+        'course_category_ids[]': categoryViewModel.getCategoryIDByName(this.state.rowDataSelectedArray[1]),
+        course_tutor_id: userViewModel.getUser().user_id,
       }
 
-
+      console.log('rawData = ' + JSON.stringify(rawData))
+    
       const submitData = new FormData();
       
+      /*
       var photo = this.state.photos[this.state.selectedAlbumPhotoIndex]
       var imageName = photo.node.image.uri.split("=")[1].split("&")[0] +'.' + photo.node.image.uri.split("=")[2]
       var type = photo.node.type
@@ -188,8 +176,18 @@ export default class CreateLessonView extends React.Component {
       console.log('name = ' + imageName)
       console.log('type = ' + type)
       console.log('uri = ' + uri)
-
+      */
       
+      for ( var i = 0; i < this.state.imageSource.length ; i ++)
+      {
+        submitData.append('course_medias[]', {
+          name: this.state.imageSource[i].name,
+          type: this.state.imageSource[i].type,
+          uri: this.state.imageSource[i].media_file          
+        });
+      }
+
+      /*
       submitData.append('course_medias[]', {
         name: imageName,
         type: type,
@@ -201,7 +199,7 @@ export default class CreateLessonView extends React.Component {
         type: type,
         uri: uri          
       });
-      
+      */
       
 
       Object.keys(rawData).forEach(key => {
@@ -218,20 +216,51 @@ export default class CreateLessonView extends React.Component {
       .then ( response => response.json()) 
       .then ( response => {
         console.log('sss : ' + JSON.stringify(response) )
+        alert.getInstance().showAlert({title:'創立成功', message:'課堂編號: ' + response.id})
       })
       .catch (error =>{
-        console.log( 'rrr :' + error)
+        alert.getInstance().showAlert({title:'創立失敗', message:'Error : ' + error})
       })
+  }
 
+  rowOnClick(index)
+  {    
+    var rawArray = []
 
-  
-    /*
+    if (index == 1)
+    {
+      for ( var i = 0; i < this.state.rowDataChoosableArray[index].length ; i ++)
+      {
+        rawArray.push(this.state.rowDataChoosableArray[index][i].category_name)
+      }
+      console.log(JSON.stringify(rawArray))
+    }
+    else
+    {
+      rawArray = this.state.rowDataChoosableArray[index]
+    }
+
     Picker.init({
-      pickerData: ['a','b','c'],
-      pickerTitleText:'請選擇',
-      selectedValue: ['河北', '唐山', '古冶区'],
-      onPickerConfirm: pickedValue => {
-          console.log('area', pickedValue);
+      pickerData: rawArray,
+      pickerTitleText:strings.pleaseChoose,
+      pickerConfirmBtnText:strings.confirm,
+      pickerCancelBtnText: strings.cancel,
+      //selectedValue: this.state.rowDataChoosableArray[index],
+      selectedValue : rawArray,
+      onPickerConfirm: (pickedValue, pickedIndex) => {
+          
+          var pickerData = pickedValue[0]
+          console.log('area : ' +  pickerData + ', i = ' + pickedIndex )
+          
+          var rowDataSelectedArray = this.state.rowDataSelectedArray.splice(index, 1, pickerData)
+          var rowDataSelectedIndexArray = this.state.rowDataSelectedIndexArray.splice(index, 1, pickedIndex[0])
+          this.setState(rowDataSelectedArray)
+          this.setState(rowDataSelectedIndexArray)
+
+          //this.setState({
+          //  rowDataSelectedArray : rowDataSelectedArray,
+          //  rowDataSelectedIndexArray: rowDataSelectedIndexArray
+          //})
       },
       onPickerCancel: pickedValue => {
           console.log('area', pickedValue);
@@ -242,90 +271,11 @@ export default class CreateLessonView extends React.Component {
       }
     });
     Picker.show();
-    */
 
-    // call update profile API
-    //this.props.navigation.navigate('App')
-    
-  }
-
-  rowOnClick(index)
-  {
-    console.log('rowOnClick ' + index )
-    
-    var tempArray = this.state.rowDataChoose[index]
-    
-    var rowData = this.state.rowData
-    if( 1)
-    {
-      /*
-      if ( index == 3)
-      {
-        tempArray = this.state.genderSelectArray
-      }
-      else if ( index == 4)
-      {
-        tempArray = this.state.jobSelectArray
-      }
-      else if ( index == 5)
-      {
-        tempArray = this.state.eductionSelectArray
-      }
-      else if (index == 6)
-      {
-        tempArray = this._createDateData()
-      }
-      else if ( index == 7)
-      {
-        tempArray = this.state.locationSelectArray
-      }
-      */
-      Picker.init({
-        pickerData: this.state.rowDataChoose[index],
-        pickerTitleText:strings.pleaseChoose,
-        pickerConfirmBtnText:strings.confirm,
-        pickerCancelBtnText: strings.cancel,
-        selectedValue: this.state.rowDataChoose[index],
-        onPickerConfirm: pickedValue => {
-            console.log('area', pickedValue);
-            var arr = this.state.rowData
-            arr[index] = pickedValue
-
-            this.setState({
-              rowData: arr
-            })
-
-            /*
-            rowData.splice(index, 1, pickedValue)
-            this.setState({
-              rowData: rowData
-            })
-            */
-
-        },
-        onPickerCancel: pickedValue => {
-            console.log('area', pickedValue);
-        },
-        onPickerSelect: pickedValue => {
-            //Picker.select(['山东', '青岛', '黄岛区'])
-            console.log('area', pickedValue);
-        }
-      });
-      Picker.show();
-
-    }
-    else
-    {
-      this.refs["index" + index].focus(); 
-    }
   }
 
   uploadPhoto () {
     
-    
-    //this.props.navigation.navigate('App');
-    //return
-    //this.popupDialog.show();
     this.defaultAnimationDialog.show();
     
     CameraRoll.getPhotos({
@@ -364,7 +314,7 @@ export default class CreateLessonView extends React.Component {
     
 
     var imageSource = this.state.imageSource
-    imageSource.splice(0, 0, {media_file:uri})
+    imageSource.splice(0, 0, {media_file:uri, name :imageName,type:photo.node.type  })
     //imageSource.push({url:uri})
 
     console.log('selectedPhoto = ' + JSON.stringify(imageSource))
@@ -418,12 +368,6 @@ export default class CreateLessonView extends React.Component {
     return date;
   }
 
-  AvatarOnClicked()
-  {
-    console.log('AvatarOnClicked')
-    this.uploadPhoto()
-  }
-
   confirmBtnOnClick()
   {
     console.log('confirmBtnOnClick')
@@ -456,28 +400,10 @@ export default class CreateLessonView extends React.Component {
         />
       </View>
     </TouchableHighlight>
-  
-  /*
-  <Text style = {{margin:10, color:'rgb(231,121,98)', fontWeight:'bold'}}>排序</Text>
 
-          <FilteringToolsBar />
-
-          <Text style = {{margin:10, color:'rgb(231,121,98)', fontWeight:'bold'}}>篩選</Text>
-        
-          <TutorRowFlatList
-            title = '熱門推介'
-            height = {120}
-            data = {this.state.tutorRowData}
-          />
-
-          <TutorRowFlatList
-            title = '優惠'
-            height = {120}
-            data = {this.state.tutorRowData}
-          />
-          */
   render() {
     
+    //console.log('::::: ' + locationViewModel.getDistrictIdByLocationId(2))
     //const {navigate} = this.props.navigation;
     return (
       //<SafeAreaView
@@ -523,7 +449,7 @@ export default class CreateLessonView extends React.Component {
           
           <View style= {{flex:1,height:30, }}/>
           <View style = {{flex:1, height:30, alignItems:'center', justifyContent:'center'}}>
-            <Text style = {{fontSize:16}}> {strings.newClass} </Text>
+            <Text style = {{fontSize:layout.stringsSizeMid,}}> {strings.newClass} </Text>
           </View>
           <View 
             //style = {{flex:1, height:30, alignItems:'center', flexDirection: 'column'}}
@@ -538,98 +464,63 @@ export default class CreateLessonView extends React.Component {
               </Text>
             </TouchableOpacity>
           </View>
-          
-          
-          
-          
-          
-         
-            
         </View>
 
-
-        <View style={{ height:40, justifyContent: 'center', backgroundColor:layout.shadowColor}}>
-          <Text style = {{ color: 'black', paddingLeft: 10 }}>
-            {strings.generalInformation}
-          </Text>
-        </View>
-        <View
-          style = {{height:100}}
-        >
-          <PhotoThumbnailView
-            imageOnClicked = {(index)=>this.photoThumbnailImageOnClicked(index)}
-            addBtnOnClicked = {()=>this.photoThumbnailAddBtnOnClicked()}
-            imageSource = {this.state.imageSource}
-            addBtnVisible = {true}
-          />
-        </View>
-          
-
-          <TouchableHighlight
-            onPress={this.uploadPhoto}
-            //underlayColor = {layout.themeTextColor}
-          >
-          {
-            this.state.photo ? 
-            
-              <View
-                style = {{ alignItems:'center', backgroundColor : 'white'}}
-              >
-                <Avatar
-                  onPress={() => {
-                    //console.log('123123')
-                    //'https://placeimg.com/140/140/any'
-                    //this.state.photo.node.image.uri
-                    this.AvatarOnClicked()
-                  }}
-                  round = {false}
-                  size = {100}
-                  type = 'edit'
-                  //url = {this.state.photo.node.image.uri}
-                  url = {this.state.photo}
-                  //url = { this.state.photo.node ? this.state.photo.node.image.uri : this.state.photo }
-                />
-                
-              </View> 
-            : (
+        {
+          this.state.imageSource.length == 0 ? 
+            <TouchableOpacity
+              onPress={this.uploadPhoto}
+            >
               <View style={styles.uploadButton}>
+                <Image 
+                  style = {{height: 30, width:30, marginLeft:10}}
+                  source=  {Assets.icon.addImage}
+                />
                 <Text style = {styles.uploadText}>
                   {strings.uploadPhoto}
                 </Text>
               </View>
-            )
-          }
-            
-          </TouchableHighlight>
+            </TouchableOpacity>
+              :
+            <View
+              style = {{height:100}}
+            >
+              <PhotoThumbnailView
+                imageOnClicked = {(index)=>this.photoThumbnailImageOnClicked(index)}
+                addBtnOnClicked = {()=>this.photoThumbnailAddBtnOnClicked()}
+                imageSource = {this.state.imageSource}
+                addBtnVisible = {true}
+              />
+            </View>
 
-          <View style = {{flexDirection:'row', height:40, alignItems:'center', backgroundColor:'white', paddingLeft:10}} >
-            <Text style = {{flex:1, color:'gray'}}>
-              {strings.lessonName}
-            </Text> 
-            <TextInput
-              backgroundColor = 'white'
-              style = {{ paddingRight:10, flex:1, textAlign:'right' }}
-            /> 
-          </View>
-          
-
-         
-            
+        }
 
           <View style={{height:40,justifyContent: 'center', backgroundColor:layout.shadowColor}}>
             <Text style = {{color: 'black',paddingLeft: 10} }>
               {strings.detailInformation}
             </Text>
           </View>
-          
           <TextInput
+            onChange= {this.handleInputChange}
+            name = 'course_name'
             backgroundColor = 'white'
-            style = {{ paddingRight:10, paddingLeft:10, height:80, fontSize:14, borderBottomWidth:0.5, borderBottomColor:'grey'}}
+            style = {{ paddingRight:10, paddingLeft:10, fontSize:layout.stringsSizeSmall, height:40 }}
+            placeholder = {strings.lessonName}
+            placeholderTextColor = {layout.grayColor}
+          /> 
+          <View 
+            style = {{height:0.5, backgroundColor:layout.grayColor}}
+          />
+          <TextInput
+            onChange= {this.handleInputChange}
+            name = 'course_introduction'
+            backgroundColor = 'white'
+            style = {{ paddingRight:10, paddingLeft:10, height:80, fontSize:layout.stringsSizeSmall, borderBottomWidth:0.5, borderBottomColor:layout.grayColor }}
             //numberOfLines = {3}
             textAlignVertical= 'top'
             multiline={true}
             placeholder = {strings.descriptionSample}
-            placeholderTextColor = 'gray'
+            placeholderTextColor = {layout.grayColor}
           /> 
           <View>
             {
@@ -649,7 +540,7 @@ export default class CreateLessonView extends React.Component {
                         style = {{ paddingRight:10, color:layout.themeTextColor }}
                         //value = {this.state.rowData[index]}
                       >
-                        {this.state.rowData[index]}
+                        {this.state.rowDataSelectedArray[index]}
                       </Text> 
                     </View>
                   </TouchableHighlight>
@@ -676,10 +567,6 @@ export default class CreateLessonView extends React.Component {
               註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註
             </Text>
           </View>
-          
-
-      
-        
       </View>
     );
   }
@@ -691,6 +578,8 @@ const styles = StyleSheet.create({
     //backgroundColor: '#F6AE2D',
   },
   navigationContent: {
+    borderBottomColor: layout.themeTextColor,
+    borderBottomWidth: 1,
     //backgroundColor: '#F6AE2D',
     marginTop: 30,
     height: 60,
@@ -719,19 +608,17 @@ const styles = StyleSheet.create({
   },
 
   uploadButton: {
-    //let touchHighlightColor = 'rgba(237,182,202,0)'
-    //let themeTextColor = 'rgba(225,19,101,1)'
-    //backgroundColor : 'rgba(61,89,148,1)',
-    backgroundColor : layout.themeTextColor,
-    height:40,
     
-    justifyContent: 'center'
-    //alignItems:'center'     
+    //backgroundColor : layout.themeTextColor,
+    height:40,
+    justifyContent: 'flex-start',
+    flexDirection: 'row',
+    alignItems:'center'
   },
   uploadText:{
     paddingLeft: 10,
-    color: 'white',
-    fontSize:16
+    color: 'black',
+    fontSize:layout.stringsSizeMid,
   },
 
   registerButton:{
@@ -746,7 +633,7 @@ const styles = StyleSheet.create({
     color : layout.themeTextColor,
     //paddingLeft: 10,
     fontWeight: 'bold',
-    fontSize:16
+    fontSize:layout.stringsSizeMid,
   },
 
   confirmButtonBg:{

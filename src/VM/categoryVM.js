@@ -106,7 +106,7 @@ export default class categoryVM{
 	{
 		for ( var i = 0; i < this.refSubCategories.length; i ++)
 		{
-			if ( this.refSubCategories[i].name == name){
+			if ( this.refSubCategories[i].category_name == name){
 				return this.refSubCategories[i].id
 			}
 		}
@@ -116,7 +116,7 @@ export default class categoryVM{
 	{
 		for ( var i = 0; i < this.refCategories.length; i ++)
 		{
-			if ( this.refCategories[i].name == name){
+			if ( this.refCategories[i].category_name == name){
 				return this.refCategories[i].id
 			}
 		}
@@ -127,7 +127,7 @@ export default class categoryVM{
 		for ( var i = 0 ; i < this.refCategories.length; i ++)
 		{
 			if ( this.refCategories[i].id == value){
-				return this.refCategories[i].name
+				return this.refCategories[i].category_name
 			}
 		}
 	}

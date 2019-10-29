@@ -13,6 +13,7 @@ let shadowColor = 'rgba(233,233,233,1)'
 let systemBlueColor = 'rgba(21,126,250,1)'
 
 let backgroundColor = 'rgba(233,233,233,1)'
+let grayColor = 'rgba(180,180,180,1)'
 
 let stringsSizeBig = 18
 let stringsSizeMid = 16
@@ -93,6 +94,7 @@ module.exports = {
 	systemBlueColor,
 	styles,
 	
+	grayColor,
 	backgroundColor, 
 	stringsSizeBig,
 	stringsSizeMid,
