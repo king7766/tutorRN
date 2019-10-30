@@ -26,11 +26,15 @@ import * as E from 'tutorRN/src/service/env-config'
 import * as C from 'tutorRN/src/service/connection'
 
 import NewsVideoCell from './ui/NewsVideoCell'
+import NewsItemCell from 'tutorRN/src/view/ui/NewsItemCell'
+import LoadingScreen from 'tutorRN/src/view/LoadingScreen'
+
 import newsVM from 'tutorRN/src/VM/newsVM'
 import targetUserVM from 'tutorRN/src/VM/targetUserVM'
 import locationVM from 'tutorRN/src/VM/locationVM'
 import categoryVM from 'tutorRN/src/VM/categoryVM'
 import userVM from 'tutorRN/src/VM/userVM'
+import courseVM from 'tutorRN/src/VM/courseVM'
 
 
 import PopupDialog, {DialogTitle, SlideAnimation, DialogButton, FadeAnimation, ScaleAnimation} from 'react-native-popup-dialog';
@@ -38,11 +42,13 @@ import strings from 'tutorRN/src/service/strings'
 
 const layout = require('tutorRN/src/Layout')
 
-const viewModel = newsVM.getInstance()
+//const viewModel = newsVM.getInstance()
 const locationViewModel = locationVM.getInstance()
 const categoryViewModel = categoryVM.getInstance()
 const userViewModel = userVM.getInstance()
 const targetUserViewModel = targetUserVM.getInstance()
+const courseViewModel = courseVM.getInstance()
+
 
 const slideAnimation = new SlideAnimation({ slideFrom: 'bottom',useNativeDriver: true });
 const scaleAnimation = new ScaleAnimation();
@@ -73,7 +79,9 @@ class NewsHomeView extends Component<Props> {
 
     this.state = {
       
-      dataSource : viewModel.getNews(),
+      //dataSource : viewModel.getNews(),
+      dataSource : courseViewModel.getAllCourse(),
+
       //dataSource : viewModel.tempNews(),
       //newsVM: viewModel.getNews(),
       //data: data,
@@ -374,7 +382,7 @@ class NewsHomeView extends Component<Props> {
  
   fetchMore(){
     console.log('fetchMore')
-    viewModel.loadMore()
+    //viewModel.loadMore()
     /*
     const { data, newsVM } = this.state;
     if ( newsVM.length > data.length){
@@ -392,6 +400,7 @@ class NewsHomeView extends Component<Props> {
     //viewModel.refresh()
     //viewModel.refresh()
 
+    /*
     const res = await viewModel.refresh()
     if ( res )
     {
@@ -400,7 +409,7 @@ class NewsHomeView extends Component<Props> {
       })
     }
     return
-
+    */
     
 
     var data = []
@@ -423,7 +432,32 @@ class NewsHomeView extends Component<Props> {
   
 
   render() {
+    //console.log('iii = ' + courseViewModel.getAllCourse().length)
+    return (
+      
+      <View style = {layout.styles.basicViewStyle}>
+        {
+          courseViewModel.getAllCourse().length > 0 ?
+          <FlatList
+            data = {courseViewModel.getAllCourse()}
+            pagingEnabled={true}
+            renderItem=
+            {
+              ({item, index, separators}) =>
 
+              <NewsItemCell
+                item = {item}
+              />
+            }
+          />
+          :
+          <LoadingScreen />
+
+
+        }
+        
+      </View>
+    )
     
    
     return (
@@ -435,8 +469,8 @@ class NewsHomeView extends Component<Props> {
           ref={(ref) => { this.list = ref; }}
           onMomentumScrollEnd={this.onScrollEnd}
           pagingEnabled={true}
-          //data={this.state.dataSource}
-          data = { viewModel.getNews()}
+          data={this.state.dataSource}
+          //data = { viewModel.getNews()}
           extraData={this.state}
 
           showsVerticalScrollIndicator={false}
@@ -452,7 +486,18 @@ class NewsHomeView extends Component<Props> {
           renderItem=
           {
             ({item, index, separators}) =>
-              <NewsVideoCell
+              <NewsItemCell 
+                item = {item}
+              />
+
+              
+          }
+        />
+      </View>
+    )
+   
+          /*
+          <NewsVideoCell
                 //news = {item}
                 
                 key = {index}
@@ -464,12 +509,7 @@ class NewsHomeView extends Component<Props> {
                 likeBtnOnClicked = {()=>this.likeBtnOnClicked(index)}
                 soundBtnOnClicked = {()=>this.soundBtnOnClicked(index)}
               />
-          }
-        />
-      </View>
-    )
-   
-
+              */
     return (
       <View style = {{flex:1}}>
       
@@ -477,7 +517,7 @@ class NewsHomeView extends Component<Props> {
         
         <PopupDialog
           //dialogTitle={<DialogTitle title= "123" />}
-              dialogTitle={<DialogTitle title= {viewModel.getNewsWithID(this.state.selectedNewsID) ? viewModel.getNewsWithID(this.state.selectedNewsID).news_title :"新聞標題"} />}
+              ///dialogTitle={<DialogTitle title= {viewModel.getNewsWithID(this.state.selectedNewsID) ? viewModel.getNewsWithID(this.state.selectedNewsID).news_title :"新聞標題"} />}
               //height= {350}
               height= {layout.deviceHeight * 2 / 3}
               dialogStyle = {{position:'absolute', top:70}}

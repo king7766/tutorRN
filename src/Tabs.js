@@ -110,6 +110,7 @@ class onTopView extends Component {
 
   setLoadingVisible(visible) {
     
+    console.log('start loading : ' + visible )
     if ( visible == this.state.loadingVisible)
     {
       return
@@ -190,6 +191,9 @@ class onTopView extends Component {
 
   addBtnOnClick(){
     console.log('addBtnOnClick')
+    this.setCreateLessonViewVisible(true);
+    return 
+
     this.setAddBtnOnTopViewVisible(true)
     //this.setCreateLessonViewVisible(true)
     //this.setUploadScreenVisible(true)
@@ -207,6 +211,8 @@ class onTopView extends Component {
   {
     this.setAddBtnOnTopViewVisible(false);
     this.setCreateLessonViewVisible(true);
+
+
     //this.setState({isDialogVisible:false});
     //this.defaultAnimationDialog.show()
   }
@@ -232,7 +238,7 @@ class onTopView extends Component {
         >
           <LoadingScreen />
         </Modal>
-        
+                                        
         <AddBtnPopUpDialog
           _dialogVisible={this.state.addBtnOnTopViewVisible}
           //_dialogLeftBtnAction={()=> {this.hideDialog()}}
@@ -247,7 +253,8 @@ class onTopView extends Component {
           visible = {this.state.createLessonViewVisible}
         >
           <CreateLessonView 
-            onClose = {()=>{this.setCreateLessonViewVisible(false)}}
+            createLessonFinished = {()=>{this.setCreateLessonViewVisible(false)}}
+            cancelBtnOnClicked = {()=>{this.setCreateLessonViewVisible(false)}}
           />
         </Modal>
         

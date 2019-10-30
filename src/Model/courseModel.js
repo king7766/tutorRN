@@ -11,7 +11,7 @@ export class courseModel{
    course_ranking : integer 
    course_seq : integer 
    course_priority : integer 
-   category_name : string = ''
+   course_media_list : []
    parent_category_name : string = ''
    tag_name : string = ''
 
@@ -34,7 +34,7 @@ export class courseModel{
             course_ranking: this.course_ranking
             course_seq: this.course_seq
             course_priority: this.course_priority
-            category_name: this.category_name
+            course_media_list: this.course_media_list
             parent_category_name: this.parent_category_name
             tag_name: this.tag_name
             tutor_id: this.tutor_id
@@ -56,7 +56,7 @@ export class courseModel{
         model.course_ranking = jsonObject.course_ranking
         model.course_seq = jsonObject.course_seq
         model.course_priority = jsonObject.course_priority
-        model.category_name = jsonObject.category_name
+        model.course_media_list = jsonObject.course_media_list
         model.parent_category_name = jsonObject.parent_category_name
         model.tag_name = jsonObject.tag_name
 

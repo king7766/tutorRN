@@ -2,11 +2,13 @@
 import {courseModel} from 'tutorRN/src/Model/courseModel'
 import * as C from 'tutorRN/src/service/connection'
 import * as E from 'tutorRN/src/service/env-config'
+import {observable, action, computed} from 'mobx'
 
 export default class courseVM{
 
 	static myInstance = null;
 
+	@observable refAllCourse = []
 	refCoursesFromCategory = []
 	refCoursesFromTag = []
 	
@@ -24,12 +26,12 @@ export default class courseVM{
 	{
 		/**** init all props here ****/
 
-		//this.load()		
+		this.load()		
 	}
 
-	load()
+	async load()
 	{
-		//this.callAPI ()
+		await this.callAllCourseAPI()
 	}
 
 	async loadCourse(type , item_id)
@@ -100,7 +102,37 @@ export default class courseVM{
 			}
 		})
 	}
+
+	getAllCourse()
+	{
+		return this.refAllCourse
+	}
 	
+	@action
+	callAllCourseAPI()
+	{
+		var temp = []
+
+		return C.getResponseFromApi(E.GET_COURSE, 'POST', {token:'xRW8DwqoIxZBSlF83b2P'} ).then( (json ) =>{
+			if( json.statusCode == 200)	
+         	{
+				for ( var i = 0; i < json.data.length; i ++)
+				{		
+					
+					temp.push(courseModel.deserialize( json.data[i] ) )
+
+				}
+				this.refAllCourse = temp
+				console.log('getAllCourse : ' + JSON.stringify(this.refAllCourse[0]))
+				return true
+         	}
+         	else
+         	{
+             	return false
+         	}
+		})
+	}
+
 	callAPI()
 	{	
 		

@@ -14,6 +14,7 @@ import {
   SafeAreaView,
   Modal,
   Image,
+  TouchableOpacity, 
   TouchableHighlight,
   ScrollView,
   TextInput,
@@ -527,11 +528,6 @@ class Register extends Component<Props> {
         
 
         <ScrollView>
-          <View style={{ height:40, justifyContent: 'center'}}>
-            <Text style = {{ color: 'black', paddingLeft: 10 }}>
-              {strings.avatar}
-            </Text>
-          </View>
           <TouchableHighlight
             onPress={this.uploadPhoto}
             //underlayColor = {layout.themeTextColor}
@@ -558,11 +554,19 @@ class Register extends Component<Props> {
                 
               </View> 
             : (
-              <View style={styles.uploadButton}>
-                <Text style = {styles.uploadText}>
-                  {strings.uploadPhoto}
-                </Text>
-              </View>
+              <TouchableOpacity
+                onPress={this.uploadPhoto}
+              >
+                <View style={styles.uploadButton}>
+                  <Image 
+                    style = {{height: 30, width:30, marginLeft:10}}
+                    source=  {Assets.icon.addImage}
+                  />
+                  <Text style = {styles.uploadText}>
+                    {strings.uploadPhoto}
+                  </Text>
+                </View>
+              </TouchableOpacity>
             )
           }
             
@@ -634,30 +638,16 @@ class Register extends Component<Props> {
               )
             }
           </View>
-          <View style={{
-            //backgroundColor : 'rgba(255, 255, 255, 1.0)',
-            height:40,
-            flex:1,
-            justifyContent: 'center',
-            alignItems:'center'     
-          }}
-          >
-            <Text style = {{
-              color: 'black',
-              paddingLeft: 10,
-              paddingRight: 10
-            }}
-            >
-              註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註
-            </Text>
-          </View>
-          <TouchableHighlight onPress={this.next}>
+          <Text style = {{ padding: 10, backgroundColor:layout.shadowColor}}>
+            註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註
+          </Text>
+          <TouchableOpacity onPress={this.next}>
             <View style={styles.registerButton}>
               <Text style = {styles.registerText}>
                 {strings.register}
               </Text>
             </View>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </ScrollView>
       </View>
     );
@@ -685,33 +675,28 @@ const styles = StyleSheet.create({
   },
 
   uploadButton: {
-
-    //backgroundColor : 'rgba(61,89,148,1)',
-    backgroundColor: layout.themeTextColor,
+    backgroundColor:'white',
     height:40,
-    flex:1,
-    justifyContent: 'center'
-    //alignItems:'center'     
+    justifyContent: 'flex-start',
+    flexDirection: 'row',
+    alignItems:'center'   
   },
   uploadText:{
     paddingLeft: 10,
-    color: 'white',
-    fontSize:16
+    color: 'black',
+    fontSize:layout.stringsSizeMid,
   },
 
   registerButton:{
-    backgroundColor : 'white',
-    height:40,
-    flex:1,
-    justifyContent: 'center',
-    alignItems:'center'  
+    height:40, 
+    justifyContent:'center',
+    alignItems:'center', 
+    backgroundColor:layout.grayColor
 
   },
   registerText:{
-    color : layout.themeTextColor,
-    //paddingLeft: 10,
-    fontWeight: 'bold',
-    fontSize:16
+    color:'white',
+    fontSize:layout.stringsSizeMid
   },
   inputTextFieldStyle:{
     height:40, 

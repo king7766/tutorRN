@@ -75,6 +75,7 @@ const strings = new LocalizedStrings({
         notFilledInMessage : '! 請填上資料',
 
         newClass : '新增課程',
+        submit : '提交',
 
         messageHere :'發表信息 ...',
         
@@ -149,6 +150,7 @@ const strings = new LocalizedStrings({
         notFilledInMessage : '! 请填上资料',
 
         newClass : '新增课程',
+        submit : '提交',
 
         messageHere :'发表信息 ...',
         startTime: '开始时间',

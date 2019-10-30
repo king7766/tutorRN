@@ -10,6 +10,8 @@ export const CREATE_COURSE = domain + 'create_course.php';
 export const GET_USER = domain + 'get_user_by_id.php';
 export const GET_CATEGORY = domain + 'get_category.php';
 export const GET_NEWS = domain + 'get_news.php';
+export const GET_COURSE = domain + 'get_full_course_list.php';
+
 export const GET_LOCATION = domain + 'get_location.php';
 export const UPLOAD_FILE = domain + 'upload_file.php';
 

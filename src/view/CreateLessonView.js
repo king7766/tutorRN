@@ -7,12 +7,11 @@
 import {observer} from 'mobx-react'
 import React, { Component } from 'react';
 import {
+  Alert,
   Platform,
   StyleSheet,
   Text,
   View,
-  SafeAreaView,
-  Button,
   Image,
   TouchableHighlight,
   ScrollView,
@@ -20,8 +19,8 @@ import {
   AsyncStorage,
   CameraRoll,
   FlatList,
-  KeyboardAvoidingView,
-  TouchableOpacity
+  Modal,
+  TouchableOpacity,
 } from 'react-native';
 import * as E from 'tutorRN/src/service/env-config'
 
@@ -38,7 +37,7 @@ import strings from 'tutorRN/src/service/strings'
 import alert from 'tutorRN/src/service/alert'
 
 import PhotoThumbnailView from 'tutorRN/src/view/ui/PhotoThumbnailView'
-
+import LoadingScreen from 'tutorRN/src/view/LoadingScreen'
 
 const layout = require('tutorRN/src/Layout')
 const locationViewModel = locationVM.getInstance()
@@ -66,10 +65,11 @@ export default class CreateLessonView extends React.Component {
     this.next = this.next.bind(this)
     this.uploadPhoto = this.uploadPhoto.bind(this)
     this.selectedPhoto = this.selectedPhoto.bind(this)
-    this.confirmBtnOnClick = this.confirmBtnOnClick.bind(this)
+    this.cancelBtnOnClicked = this.cancelBtnOnClicked.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
 
     this.state = {
+      loadingVisible : false,
       imageSource : [],
       photos : [],
       
@@ -83,7 +83,7 @@ export default class CreateLessonView extends React.Component {
         [strings.price_low, strings.price_mid, strings.price_high]
       ],
       rowDataSelectedArray :['','',''],
-      rowDataSelectedIndexArray : ['', '',''],
+      rowDataSelectedIndexArray : [-1, -1,-1],
     }
 
   }
@@ -106,11 +106,7 @@ export default class CreateLessonView extends React.Component {
       paddingLeft: 5,
       color: 'gray',
       backgroundColor: 'white',
-      //textAlign: 'center',
-      //flex: 1,
-      //justifyContent: 'center',
-      //alignItems: 'center',
-      //height : '100%'
+      
     }
   }
 
@@ -142,85 +138,140 @@ export default class CreateLessonView extends React.Component {
     });
   }
 
-  next ()
+  rawDataChecking(rawData){
+
+    console.log(JSON.stringify(this.state.rowDataSelectedIndexArray))
+    if (this.state.course_name == undefined || this.state.course_name.length < 1)
+    {
+      this.course_name.setNativeProps({
+        placeholder:strings.notFilledInMessage,
+        placeholderTextColor:'red'
+      })
+      return false
+    }
+
+    if (this.state.course_introduction == undefined || this.state.course_introduction.length < 1)
+    {
+      this.course_introduction.setNativeProps({
+        placeholder:strings.notFilledInMessage,
+        placeholderTextColor:'red'
+      })
+      return false
+    }
+    
+    if ( this.state.rowDataSelectedIndexArray[0] == -1){
+      
+      return false
+    }
+    if ( this.state.rowDataSelectedIndexArray[1] == -1){
+      
+      return false
+    }
+    if ( this.state.rowDataSelectedIndexArray[2] == -1){
+      
+      return false
+    }
+    
+    return true
+
+  }
+
+  async next ()
   {
-    //console.log('next ' + JSON.stringify(this.state.rowDataSelectedIndexArray ) )
-    //locationViewModel.getLocationIdByName(this.state.rowDataSelectedIndexArray[0])
-
-    //console.log('next ' + JSON.stringify(this.state.rowDataSelectedArray[1]) )
-
     var location_id = locationViewModel.getLocationIdByName(this.state.rowDataSelectedArray[0])
     var district_id = locationViewModel.getDistrictIdByLocationId(location_id)
 
     var rawData = {
-        token: 'xRW8DwqoIxZBSlF83b2P',
-        course_fee: this.state.rowDataSelectedIndexArray[2],
-        course_name : this.state.course_name,
-        course_introduction: this.state.course_introduction,
-        'course_district_ids[]': district_id,
-        'course_location_ids[]': location_id,
-        'course_category_ids[]': categoryViewModel.getCategoryIDByName(this.state.rowDataSelectedArray[1]),
-        course_tutor_id: userViewModel.getUser().user_id,
-      }
+      //token: 'xRW8DwqoIxZBSlF83b2P1',
+      token: E.token,
+      course_fee: this.state.rowDataSelectedIndexArray[2],
+      course_name : this.state.course_name,
+      course_introduction: this.state.course_introduction,
+      'course_district_ids[]': district_id,
+      'course_location_ids[]': location_id,
+      'course_category_ids[]': categoryViewModel.getCategoryIDByName(this.state.rowDataSelectedArray[1]),
+      course_tutor_id: userViewModel.getUser().user_id,
+      //course_tutor_id: 16,
+    }
 
-      console.log('rawData = ' + JSON.stringify(rawData))
+    console.log('rawData = ' + JSON.stringify(rawData))
     
-      const submitData = new FormData();
-      
-      /*
-      var photo = this.state.photos[this.state.selectedAlbumPhotoIndex]
-      var imageName = photo.node.image.uri.split("=")[1].split("&")[0] +'.' + photo.node.image.uri.split("=")[2]
-      var type = photo.node.type
-      var uri = photo.node.image.uri
+    if ( this.rawDataChecking(rawData) ){
+      this.setState({loadingVisible: true})
+    }
+    else
+    {
+      return 
+    }
+    
+    //return 
 
-      console.log('name = ' + imageName)
-      console.log('type = ' + type)
-      console.log('uri = ' + uri)
-      */
-      
-      for ( var i = 0; i < this.state.imageSource.length ; i ++)
-      {
-        submitData.append('course_medias[]', {
-          name: this.state.imageSource[i].name,
-          type: this.state.imageSource[i].type,
-          uri: this.state.imageSource[i].media_file          
-        });
-      }
-
-      /*
+    const submitData = new FormData();
+    
+    for ( var i = 0; i < this.state.imageSource.length ; i ++)
+    {
       submitData.append('course_medias[]', {
-        name: imageName,
-        type: type,
-        uri: uri          
+        name: this.state.imageSource[i].name,
+        type: this.state.imageSource[i].type,
+        uri: this.state.imageSource[i].media_file          
       });
+    }
 
-      submitData.append('course_medias[]', {
-        name: imageName,
-        type: type,
-        uri: uri          
-      });
-      */
-      
+    Object.keys(rawData).forEach(key => {
+      submitData.append(key, rawData[key]);
+    });
 
-      Object.keys(rawData).forEach(key => {
-        submitData.append(key, rawData[key]);
-      });
+    console.log('fetching.... ' + JSON.stringify(submitData) )
 
-      console.log('fetching.... ' + JSON.stringify(submitData) )
+    const res = await fetch(E.CREATE_COURSE, {
+      method: "POST",
+      body : submitData    
+    })
+    .then ( response => response.json()) 
+    .then ( response => {
+      console.log('sss : ' + JSON.stringify(response) )
 
-      fetch(E.CREATE_COURSE, {
-        method: "POST",
-        body : submitData
-        
-      })
-      .then ( response => response.json()) 
-      .then ( response => {
-        console.log('sss : ' + JSON.stringify(response) )
-        alert.getInstance().showAlert({title:'創立成功', message:'課堂編號: ' + response.id})
-      })
-      .catch (error =>{
-        alert.getInstance().showAlert({title:'創立失敗', message:'Error : ' + error})
-      })
+      return response
+
+    })
+    .catch (error =>{
+      console.log('error : ' + JSON.stringify(error) )
+      return error
+    })
+
+    
+
+    if ( res.id !== undefined ) 
+    {
+      Alert.alert(
+        '創立成功',
+        '課堂編號 : '+ res.id,
+        [{
+            text:strings.confirm, onPress:()=>{
+              this.setState({loadingVisible : false},function(){
+                this.props.createLessonFinished()
+              })
+          }
+        }]
+      )
+    }
+    else
+    {  
+      Alert.alert(
+        '創立失敗',
+        'Error : '+ res,
+        [
+          {
+            text:strings.confirm, onPress:()=>{
+              this.setState({loadingVisible : false},function(){
+                this.props.createLessonFinished()
+              })
+                
+            }
+          }
+        ]
+      )        
+    }
   }
 
   rowOnClick(index)
@@ -279,7 +330,7 @@ export default class CreateLessonView extends React.Component {
     this.defaultAnimationDialog.show();
     
     CameraRoll.getPhotos({
-      first: 20,
+      first: 100,
       assetType: 'Photos',
     })
     .then(r => {
@@ -368,17 +419,16 @@ export default class CreateLessonView extends React.Component {
     return date;
   }
 
-  confirmBtnOnClick()
+  cancelBtnOnClicked()
   {
-    console.log('confirmBtnOnClick')
-    this.next()
+    console.log('cancelBtnOnClicked')
+    this.props.cancelBtnOnClicked()
+    
+    
+    //this.next()
     //this.props.onClose()
   }
   
-  //renderItem={({item, index})=>
-  //renderItem({ item, index }) {
-  
-
   renderItem = ({item, index}) =>
     <TouchableHighlight onPress={()=>this.selectedPhoto(index)}>
       <View style={{
@@ -412,6 +462,12 @@ export default class CreateLessonView extends React.Component {
       <View 
         style = {styles.container}
       >
+        <Modal 
+          transparent={true}
+          visible = {this.state.loadingVisible}
+        >
+          <LoadingScreen />
+        </Modal>
 
         <PopupDialog
           //style = {{position:'absolute', top: 10}}
@@ -455,12 +511,12 @@ export default class CreateLessonView extends React.Component {
             //style = {{flex:1, height:30, alignItems:'center', flexDirection: 'column'}}
             style = {styles.confirmButtonBg}
           >
-            <TouchableOpacity  onPress={this.confirmBtnOnClick}>
+            <TouchableOpacity  onPress={this.cancelBtnOnClicked}>
               <Text 
                 style = {styles.confirmText}
                 adjustsFontSizeToFit= {true} // this amazing 
               >
-                {strings.confirm} 
+                {strings.cancel} 
               </Text>
             </TouchableOpacity>
           </View>
@@ -502,6 +558,7 @@ export default class CreateLessonView extends React.Component {
           </View>
           <TextInput
             onChange= {this.handleInputChange}
+            ref= {(course_name) => { this.course_name = course_name }}
             name = 'course_name'
             backgroundColor = 'white'
             style = {{ paddingRight:10, paddingLeft:10, fontSize:layout.stringsSizeSmall, height:40 }}
@@ -513,6 +570,7 @@ export default class CreateLessonView extends React.Component {
           />
           <TextInput
             onChange= {this.handleInputChange}
+            ref= {(course_introduction) => { this.course_introduction = course_introduction }}
             name = 'course_introduction'
             backgroundColor = 'white'
             style = {{ paddingRight:10, paddingLeft:10, height:80, fontSize:layout.stringsSizeSmall, borderBottomWidth:0.5, borderBottomColor:layout.grayColor }}
@@ -548,25 +606,17 @@ export default class CreateLessonView extends React.Component {
               )
             }
           </View>
-          <View style={{
-            //backgroundColor : 'rgba(255, 255, 255, 1.0)',
-            height:40,
-            flex:1,
-            justifyContent: 'center',
-            alignItems:'center'     ,
-            backgroundColor: layout.shadowColor
-          }}
-          >
-            <Text style = {{
-              color: 'black',
-              paddingLeft: 10,
-              paddingRight: 10,
-              
-            }}
-            >
-              註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註
-            </Text>
-          </View>
+
+          <Text style = {{ padding: 10, backgroundColor:layout.shadowColor}}>
+            註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註
+          </Text>
+          <TouchableOpacity onPress={this.next}>
+            <View style = {styles.submitBotton}>
+              <Text style = {styles.submitText}>
+                {strings.submit}
+              </Text>
+            </View>
+          </TouchableOpacity>
       </View>
     );
   }
@@ -620,45 +670,16 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize:layout.stringsSizeMid,
   },
-
-  registerButton:{
-    backgroundColor : 'white',
-    height:40,
-    flex:1,
-    justifyContent: 'center',
-    alignItems:'center'  
-
-  },
-  registerText:{
-    color : layout.themeTextColor,
-    //paddingLeft: 10,
-    fontWeight: 'bold',
-    fontSize:layout.stringsSizeMid,
-  },
-
   confirmButtonBg:{
     flex:1, 
     height:30, 
     alignItems:'center', 
     flexDirection: 'column'
 
-    /*
-    flex:1, 
-    height:30, 
-    alignItems:'center', 
-    justifyContent:'center',
-    borderColor: layout.themeTextColor,
-    borderRadius: 5,
-    borderWidth: 1,
-    */
   },
 
   confirmText:{
-    //flex:1,
-    
-    
-    
-    //textAlignVertical: 'center',
+  
     textAlign:'center',
     borderColor: layout.themeTextColor,
     borderRadius: 5,
@@ -668,6 +689,18 @@ const styles = StyleSheet.create({
     height: 30,
     width: 60,
     //paddingLeft: 10,
+  },
+  submitBotton:{
+    height:40, 
+    justifyContent:'center',
+    alignItems:'center', 
+    backgroundColor:layout.grayColor
+  },
+
+  submitText:{
+    color:'white',
+    fontSize:layout.stringsSizeMid
+
   }
 
 });
@@ -675,29 +708,3 @@ const styles = StyleSheet.create({
 
 
 //export default CreateLessonView;
-
-/*
-<TextInput             
-                      style = {this.textInputStyle(index)}
-                      key = {index}
-                      //style = {{paddingLeft : 5, paddingRight : 5, backgroundColor: 'clear', height: '100%'}}
-                      onFocus = { this.onFocus(index) }
-                      onChangeText={(text) => this.handleTextChange({text}, index)}
-                      placeholder = {item}
-                      //value={this.state.text}
-                    >
-                      <View>
-
-                      </View>
-                    </TextInput>
-
-
-                      <TopMenuBar 
-            data = {['推介', '限時', '優惠', '熱門', '節日', '新到', '復古']}
-            size = {50}
-            itemHeight = {30}
-            itemWidth = {50}
-            selected = {0}
-          />
-          
-                    */
