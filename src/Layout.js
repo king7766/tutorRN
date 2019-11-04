@@ -80,6 +80,8 @@ const styles = StyleSheet.create({
 
 module.exports = {
 
+	contentHeight:deviceInfo(),
+
 	searchFieldHeight: 50,
 	recommendationViewHeight : 200,
 	deviceHeight: deviceHeight,

@@ -5,7 +5,6 @@ import { View,Image,StyleSheet } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import strings from 'tutorRN/src/service/strings'
 
-import SearchHomeView from 'tutorRN/src/view/SearchHomeView';
 import NewsHomeView from 'tutorRN/src/view/NewsHomeView'
 import NewsDetailView from 'tutorRN/src/view/NewsDetailView'
 import CommentPageView from 'tutorRN/src/view/CommentPageView'

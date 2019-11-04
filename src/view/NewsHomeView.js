@@ -433,12 +433,17 @@ class NewsHomeView extends Component<Props> {
 
   render() {
     //console.log('iii = ' + courseViewModel.getAllCourse().length)
+    //<View style = {layout.styles.basicViewStyle}>
     return (
       
-      <View style = {layout.styles.basicViewStyle}>
+      <View style = {{height:layout.contentHeight}}>
+
         {
           courseViewModel.getAllCourse().length > 0 ?
           <FlatList
+            //style = {{height:layout.contentHeight}}
+            //style = {{flex:1}}
+            //style = {layout.styles.basicViewStyle}
             data = {courseViewModel.getAllCourse()}
             pagingEnabled={true}
             renderItem=
@@ -446,6 +451,7 @@ class NewsHomeView extends Component<Props> {
               ({item, index, separators}) =>
 
               <NewsItemCell
+                //style = {{height:layout.deviceHeight-100}}
                 item = {item}
               />
             }
