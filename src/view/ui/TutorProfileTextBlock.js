@@ -22,7 +22,7 @@ const layout = require('tutorRN/src/Layout')
 const leftArrow = (props) => {
   return <Image 
                     style = {{ width: 30, height: 30}}
-                    source= {require('tutorRN/src/image/left_arrow_icon_100.png')}
+                    source= {require('tutorRN/image/left_arrow_icon_100.png')}
                     //resizeMode =  'center'
                     resizeMode =  'contain'
                   />
@@ -119,7 +119,7 @@ class TutorProfileTextBlock extends Component{
             >
             <Image 
               style = {{ flex: 1,width: 30, height: 30}}
-              source= {require('tutorRN/src/image/left_arrow_icon_100.png')}
+              source= {require('tutorRN/image/left_arrow_icon_100.png')}
               resizeMode =  'contain'
             />
           </TouchableHighlight>
@@ -141,7 +141,7 @@ class TutorProfileTextBlock extends Component{
               false && 
               <Image
                 style = {{width: 30, height:30}}
-                source= {this.state.editmode ? require('tutorRN/src/image/icons8-completed-90.png') : require('tutorRN/src/image/icons8-pencil-90.png')}
+                source= {this.state.editmode ? require('tutorRN/image/icons8-completed-90.png') : require('tutorRN/image/icons8-pencil-90.png')}
                 resizeMode =  'contain'
               />
             }
@@ -169,7 +169,7 @@ class TutorProfileTextBlock extends Component{
             >
             <Image 
               style = {{ flex: 1,width: 30, height: 30}}
-              source= {require('tutorRN/src/image/right_arrow_icon_100.png')}
+              source= {require('tutorRN/image/right_arrow_icon_100.png')}
               resizeMode =  'contain'
             />
           </TouchableHighlight>

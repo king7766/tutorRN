@@ -145,7 +145,7 @@ class LessonHomeView extends Component<Props> {
           underlayColor = {layout.touchHighlightColor}
         >
           <View style = {{height: 30, width: 100, justifyContent: 'center', flexDirection: 'row'}}>
-            <Image source={require('tutorRN/src/image/inbox-filled-100.png')} style={{height: 30, width: 30, marginLeft:10}} /> 
+            <Image source={require('tutorRN/image/inbox-filled-100.png')} style={{height: 30, width: 30, marginLeft:10}} /> 
           </View>
 
         </TouchableHighlight>
@@ -175,7 +175,7 @@ class LessonHomeView extends Component<Props> {
         //underlayColor = {layout.touchHighlightColor}
         underlayColor = {layout.touchHighlightColor}
         >
-      <Image source={require('tutorRN/src/image/inbox-filled-100.png')} style={{height: 30, width: 30, marginLeft:10}} /> 
+      <Image source={require('tutorRN/image/inbox-filled-100.png')} style={{height: 30, width: 30, marginLeft:10}} /> 
       
         
       

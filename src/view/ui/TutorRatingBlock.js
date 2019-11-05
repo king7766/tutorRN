@@ -114,7 +114,7 @@ class TutorRatingBlock extends Component{
           >
             <Image 
               style = {{ flex: 1,width: 30, height: 30}}
-              source= {require('tutorRN/src/image/left_arrow_icon_100.png')}
+              source= {require('tutorRN/image/left_arrow_icon_100.png')}
               resizeMode =  'contain'
             />
           </TouchableHighlight>
@@ -133,7 +133,7 @@ class TutorRatingBlock extends Component{
                 this.state.rating.map((item, index) =>
                   <Image 
                     key = {index}
-                    source={require('tutorRN/src/image/star-503.png')} 
+                    source={require('tutorRN/image/star-503.png')} 
                     style={{width: starSize, height: starSize}} />
                 )
               }
@@ -174,7 +174,7 @@ class TutorRatingBlock extends Component{
             >
             <Image 
               style = {{ flex: 1,width: 30, height: 30}}
-              source= {require('tutorRN/src/image/right_arrow_icon_100.png')}
+              source= {require('tutorRN/image/right_arrow_icon_100.png')}
               resizeMode =  'contain'
             />
           </TouchableHighlight>

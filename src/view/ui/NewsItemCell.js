@@ -28,7 +28,13 @@ class NewsItemCell extends Component{
     this.displayViewOnClicked = this.displayViewOnClicked.bind(this)
   }
   componentWillMount(){
-
+    this.defaultImage = (  
+      <Image
+        source={Assets.background.welcome}
+        style = {styles.defaultImage}
+        resizeMode = 'stretch'
+      />
+    )
   } 
 
   showUI()
@@ -38,32 +44,46 @@ class NewsItemCell extends Component{
         <View style = {styles.upperPartViewStyle}>
           <View style = {styles.tutorNameViewStyle}>
             <Image 
-              style = {styles.tutorImageStyle}
+              //style = {styles.tutorImageStyle}
+              style = {[layout.styles.homeIconSize, styles.tutorImageStyle]}
               source = {{uri: this.props.item.tutor_thumb}}
             />
-            <Text style = {styles.tutorNameTextStyle} >
+            <Text style = {[styles.tutorNameTextStyle, this.props.item.course_media_list.length > 0 ? {color:'white'} : {color:'black'}] }>
               {this.props.item.tutor_name}
             </Text>
           </View>
 
         </View>
         <View style = {styles.lowerPartViewStyle}>
-          <TouchableOpacity>
-            <Image style = {styles.commentIconStyle} source={Assets.actions.comment} />
+        
+          <TouchableOpacity
+            style = {[layout.styles.homeIconSize, {left:layout.deviceWidth - 50}]}
+            onPress = {()=>this.props.commentBtnOnClicked(this.props.index)}
+          >
+            <Image style ={layout.styles.homeIconSize} source={Assets.actions.comment} />
           </TouchableOpacity>
 
-          <TouchableOpacity>
-            <Image style = {styles.likeIconStyle} source={Assets.actions.like} />
+          <TouchableOpacity
+            style ={[layout.styles.homeIconSize, {left:layout.deviceWidth - 50}]}
+            onPress = {()=>this.props.likeBtnOnClicked(this.props.index)}
+          >
+            <Image style = {layout.styles.homeIconSize} source={Assets.actions.like} />
           </TouchableOpacity>
-          <View style = {styles.newsTextViewStyle}>
-            <Text style = {styles.newsContentTextStyle} >{this.props.item.course_name}</Text>
-            <Text 
-              style = {styles.newsTitleTextStyle}
-              numberOfLines= {3} 
-            >
-              {this.props.item.course_introduction}
-            </Text>
-          </View> 
+        </View>
+        <View style = {styles.lowerPartViewStyle}>
+          {
+            this.props.item.course_media_list.length == 0 &&
+            <View style = {styles.newsTextViewStyle}>
+              <Text style = {styles.newsContentTextStyle} >{this.props.item.course_name}</Text>
+              <Text 
+                style = {styles.newsTitleTextStyle}
+                numberOfLines= {3} 
+              >
+                {this.props.item.course_introduction}
+              </Text>
+            </View> 
+          }
+          
         </View>                                                     
       </View>
     
@@ -72,6 +92,8 @@ class NewsItemCell extends Component{
 
   showContent()
   {
+    
+    
     const items = [
 			{
 				uri: "https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/5895592a166f19435e4e127ae1b1f336.jpg",
@@ -101,26 +123,32 @@ class NewsItemCell extends Component{
     {
       for (var i = 0; i < this.props.item.course_media_list.length ; i ++)
       {
-
+        photos.push({
+          uri:this.props.item.course_media_list[i].media_file,
+          title:this.props.item.course_name,
+          text:this.props.item.course_introduction,
+          //fullWidth: true,
+          extraSpacing:300,
+        })
       }
 
+      return (
+        <View style={{height:layout.contentHeight, width:'100%', position:'absolute',backgroundColor:'black' }} >
+          <TimedSlideshow
+            progressBarColor = {layout.themeTextColor}
+            items={photos}
+          />
+        </View>
+      )
     }
-
-    /*
-
-        <Image 
-          style = {{flex:1}}
-          source={{uri:'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/5895592a166f19435e4e127ae1b1f336.jpg'}}  
-        /> 
-        */
-    return (
-      <View style={{height:layout.contentHeight, width:'100%', position:'absolute',backgroundColor:'blue' }} >
-        <TimedSlideshow
-				  items={items}
-			  />
-        
-      </View>
-    )
+    else
+    {
+      return (
+        <View style={{height:layout.contentHeight, width:'100%', position:'absolute',backgroundColor:'black' }} >
+          {this.defaultImage}
+        </View>
+      )
+    }  
   }
 
   displayViewOnClicked()
@@ -131,14 +159,11 @@ class NewsItemCell extends Component{
   
 
   render (){
-    
-    console.log('content : ' + this.props.item.course_introduction)
-    
-    
+     
     return(
 
       <TouchableOpacity 
-        onPress = {this.displayViewOnClicked}
+        onPress = {()=>this.props.onClicked(this.props.index)}
         style = {{  height:layout.contentHeight}}
       >
         {
@@ -162,14 +187,14 @@ const styles = StyleSheet.create ({
     backgroundColor: 'transparent',
     justifyContent: 'flex-end',
     //backgroundColor:'orange',
-    width:'100%'
+    //width:'100%'
   },
   lowerPartViewStyle:{
-    flex:9,
+    flex:4,
     justifyContent: 'flex-end',
     backgroundColor: 'transparent',
     //backgroundColor:'green',
-    width:'100%'
+    //width:'100%'
     
   },
 
@@ -183,9 +208,9 @@ const styles = StyleSheet.create ({
 
   },
   tutorImageStyle:{
-    height: 30, 
-    width: 30, 
-    borderRadius:15, 
+    //height: 30, 
+    //width: 30, 
+    borderRadius:20, 
     borderColor:'white' ,
     borderWidth:2
   },
@@ -244,7 +269,11 @@ const styles = StyleSheet.create ({
     color:'white',
     lineHeight: 20,
     fontSize:layout.stringsSizeSmall
-  }
+  },
+  defaultImage: {
+    height:'100%',
+    width:'100%',
+  },
 
 })
 

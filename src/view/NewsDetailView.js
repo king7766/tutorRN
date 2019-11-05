@@ -33,6 +33,7 @@ import TutorProfileTextBlock from './ui/TutorProfileTextBlock'
 import TutorRatingBlock from './ui/TutorRatingBlock'
 import strings from 'tutorRN/src/service/strings'
 import LessonDetailView from 'tutorRN/src/view/LessonDetailView'
+import Assets from './ui/Assets';
 
 const layout = require('tutorRN/src/Layout')
 const targetUserViewModel = targetUserVM.getInstance()
@@ -299,13 +300,15 @@ class NewsDetailView extends Component<Props> {
     console.log('photoThumbnailAddBtnOnClicked')
   }
 
-  lessonContent (imageSource)
+  lessonContent ()
   {
     //console.log('lesson_id = ' + this.state.params.lesson_id)
     //let result = this.state.params.tutor.course_list.map(a => a.id);
 
     var lesson_id = this.state.lesson_id
     const result = this.state.params.tutor.course_list.filter(course => course.id == lesson_id);
+
+    var imageSource = result[0].course_media_list
 
     var ImageViewerArray = []
     for ( var i = 0; i < imageSource.length ; i ++)
@@ -317,6 +320,7 @@ class NewsDetailView extends Component<Props> {
       return (
         <LessonDetailView 
           course = {result[0]}
+          //course = target
           photoThumbnailImageOnClicked = {(index)=>this.photoThumbnailImageOnClicked(index)}
           photoThumbnailAddBtnOnClicked = {this.photoThumbnailAddBtnOnClicked}
           imageSource = {imageSource}
@@ -375,7 +379,7 @@ class NewsDetailView extends Component<Props> {
           <TutorProfileBlock
             allowEdit = {false}
             tag = {0}
-            tutor = {this.state.params.tutor.user_nickname}
+            tutor = {this.state.params.tutor}
             //tutor = {userViewModel.getUser()}
             arrowOn = {false}
             //onClicked = {this.arrowOnClicked}
@@ -397,22 +401,17 @@ class NewsDetailView extends Component<Props> {
 
           <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
 
-          <TutorProfileTextBlock
-            allowEdit = {false}
-            arrowOn = {false}
-            title = {strings.description}
-            //description = {this.state.data.description}
-            description = {this.state.params.tutor.user_introduction}
-          />
-          <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
-
           <TutorRatingBlock
             viewOnClicked = {this.ratingBlockOnClicked}
             arrowOn = {false}
-            
           />
-          
-           <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
+
+          <View style={{height:40,justifyContent: 'center', backgroundColor:layout.backgroundColor}}>
+            <Text style = {{color: 'black',paddingLeft: 10} }>
+              {strings.lesson}
+            </Text>
+          </View>
+
           <FlatList
             removeClippedSubviews={false}
             data = {this.state.params.tutor.course_list}
@@ -428,10 +427,17 @@ class NewsDetailView extends Component<Props> {
                     <Text style={{flex:1, margin:5, fontSize:layout.stringsSizeMid, fontWeight:'bold'}}>{item.course_name}</Text>
                   </View>
                   <View style = {{flexDirection:'row'}}>
-                    <Text style={{flex:1, margin:10, color:layout.themeTextColor}}>{item.location[0].location_name}</Text>
-                    <Text style={{flex:1, margin:10}}>{item.course_fee}</Text>
-                  </View>
+                    <View style = {styles.infoBlockStyle}>
+                      <Image source={Assets.icon.location} style={{height:30, width:30}} resizeMode='contain'/>
+                      <Text style={{ color:layout.themeTextColor}}>{item.location[0].location_name}</Text>
+                    </View>
 
+                    <View style = {styles.infoBlockStyle}>
+                      <Image source={Assets.icon.price} style={{height:30, width:30}} resizeMode='contain'/>
+                      <Text >{item.course_fee}</Text>
+                    </View>
+                    <View style = {styles.infoBlockStyle}/>
+                  </View>
                 </View>
               </TouchableOpacity>
 
@@ -445,7 +451,7 @@ class NewsDetailView extends Component<Props> {
         >
         {
           //{item.location[0].location_name
-          this.lessonContent(data)   
+          this.lessonContent()   
         }
         </Modal>  
       </View>
@@ -473,5 +479,13 @@ const styles = StyleSheet.create ({
     fontSize: 14,
     paddingTop: 10,
   },
+
+  infoBlockStyle:{
+    padding:5,
+    alignItems:'center',
+    justifyContent:'flex-start',
+    flexDirection:'row',
+    flex:1,
+  }
 
 });

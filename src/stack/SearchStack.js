@@ -23,7 +23,7 @@ var SearchStack = StackNavigator({
       title: strings.search,
       tabBarIcon: ({ tintColor }) => (
         <Image
-          source={require('tutorRN/src/image/icons8-search-filled-100.png')}
+          source={require('tutorRN/image/icons8-search-filled-100.png')}
           //style={[styles.icon, { tintColor: tintColor }]}
           style={[layout.styles.icon, { tintColor: tintColor }]}
         />
@@ -41,7 +41,7 @@ var SearchStack = StackNavigator({
       title: strings.search,
       tabBarIcon: ({ tintColor }) => (
         <Image
-          source={require('tutorRN/src/image/icons8-search-filled-100.png')}
+          source={require('tutorRN/image/icons8-search-filled-100.png')}
           //style={[styles.icon, { tintColor: tintColor }]}
           style={[layout.styles.icon, { tintColor: tintColor }]}
         />
@@ -57,7 +57,7 @@ var SearchStack = StackNavigator({
       title: strings.search,
       tabBarIcon: ({ tintColor }) => (
         <Image
-          source={require('tutorRN/src/image/icons8-search-filled-100.png')}
+          source={require('tutorRN/image/icons8-search-filled-100.png')}
           //style={[styles.icon, { tintColor: tintColor }]}
           style={[layout.styles.icon, { tintColor: tintColor }]}
         />
@@ -73,7 +73,7 @@ var SearchStack = StackNavigator({
       title: strings.search,
       tabBarIcon: ({ tintColor }) => (
         <Image
-          source={require('tutorRN/src/image/icons8-search-filled-100.png')}
+          source={require('tutorRN/image/icons8-search-filled-100.png')}
           //style={[styles.icon, { tintColor: tintColor }]}
           style={[layout.styles.icon, { tintColor: tintColor }]}
         />
@@ -88,7 +88,7 @@ var SearchStack = StackNavigator({
       title: strings.home,
       tabBarIcon: ({ tintColor }) => (
         <Image
-        source={require('tutorRN/src/image/icons8-home-100.png')}
+        source={require('tutorRN/image/icons8-home-100.png')}
           //style={[styles.icon, { tintColor: tintColor }]}
           style={[layout.styles.icon, { tintColor: tintColor }]}
         />

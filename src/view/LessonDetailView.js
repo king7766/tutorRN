@@ -147,7 +147,7 @@ class LessonDetailView extends Component<Props> {
                 imageOnClicked = {(index)=>this.photoThumbnailImageOnClicked(index)}
                 addBtnOnClicked = {()=>this.photoThumbnailAddBtnOnClicked()}
                 imageSource = {this.props.imageSource}
-                addBtnVisible = {true}
+                addBtnVisible = {false}
               />
               <TutorProfileTextBlock
                 allowEdit = {false}

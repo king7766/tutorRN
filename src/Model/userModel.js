@@ -23,7 +23,7 @@ export class userModel{
    user_age : integer 
    
    //cert_list : any 
-   course_list : [] 
+   course_list : [courseModel] 
    //user_email : string  = ''
    
    

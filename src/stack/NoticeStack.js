@@ -20,7 +20,7 @@ const NoticeStack = StackNavigator({
       title: strings.notice,
       tabBarIcon: ({ tintColor }) => (
         <Image
-          source={require('tutorRN/src/image/icons8-document-filled-100.png')}
+          source={require('tutorRN/image/icons8-document-filled-100.png')}
           //style={[styles.icon, { tintColor: tintColor }]}
           style={[layout.styles.icon, { tintColor: tintColor }]}
         />
@@ -37,7 +37,7 @@ const NoticeStack = StackNavigator({
     navigationOptions: {
       tabBarIcon: ({ tintColor }) => (
         <Image
-          source={require('tutorRN/src/image/icons8-document-filled-100.png')}
+          source={require('tutorRN/image/icons8-document-filled-100.png')}
           //style={[styles.icon, { tintColor: tintColor }]}
           style={[layout.styles.icon, { tintColor: tintColor }]}
         />
@@ -50,7 +50,7 @@ const NoticeStack = StackNavigator({
       title: strings.home,
       tabBarIcon: ({ tintColor }) => (
         <Image
-        source={require('tutorRN/src/image/icons8-home-100.png')}
+        source={require('tutorRN/image/icons8-home-100.png')}
           //style={[styles.icon, { tintColor: tintColor }]}
           style={[layout.styles.icon, { tintColor: tintColor }]}
         />

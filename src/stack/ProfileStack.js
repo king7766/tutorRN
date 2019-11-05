@@ -20,7 +20,7 @@ const ProfileStack = StackNavigator({
       title: strings.profile,
       tabBarIcon: ({ tintColor }) => (
         <Image
-          source={require('tutorRN/src/image/icons8-customer-filled-100.png')}
+          source={require('tutorRN/image/icons8-customer-filled-100.png')}
           //style={[styles.icon, { tintColor: tintColor }]}
           style={[layout.styles.icon, { tintColor: tintColor }]}
         />
@@ -39,7 +39,7 @@ const ProfileStack = StackNavigator({
       title: strings.profile,
       tabBarIcon: ({ tintColor }) => (
         <Image
-          source={require('tutorRN/src/image/icons8-customer-filled-100.png')}
+          source={require('tutorRN/image/icons8-customer-filled-100.png')}
           //style={[styles.icon, { tintColor: tintColor }]}
           style={[layout.styles.icon, { tintColor: tintColor }]}
         />
@@ -58,7 +58,7 @@ const ProfileStack = StackNavigator({
       title: strings.profile,
       tabBarIcon: ({ tintColor }) => (
         <Image
-          source={require('tutorRN/src/image/icons8-customer-filled-100.png')}
+          source={require('tutorRN/image/icons8-customer-filled-100.png')}
           //style={[styles.icon, { tintColor: tintColor }]}
           style={[layout.styles.icon, { tintColor: tintColor }]}
         />

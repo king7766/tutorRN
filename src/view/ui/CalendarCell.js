@@ -163,7 +163,7 @@ class CalendarCell extends Component{
               >
                 <Image 
                   style = {{ width: 30, height: 30}}
-                  source= {require('tutorRN/src/image/left_arrow_icon_100.png')}
+                  source= {require('tutorRN/image/left_arrow_icon_100.png')}
                   resizeMode =  'contain'
                 />
               </TouchableHighlight>

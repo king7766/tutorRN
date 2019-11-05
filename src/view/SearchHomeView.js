@@ -162,7 +162,7 @@ class SearchHomeView extends Component<Props> {
     for(var i = 1; i < 16; i++){           
       Arr.push(
         {                   
-          image: require('tutorRN/src/image/icon-math.png'),
+          image: require('tutorRN/image/icon-math.png'),
           price:'中文1'                
         }            
       )        
@@ -406,7 +406,7 @@ class SearchHomeView extends Component<Props> {
                   //source = {{uri: 'https://facebook.github.io/react/logo-og.png'}}
                   //source = {{uri: rowData.category_image}}
                   source={rowData.category_image != null ? {uri: rowData.category_image} : null}
-                  //source = {require('tutorRN/src/image/icons/1.png')}
+                  //source = {require('tutorRN/image/icons/1.png')}
                   //resizeMode =  'center'
                   resizeMode =  'contain'
                 />

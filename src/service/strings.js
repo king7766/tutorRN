@@ -15,6 +15,8 @@ const strings = new LocalizedStrings({
 
         second:"मैं ठीक हूँ ?",
 
+        lesson:'課堂',
+
         // search
         errorTitle: '錯誤',
         hotSearch: '熱門搜尋',
@@ -101,9 +103,12 @@ const strings = new LocalizedStrings({
         notice: '通知',
         profile : '个人',
     
+
         avatar :'头像',
         name : '䁥称',
         second:"मैं ठीक हूँ ?",
+
+        lesson:'課堂',
 
         errorTitle: '错误',
         hotSearch: '热门搜寻',

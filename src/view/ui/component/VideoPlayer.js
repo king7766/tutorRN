@@ -105,8 +105,8 @@ class VideoPlayer extends Component <Props>{
         //source={{uri: 'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/c2828d98dc07f8caffa0a6db1642fc24.mp4'}}
         //source={{uri: this.props.item.video }}
         //source = {{uri: this.props.source.uri }}
-        //source={require('tutorRN/src/image/video_demo.mp4')}
-        //source={require('tutorRN/src/image/20181225145658.mp4')}
+        //source={require('tutorRN/image/video_demo.mp4')}
+        //source={require('tutorRN/image/20181225145658.mp4')}
         source = {{uri : this.props.source.uri}}    
         repeat = {true}
         volume={1.0}

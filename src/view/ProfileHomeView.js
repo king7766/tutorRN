@@ -104,7 +104,7 @@ class ProfileHomeView extends Component<Props> {
           underlayColor = {layout.touchHighlightColor}
         >
           <View style = {{height: 30, width: 100, justifyContent: 'center', flexDirection: 'row'}}>
-            <Image source={require('tutorRN/src/image/exit-100.png')} style={{height: 30, width: 30, marginLeft:10}} /> 
+            <Image source={require('tutorRN/image/exit-100.png')} style={{height: 30, width: 30, marginLeft:10}} /> 
           </View>
 
         </TouchableHighlight>

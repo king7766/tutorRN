@@ -37,7 +37,7 @@ const TouchableIcon = ({ index, children }) => {
   return (
     <TouchableHighlight onPress={ this.favouriteOnClick}>
     
-      <Image  style = {{position: 'absolute', top: layout.deviceHeight/2 + (index * 50), left : layout.deviceWidth - 50, height: 40,width: 40,}} source={require('tutorRN/src/image/heart.png')} />
+      <Image  style = {{position: 'absolute', top: layout.deviceHeight/2 + (index * 50), left : layout.deviceWidth - 50, height: 40,width: 40,}} source={require('tutorRN/image/heart.png')} />
       <Text> {children}</Text>
     </TouchableHighlight>
   
@@ -110,7 +110,7 @@ class NewsVideoCell extends Component{
         
       }
         <TouchableHighlight onPress={ this.soundBtnOnClick}>
-          <Image  style = {{position: 'absolute', top: layout.deviceHeight * 0.8 - 180 , left : layout.deviceWidth - 50, height: 40,width: 40,}} source={require('tutorRN/src/image/sound.png')} />
+          <Image  style = {{position: 'absolute', top: layout.deviceHeight * 0.8 - 180 , left : layout.deviceWidth - 50, height: 40,width: 40,}} source={require('tutorRN/image/sound.png')} />
         </TouchableHighlight>
        
         <TouchableHighlight onPress={ this.likeBtnOnClick}>
@@ -165,10 +165,10 @@ class NewsVideoCell extends Component{
     */
       /*
     var photos = [
-      require('tutorRN/src/image/background.jpg'),
-      require('tutorRN/src/image/background.jpg'),
-      require('tutorRN/src/image/background.jpg'),
-      require('tutorRN/src/image/background.jpg'),
+      require('tutorRN/image/background.jpg'),
+      require('tutorRN/image/background.jpg'),
+      require('tutorRN/image/background.jpg'),
+      require('tutorRN/image/background.jpg'),
     ]
     */
     var photos = [this.props.item.news_thumb]

@@ -23,7 +23,7 @@ import {
 
 import userVM from 'tutorRN/src/VM/userVM'
 import strings from 'tutorRN/src/service/strings'
-
+import Assets from 'tutorRN/src/view/ui/Assets'
 
 import * as M from 'tutorRN/src/service/membership'
 import * as Strings from 'tutorRN/src/service/strings'
@@ -426,11 +426,12 @@ class Welcome extends Component<Props> {
 
 
   render() {
+    //<Image source={require('tutorRN/image/background-01.jpg')} style={styles.defaultImage} > 
     console.log('Welcome loginMethod ' + this.state.loginMethod)
     return (
       <View style = {styles.background}>  
-        <Image source={require('tutorRN/src/image/background-01.jpg')} style={styles.image} > 
         
+        <Image source={Assets.background.welcome} style={styles.defaultImage} > 
           <View style = {styles.upperPartContainer}></View>
           <View style = {styles.ButtonContainer}>
           
@@ -596,7 +597,7 @@ const styles = StyleSheet.create({
     opacity:0.7,
   },
 
-  image: {
+  defaultImage: {
     flex: 1,
     resizeMode: 'cover',
     //resizeMode: 'center',

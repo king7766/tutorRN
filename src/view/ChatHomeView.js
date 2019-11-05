@@ -386,7 +386,7 @@ class ChatHomeView extends Component<Props> {
           onPress={() => params.callCalendar()}
         >
           <View style = {{height: 30, width: 100, justifyContent: 'center', flexDirection: 'row'}}>
-            <Image source={require('tutorRN/src/image/exit-100.png')} style={{height: 25, width: 25, marginLeft:10}} /> 
+            <Image source={require('tutorRN/image/exit-100.png')} style={{height: 25, width: 25, marginLeft:10}} /> 
           </View>
         </TouchableOpacity>
       ),

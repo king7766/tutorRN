@@ -90,94 +90,7 @@ class NewsHomeView extends Component<Props> {
       isFetching: false ,
 
       showingIndex: 0,
-      /*
-      data :[
-        {
-          creator:'KingTai Leung',
-          comment_count: 53,
-          like_count : 24,
-          profilePic : 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=110&_nc_ht=scontent.xx&oh=95ad2a3e8d4367d6bb6a56f8c02fa0a1&oe=5CB99BD7',
-          news_title : '現代教育補習班',
-          news_content : '現代教育補習社-提供各類型中小學補習班,包括英文補習班、數學補習班、中文補習班、通識補習班、物理補習班等. 我們的補習導師均為行內知名的星級補習名師',
-          video :'https://d33os2r86a346n.cloudfront.net/vodfile/_definst_/smil:amazons3/sportxmbr/2018/8/20/20180820_upower_alexfong.smil/playlist.m3u8',
-          //video:'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/c2828d98dc07f8caffa0a6db1642fc24.mp4',
-          //cover : 'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/5895592a166f19435e4e127ae1b1f336.jpg',
-          cover : 'https://img.youtube.com/vi/6HQvwHpEzao/0.jpg',
-          youtubeId: '6HQvwHpEzao',
-          type: 1,
-        },
-        {
-          creator:'KingTai Leung',
-          comment_count: 53,
-          like_count : 24,
-          profilePic : 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=110&_nc_ht=scontent.xx&oh=95ad2a3e8d4367d6bb6a56f8c02fa0a1&oe=5CB99BD7',
-          news_title : '現代教育補習班',
-          news_content : '現代教育補習社-提供各類型中小學補習班,包括英文補習班、數學補習班、中文補習班、通識補習班、物理補習班等. 我們的補習導師均為行內知名的星級補習名師',
-          video :'https://d33os2r86a346n.cloudfront.net/vodfile/_definst_/smil:amazons3/sportxmbr/2018/8/20/20180820_upower_alexfong.smil/playlist.m3u8',
-          //video:'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/c2828d98dc07f8caffa0a6db1642fc24.mp4',
-          //cover : 'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/5895592a166f19435e4e127ae1b1f336.jpg',
-          cover : 'https://img.youtube.com/vi/6HQvwHpEzao/0.jpg',
-          youtubeId: '6HQvwHpEzao',
-          type: 2,
-        },
-        {
-          creator:'KingTai Leung',
-          comment_count: 53,
-          like_count : 24,
-          profilePic : 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=110&_nc_ht=scontent.xx&oh=95ad2a3e8d4367d6bb6a56f8c02fa0a1&oe=5CB99BD7',
-          news_title : '現代教育補習班',
-          news_content : '現代教育補習社-提供各類型中小學補習班,包括英文補習班、數學補習班、中文補習班、通識補習班、物理補習班等. 我們的補習導師均為行內知名的星級補習名師',
-          video :'https://d33os2r86a346n.cloudfront.net/vodfile/_definst_/smil:amazons3/sportxmbr/2018/8/20/20180820_upower_alexfong.smil/playlist.m3u8',
-          //video:'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/c2828d98dc07f8caffa0a6db1642fc24.mp4',
-          //cover : 'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/5895592a166f19435e4e127ae1b1f336.jpg',
-          cover : 'https://img.youtube.com/vi/6HQvwHpEzao/0.jpg',
-          youtubeId: null,
-          type: 0,
-        },
-        {
-          creator:'KingTai Leung',
-          comment_count: 53,
-          like_count : 24,
-          profilePic : 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=110&_nc_ht=scontent.xx&oh=95ad2a3e8d4367d6bb6a56f8c02fa0a1&oe=5CB99BD7',
-          news_title : '現代教育補習班',
-          news_content : '現代教育補習社-提供各類型中小學補習班,包括英文補習班、數學補習班、中文補習班、通識補習班、物理補習班等. 我們的補習導師均為行內知名的星級補習名師',
-          video :'https://d33os2r86a346n.cloudfront.net/vodfile/_definst_/smil:amazons3/sportxmbr/2018/8/20/20180820_upower_alexfong.smil/playlist.m3u8',
-          //video:'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/c2828d98dc07f8caffa0a6db1642fc24.mp4',
-          //cover : 'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/5895592a166f19435e4e127ae1b1f336.jpg',
-          cover : 'https://img.youtube.com/vi/6HQvwHpEzao/0.jpg',
-          youtubeId: '6HQvwHpEzao',
-          type: 1,
-        },
-        {
-          creator:'KingTai Leung',
-          comment_count: 53,
-          like_count : 24,
-          profilePic : 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=110&_nc_ht=scontent.xx&oh=95ad2a3e8d4367d6bb6a56f8c02fa0a1&oe=5CB99BD7',
-          news_title : '現代教育補習班',
-          news_content : '現代教育補習社-提供各類型中小學補習班,包括英文補習班、數學補習班、中文補習班、通識補習班、物理補習班等. 我們的補習導師均為行內知名的星級補習名師',
-          video :'https://d33os2r86a346n.cloudfront.net/vodfile/_definst_/smil:amazons3/sportxmbr/2018/8/20/20180820_upower_alexfong.smil/playlist.m3u8',
-          //video:'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/c2828d98dc07f8caffa0a6db1642fc24.mp4',
-          //cover : 'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/5895592a166f19435e4e127ae1b1f336.jpg',
-          cover : 'https://img.youtube.com/vi/6HQvwHpEzao/0.jpg',
-          youtubeId: '6HQvwHpEzao',
-          type: 2,
-        },
-        {
-          creator:'KingTai Leung',
-          comment_count: 53,
-          like_count : 24,
-          profilePic : 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=110&_nc_ht=scontent.xx&oh=95ad2a3e8d4367d6bb6a56f8c02fa0a1&oe=5CB99BD7',
-          news_title : '現代教育補習班',
-          news_content : '現代教育補習社-提供各類型中小學補習班,包括英文補習班、數學補習班、中文補習班、通識補習班、物理補習班等. 我們的補習導師均為行內知名的星級補習名師',
-          video :'https://d33os2r86a346n.cloudfront.net/vodfile/_definst_/smil:amazons3/sportxmbr/2018/8/20/20180820_upower_alexfong.smil/playlist.m3u8',
-          //video:'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/c2828d98dc07f8caffa0a6db1642fc24.mp4',
-          //cover : 'https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/5895592a166f19435e4e127ae1b1f336.jpg',
-          cover : 'https://img.youtube.com/vi/6HQvwHpEzao/0.jpg',
-          youtubeId: null,
-          type: 0,
-        }
-      ]
-      */
+      
     }
     this.cellItemOnClicked = this.cellItemOnClicked.bind(this)
     this.onScrollEnd = this.onScrollEnd.bind(this)
@@ -240,7 +153,7 @@ class NewsHomeView extends Component<Props> {
           underlayColor = {layout.touchHighlightColor}
         >
           <View style = {{height: 30, width: 100, justifyContent: 'center', flexDirection: 'row'}}>
-            <Image source={require('tutorRN/src/image/exit-100.png')} style={{height: 30, width: 30, marginLeft:10}} /> 
+            <Image source={require('tutorRN/image/exit-100.png')} style={{height: 30, width: 30, marginLeft:10}} /> 
           </View>
 
         </TouchableHighlight>
@@ -287,7 +200,11 @@ class NewsHomeView extends Component<Props> {
 
     // Divide the horizontal offset by the width of the view to see which page is visible
     let pageNum = Math.floor(contentOffset.y / viewSize.height);
-    
+
+    if ( pageNum == -1 ){
+      this.list.scrollToIndex({animated: true,index:0})
+    }
+    return 
 
     if ( pageNum == -1 ){
       if ( viewModel.getNews().length > 0){
@@ -316,7 +233,8 @@ class NewsHomeView extends Component<Props> {
 
   likeBtnOnClicked(index)
   {
-    //dataSource
+    console.log('likeBtnOnClicked : ' + index)
+    return 
     //userViewModel.addFavourite(userViewModel.getUser().user_id, this.state.newsVM[index].id)
     userViewModel.addFavourite(userViewModel.getUser().user_id, this.state.dataSource[index].id)
   }
@@ -328,29 +246,52 @@ class NewsHomeView extends Component<Props> {
 
   async cellOnPressed(index)
   {
-    var tutor_id = this.state.dataSource[index].tutor_id
-    var lesson_id = this.state.dataSource[index].id
+    //courseViewModel
+    //console.log('cellOnPressed = '  + JSON.stringify(courseViewModel.getAllCourse() ))
+
+    var tutor_id = courseViewModel.getAllCourse()[index].tutor_id
+    var lesson_id = courseViewModel.getAllCourse()[index].id
+
+    //var tutor_id = this.state.dataSource[index].tutor_id
+    //var lesson_id = this.state.dataSource[index].id
    
+    console.log('tutor_id = ' + tutor_id)
+    console.log('lesson_id = ' + lesson_id)
     
 
-    tutor_id = 3
-    lesson_id = 2
+    //tutor_id = 3
+    //lesson_id = 2
     
     const flag = await targetUserViewModel.setUserProfile(tutor_id)
+    /*
+    if ( flag )
+    {
+      const res = await targetUserViewModel.getLessonById(lesson_id)
 
+      if ( res )
+      {
+        console.log('ddd = ' + JSON.stringify(targetUserViewModel.getLessonById(lesson_id)) )
 
+        this.props.navigation.navigate('NewsDetailView',{
+          lessonDetailShow: true,
+          tutor : targetUserViewModel.getUserProfile(),
+          //tutor_id : 3,
+          tutor_id : targetUserViewModel.getUserProfile().user_id,
+          lesson_id : lesson_id,
+          //lesson_list : targetUserViewModel.getUserProfile().course_list,
+        })
+      }
+    }
+    */
+    
     if ( flag ){
 
-      console.log('flag = ' + flag)
-
-      //console.log(targetUserViewModel.getUserProfile().course_list)
-
       
+      //console.log('ddd = ' + JSON.stringify(targetUserViewModel.getLessonById(lesson_id)) )
 
       this.props.navigation.navigate('NewsDetailView',{
         lessonDetailShow: true,
         tutor : targetUserViewModel.getUserProfile(),
-        //tutor_id : 3,
         tutor_id : targetUserViewModel.getUserProfile().user_id,
         lesson_id : lesson_id,
         //lesson_list : targetUserViewModel.getUserProfile().course_list,
@@ -358,7 +299,7 @@ class NewsHomeView extends Component<Props> {
 
       //console.log(targetUserViewModel.getUserProfile().user_id)
     }
-   
+    
 
     /*
     this.props.navigation.navigate('NewsDetailView',{
@@ -441,6 +382,9 @@ class NewsHomeView extends Component<Props> {
         {
           courseViewModel.getAllCourse().length > 0 ?
           <FlatList
+            showsVerticalScrollIndicator={false}
+            ref={(ref) => { this.list = ref; }}
+            onMomentumScrollEnd={this.onScrollEnd}
             //style = {{height:layout.contentHeight}}
             //style = {{flex:1}}
             //style = {layout.styles.basicViewStyle}
@@ -451,8 +395,15 @@ class NewsHomeView extends Component<Props> {
               ({item, index, separators}) =>
 
               <NewsItemCell
-                //style = {{height:layout.deviceHeight-100}}
+                
+                key = {index}
                 item = {item}
+                index = {index}
+                showingIndex = {this.state.showingIndex}
+                onClicked = {()=>this.cellOnPressed(index)}
+                commentBtnOnClicked = {()=>this.commentBtnOnClicked(index)}
+                likeBtnOnClicked = {()=>this.likeBtnOnClicked(index)}
+                
               />
             }
           />

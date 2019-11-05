@@ -83,6 +83,35 @@ export default class targetUserVM{
 		return this.userProfile
 	}
 
+	getLessonById(lesson_id)
+	{
+		console.log('getLessonById = ' + lesson_id)
+
+		//console.log( JSON.stringify(this.userProfile.course_list))
+
+		this.userProfile.course_list.forEach(function(lesson) {
+
+			console.log('idddd = ' + JSON.stringify(Number(lesson.id) ) + ' : ' + lesson_id)
+
+			if ( Number(lesson.id) == lesson_id)
+			{
+				console.log('lesson here!!!!~~~!!')
+				return lesson
+			}
+		});
+		
+		/*
+		for( var l in this.userProfile.course_list)
+		{
+			console.log('idddd = ' + JSON.stringify(l) )
+			if ( parseInt(lesson.id, 10) == lesson_id)
+			{
+				return lesson
+			}
+		}
+		*/
+	}
+
 	getFacebookPhotos()
 	{
 		return this.facebookPhotos

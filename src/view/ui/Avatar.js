@@ -155,8 +155,8 @@ class Avatar extends Component <AvaterProps>{
               //style = {{height:(layout.deviceWidth- 20)/2, width:(layout.deviceWidth- 20)/2, borderRadius: (layout.deviceWidth- 20)/4 }}
               //source={{ uri: url }}
               //source = {{uri: 'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p80x80/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=831d0ee264e5772b4b15faa60c7d16c4&oe=5BD89683'}}
-              source = { url.node ?  { uri: url.node.image.uri } : (typeof url) == 'string' ?  {uri:url} : url  }
-              defaultSource = {require('tutorRN/src/image/icons8-customer-filled-100.png') }
+              source = { url.node !== undefined ?  { uri: url.node.image.uri } : (typeof url) == 'string' ?  {uri:url} : url  }
+              defaultSource = {require('tutorRN/image/icons8-customer-filled-100.png') }
             />  
           </View>
           <View style = {this.typeBackground()} >

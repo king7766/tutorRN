@@ -31,7 +31,7 @@ var NewsStack = StackNavigator({
       },
       tabBarIcon: ({ tintColor }) => (
         <Image
-          source={require('tutorRN/src/image/icons8-home-100.png')}
+          source={require('tutorRN/image/icons8-home-100.png')}
           //style={[styles.icon, { tintColor: tintColor }]}
           style={[layout.styles.icon, { tintColor: tintColor }]}
         />
@@ -52,7 +52,7 @@ var NewsStack = StackNavigator({
       title: strings.home,
       tabBarIcon: ({ tintColor }) => (
         <Image
-        source={require('tutorRN/src/image/icons8-home-100.png')}
+        source={require('tutorRN/image/icons8-home-100.png')}
           //style={[styles.icon, { tintColor: tintColor }]}
           style={[layout.styles.icon, { tintColor: tintColor }]}
         />
@@ -66,7 +66,7 @@ var NewsStack = StackNavigator({
       title: strings.profile,
       tabBarIcon: ({ tintColor }) => (
         <Image
-          source={require('tutorRN/src/image/icons8-customer-filled-100.png')}
+          source={require('tutorRN/image/icons8-customer-filled-100.png')}
           //style={[styles.icon, { tintColor: tintColor }]}
           style={[layout.styles.icon, { tintColor: tintColor }]}
         />
@@ -97,7 +97,7 @@ var NewsStack = StackNavigator({
       title: strings.home,
       tabBarIcon: ({ tintColor }) => (
         <Image
-          source={require('tutorRN/src/image/icons8-home-100.png')}
+          source={require('tutorRN/image/icons8-home-100.png')}
           //style={[styles.icon, { tintColor: tintColor }]}
           style={[layout.styles.icon, { tintColor: tintColor }]}
         />
@@ -110,7 +110,7 @@ var NewsStack = StackNavigator({
         title: strings.home,
         tabBarIcon: ({ tintColor }) => (
           <Image
-          source={require('tutorRN/src/image/icons8-home-100.png')}
+          source={require('tutorRN/image/icons8-home-100.png')}
             //style={[styles.icon, { tintColor: tintColor }]}
             style={[layout.styles.icon, { tintColor: tintColor }]}
           />

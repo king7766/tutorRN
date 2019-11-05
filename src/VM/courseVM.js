@@ -123,7 +123,6 @@ export default class courseVM{
 
 				}
 				this.refAllCourse = temp
-				console.log('getAllCourse : ' + JSON.stringify(this.refAllCourse[0]))
 				return true
          	}
          	else
