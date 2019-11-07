@@ -24,8 +24,7 @@ import {
 //import TutorSelectCell from './ui/TutorSelectCell'
 
 import {
-  SegmentControl,
-  TutorSelectCell,
+  LessonListCell,
   RowMenuListingBar
 } from 'tutorRN/src/view/ui/UIComponent';
 
@@ -36,10 +35,12 @@ import {
 import courseVM from 'tutorRN/src/VM/courseVM'
 import categoryVM from 'tutorRN/src/VM/categoryVM'
 import courseTagVM from 'tutorRN/src/VM/courseTagVM'
+import targetUserVM from 'tutorRN/src/VM/targetUserVM'
 
 const layout = require('tutorRN/src/Layout')
 const courseViewModel = courseVM.getInstance()
 const categoryViewModel = categoryVM.getInstance()
+const targetUserViewModel = targetUserVM.getInstance()
 const courseTagViewModel = courseTagVM.getInstance()
 
 class SearchTutorView extends Component<Props> {
@@ -49,7 +50,7 @@ class SearchTutorView extends Component<Props> {
     // /this.handleFacebookLogin = this.handleFacebookLogin.bind(this)
     const { params } = this.props.navigation.state;
     const tag = params ? params.tag : null
-    this.selectTutor = this.selectTutor.bind(this)
+    this.selectedLesson = this.selectedLesson.bind(this)
     this.state = {
       sgData : ['所有課堂', '即將開始', '等待確認'],
       tag: tag,
@@ -116,13 +117,31 @@ class SearchTutorView extends Component<Props> {
     console.log('tabOnClicked ' + index + ' , ' + key)
   }
 
-  selectTutor (index ){
-    console.log('selectTutor ' + index)
+  async selectedLesson (index ){
+    console.log('selectedLesson ' + JSON.stringify(courseViewModel.getCourseByTag(this.state.tag)[index]))
+
+    var tutor_id = courseViewModel.getCourseByTag(this.state.tag)[index].tutor_id
+    var lesson_id = courseViewModel.getCourseByTag(this.state.tag)[index].id
+
+    const flag = await targetUserViewModel.setUserProfile(tutor_id)
+    
+    if ( flag ){
+      this.props.navigation.navigate('NewsDetailView',{
+        lessonDetailShow: true,
+        tutor : targetUserViewModel.getUserProfile(),
+        tutor_id : targetUserViewModel.getUserProfile().user_id,
+        lesson_id : lesson_id,
+        //lesson_list : targetUserViewModel.getUserProfile().course_list,
+      })
+    }
+    
+    /*
     this.props.navigation.navigate('SearchTutorDetailView',{
       id :'121',
       allowEdit: false,
       }
     )
+    */
   }
 
   async TopMenuBarOnClicked(index)
@@ -171,12 +190,12 @@ class SearchTutorView extends Component<Props> {
           this.state.data.map((item, index) =>
             (
               
-                <TutorSelectCell
-                  key = {index}
-
-                  onClicked = {this.selectTutor }
-                  id = {item.id}
-                  item = {item}
+              <LessonListCell
+                key = {index}
+                action = {"LIKE"}
+                onClicked = {()=>this.selectedLesson(index) }
+                id = {item.id}
+                item = {item}
                   /*
                   imageURL = {item.image}
                   name = {item.name}
@@ -185,8 +204,7 @@ class SearchTutorView extends Component<Props> {
                   location = {item.location}
                   price = {item.price}
                   */
-                />
-              
+              />
 
             )
           )

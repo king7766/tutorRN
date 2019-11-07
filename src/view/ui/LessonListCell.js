@@ -13,7 +13,13 @@ import {
 import {
   Avatar,
 } from 'tutorRN/src/view/ui/UIComponent';
+import Assets from 'tutorRN/src/view/ui/Assets';
+import strings from 'tutorRN/src/service/strings'
+import locationVM from 'tutorRN/src/VM/locationVM'
+import courseVM from 'tutorRN/src/VM/courseVM'
 
+const courseViewModel = courseVM.getInstance()
+const locationViewModel = locationVM.getInstance()
 const layout = require('tutorRN/src/Layout')
 
 
@@ -50,6 +56,25 @@ class LessonListCell extends Component{
   actionBtnViewStyle(){
     
   }
+  actionBtnViewUI()
+  {
+    if ( this.props.action == "LIKE")
+    {
+      return(
+        <View
+          style = {styles.actionBtnViewStyle}
+        >
+          <TouchableOpacity
+            style ={layout.styles.homeIconSize}
+            //onPress = {()=>this.props.likeBtnOnClicked(this.props.index)}
+          >
+            <Image style = {layout.styles.homeIconSize} source={Assets.actions.like} />
+          </TouchableOpacity>
+        </View>
+      )
+    }
+    
+  }
 
 
 
@@ -77,8 +102,8 @@ class LessonListCell extends Component{
               round = {true}
               size = {50}
               //type = 'edit'      
-              //url = {this.props.item.tutor_thumb}
-              url = {'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p80x80/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=831d0ee264e5772b4b15faa60c7d16c4&oe=5BD89683'}   
+              url = {this.props.item.tutor_thumb}
+              //url = {'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p80x80/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=831d0ee264e5772b4b15faa60c7d16c4&oe=5BD89683'}   
             />
             
             <Text style = {{fontSize: 14, padding : 5, fontFamily: "fontello"}}>
@@ -88,27 +113,38 @@ class LessonListCell extends Component{
 
           <View style = {styles.tutorViewStyle}>
             <Text style = {styles.nameStyle}>
-              {this.props.item.course_introduction}
+              {this.props.item.tutor_name}
             </Text>
 
             <Text style = {styles.subjectStyle}>
               {this.props.item.course_name}
             </Text>
 
-            <View style = {{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center',}}>
-              <Text style = {styles.locationStyle}>
-                {this.props.item.tag_name}
-              </Text>
+            <View style = {{flexDirection:'row'}}>
+              <View style = {styles.infoBlockStyle}>
+                <Image source={Assets.icon.location} style={{height:30, width:30}} resizeMode='contain'/>
+                <Text style={{ color:layout.themeTextColor}}>
+                  {locationViewModel.getLocationNameById(this.props.item.location[0].id)}
+                </Text>
+              </View>
 
-              <Text style = {styles.priceStyle}>
-                {course_fee}
-              </Text>
+              <View style = {styles.infoBlockStyle}>
+                <Image source={Assets.icon.price} style={{height:30, width:30}} resizeMode='contain'/>
+                <Text >
+                  {courseViewModel.getCourseFeeStringById(this.props.item.course_fee)}
+                </Text>
+              </View>
             </View>
           </View>
           <View
             style = {styles.actionBtnViewStyle}
           >
+            {
+              this.actionBtnViewUI()
+            }
+            
             { 
+              /*
               this.props.action && <TouchableOpacity
                 onPress = {()=>this.actionBtnOnClick()}
                 style = {{flex:1,margin:5, backgroundColor:'gray', justifyContent:'center', alignItems:'center'}}
@@ -117,9 +153,10 @@ class LessonListCell extends Component{
                   聯絡
                 </Text>
               </TouchableOpacity>
-
+              */
             }
             { 
+              /*
               this.props.action && <TouchableOpacity
                 onPress = {()=>this.actionBtnOnClick()}
                 style = {{flex:1,margin:5, backgroundColor:'gray', justifyContent:'center', alignItems:'center'}}
@@ -128,7 +165,7 @@ class LessonListCell extends Component{
                   取消
                 </Text>
               </TouchableOpacity>
-
+              */
             }
             
           </View>
@@ -151,7 +188,7 @@ const styles = StyleSheet.create ({
     //flex: 1,
     flexDirection: 'row',
     width: layout.deviceWidth,
-    height: 80,
+    height: 100,
     //borderTopColor: 'gray',
     //borderTopWidth: 0.5,
     backgroundColor: 'white',
@@ -203,46 +240,37 @@ const styles = StyleSheet.create ({
   tutorViewStyle:{
     flex:6,
     padding : 5,
-    paddingLeft : 10,
     flexDirection: 'column',
     //alignItems: 'center'
     justifyContent: 'center'
   },
 
   nameStyle:{
-    padding: 3,
-    fontSize: 18,
+    padding: 5,
+    fontSize: layout.stringsSizeBig,
     fontWeight: 'bold',
   },
 
   subjectStyle:{
-    padding: 3,
-    fontFamily: "fontello",
+    padding: 5,
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: layout.stringsSizeMid,
   },
 
-
-  locationStyle:{
-    padding: 3,
-    fontFamily: "fontello",
-    fontSize: 14,
-    color : layout.themeTextColor,
-    fontWeight: 'bold',
-    //fontFamily: "vincHand",
-  },
-
-  priceStyle:{
-    padding: 3,
-    fontFamily: "fontello",
-    fontSize: 14,
-    color : 'gray',
-    //fontFamily: "vincHand",
-  },
+  
   actionBtnViewStyle:{
     flex:2,
     flexDirection:'column',
+    alignItems:'center',
+    justifyContent:'center',
     //backgroundColor:'red',
+  },
+  infoBlockStyle:{
+    padding:5,
+    alignItems:'center',
+    justifyContent:'flex-start',
+    flexDirection:'row',
+    flex:1,
   }
 })
 

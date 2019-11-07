@@ -16,7 +16,8 @@ const background = {
 
 const actions = {
   
-  like : require('tutorRN/image/icons8-heart-outline-filled-100.png'),
+  like : require('tutorRN/image/icon_like.png'),
+  like_filled : require('tutorRN/image/icon_like_filled.png'),
   unlike : require('tutorRN/image/icons8-heart-outline-100.png'),
   sound : require('tutorRN/image/sound.png'),
   comment : require('tutorRN/image/chat.png'),
