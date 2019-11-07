@@ -221,7 +221,7 @@ class Register extends Component<Props> {
     })
     .then( response => response.json())
     .then( response => {
-      console.log('sss : ' + JSON.stringify(response) )
+      console.log('reg : ' + JSON.stringify(response) )
       
       this.setState({ loadingVisible: false }, function() {
         setTimeout(

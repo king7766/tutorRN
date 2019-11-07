@@ -80,7 +80,7 @@ class NewsHomeView extends Component<Props> {
     this.state = {
       
       //dataSource : viewModel.getNews(),
-      dataSource : courseViewModel.getAllCourse(),
+      dataSource : courseViewModel.getCourseList(),
 
       //dataSource : viewModel.tempNews(),
       //newsVM: viewModel.getNews(),
@@ -323,6 +323,9 @@ class NewsHomeView extends Component<Props> {
  
   fetchMore(){
     console.log('fetchMore')
+
+    courseViewModel.getNextCourseList()
+    
     //viewModel.loadMore()
     /*
     const { data, newsVM } = this.state;
@@ -337,7 +340,10 @@ class NewsHomeView extends Component<Props> {
   }
 
   async pullToRefresh(){
+
     console.log('pullToRefresh')
+    courseViewModel.callAllCourseAPI()
+
     //viewModel.refresh()
     //viewModel.refresh()
 
@@ -352,6 +358,7 @@ class NewsHomeView extends Component<Props> {
     return
     */
     
+    /*
 
     var data = []
     for ( var i = 0; i < 2; i ++){
@@ -361,6 +368,8 @@ class NewsHomeView extends Component<Props> {
       dataSource : data,
       isFetching: false,
     })
+    */
+
   }
   
   
@@ -380,16 +389,24 @@ class NewsHomeView extends Component<Props> {
       <View style = {{height:layout.contentHeight}}>
 
         {
-          courseViewModel.getAllCourse().length > 0 ?
+          courseViewModel.getCourseList().length > 0 ?
           <FlatList
+            onEndReached={this.fetchMore}
+            onEndReachedThreshold={0.7}
             showsVerticalScrollIndicator={false}
             ref={(ref) => { this.list = ref; }}
             onMomentumScrollEnd={this.onScrollEnd}
             //style = {{height:layout.contentHeight}}
             //style = {{flex:1}}
             //style = {layout.styles.basicViewStyle}
-            data = {courseViewModel.getAllCourse()}
+            data = {courseViewModel.getCourseList()}
             pagingEnabled={true}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.isFetching}
+                onRefresh={this.pullToRefresh}
+              />
+            }
             renderItem=
             {
               ({item, index, separators}) =>

@@ -229,7 +229,7 @@ export default class CreateLessonView extends React.Component {
     })
     .then ( response => response.json()) 
     .then ( response => {
-      console.log('sss : ' + JSON.stringify(response) )
+      console.log('cre : ' + JSON.stringify(response) )
 
       return response
 

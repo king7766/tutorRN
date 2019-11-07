@@ -33,6 +33,11 @@ import CalendarCell from 'tutorRN/src/view/ui/CalendarCell'
 import Assets from 'tutorRN/src/view/ui/Assets';
 import strings from 'tutorRN/src/service/strings'
 
+import locationVM from 'tutorRN/src/VM/locationVM'
+import courseVM from 'tutorRN/src/VM/courseVM'
+
+const courseViewModel = courseVM.getInstance()
+const locationViewModel = locationVM.getInstance()
 const layout = require('tutorRN/src/Layout')
 
 
@@ -149,6 +154,7 @@ class LessonDetailView extends Component<Props> {
                 imageSource = {this.props.imageSource}
                 addBtnVisible = {false}
               />
+              <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
               <TutorProfileTextBlock
                 allowEdit = {false}
                 arrowOn = {false}
@@ -156,18 +162,22 @@ class LessonDetailView extends Component<Props> {
                 //description = {'於約30分鐘課堂內, 以自創的「5老師口訣」配合圖像記憶法幫助學生記憶及學習, 並以魔術手法引發學生學習興趣及貫穿整個課程, 同時於課堂內運用多種教學技巧及方法, 使學生快樂而有效地進行學習。'}
                 description = {this.props.course.course_introduction}
               />
+              <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
               <TutorProfileTextBlock
                 allowEdit = {false}
                 arrowOn = {false}
                 title = {strings.location}
                 //description = {'九龍塘'}
-                description = {this.props.course.location[0].location_name}
+                //description = {this.props.course.location[0].location_name}
+                description = {locationViewModel.getLocationNameById(this.props.course.location[0].id)}
               />
+              <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
               <TutorProfileTextBlock
                 allowEdit = {false}
                 arrowOn = {false}
                 title = {strings.price}
-                description = {this.props.course.course_fee}
+                description = {courseViewModel.getCourseFeeStringById(this.props.course.course_fee)}
+                //description = {this.props.course.course_fee}
               />
               <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
 
@@ -286,14 +296,14 @@ const styles = StyleSheet.create({
     borderRadius:20,
     backgroundColor:'white',
     height:layout.deviceHeight - 100,
-    width:layout.deviceWidth - 50,
+    width:layout.deviceWidth,
     flexDirection:'column',
     justifyContent:'space-between',
     //alignItems:'center',
     top:50,
     bottom:50,
-    left:25,
-    right:25,
+    
+    
     position:'absolute'
   },
 
@@ -304,11 +314,14 @@ const styles = StyleSheet.create({
     justifyContent:'center'
   },
   titleBarStyle:{
-    flex:1,
+    
+    borderTopLeftRadius:15,
+    borderTopRightRadius:15,
+    backgroundColor:layout.backgroundColor,
     flexDirection:'row',
     //borderRadius:20,
-    height:40, 
-    width:layout.deviceWidth - 50,
+    height:50, 
+    width:layout.deviceWidth ,
     //width:100,
     alignItems:'center',
     justifyContent:'space-between',

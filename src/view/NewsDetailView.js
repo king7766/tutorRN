@@ -35,6 +35,11 @@ import strings from 'tutorRN/src/service/strings'
 import LessonDetailView from 'tutorRN/src/view/LessonDetailView'
 import Assets from './ui/Assets';
 
+import locationVM from 'tutorRN/src/VM/locationVM'
+import courseVM from 'tutorRN/src/VM/courseVM'
+
+const courseViewModel = courseVM.getInstance()
+const locationViewModel = locationVM.getInstance()
 const layout = require('tutorRN/src/Layout')
 const targetUserViewModel = targetUserVM.getInstance()
 
@@ -396,7 +401,8 @@ class NewsDetailView extends Component<Props> {
             arrowOn = {false}
             title = {strings.education}
             //description = {this.state.data.achievement}
-            description = {this.state.params.tutor.user_education}
+            description = {targetUserViewModel.getEducationById(this.state.params.tutor.user_education)}
+            //description = {this.state.params.tutor.user_education}
           />
 
           <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
@@ -429,12 +435,16 @@ class NewsDetailView extends Component<Props> {
                   <View style = {{flexDirection:'row'}}>
                     <View style = {styles.infoBlockStyle}>
                       <Image source={Assets.icon.location} style={{height:30, width:30}} resizeMode='contain'/>
-                      <Text style={{ color:layout.themeTextColor}}>{item.location[0].location_name}</Text>
+                      <Text style={{ color:layout.themeTextColor}}>
+                        {locationViewModel.getLocationNameById(item.location[0].id)}
+                      </Text>
                     </View>
 
                     <View style = {styles.infoBlockStyle}>
                       <Image source={Assets.icon.price} style={{height:30, width:30}} resizeMode='contain'/>
-                      <Text >{item.course_fee}</Text>
+                      <Text >
+                        {courseViewModel.getCourseFeeStringById(item.course_fee)}
+                      </Text>
                     </View>
                     <View style = {styles.infoBlockStyle}/>
                   </View>

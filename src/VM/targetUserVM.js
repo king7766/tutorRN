@@ -9,6 +9,7 @@ import {
 
 import * as C from 'tutorRN/src/service/connection'
 import * as E from 'tutorRN/src/service/env-config'
+import strings from 'tutorRN/src/service/strings'
 
 const profileAPI = 'http://tvbcomweb-dev.azurewebsites.net/inews/profile.php'
 
@@ -38,6 +39,29 @@ export default class targetUserVM{
 		
 		
 	}
+
+	getEducationById(e_id)
+	{
+		if ( e_id == 0)
+		{
+			return strings.education_low
+		}
+		else if ( e_id == 1)
+		{
+			return strings.education_mid
+		}
+		else if ( e_id == 2)
+		{
+			return strings.education_high
+		}
+		else if ( e_id == 3)
+		{
+			return strings.education_exHigh 
+		}
+
+		return strings.education_low 
+	}
+
 
 	async setUserProfile(user_id)
 	{

@@ -128,21 +128,18 @@ async function facebookLoginAction(id, password, result)
         console.log('no this account , go to registration ' + JSON.stringify(result) )
         console.log( result.name)
         console.log( result.id)
-        console.log( result.birthday)
-        console.log( result.location)
-        console.log( result.picture.data.url)
-
+    
         var data = {
             token: E.token,
             login: result.email,
             password : result.id,
             nickname : result.name,
-            sex: result.gender !== undefined ? result.gender : '0',
-            occupation : '0',
-            education : '0',
-            birth : result.birthday !== undefined ? result.birthday : '0',
-            location : result.location !== undefined ? result.location.name : '0',
-            thumb : result.picture.data.url !== undefined ? result.picture.data.url : '0',
+            sex: result.gender !== undefined ? result.gender : '-1',
+            occupation : '-1',
+            education : '-1',
+            birth : result.birthday !== undefined ? result.birthday : '-1',
+            location : result.location !== undefined ? result.location.name : '-1',
+            thumb : result.picture.data.url !== undefined ? result.picture.data.url : '-1',
         } 
 
         console.log( JSON.stringify(data))
