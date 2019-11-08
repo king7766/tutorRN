@@ -65,6 +65,7 @@ class TutorRowFlatList extends React.Component{
   {
     var itemArray = []
 
+    console.log('da = ' + JSON.stringify(this.props.data))
     for ( var i = 0; i< this.props.data.length; i ++)
     {
       itemArray.push(
@@ -72,6 +73,9 @@ class TutorRowFlatList extends React.Component{
           key = {i}
           style = {{margin:5}}
         >
+          {
+
+          }
           <Avatar
             onPress={() => {
               this.iconOnClick(i)
@@ -79,9 +83,9 @@ class TutorRowFlatList extends React.Component{
             }}
             size = {70}
             //type = 'edit'
-            url = {this.props.data[i].tutor_img}
+            //url = {this.props.data[i].tutor_img}
             round = {true}
-            //url = 'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p80x80/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=831d0ee264e5772b4b15faa60c7d16c4&oe=5BD89683'
+            url = 'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p80x80/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=831d0ee264e5772b4b15faa60c7d16c4&oe=5BD89683'
           />
           <Text style = {{margin:5}}>{this.props.data[i].course_name}</Text>
           

@@ -36,6 +36,51 @@ export default class courseVM{
 		await this.callAllCourseAPI()
 	}
 
+	async updateCourseByCategoryId(cat_id)
+	{
+		var temp = []
+		return await C.getResponseFromApi(E.GET_COURSE_BY_CATEGORY, 'POST', {token:E.token, category_id:cat_id} ).then( (json ) =>{
+			if ( json.statusCode == 200 && json.data.length !== undefined)
+			{
+				for ( var i = 0; i < json.data.length; i ++)
+				{		
+					var c =  json.data[i]
+					temp.push(courseModel.deserialize(c) )
+				}
+				this.refCoursesFromCategory[cat_id] = temp
+				
+				return true
+			}
+			else
+			{
+				return false
+			}
+		})
+	}
+
+	async updateCourseByTagId(tag_id)
+	{
+		var temp = []
+		await C.getResponseFromApi(E.GET_COURSE_BY_TAG, 'POST', {token:E.token, category_id:tag_id} ).then( (json ) =>{
+			if ( json.statusCode == 200 && json.data.length !== undefined)
+			{
+				for ( var i = 0; i < json.data.length; i ++)
+				{		
+					var c =  json.data[i]
+					temp.push(courseModel.deserialize(c) )
+				}
+				this.refCoursesFromTag[tag_id] = temp
+
+				return true
+			}
+			else
+			{
+				return false
+			}
+		})
+	}
+	
+
 	async loadCourse(type , item_id)
 	{
 		var url, post_content
@@ -81,7 +126,11 @@ export default class courseVM{
 
 	getCourseByCategory(c_id)
 	{
-		return this.refCoursesFromCategory[c_id]
+		
+		//console.log('getCourseByCategory = ' + JSON.stringify(this.refCoursesFromCategory))
+		var res = []
+		res  = this.refCoursesFromCategory[c_id]
+		return res
 	}
 
 	getCourseByTag (t_id)

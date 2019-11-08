@@ -50,63 +50,17 @@ class SearchTutorView extends Component<Props> {
     // /this.handleFacebookLogin = this.handleFacebookLogin.bind(this)
     const { params } = this.props.navigation.state;
     const tag = params ? params.tag : null
+    const data = params ? params.data : null
+
     this.selectedLesson = this.selectedLesson.bind(this)
     this.state = {
       sgData : ['所有課堂', '即將開始', '等待確認'],
       tag: tag,
-      data: courseViewModel.getCourseByTag(tag)
-      /*
-      data: [
-        {
-          'image': 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=c36a9365035e76d990a0b0ca07145494&oe=5B55A6D7',
-          'name': '陳小明',
-          'id': 1,
-          'subject': '英國語文',
-          'rating': 4.5,
-          'location': '赤柱',
-          'price' : 100
-        },
-        {
-          'image': 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=c36a9365035e76d990a0b0ca07145494&oe=5B55A6D7',
-          'name': '陳小明',
-          'id': 2,
-          'subject': '英國語文',
-          'rating': 4.5,
-          'location': '赤柱',
-          'price' : 100
-        },
-        {
-          'image': 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=c36a9365035e76d990a0b0ca07145494&oe=5B55A6D7',
-          'name': '陳小明',
-          'id': 3,
-          'subject': '英國語文',
-          'rating': 4.5,
-          'location': '赤柱',
-          'price' : 100
-        },
-        {
-          'image': 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=c36a9365035e76d990a0b0ca07145494&oe=5B55A6D7',
-          'name': '陳小明',
-          'id': 4,
-          'subject': '英國語文',
-          'rating': 4.5,
-          'location': '赤柱',
-          'price' : 100
-        },
-        {
-          'image': 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=c36a9365035e76d990a0b0ca07145494&oe=5B55A6D7',
-          'name': '陳小明',
-          'id': 5,
-          'subject': '英國語文',
-          'rating': 4.5,
-          'location': '赤柱',
-          'price' : 100
-        },
-      ]
-      */
+      //data: courseViewModel.getCourseByTag(tag)
+      data : data,
     };
 
-    console.log('data = ' + this.state.data)
+    console.log('11data = ' + this.state.data)
   }
 
   componentWillMount() {
@@ -118,10 +72,12 @@ class SearchTutorView extends Component<Props> {
   }
 
   async selectedLesson (index ){
-    console.log('selectedLesson ' + JSON.stringify(courseViewModel.getCourseByTag(this.state.tag)[index]))
 
-    var tutor_id = courseViewModel.getCourseByTag(this.state.tag)[index].tutor_id
-    var lesson_id = courseViewModel.getCourseByTag(this.state.tag)[index].id
+    console.log('selectedLesson ' + JSON.stringify(this.state.data[index]) )
+    //console.log('selectedLesson ' + JSON.stringify(courseViewModel.getCourseByTag(this.state.tag)[index]))
+
+    var tutor_id = this.state.data[index].tutor_id
+    var lesson_id = this.state.data[index].id
 
     const flag = await targetUserViewModel.setUserProfile(tutor_id)
     
@@ -131,7 +87,6 @@ class SearchTutorView extends Component<Props> {
         tutor : targetUserViewModel.getUserProfile(),
         tutor_id : targetUserViewModel.getUserProfile().user_id,
         lesson_id : lesson_id,
-        //lesson_list : targetUserViewModel.getUserProfile().course_list,
       })
     }
     
@@ -168,15 +123,20 @@ class SearchTutorView extends Component<Props> {
     //const education = params ? params.education : null;
     //const subject = params ? params.subject : null;
 
-    var condition = ['',categoryViewModel.getCategoryNameByID( this.state.tag)]
+    //var condition = ['',categoryViewModel.getCategoryNameByID( this.state.tag)]
+    //var dataSource = [categoryViewModel.getCategoryNameByID( this.state.tag)]
+    var name = categoryViewModel.getCategoryNameByID( this.state.tag)
+    var rowListBarDataSource = [name]
 
+    //console.log('getCategoryNameByID = ' + JSON.stringify(categoryViewModel.getCategoryNameByID( this.state.tag)))
     return (
       <View>
         
         <RowMenuListingBar 
+          firstItemShowIcon = {true} 
           //data = {['推介', '限時', '優惠', '熱門', '節日', '新到', '復古']}
-          data = {condition}
-          size = {50}
+          data = {rowListBarDataSource}
+          
           itemHeight = {30}
           itemWidth = {50}
           selected = {0}
@@ -187,6 +147,7 @@ class SearchTutorView extends Component<Props> {
         <ScrollView>
         {
           
+          //this.state.data.map((item, index) =>
           this.state.data.map((item, index) =>
             (
               

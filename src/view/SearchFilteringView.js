@@ -269,17 +269,17 @@ class SearchFilteringView extends Component<Props> {
               )
             }
           </View>
-          <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
+          <View style = {{backgroundColor:layout.backgroundColor, height: 50}}/>
 
           <TouchableOpacity onPress={this.showResultBtnOnClick}>
-            <View style = {styles.submitButtonBackground}>
-              <View style={styles.submitButton}>
-                <Text style = {styles.submitButtonText}>
-                  {strings.listAllResult}
-                </Text>
-              </View>
+            <View style = {styles.submitBotton}>
+              <Text style = {styles.submitText}>
+                {strings.submit}
+              </Text>
             </View>
           </TouchableOpacity>
+
+          
         </ScrollView>
       </View>
     );
@@ -310,32 +310,18 @@ const styles = StyleSheet.create({
     
   },
 
-  submitButton:{
-    backgroundColor : 'white',
-    //backgroundColor : layout.themeTextColor,
-    height: 40,
-    width: 150,
-    backgroundColor : layout.themeTextColor,
-    borderColor: layout.themeTextColor,
-    borderRadius:10,
-    borderWidth: 1,
-    justifyContent: 'center',
-    alignItems:'center'  
-
+  
+  submitBotton:{
+    height:40, 
+    justifyContent:'center',
+    alignItems:'center', 
+    backgroundColor:layout.grayColor
   },
-  submitButtonText:{
-    //backgroundColor:layout.themeTextColor,
-    //color : layout.themeTextColor,
-    color: 'white',
-    //height: 40,
-    // /width: 100,
-    //paddingLeft: 10,
-    //borderRadius:10,
-    //borderWidth: 1,
-    //borderColor: layout.themeTextColor,
-    fontWeight: 'bold',
-    fontSize:16,
-    //textAlign:'center',
+
+  submitText:{
+    color:'white',
+    fontSize:layout.stringsSizeMid
+
   }
 
   });

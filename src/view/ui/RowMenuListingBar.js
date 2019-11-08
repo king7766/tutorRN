@@ -74,43 +74,7 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
     });
   }
 
-  typeBackground()
-  {
-    const {type, size} = this.props
-    var typeIconBgSize = size * 0.3
-    var bgColor = 'clear'
-    if ( type )
-    {
-      bgColor = layout.touchHighlightColor
-    }
-    
-
-    return{
-      height: typeIconBgSize,
-      width: typeIconBgSize,
-      borderRadius : typeIconBgSize/2,
-      //backgroundColor: layout.touchHighlightColor,
-      backgroundColor: bgColor,
-      alignItems:'center',
-      justifyContent: 'center',
-      position: 'absolute',
-      top: size * 2/3,
-      left: size * 2/3
-      
-    }
-  }
-
-  typeStyle()
-  {
-    const {size} = this.props
-    var typeIconSize = size * 0.2
-
-    return {
-      height: typeIconSize,
-      width: typeIconSize ,
-    }
-  }
-
+ 
   textStyle(index)
   {
     const {multiSelect} = this.props
@@ -124,7 +88,7 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
 
   borderStyle(index)
   {
-    const { selected, size, itemHeight, itemWidth, multiSelect} = this.props
+    const { itemHeight, itemWidth, multiSelect} = this.props
     var bWidth = 1
     //console.log ('selected  = ' + selected)
 
@@ -149,6 +113,7 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
 
   onPress(index)
   {
+    
     const { multiSelect } = this.props;
 
     this.props.onClicked(index)
@@ -176,13 +141,11 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
   
   itemComponent(item, index)
   {
-    const { firstItemShowIcon,multiSelect, itemHeight, itemWidth } = this.props;
+    const { firstImageSource, firstItemShowIcon,multiSelect, itemHeight, itemWidth } = this.props;
     
-    
-    if (index == 0 && firstItemShowIcon == true){
+    if (index == 0 && (firstItemShowIcon == true) ){
       return (
         <View
-       
           //style = {this.borderStyle(index)}
           style = {{ borderColor : layout.themeTextColor,alignItems:'center', justifyContent:'center', height: itemHeight, width: itemWidth, borderWidth: 1 ,borderRadius:2,  margin: 5   }}
         >
@@ -193,7 +156,7 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
             alignItems:'center', 
             //backgroundColor: index == this.state.selectedItem ? 'red' : 'gray'
             }} 
-            source = {Assets.actions.search} 
+            source = {firstImageSource ? firstImageSource : Assets.actions.search} 
           />
         </View> 
       )
@@ -211,49 +174,21 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
     }
 
     
-    /*
-    if ( 0 )
-    {
-      return <View/>
-    }
-    else
-    {
-      if (index == 0){
-        return (
-          <View
-            style = {this.borderStyle(index)}
-          >
-            <Image style = {{height:20, 
-              resizeMode:'contain', 
-              width: 20,  
-              alignItems:'center', 
-              backgroundColor: index == this.state.selectedItem ? 'red' : 'gray'
-              }} 
-              source = {Assets.actions.trytry} 
-            />
-          </View> 
-        )
-      }
-      else
-      {
-        return (
-          <View
-            style = {this.borderStyle(index)}
-          >
-            <Text style = {this.textStyle(index)} >{item}</Text>
-          </View> 
-        )
-      }
-    }
-    */
+  
   }
   
   
 
   render (){
 
-    const {  badge, url, size, style, badgeStyle, avatarStyle, text, selected, data, itemHeight, itemWidth, multiSelect } = this.props;
-    const { imageSource } = this.state
+    const {  firstItemShowIcon, badge, url, size, style, badgeStyle, avatarStyle, text, selected, data, itemHeight, itemWidth, multiSelect } = this.props;
+
+    var dataSource = this.props.data
+    if ( this.props.firstItemShowIcon && !dataSource.includes(""))
+    {
+      dataSource.splice(0, 0, '')
+    }
+    
     return(
 
       <ScrollView
@@ -261,24 +196,42 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
         horizontal = {true}
         showsHorizontalScrollIndicator={false}
       >
-        {
-          data.map((item, index) =>
-            (
-              <TouchableOpacity
-                key= {index}
-                //onPress={() => onPress ? this.onPress() : null}
-                //onPress={ ()=>this.onPress(index) ? this.onPress(index) : null}
-                onPress={ ()=>this.onPress(index) }
-                //underlayColor = {layout.touchHighlightColor}
-              >
-                {this.itemComponent(item, index)}
+      {
+        /*
+        this.props.firstItemShowIcon && 
+        <TouchableOpacity
+          key= {0}
+          onPress={ ()=>this.onPress(0) }
+        >
+          <View
+            style = {{ borderColor : layout.themeTextColor,alignItems:'center', justifyContent:'center', height: itemHeight, width: itemWidth, borderWidth: 1 ,borderRadius:2,  margin: 5   }}
+          >
+            <Image style = {{
+              height:20, 
+              resizeMode:'contain', 
+              width: 20,  
+              alignItems:'center', 
+              //backgroundColor: index == this.state.selectedItem ? 'red' : 'gray'
+              }} 
+              source = {this.props.firstImageSource ? this.props.firstImageSource : Assets.actions.search} 
+            />
+          </View> 
 
-              </TouchableOpacity>
-              
-            )
+        </TouchableOpacity>
+        */
+      }
+      {
+        dataSource.map((item, index) =>
+          (
+            <TouchableOpacity
+              key= {index}
+              onPress={ ()=>this.onPress(index) }  
+            >
+              {this.itemComponent(item, index)}
+            </TouchableOpacity>    
           )
-        }
-      
+        )
+      }
       </ScrollView>
 
     )

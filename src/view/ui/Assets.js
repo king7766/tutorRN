@@ -30,6 +30,7 @@ const actions = {
 }
 
 const icon = {
+  advanceSearch : require('tutorRN/image/icons/advanceSearch.png'),
   location : require('tutorRN/image/icons/120.png'),
   price : require('tutorRN/image/icons/price.png'),
   addImage : require('tutorRN/image/addImageIcon.png'),

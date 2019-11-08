@@ -228,7 +228,9 @@ class LessonDetailView extends Component<Props> {
               />
               <View style = {styles.rowContainerStyle}>
                 <Text style = {{flex:1, marginLeft:10, fontSize:strings.stringsSizeMid}}>{strings.startTime}</Text>
-                <RowMenuListingBar 
+                {
+                  /*
+                  <RowMenuListingBar 
                   
                   firstItemShowIcon = {false}
                   style = {{flex:1}}
@@ -239,10 +241,9 @@ class LessonDetailView extends Component<Props> {
                   
                   onClicked={ this.timeSelected }
                 />
-              </View>
-              <View style = {styles.rowContainerStyle}>
-                <Text style = {{flex:1, marginLeft:10, fontSize:strings.stringsSizeMid}}>{strings.intervalTime} </Text>
-                <RowMenuListingBar 
+                */
+                  /*
+                  <RowMenuListingBar 
                   firstItemShowIcon = {false}
                   style = {{flex:1, marginRight:20}}
                   data = {["30", "60", "90"]}
@@ -251,6 +252,13 @@ class LessonDetailView extends Component<Props> {
                   itemWidth = {50}
                   onClicked={ this.timeSelected }
                 />
+                */
+                }
+                
+              </View>
+              <View style = {styles.rowContainerStyle}>
+                <Text style = {{flex:1, marginLeft:10, fontSize:strings.stringsSizeMid}}>{strings.intervalTime} </Text>
+                
               </View>
               <View style = {styles.rowContainerStyle}>
                 <Text >!! 請先登入 !!</Text>

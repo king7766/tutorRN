@@ -29,6 +29,8 @@ import {
   RowMenuListingBar,
 } from 'tutorRN/src/view/ui/UIComponent';
 
+import Assets from 'tutorRN/src/view/ui/Assets';
+
 import categoryVM from 'tutorRN/src/VM/categoryVM'
 import courseTagVM from 'tutorRN/src/VM/courseTagVM'
 import courseVM from 'tutorRN/src/VM/courseVM'
@@ -56,11 +58,12 @@ class SearchHomeView extends Component<Props> {
     
     var ds = new  ListView.DataSource({rowHasChanged:(r1,r2) => r1 !== r2})   
     var courseTagNames = courseTagViewModel.getCourseTagNames()
-    courseTagNames.splice(0,0, '')
+    //courseTagNames.splice(0,0, '')
     var courseTagSelection = new Array(courseTagNames.length).fill(false)
 
     this.state = {
-      courseTagNames : courseTagNames,
+      //courseTagNames : courseTagNames,
+      courseTagNames : courseTagViewModel.getCourseTagNames(),
       courseTagSelection : courseTagSelection,
       ccc: categoryViewModel.getCategories(), 
       categories : ds.cloneWithRows(categoryViewModel.getCategories()),
@@ -252,20 +255,26 @@ class SearchHomeView extends Component<Props> {
   async ListingCatBtnOnClick (rowData)
   {
     console.log('ListingCatBtnOnClick ' + rowData.id)
-    const res = await courseViewModel.loadCourse('TAG',rowData.id)
+    //const res = await courseViewModel.loadCourse('TAG',rowData.id)
+    const res = await courseViewModel.updateCourseByCategoryId(rowData.id)
     if (res == true)
     {
-      //console.log('tag = ' + tag)
-      console.log('getCourseByTag : ' +JSON.stringify(courseViewModel.getCourseByTag(rowData.id)) )
-      this.props.navigation.navigate('SearchTutorView',{
-        tag:rowData.id,
-        data : res
-      });
+      
+      var submit_data = courseViewModel.getCourseByCategory(rowData.id)
+      console.log('getCourseByCategory : ' +JSON.stringify(submit_data) )
+
+      this.props.navigation.navigate(
+        'SearchTutorView',{
+
+          tag:rowData.id,
+          data : submit_data,
+        }
+      )
       
     }
     else
     {
-      
+
     }
 
       
@@ -285,6 +294,7 @@ class SearchHomeView extends Component<Props> {
   {
     if( index == 0 )
     {
+      console.log('TopMenuBarOnClicked 0')
       this.props.navigation.navigate('SearchFilteringView',{})
       
     }
@@ -318,9 +328,11 @@ class SearchHomeView extends Component<Props> {
 
   tutorRowListUI()
   {
-    return this.state.courseTagNames.map((tagName, i) =>
+    console.log('TagNames = ' +  courseTagViewModel.getCourseTagNames())
+    return courseTagViewModel.getCourseTagNames().map((tagName, i) =>
     {
       var courseID = courseTagViewModel.getCourseIDByName(tagName)
+      console.log('courseID = ' +  courseID)
       //courseID = 1
       if ( i > 0 && this.state.courseTagSelection[i] == true)
       {
@@ -431,8 +443,9 @@ class SearchHomeView extends Component<Props> {
           <RowMenuListingBar 
             
             firstItemShowIcon = {true}
+            firstImageSource = {Assets.icon.advanceSearch} 
             data = {this.state.courseTagNames}
-            size = {50}
+            //size = {50}
             itemHeight = {30}
             itemWidth = {50}
             selected = {0}

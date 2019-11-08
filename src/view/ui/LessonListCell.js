@@ -188,7 +188,7 @@ const styles = StyleSheet.create ({
     //flex: 1,
     flexDirection: 'row',
     width: layout.deviceWidth,
-    height: 100,
+    height: 120,
     //borderTopColor: 'gray',
     //borderTopWidth: 0.5,
     backgroundColor: 'white',

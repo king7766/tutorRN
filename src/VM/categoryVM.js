@@ -145,7 +145,7 @@ export default class categoryVM{
 		{
 			if (this.refSubCategories[i].parent_category_id == key)
 			{
-				names.push(this.refSubCategories[i].name)
+				names.push(this.refSubCategories[i].category_name)
 			}
 		}
 		return names;
@@ -157,7 +157,7 @@ export default class categoryVM{
 		var names = []
 		for ( var i = 0; i < this.refSubCategories.length; i ++)
 		{
-			name.push(this.refSubCategories[i].name)
+			name.push(this.refSubCategories[i].category_name)
 		}
 		return names
 	}
@@ -167,7 +167,7 @@ export default class categoryVM{
 		var names = []
 		for ( var i = 0; i < this.refCategories.length; i ++)
 		{
-			names.push(this.refCategories[i].name)
+			names.push(this.refCategories[i].category_name)
 		}
 		return names
 	}
