@@ -64,7 +64,8 @@ class SearchHomeView extends Component<Props> {
     this.state = {
       //courseTagNames : courseTagNames,
       courseTagNames : courseTagViewModel.getCourseTagNames(),
-      courseTagSelection : courseTagSelection,
+      //courseTagSelection : courseTagSelection,
+      courseTagSelection : [],
       ccc: categoryViewModel.getCategories(), 
       categories : ds.cloneWithRows(categoryViewModel.getCategories()),
      
@@ -290,9 +291,10 @@ class SearchHomeView extends Component<Props> {
     */
   }
 
-  async TopMenuBarOnClicked(index)
+  async TopMenuBarOnClicked(input_index)
   {
-    if( index == 0 )
+    var index = input_index - 1
+    if( input_index == 0 )
     {
       console.log('TopMenuBarOnClicked 0')
       this.props.navigation.navigate('SearchFilteringView',{})
@@ -300,6 +302,47 @@ class SearchHomeView extends Component<Props> {
     }
     else
     {
+
+      var tagName = courseTagViewModel.getCourseTagNames()[index]
+      var tag_id = courseTagViewModel.getCourseIDByName(tagName)
+      
+      //const res = await courseViewModel.loadCourse('TAG',rowData.id)
+      const res = await courseViewModel.updateCourseByTagId(tag_id)
+      if (res == true)
+      {
+        
+        var submit_data = courseViewModel.getCourseByTag(tag_id)
+        console.log('getCourseByCategory : ' +JSON.stringify(submit_data) )
+
+        var t = this.state.courseTagSelection
+        if ( t.includes(tag_id))
+        {
+          for ( var i = 0; i < t.length; i ++)
+          {
+            if (t[i] == tag_id){
+              t.splice(i, 1);
+            }
+          }
+        }
+        else
+        {
+          t.push(tag_id)
+        }
+
+        this.setState({
+          courseTagSelection: t
+        })
+      }
+      else
+      {
+
+      }
+    }
+    
+      
+
+      /*
+      return 
       var t = this.state.courseTagSelection
       var flag = this.state.courseTagSelection[index]
       t.splice(index, 1, !flag)
@@ -319,6 +362,7 @@ class SearchHomeView extends Component<Props> {
       console.log('courseTagSelection :' + this.state.courseTagSelection)  
     }
     console.log('TopMenuBarOnClicked :' + index)  
+    */
   }
 
   iconOnClick(itemDataSelected)
@@ -328,31 +372,23 @@ class SearchHomeView extends Component<Props> {
 
   tutorRowListUI()
   {
-    console.log('TagNames = ' +  courseTagViewModel.getCourseTagNames())
-    return courseTagViewModel.getCourseTagNames().map((tagName, i) =>
-    {
-      var courseID = courseTagViewModel.getCourseIDByName(tagName)
-      console.log('courseID = ' +  courseID)
-      //courseID = 1
-      if ( i > 0 && this.state.courseTagSelection[i] == true)
-      {
-        return (
-        
-          <View
-            key = {i}
-          >
-            <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
-            <TutorRowFlatList
-              title = {tagName}
-              height = {130}
-              iconOnClick = {(itemDataSelected)=>this.iconOnClick(itemDataSelected)}
-              //data = {this.state.tutorRowData}
-              id = {courseID}
-              data = {courseViewModel.getCourseByCategory(courseID)}
-            />   
-          </View>
-        )
-      }
+
+    return this.state.courseTagSelection.map((tag_id, i) =>{
+      return (
+        <View
+          key = {i}
+        >
+          <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
+          <TutorRowFlatList
+            title = {courseTagViewModel.getCourseTagNameById(tag_id)}
+            height = {130}
+            iconOnClick = {(itemDataSelected)=>this.iconOnClick(itemDataSelected)}
+            //data = {this.state.tutorRowData}
+            id = {tag_id}
+            data = {courseViewModel.getCourseByTag(tag_id)}
+          />   
+        </View>
+      )
     })
   }
 

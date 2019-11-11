@@ -61,7 +61,7 @@ export default class courseVM{
 	async updateCourseByTagId(tag_id)
 	{
 		var temp = []
-		await C.getResponseFromApi(E.GET_COURSE_BY_TAG, 'POST', {token:E.token, category_id:tag_id} ).then( (json ) =>{
+		return await C.getResponseFromApi(E.GET_COURSE_BY_TAG, 'POST', {token:E.token, tag_id:tag_id} ).then( (json ) =>{
 			if ( json.statusCode == 200 && json.data.length !== undefined)
 			{
 				for ( var i = 0; i < json.data.length; i ++)

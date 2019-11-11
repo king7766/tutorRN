@@ -41,6 +41,17 @@ export default class courseTagVM{
 			}
 		}
 	}
+	
+	getCourseTagNameById(tag_id)
+	{
+		for ( var i = 0; i < this.refCourseTags.length; i++)
+		{
+			if ( this.refCourseTags[i].id == tag_id )
+			{
+				return this.refCourseTags[i].name
+			}
+		}
+	}
 
 	getCourseTags()
 	{
