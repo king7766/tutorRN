@@ -43,7 +43,9 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
     console.log('multiSelectArray = ' + this.props.multiSelectArray)
 
     // /console.log('multiSelectArray = '+array)
-
+    
+    this.state = {...props}
+    /*
     this.state = {
       imageSource: '',
       selected: this.props.selected,
@@ -51,7 +53,7 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
       //multiSelectArray: array,
       //multiSelectArray: props.rowMenuInitArray,
     };
-
+    */
     console.log('multiSelectArray = ' + this.state.multiSelectArray)
 
   }
