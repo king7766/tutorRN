@@ -69,6 +69,17 @@ export default class courseTagVM{
 		return names 
 	}
 
+	getCourseTagId()
+	{
+		var ids = []
+		for ( var i = 0; i < this.refCourseTags.length; i ++)
+		{
+			var _id = this.refCourseTags[i].id
+			ids.push(_id)
+		}
+		return ids 
+	}
+
 	
 	callAPI()
 	{	

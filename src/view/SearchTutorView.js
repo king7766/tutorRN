@@ -41,7 +41,6 @@ const layout = require('tutorRN/src/Layout')
 const courseViewModel = courseVM.getInstance()
 const categoryViewModel = categoryVM.getInstance()
 const targetUserViewModel = targetUserVM.getInstance()
-const courseTagViewModel = courseTagVM.getInstance()
 
 class SearchTutorView extends Component<Props> {
 

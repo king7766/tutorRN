@@ -42,7 +42,7 @@ const numberOfItem = 4
 
 
 
-const courseTagViewModel = courseTagVM.getInstance()
+//const courseTagViewModel = courseTagVM.getInstance()
 const categoryViewModel = categoryVM.getInstance()
 const courseViewModel = courseVM.getInstance()
 
@@ -57,15 +57,17 @@ class SearchHomeView extends Component<Props> {
     super(props);
     
     var ds = new  ListView.DataSource({rowHasChanged:(r1,r2) => r1 !== r2})   
-    var courseTagNames = courseTagViewModel.getCourseTagNames()
+    var courseTagNames = courseViewModel.getCourseTagNamesList()
     //courseTagNames.splice(0,0, '')
     var courseTagSelection = new Array(courseTagNames.length).fill(false)
 
     this.state = {
       //courseTagNames : courseTagNames,
-      courseTagNames : courseTagViewModel.getCourseTagNames(),
+      courseTagNames : courseViewModel.getCourseTagNamesList(),
       //courseTagSelection : courseTagSelection,
-      courseTagSelection : [],
+      //courseTagSelection : [],
+      courseTagSelection : courseViewModel.getCourseTagIdList(),
+
       ccc: categoryViewModel.getCategories(), 
       categories : ds.cloneWithRows(categoryViewModel.getCategories()),
      
@@ -303,8 +305,8 @@ class SearchHomeView extends Component<Props> {
     else
     {
 
-      var tagName = courseTagViewModel.getCourseTagNames()[index]
-      var tag_id = courseTagViewModel.getCourseIDByName(tagName)
+      var tagName = courseViewModel.getCourseTagNamesList()[index]
+      var tag_id = courseViewModel.getCourseTagIdByName(tagName)
       
       //const res = await courseViewModel.loadCourse('TAG',rowData.id)
       const res = await courseViewModel.updateCourseByTagId(tag_id)
@@ -373,6 +375,8 @@ class SearchHomeView extends Component<Props> {
   tutorRowListUI()
   {
 
+
+    console.log('tutorRowListUI :' + JSON.stringify(this.state.courseTagSelection))
     return this.state.courseTagSelection.map((tag_id, i) =>{
       return (
         <View
@@ -380,7 +384,7 @@ class SearchHomeView extends Component<Props> {
         >
           <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
           <TutorRowFlatList
-            title = {courseTagViewModel.getCourseTagNameById(tag_id)}
+            title = {courseViewModel.getCourseTagNameById(tag_id)}
             height = {130}
             iconOnClick = {(itemDataSelected)=>this.iconOnClick(itemDataSelected)}
             //data = {this.state.tutorRowData}
@@ -472,6 +476,12 @@ class SearchHomeView extends Component<Props> {
 
   render() {
     
+    var rowMenuInitArray = [true]
+    for (var i = 0; i < this.state.courseTagNames.length; i ++)
+    {
+      rowMenuInitArray.push(true)
+    }
+    console.log('rowMenuInitArray = ' + rowMenuInitArray)
     return (
       <View style = {layout.styles.basicViewStyle}>
         <ScrollView style = {{backgroundColor:layout.backgroundColor}}>
@@ -484,7 +494,8 @@ class SearchHomeView extends Component<Props> {
             //size = {50}
             itemHeight = {30}
             itemWidth = {50}
-            selected = {0}
+            selected = {1}
+            multiSelectArray = {rowMenuInitArray}
             //multiSelected ={[0,1,2,3,4,5,6,7,8]}
             multiSelect = {true}
             onClicked={ this.TopMenuBarOnClicked }

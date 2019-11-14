@@ -40,15 +40,19 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
     {
       array.push(false)
     }
+    console.log('multiSelectArray = ' + this.props.multiSelectArray)
 
     // /console.log('multiSelectArray = '+array)
 
     this.state = {
       imageSource: '',
-      selected: 0,
+      selected: this.props.selected,
       //multiSelectArray :[],
-      multiSelectArray: array,
+      //multiSelectArray: array,
+      //multiSelectArray: props.rowMenuInitArray,
     };
+
+    console.log('multiSelectArray = ' + this.state.multiSelectArray)
 
   }
   componentWillMount(){
@@ -189,6 +193,9 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
       dataSource.splice(0, 0, '')
     }
     
+    var multiSelectArray = this.props.multiSelectArray
+    
+
     return(
 
       <ScrollView
