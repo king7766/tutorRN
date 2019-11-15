@@ -58,7 +58,7 @@ class FilteringToolsBar extends React.Component{
       titleHeight = 2
     }
     return {
-      height:imageHeight + titleHeight, 
+      height:imageHeight + titleHeight + 10, 
       alignItems:'center',
       flexDirection: 'column',
       justifyContent:'space-between'
@@ -68,6 +68,7 @@ class FilteringToolsBar extends React.Component{
   textStyle(index)
   {
     return {
+      fontSize:layout.stringsSizeMid,
       height:20,  
       alignItems:'center', 
       marginTop:5, 
@@ -79,7 +80,7 @@ class FilteringToolsBar extends React.Component{
   {
     return {
       height:2,
-      width:30,
+      width:'100%',
       backgroundColor :index == this.state.selectedItem ? 'black' : 'white',
       //borderBottomColor: index == this.state.selectedItem ? 'black' : 'white',
       //borderBottomWidth: 2 
@@ -116,7 +117,7 @@ class FilteringToolsBar extends React.Component{
       <View style = {styles.ToolBarStyle}>
         <View style = {styles.background}>
           {
-             this.props.imageSource.map((item, index) =>{
+             this.props.catName.map((item, index) =>{
               return (
                 <TouchableOpacity 
                   //onPress={this.props.onClicked}
@@ -132,7 +133,10 @@ class FilteringToolsBar extends React.Component{
                     this.props.imageSource && <Image style = {this.imageStyle(index)} source = {this.props.imageSource[index]} />
                   }
                   {  
-                    this.props.catName ? <Text style = {this.textStyle(index)}>{this.props.catName[index]}</Text> : <View style = {this.underlineStyle(index)}/>
+                    this.props.catName && <Text style = {this.textStyle(index)}>{this.props.catName[index]}</Text>
+                  }
+                  {
+                    <View style = {this.underlineStyle(index)}/>
                   }
                   </View>
                 </TouchableOpacity>
@@ -156,7 +160,7 @@ FilteringToolsBar.defaultProps = {
   touchColor: 'rgba(237,182,202,1)',
   pressEnable: true,
   numberOfItem: 3,
-  height: 100,
+  height: 120,
   imageSource : [Assets.actions.search,Assets.actions.search, Assets.actions.search, Assets.actions.search, Assets.actions.search],
   //catName: ['評分', '最多收藏', '收費','距離']
 };

@@ -21,14 +21,11 @@ class TutorRowFlatList extends React.Component{
 
   constructor (props){
     super(props);
-    this.state = {
-      selectedTab: 0
-    }
-    //this.handleSettingsPress = this.handleSettingsPress.bind(this)
+    
   }
 
   componentWillMount(){
-    //this.mounted = true
+
   } 
 
 
@@ -55,45 +52,30 @@ class TutorRowFlatList extends React.Component{
     }
   }
 
-  iconOnClick(i)
+  iconOnClick(item)
   {
-    this.props.iconOnClick({selectedIndex: i, courseID: this.props.id} )
+    this.props.iconOnClick(item)
   }
 
 
   renderAvatar()
   {
-    var itemArray = []
-
-    console.log('da = ' + JSON.stringify(this.props.data))
-    for ( var i = 0; i< this.props.data.length; i ++)
-    {
-      itemArray.push(
+    return this.props.data.map((item,i) =>{
+      return(
         <View
           key = {i}
-          style = {{margin:5}}
+          style = {{margin:5, alignItems:'center'}}
         >
-          {
-
-          }
           <Avatar
-            onPress={() => {
-              this.iconOnClick(i)
-              //this.AvatarOnClicked()
-            }}
+            onPress={() => {this.iconOnClick(item)}}
             size = {70}
-            //type = 'edit'
-            url = {this.props.data[i].tutor_thumb}
+            url = {item.tutor_thumb}
             round = {true}
-            //url = 'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p80x80/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=831d0ee264e5772b4b15faa60c7d16c4&oe=5BD89683'
           />
-          <Text style = {{margin:5}}>{this.props.data[i].course_name}</Text>
-          
-
+          <Text style = {{margin:5, fontSize:layout.stringsSizeSmall}}>{item.course_name}</Text>
         </View>
       )
-    }
-    return itemArray
+    })
   }
 
   render (){
@@ -154,7 +136,7 @@ const styles = StyleSheet.create ({
     marginLeft: 10,
     marginTop: 5,
     fontWeight:'bold',
-    fontSize:16,
+    fontSize:layout.stringsSizeMid,
   },
   seeAll:{
     alignItems :'flex-start',
@@ -162,7 +144,7 @@ const styles = StyleSheet.create ({
     marginRight: 10,
     marginTop: 5,
     fontWeight:'bold',
-    fontSize:14,
+    fontSize:layout.stringsSizeSmall,
   }
   /*
   background:{

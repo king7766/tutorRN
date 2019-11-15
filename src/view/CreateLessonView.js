@@ -178,6 +178,23 @@ export default class CreateLessonView extends React.Component {
 
   async next ()
   {
+    const userToken = await AsyncStorage.getItem('userToken')
+    if ( userToken == 'guest' )
+    {
+      Alert.alert(
+        '創立失敗',
+        'Error : 請先登入',
+        [{
+            text:strings.confirm, onPress:()=>{
+              this.setState({loadingVisible : false},function(){
+                this.props.createLessonFinished()
+              })
+          }
+        }]
+      )
+      return 
+    }
+
     var location_id = locationViewModel.getLocationIdByName(this.state.rowDataSelectedArray[0])
     var district_id = locationViewModel.getDistrictIdByLocationId(location_id)
 
@@ -430,7 +447,7 @@ export default class CreateLessonView extends React.Component {
   }
   
   renderItem = ({item, index}) =>
-    <TouchableHighlight onPress={()=>this.selectedPhoto(index)}>
+    <TouchableOpacity onPress={()=>this.selectedPhoto(index)}>
       <View style={{
         flex: 1,
         margin: 5,
@@ -449,7 +466,7 @@ export default class CreateLessonView extends React.Component {
           source={ item.node ? { uri: item.node.image.uri } : item}
         />
       </View>
-    </TouchableHighlight>
+    </TouchableOpacity>
 
   render() {
     
@@ -473,7 +490,7 @@ export default class CreateLessonView extends React.Component {
           //style = {{position:'absolute', top: 10}}
           dialogTitle={<DialogTitle title="請選取頭像圖片" />}
           //height= {350}
-          height= {layout.deviceHeight * 2 / 3}
+          height= {layout.deviceHeight - 75 }
           //dialogStyle={{marginTop:-300}} 
           dialogStyle={{ position:'absolute', top: 50}} 
           
@@ -482,14 +499,9 @@ export default class CreateLessonView extends React.Component {
             this.defaultAnimationDialog = defaultAnimationDialog;
           }}
         >
-          
-          
-          <View
-            style = {{backgroundColor: 'white'}}
-            //styles = {{height:layout.deviceHeight*3/5, backgroundColor: 'red'}}
-          >
+          <View style = {{backgroundColor: 'white'}}>
             <FlatList
-              style = {{ height: (layout.deviceHeight * 2/ 3) - 50}}
+              style = {{ height: layout.deviceHeight -75}}
               numColumns ={2}
               contentContainerStyle={styles.list}
               //data={[{key: 'a'}, {key: 'b'},{key: 'c'},{key: 'd'}, {key: 'e'},{key: 'f'},{key: 'g'}, {key: 'h'},{key: 'i'},{key: 'j'}]}
@@ -552,7 +564,7 @@ export default class CreateLessonView extends React.Component {
         }
 
           <View style={{height:40,justifyContent: 'center', backgroundColor:layout.shadowColor}}>
-            <Text style = {{color: 'black',paddingLeft: 10} }>
+            <Text style = {{color:layout.headingTextColor ,fontSize:layout.stringsSizeMid, paddingLeft: 10} }>
               {strings.detailInformation}
             </Text>
           </View>
@@ -685,7 +697,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 1,
     color : layout.themeTextColor,
-    fontSize : 14, 
+    fontSize : layout.stringsSizeSmall, 
     height: 30,
     width: 60,
     //paddingLeft: 10,

@@ -12,8 +12,12 @@ let themeTextColor = 'rgba(225,19,101,1)'
 let shadowColor = 'rgba(233,233,233,1)'
 let systemBlueColor = 'rgba(21,126,250,1)'
 
+let headingTextColor = 'rgba(231,121,98,1)'
+
 let backgroundColor = 'rgba(233,233,233,1)'
 let grayColor = 'rgba(180,180,180,1)'
+
+
 
 let stringsSizeBig = 18
 let stringsSizeMid = 16
@@ -99,6 +103,8 @@ module.exports = {
 	themeTextColor,
 	shadowColor,
 	systemBlueColor,
+	headingTextColor,
+	
 	styles,
 	
 	grayColor,

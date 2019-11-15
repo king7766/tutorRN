@@ -126,22 +126,27 @@ class SearchTutorView extends Component<Props> {
     //var dataSource = [categoryViewModel.getCategoryNameByID( this.state.tag)]
     var name = categoryViewModel.getCategoryNameByID( this.state.tag)
     var rowListBarDataSource = [name]
+    var rowMenuInitArray = [true, true]
 
     //console.log('getCategoryNameByID = ' + JSON.stringify(categoryViewModel.getCategoryNameByID( this.state.tag)))
     return (
       <View>
         
-        <RowMenuListingBar 
-          firstItemShowIcon = {true} 
-          //data = {['推介', '限時', '優惠', '熱門', '節日', '新到', '復古']}
-          data = {rowListBarDataSource}
+        {
+          <RowMenuListingBar 
+            firstItemShowIcon = {true} 
+            //data = {['推介', '限時', '優惠', '熱門', '節日', '新到', '復古']}
+            data = {rowListBarDataSource}
+            
+            itemHeight = {30}
+            itemWidth = {50}
+            selected = {0}
+            multiSelect = {true}
+            multiSelectArray = {rowMenuInitArray}
+            onClicked={ this.TopMenuBarOnClicked }
+          />
           
-          itemHeight = {30}
-          itemWidth = {50}
-          selected = {0}
-          multiSelect = {true}
-          onClicked={ this.TopMenuBarOnClicked }
-        />
+        }
         <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
         <ScrollView>
         {

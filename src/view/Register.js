@@ -385,7 +385,7 @@ class Register extends Component<Props> {
     this.defaultAnimationDialog.show();
     
     CameraRoll.getPhotos({
-      first: 20,
+      first: 100,
       assetType: 'Photos',
     })
     .then(r => {
@@ -500,7 +500,7 @@ class Register extends Component<Props> {
           //style = {{position:'absolute', top: 10}}
           dialogTitle={<DialogTitle title={strings.pleaseSelectPhoto}/>}
           //height= {350}
-          height= {layout.deviceHeight * 2 / 3}
+          height= {layout.deviceHeight - 75 }
           //dialogStyle={{marginTop:-300}} 
           dialogStyle={{ position:'absolute', top: 50}} 
           
@@ -516,7 +516,7 @@ class Register extends Component<Props> {
             //styles = {{height:layout.deviceHeight*3/5, backgroundColor: 'red'}}
           >
             <FlatList
-              style = {{ height: (layout.deviceHeight * 2/ 3) - 50}}
+              style = {{ height: layout.deviceHeight - 75}}
               numColumns ={2}
               contentContainerStyle={styles.list}
               //data={[{key: 'a'}, {key: 'b'},{key: 'c'},{key: 'd'}, {key: 'e'},{key: 'f'},{key: 'g'}, {key: 'h'},{key: 'i'},{key: 'j'}]}

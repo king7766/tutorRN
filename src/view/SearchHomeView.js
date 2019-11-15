@@ -34,7 +34,14 @@ import Assets from 'tutorRN/src/view/ui/Assets';
 import categoryVM from 'tutorRN/src/VM/categoryVM'
 import courseTagVM from 'tutorRN/src/VM/courseTagVM'
 import courseVM from 'tutorRN/src/VM/courseVM'
+import targetUserVM from 'tutorRN/src/VM/targetUserVM'
 import strings from 'tutorRN/src/service/strings'
+
+
+
+
+
+
 
 const layout = require('tutorRN/src/Layout')
 const numberOfItem = 4
@@ -45,7 +52,7 @@ const numberOfItem = 4
 //const courseTagViewModel = courseTagVM.getInstance()
 const categoryViewModel = categoryVM.getInstance()
 const courseViewModel = courseVM.getInstance()
-
+const targetUserViewModel = targetUserVM.getInstance()
 
 
 
@@ -367,9 +374,24 @@ class SearchHomeView extends Component<Props> {
     */
   }
 
-  iconOnClick(itemDataSelected)
+  async iconOnClick(itemDataSelected)
   {
     console.log('SearchHomeView : ' + itemDataSelected.selectedIndex + ' ' + itemDataSelected.courseID)
+    
+    var tutor_id = itemDataSelected.tutor_id
+    var lesson_id = itemDataSelected.id
+
+    const flag = await targetUserViewModel.setUserProfile(tutor_id)
+    
+    if ( flag ){
+      this.props.navigation.navigate('NewsDetailView',{
+        lessonDetailShow: true,
+        tutor : targetUserViewModel.getUserProfile(),
+        tutor_id : targetUserViewModel.getUserProfile().user_id,
+        lesson_id : lesson_id,
+      })
+    }
+
   }
 
   tutorRowListUI()
@@ -388,7 +410,7 @@ class SearchHomeView extends Component<Props> {
             height = {130}
             iconOnClick = {(itemDataSelected)=>this.iconOnClick(itemDataSelected)}
             //data = {this.state.tutorRowData}
-            id = {tag_id}
+            //id = {tag_id}
             data = {courseViewModel.getCourseByTag(tag_id)}
           />   
         </View>
@@ -477,7 +499,8 @@ class SearchHomeView extends Component<Props> {
   render() {
     
     var rowMenuInitArray = [true]
-    for (var i = 0; i < this.state.courseTagNames.length; i ++)
+    
+    for (var i = 0; i < courseViewModel.getCourseTagNamesList().length; i ++)
     {
       rowMenuInitArray.push(true)
     }
@@ -490,7 +513,7 @@ class SearchHomeView extends Component<Props> {
             
             firstItemShowIcon = {true}
             firstImageSource = {Assets.icon.advanceSearch} 
-            data = {this.state.courseTagNames}
+            data = {courseViewModel.getCourseTagNamesList()}
             //size = {50}
             itemHeight = {30}
             itemWidth = {50}

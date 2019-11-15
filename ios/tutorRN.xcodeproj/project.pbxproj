@@ -54,6 +54,7 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		B178DDDA1A804AAE9D08DAB7 /* libReactNativeLocalization.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 57E25A74D15F436A9D512B99 /* libReactNativeLocalization.a */; };
 		E33F7DE621DA066D0069CE64 /* YTPlayerView-iframe-player.html in Resources */ = {isa = PBXBuildFile; fileRef = E33F7DE521DA066D0069CE64 /* YTPlayerView-iframe-player.html */; };
+		E36CC5E3237E59480023EAFB /* assets in Resources */ = {isa = PBXBuildFile; fileRef = E36CC5C1237E59460023EAFB /* assets */; };
 		E37089602265849F00771641 /* main.jsbundle.meta in Resources */ = {isa = PBXBuildFile; fileRef = E370895D2265849E00771641 /* main.jsbundle.meta */; };
 		E37089612265849F00771641 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = E370895E2265849F00771641 /* main.jsbundle */; };
 		E3E2CCB721EDD1C2009B5307 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3E2CC9B21EDD1A4009B5307 /* libRCTCameraRoll.a */; };
@@ -360,6 +361,7 @@
 		E33F7D9A21D9F8390069CE64 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = tutorRN/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		E33F7D9B21D9F8390069CE64 /* FBSDKPlacesKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKPlacesKit.framework; path = tutorRN/FBSDKPlacesKit.framework; sourceTree = "<group>"; };
 		E33F7DE521DA066D0069CE64 /* YTPlayerView-iframe-player.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = "YTPlayerView-iframe-player.html"; path = "tutorRN/YTPlayerView-iframe-player.html"; sourceTree = "<group>"; };
+		E36CC5C1237E59460023EAFB /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		E370895D2265849E00771641 /* main.jsbundle.meta */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.jsbundle.meta; sourceTree = "<group>"; };
 		E370895E2265849F00771641 /* main.jsbundle */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		E3E2CC9221EDD1A4009B5307 /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
@@ -607,6 +609,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				E36CC5C1237E59460023EAFB /* assets */,
 				E370895E2265849F00771641 /* main.jsbundle */,
 				E370895D2265849E00771641 /* main.jsbundle.meta */,
 				13B07FAE1A68108700A75B9A /* tutorRN */,
@@ -1165,6 +1168,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E36CC5E3237E59480023EAFB /* assets in Resources */,
 				E37089602265849F00771641 /* main.jsbundle.meta in Resources */,
 				E37089612265849F00771641 /* main.jsbundle in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
@@ -1386,7 +1390,7 @@
 					"$(SRCROOT)/../node_modules/react-native-localization",
 				);
 				INFOPLIST_FILE = tutorRN/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1421,7 +1425,7 @@
 					"$(SRCROOT)/../node_modules/react-native-localization",
 				);
 				INFOPLIST_FILE = tutorRN/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",

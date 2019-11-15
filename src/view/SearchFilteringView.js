@@ -31,9 +31,11 @@ import FilteringToolsBar from 'tutorRN/src/view/ui/FilteringToolsBar';
 import strings from 'tutorRN/src/service/strings'
 import locationVM from 'tutorRN/src/VM/locationVM'
 import categoryVM from 'tutorRN/src/VM/categoryVM'
+import courseVM from 'tutorRN/src/VM/courseVM'
 
 const categoryViewModel = categoryVM.getInstance()
 const locationViewModel = locationVM.getInstance()
+const courseViewModel = courseVM.getInstance()
 const layout = require('tutorRN/src/Layout')
 
 class SearchFilteringView extends Component<Props> {
@@ -67,7 +69,8 @@ class SearchFilteringView extends Component<Props> {
     this.mounted = true
   }
 
-  showResultBtnOnClick(){
+  
+  async showResultBtnOnClick(){
 
     // Each time you call push we add a new route to the navigation stack. When you call navigate it first tries to find an existing route with that name, and only pushes a new route if there isn't yet one on the stack.
     
@@ -81,15 +84,34 @@ class SearchFilteringView extends Component<Props> {
     console.log(categoryViewModel.getCategoryIDByName(this.state.pickerResults[1]))
     console.log(categoryViewModel.getSubCategoryIDByName(this.state.pickerResults[2]))
 
-    /*
-    this.props.navigation.push('SearchTutorView',{
-      location : '尖沙咀' ,
-      district :  '九龍',
-      education : '音樂',
-      subject : '小提琴',
-      }
-    );
-    */
+    var cat_id = categoryViewModel.getCategoryIDByName(this.state.pickerResults[1])
+
+    if ( cat_id == undefined)
+    {
+      return 
+    }
+   
+    console.log('cat_id = ' + cat_id)
+    const res = await courseViewModel.updateCourseByCategoryId(cat_id)
+    if (res == true)
+    {
+      
+      var submit_data = courseViewModel.getCourseByCategory(cat_id)
+      console.log('getCourseByCategory : ' +JSON.stringify(submit_data) )
+
+      this.props.navigation.navigate(
+        'SearchTutorView',{
+
+          tag: cat_id,
+          data : submit_data,
+        }
+      )
+      
+    }
+    else
+    {
+
+    }
     
   }
 
@@ -97,6 +119,7 @@ class SearchFilteringView extends Component<Props> {
   {
     //console.log('textInputStyle = '+ index)
     return {
+      fontSize : layout.stringsSizeMid,
       paddingLeft: 5,
       color: 'gray',
       backgroundColor: 'white',
@@ -223,20 +246,16 @@ class SearchFilteringView extends Component<Props> {
       //<SafeAreaView
       //  styles = {{flex:1}}
       //>
-      <View>
-        <ScrollView
-          scrollEnabled={false}
-        >
-          <Text style = {{margin:10, color:'rgb(231,121,98)', fontWeight:'bold'}}>{strings.order}</Text>
-
+      <View style = {{flex:1}}>
+        <View style = {styles.upperPartContainer}>
+          <Text style = {{margin:10, color:layout.headingTextColor, fontSize:layout.stringsSizeMid}}>{strings.order}</Text>
           <FilteringToolsBar 
             onClicked = {(index)=>this.filteringToolsBtnOnClicked(index)}
             catName = {['評分', '最多收藏', '收費','距離']}
+            imageSource = {[Assets.icon.ranking, Assets.icon.bookmark, Assets.icon.price, Assets.icon.distance]}
             //imageSource = {[Assets.actions.doc, Assets.actions.doc, Assets.actions.doc, Assets.actions.doc]}
           />
-
-          <Text style = {{margin:10, color:'rgb(231,121,98)', fontWeight:'bold'}}>{strings.filter}</Text>
-          
+          <Text style = {{margin:10, color:layout.headingTextColor, fontSize:layout.stringsSizeMid}}>{strings.filter}</Text>
           <View>
             {
               this.state.rowTitle.map(
@@ -257,7 +276,7 @@ class SearchFilteringView extends Component<Props> {
                       </Text> 
                       
                       <Text
-                        style = {{ paddingRight:10, color:'rgb(231,121,98)' }}
+                        style = {styles.resultTextStyle}
                       >
                         {this.state.pickerResults[index]}
                       </Text> 
@@ -269,8 +288,8 @@ class SearchFilteringView extends Component<Props> {
               )
             }
           </View>
-          <View style = {{backgroundColor:layout.backgroundColor, height: 50}}/>
-
+        </View>
+        <View style = {styles.lowerPartContainer}>
           <TouchableOpacity onPress={this.showResultBtnOnClick}>
             <View style = {styles.submitBotton}>
               <Text style = {styles.submitText}>
@@ -278,9 +297,7 @@ class SearchFilteringView extends Component<Props> {
               </Text>
             </View>
           </TouchableOpacity>
-
-          
-        </ScrollView>
+        </View>
       </View>
     );
   }
@@ -292,12 +309,8 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     width: '100%',
     height: 40,
-    //flex: 1,
-    //justifyContent: 'center',
     justifyContent: 'space-between',
-    
     alignItems: 'center',
-    //backgroundColor : 'rgba(242,242,242,1)'
     backgroundColor: 'white',
   },
 
@@ -306,8 +319,6 @@ const styles = StyleSheet.create({
     height:80,
     justifyContent: 'center',
     alignItems:'center'  
-    //flex:1,
-    
   },
 
   
@@ -322,9 +333,21 @@ const styles = StyleSheet.create({
     color:'white',
     fontSize:layout.stringsSizeMid
 
+  },
+  resultTextStyle:{
+    fontSize: layout.stringsSizeMid,
+    paddingRight:10,
+    color:layout.themeTextColor 
+  },
+  upperPartContainer:{
+    flex:1,
+  },
+  lowerPartContainer:{
+    flex:1,
+    justifyContent:'center',
   }
 
-  });
+});
 
 
 

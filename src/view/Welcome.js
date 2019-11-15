@@ -75,7 +75,7 @@ class Welcome extends Component<Props> {
 
   componentWillMount() {
 
-    LoginManager.logOut()
+    //LoginManager.logOut()
 
     this.mounted = true
     //this.getFacebookData()

@@ -63,6 +63,7 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
 
   init ()
   {
+    /*
     let { imageSource } = this.state;
     const { type } = this.props; 
 
@@ -78,6 +79,7 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
     this.setState({
       imageSource,
     });
+    */
   }
 
  
