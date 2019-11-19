@@ -425,7 +425,7 @@ class NewsHomeView extends Component<Props> {
             }
           />
           :
-          <LoadingScreen />
+          <View style = {{backgroundColor:'black'}}/>
 
 
         }

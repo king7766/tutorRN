@@ -8,7 +8,7 @@ import {
    TouchableHighlight,
    TouchableOpacity
 } from 'react-native';
-
+import LinearGradient from 'react-native-linear-gradient';
 import TimedSlideshow from 'react-native-timed-slideshow';
 import Dimensions from 'Dimensions';
 //import Hyperlink from 'react-native-hyperlink'
@@ -37,11 +37,20 @@ class NewsItemCell extends Component{
     )
   } 
 
+  showUU()
+  {
+    return (
+      <LinearGradient colors={['rgba(0, 0, 0, 0.5)', 'rgba(0, 0, 0, 0.0)']} style={styles.linearGradient}>
+        <View style = {{flex:1}}/>
+      </LinearGradient>
+    )
+  }
+
   showUI()
   {
     return (
       <View style = {{flex: 1}}>
-        <View style = {styles.upperPartViewStyle}>
+        <LinearGradient colors={['rgba(0, 0, 0, 0.5)','rgba(0, 0, 0, 0.0)']} style = {styles.upperPartViewStyle}>
           <View style = {styles.tutorNameViewStyle}>
             <Image 
               //style = {styles.tutorImageStyle}
@@ -53,7 +62,7 @@ class NewsItemCell extends Component{
             </Text>
           </View>
 
-        </View>
+        </LinearGradient>
         <View style = {styles.lowerPartViewStyle}>
         
           <TouchableOpacity
@@ -70,7 +79,7 @@ class NewsItemCell extends Component{
             <Image style = {layout.styles.homeIconSize} source={Assets.actions.like} />
           </TouchableOpacity>
         </View>
-        <View style = {styles.lowerPartViewStyle}>
+        <LinearGradient colors={['rgba(0, 0, 0, 0.0)','rgba(0, 0, 0, 0.5)']} style = {styles.lowerPartViewStyle}>
           {
             this.props.item.course_media_list.length == 0 &&
             <View style = {styles.newsTextViewStyle}>
@@ -84,7 +93,7 @@ class NewsItemCell extends Component{
             </View> 
           }
           
-        </View>                                                     
+        </LinearGradient>                                                     
       </View>
     
     )
@@ -93,31 +102,6 @@ class NewsItemCell extends Component{
   showContent()
   {
     
-    
-    const items = [
-			{
-				uri: "https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/5895592a166f19435e4e127ae1b1f336.jpg",
-				title: "Michael Malik",
-        text: "Minnesota, USA",
-        //extraSpacing:100,
-        fullWidth: false,
-			},
-			{
-				uri: 'https://images.unsplash.com/photo-1485832329521-e944d75fa65e?auto=format&fit=crop&w=1000&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D',
-				title: "Victor Fallon",
-				text: "Val di Sole, Italy",
-        duration: 5000,
-        fullWidth: true
-        
-			},
-			{
-				uri: "https://d13ycpzy3ywwvb.cloudfront.net/holictoday/holic/5895592a166f19435e4e127ae1b1f336.jpg",
-				title: "Mary Gomes",
-				text: "Alps",
-				fullWidth: true
-			}
-    ]
-
     var photos = []
     if ( this.props.item.course_media_list.length > 0 )
     {
@@ -172,7 +156,6 @@ class NewsItemCell extends Component{
         {
           this.showUI()
         }
-        
       </TouchableOpacity>
 
     )
@@ -182,9 +165,16 @@ class NewsItemCell extends Component{
 export default NewsItemCell;
 
 const styles = StyleSheet.create ({
+  linearGradient: {
+    flex: 1,
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderRadius: 5
+  },
+
   upperPartViewStyle:{
     flex:1,
-    backgroundColor: 'transparent',
+    //backgroundColor: 'transparent',
     justifyContent: 'flex-end',
     //backgroundColor:'orange',
     //width:'100%'
@@ -192,7 +182,7 @@ const styles = StyleSheet.create ({
   lowerPartViewStyle:{
     flex:4,
     justifyContent: 'flex-end',
-    backgroundColor: 'transparent',
+    //backgroundColor: 'transparent',
     //backgroundColor:'green',
     //width:'100%'
     
@@ -240,18 +230,16 @@ const styles = StyleSheet.create ({
     //height: layout.deviceHeight
   },
 
-  newsTextViewStyle:{
-    backgroundColor:'red',
-    
+  newsTextViewStyle:{  
     left:0,
     right:0,
     //bottom: 0,
-    
+    backgroundColor :'transparent',
     flexDirection:'column',
     //top: layout.deviceHeight - 200,
     height:120,
     width: layout.deviceWidth,
-    backgroundColor:'rgba(0, 0, 0, 0.5)',
+
   },
 
   newsContentTextStyle:{

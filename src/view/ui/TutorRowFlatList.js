@@ -64,7 +64,7 @@ class TutorRowFlatList extends React.Component{
       return(
         <View
           key = {i}
-          style = {{margin:5, alignItems:'center'}}
+          style = {{margin:5, alignItems:'center',width:100,}}
         >
           <Avatar
             onPress={() => {this.iconOnClick(item)}}
@@ -72,7 +72,7 @@ class TutorRowFlatList extends React.Component{
             url = {item.tutor_thumb}
             round = {true}
           />
-          <Text style = {{margin:5, fontSize:layout.stringsSizeSmall}}>{item.course_name}</Text>
+          <Text numberOfLines= {1} style = {styles.courseNameStyle}>{item.course_name}</Text>
         </View>
       )
     })
@@ -145,7 +145,14 @@ const styles = StyleSheet.create ({
     marginTop: 5,
     fontWeight:'bold',
     fontSize:layout.stringsSizeSmall,
+  },
+  courseNameStyle:{
+    textAlign: 'center',
+    margin:5,
+    width:100, 
+    fontSize:layout.stringsSizeSmall
   }
+
   /*
   background:{
     backgroundColor: 'red',

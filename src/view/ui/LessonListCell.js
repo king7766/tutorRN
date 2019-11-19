@@ -120,17 +120,17 @@ class LessonListCell extends Component{
               {this.props.item.course_name}
             </Text>
 
-            <View style = {{flexDirection:'row'}}>
+            <View style = {{flexDirection:'row', flex:1}}>
               <View style = {styles.infoBlockStyle}>
                 <Image source={Assets.icon.location} style={{height:30, width:30}} resizeMode='contain'/>
-                <Text style={{ color:layout.themeTextColor}}>
+                <Text style={styles.locationTextStyle}>
                   {locationViewModel.getLocationNameById(this.props.item.location[0].id)}
                 </Text>
               </View>
 
               <View style = {styles.infoBlockStyle}>
                 <Image source={Assets.icon.price} style={{height:30, width:30}} resizeMode='contain'/>
-                <Text >
+                <Text style = {styles.priceTextStyle}>
                   {courseViewModel.getCourseFeeStringById(this.props.item.course_fee)}
                 </Text>
               </View>
@@ -188,7 +188,7 @@ const styles = StyleSheet.create ({
     //flex: 1,
     flexDirection: 'row',
     width: layout.deviceWidth,
-    height: 120,
+    height: 100,
     //borderTopColor: 'gray',
     //borderTopWidth: 0.5,
     backgroundColor: 'white',
@@ -241,19 +241,18 @@ const styles = StyleSheet.create ({
     flex:6,
     padding : 5,
     flexDirection: 'column',
-    //alignItems: 'center'
     justifyContent: 'center'
   },
 
   nameStyle:{
-    padding: 5,
+    flex:1,
+    marginTop:5,
     fontSize: layout.stringsSizeBig,
     fontWeight: 'bold',
   },
 
   subjectStyle:{
-    padding: 5,
-    fontWeight: 'bold',
+    flex:1,
     fontSize: layout.stringsSizeMid,
   },
 
@@ -263,14 +262,25 @@ const styles = StyleSheet.create ({
     flexDirection:'column',
     alignItems:'center',
     justifyContent:'center',
-    //backgroundColor:'red',
   },
+
   infoBlockStyle:{
+    height:30,
     padding:5,
     alignItems:'center',
     justifyContent:'flex-start',
     flexDirection:'row',
     flex:1,
+  },
+  locationTextStyle:{
+    backgroundColor:'transparent',
+    color:layout.themeTextColor,
+    fontSize: layout.stringsSizeSmall,
+  },
+
+  priceTextStyle:{
+    backgroundColor:'transparent',
+    fontSize: layout.stringsSizeSmall,
   }
 })
 
