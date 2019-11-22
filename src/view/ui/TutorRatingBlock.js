@@ -9,12 +9,71 @@ import {
    Linking,
    TouchableHighlight
 } from 'react-native';
-import Dimensions from 'Dimensions';
-//import Hyperlink from 'react-native-hyperlink'
-import ParsedText from 'react-native-parsed-text';
+
+//import Stars from 'react-native-stars';
+import StarRatingBar from 'react-native-star-rating-view/StarRatingBar'
+import { Rating } from 'react-native-ratings';
+
+import Assets from 'tutorRN/src/view/ui/Assets';
 
 const layout = require('tutorRN/src/Layout')
 let starSize = 15
+
+
+class Bars extends Component{
+  constructor (props){
+    super(props);
+    var rating = [0,0,0,0,0]
+    for ( var i = 0; i < this.props.data.length; i ++)
+    {
+      var t = rating[Number(this.props.data[i].rating) -1]
+      t = t +1 
+      rating [Number(this.props.data[i].rating) -1] = t
+    }
+
+    this.state = {rating : rating.reverse()}
+  }
+
+  voteBarFull (index)
+  {
+    var red = 250
+    var green = 182 + (index *20)
+    var blue = 16 + (index * 40)
+
+    var width = (100*(this.state.rating[index]/ Math.max.apply(Math, this.state.rating) ) )+ '%'
+    return {
+      flex:1,
+      width:width,
+      //backgroundColor:'yellow', 
+      height: 20,
+      backgroundColor: 'rgba('+red+','+green+','+blue+',1)',
+      borderColor: 'rgba('+red+','+green+','+blue+',1)',
+      borderWidth: 0.5,
+      borderRadius: 10,
+    }
+  }
+
+  render() {
+    var bars = []
+    for ( var index = 0; index < this.state.rating.length ; index ++)
+    {
+      bars.push(
+        <View 
+          style = {styles.voteBG} 
+          key = {index}
+        >
+          <Text style = {styles.voteCount}>
+            {5 - index}
+          </Text>
+          <View style = {styles.voteBar} >
+            <View style = {this.voteBarFull(index)} />
+          </View>
+        </View>
+      )
+    }
+    return <View>{bars}</View>
+  }
+}
 
 class TutorRatingBlock extends Component{
 
@@ -23,10 +82,69 @@ class TutorRatingBlock extends Component{
 
     this.arrowOnClick = this.arrowOnClick.bind(this)
     
+
     this.state = {
       barWidth:0,
       rating:[2,3,10,6,7],
-      
+      data :[
+        {
+          "id": "3",
+          "user_id": "1",
+          "tutor_id": "2",
+          "rating": "3",
+          "create_date": "2019-05-30 11:32:30"
+        },
+        {
+          "id": "5",
+          "user_id": "1",
+          "tutor_id": "4",
+          "rating": "1",
+          "create_date": "2019-06-14 14:43:10"
+        },
+        {
+          "id": "6",
+          "user_id": "1",
+          "tutor_id": "3",
+          "rating": "2",
+          "create_date": "2019-06-14 14:43:10"
+        },
+        {
+          "id": "7",
+          "user_id": "1",
+          "tutor_id": "4",
+          "rating": "5",
+          "create_date": "2019-06-14 14:43:10"
+        },
+        {
+          "id": "8",
+          "user_id": "1",
+          "tutor_id": "5",
+          "rating": "5",
+          "create_date": "2019-06-14 14:43:10"
+        },
+        {
+          "id": "9",
+          "user_id": "1",
+          "tutor_id": "6",
+          "rating": "2",
+          "create_date": "2019-06-14 14:43:10"
+        },
+        {
+          "id": "10",
+          "user_id": "1",
+          "tutor_id": "7",
+          "rating": "2",
+          "create_date": "2019-06-14 14:43:10"
+        },
+        {
+          "id": "11",
+          "user_id": "1",
+          "tutor_id": "8",
+          "rating": "1",
+          "create_date": "2019-06-14 14:43:10"
+        }
+
+      ]  
     }
 
   }
@@ -94,93 +212,74 @@ class TutorRatingBlock extends Component{
 
   render (){
 
-    var ds = new  ListView.DataSource({rowHasChanged:(r1,r2) => r1 !== r2});
-    var dataSource= ds.cloneWithRows(this.state.rating)
-
+    var total = 0 
+    for (var i = 0 ;i< this.state.data.length; i++)
+    {
+      total = total + Number(this.state.data[i].rating)
+      
+    }
+    var avg = total / this.state.data.length
+    console.log('avg = ' + avg)
 
     return(
 
       <TouchableHighlight
           onPress={ ()=>this.viewOnClicked()}
       >
-        
-      
-      <View style = {styles.background}>
-        
-        {this.props.arrowOn && 
-          <TouchableHighlight 
-              underlayColor = {this.props.touchColor}
-              onPress={ ()=>this.arrowOnClick(this.props.tag-1)}
-          >
-            <Image 
-              style = {{ flex: 1,width: 30, height: 30}}
-              source= {require('tutorRN/image/left_arrow_icon_100.png')}
-              resizeMode =  'contain'
-            />
-          </TouchableHighlight>
-        }
-        
-          <View style = {styles.ratingBG}>
-            <View style = {styles.averageBG}>
-              <Text style = {styles.averageMark}>
-                4.4
-              </Text>
-              
-              <View
-                style = {this.starShowingBG()}
-              >
-              {
-                this.state.rating.map((item, index) =>
-                  <Image 
-                    key = {index}
-                    source={require('tutorRN/image/star-503.png')} 
-                    style={{width: starSize, height: starSize}} />
-                )
-              }
-              
+        <View style = {styles.background}>
+          
+          {this.props.arrowOn && 
+            <TouchableHighlight 
+                underlayColor = {this.props.touchColor}
+                onPress={ ()=>this.arrowOnClick(this.props.tag-1)}
+            >
+              <Image 
+                style = {{ flex: 1,width: 30, height: 30}}
+                source= {require('tutorRN/image/left_arrow_icon_100.png')}
+                resizeMode =  'contain'
+              />
+            </TouchableHighlight>
+          }
+          
+            <View style = {styles.ratingBG}>
+              <View style = {styles.averageBG}>
+                {
+                  <Rating
+                    type="star"
+                    fractions={1}
+                    startingValue={avg}
+                    readonly
+                    showRating
+                    imageSize={25}
+                    ratingTextColor="black"
+                    onFinishRating={this.ratingCompleted}
+                    style={{ paddingVertical: 10 }}
+                  />
+                } 
+              </View>
+              <View style = {styles.overallBG}>
+                <Bars 
+                  data = {this.state.data}
+                />
               </View>
             </View>
-            <View style = {styles.overallBG}>
-            {
-              this.state.rating.map((item, index) =>
-                <View 
-                  style = {styles.voteBG} 
-                  key = {index}
-                >
-                  <Text style = {styles.voteCount}>
-                      {5 - index}
-                  </Text>
+          
+          
 
-                  <View 
-                    ref = '_voteBar'
-                    style = {styles.voteBar} 
-                    onLayout={(event) => this.measureView(event)}
-                  >
-                    <View style = {this.voteBarFull(index)} />
-                  </View>
-
-                </View>
-              )
-            }
-            </View>
-          </View>
-        
-        
-
-        {this.props.arrowOn && 
-          <TouchableHighlight 
-              underlayColor = {this.props.touchColor}
-              onPress={ ()=>this.arrowOnClick(this.props.tag+1)}
-            >
-            <Image 
-              style = {{ flex: 1,width: 30, height: 30}}
-              source= {require('tutorRN/image/right_arrow_icon_100.png')}
-              resizeMode =  'contain'
-            />
-          </TouchableHighlight>
-        }
-        
-      </View>
+          {this.props.arrowOn && 
+            <TouchableHighlight 
+                underlayColor = {this.props.touchColor}
+                onPress={ ()=>this.arrowOnClick(this.props.tag+1)}
+              >
+              <Image 
+                style = {{ flex: 1,width: 30, height: 30}}
+                source= {require('tutorRN/image/right_arrow_icon_100.png')}
+                resizeMode =  'contain'
+              />
+            </TouchableHighlight>
+          }
+          
+        </View>
       </TouchableHighlight>
       
       )
@@ -223,7 +322,7 @@ const styles = StyleSheet.create ({
 
   averageBG:{
     flex:2,  //5
-    height: 130,
+
     //backgroundColor: 'red',
     flexDirection:'column',
     justifyContent: 'center',
@@ -233,7 +332,7 @@ const styles = StyleSheet.create ({
 
   overallBG:{
     flex:3,   //5
-    height: 130,
+    
     //backgroundColor: 'green',
     flexDirection:'column',
     //justifyContent: 'space-around',
@@ -242,7 +341,7 @@ const styles = StyleSheet.create ({
   },
 
   averageMark:{
-  
+    flex:1,
 
     fontSize: 40,
   },

@@ -73,7 +73,7 @@ export default class courseVM{
 			
 		}
 		
-		console.log('setupTagLisingArray : ' +JSON.stringify(this.refCoursesFromTag))
+		//console.log('setupTagLisingArray : ' +JSON.stringify(this.refCoursesFromTag))
 	}
 
 	async load()

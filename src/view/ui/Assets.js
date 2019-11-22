@@ -34,6 +34,10 @@ const icon = {
   ranking : require('tutorRN/image/icons/ranking.png'),
   distance : require('tutorRN/image/icons/distance.png'),
 
+  star_empty : require('tutorRN/image/icons/icons8-star-empty.png'),
+  star_half : require('tutorRN/image/icons/icons8-star-half.png'),
+  star_filled : require('tutorRN/image/icons/icons8-star-filled.png'),
+
   advanceSearch : require('tutorRN/image/icons/advanceSearch.png'),
   location : require('tutorRN/image/icons/location.png'),
   price : require('tutorRN/image/icons/price.png'),

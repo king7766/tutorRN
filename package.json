@@ -26,6 +26,8 @@
     "react-native-parsed-text": "0.0.20",
     "react-native-picker": "^4.3.7",
     "react-native-popup-dialog": "^0.11.46",
+    "react-native-ratings": "^6.5.0",
+    "react-native-star-rating-view": "git+https://github.com/ksti/react-native-star-rating-view.git#purejs",
     "react-native-timed-slideshow": "^1.2.1",
     "react-native-video": "^3.2.0",
     "react-native-youtube": "^1.1.0",

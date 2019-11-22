@@ -21,6 +21,10 @@ import {
 } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
 
+import StarRatingBar from 'react-native-star-rating-view/StarRatingBar'
+import { Rating } from 'react-native-ratings';
+import { AirbnbRating } from 'react-native-ratings';
+
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
 import SegmentControl from './ui/SegmentControl'
@@ -85,179 +89,7 @@ class NewsDetailView extends Component<Props> {
         '2018-04-05': {selected: true},
        
       } ,
-      
-      lessonData:[
-        {
-            "id": "2",
-            "course_name": "DSE 中文寫作技巧 I",
-            "course_introduction": "描寫文寫作",
-            "course_fee": "100",
-            "course_ranking": "5",
-            "course_seq": "1",
-            "course_priority": "1",
-            "category_name": "中文",
-            "parent_category_name": "學術",
-            "tag_name": "推介",
-            "tutor_img": "http://tutor.ho2find.com/uploads/IMG_E0196.JPG",
-            "location": [
-                {
-                    "id": "4",
-                    "district_id": "1",
-                    "location_name": "九龍灣",
-                    "location_seq": null
-                }
-            ],
-            "district": [
-                {
-                    "id": "1",
-                    "district_name": "觀塘綫",
-                    "district_seq": null,
-                    "location_list": null,
-                    "create_user": null,
-                    "create_date": null,
-                    "update_user": null,
-                    "update_date": null,
-                    "version_no": null
-                }
-            ]
-        },
-        {
-            "id": "3",
-            "course_name": "朱古力甜品",
-            "course_introduction": "心太軟",
-            "course_fee": "200",
-            "course_ranking": "5",
-            "course_seq": "1",
-            "course_priority": "1",
-            "category_name": "甜品",
-            "parent_category_name": "烹飪",
-            "tag_name": "優惠",
-            "tutor_img": "http://tutor.ho2find.com/uploads/IMG_E0196.JPG",
-            "location": [
-                {
-                    "id": "16",
-                    "district_id": "2",
-                    "location_name": "荃灣",
-                    "location_seq": null
-                }
-            ],
-            "district": [
-                {
-                    "id": "2",
-                    "district_name": "荃灣綫",
-                    "district_seq": null,
-                    "location_list": null,
-                    "create_user": null,
-                    "create_date": null,
-                    "update_user": null,
-                    "update_date": null,
-                    "version_no": null
-                }
-            ]
-        },
-        {
-            "id": "4",
-            "course_name": "一 take 過包搞掂",
-            "course_introduction": "自動波",
-            "course_fee": "3000",
-            "course_ranking": "5",
-            "course_seq": "1",
-            "course_priority": "1",
-            "category_name": "私家車",
-            "parent_category_name": "駕駛",
-            "tag_name": "熱門",
-            "tutor_img": "http://tutor.ho2find.com/uploads/IMG_E0196.JPG",
-            "location": [
-                {
-                    "id": "31",
-                    "district_id": "3",
-                    "location_name": "香港大學",
-                    "location_seq": null
-                }
-            ],
-            "district": [
-                {
-                    "id": "3",
-                    "district_name": "港島綫",
-                    "district_seq": null,
-                    "location_list": null,
-                    "create_user": null,
-                    "create_date": null,
-                    "update_user": null,
-                    "update_date": null,
-                    "version_no": null
-                }
-            ]
-        },
-        {
-            "id": "5",
-            "course_name": "商業應EXCEL 應用",
-            "course_introduction": "Pivot Table 應用",
-            "course_fee": "250",
-            "course_ranking": "5",
-            "course_seq": "1",
-            "course_priority": "1",
-            "category_name": "Word & Excel",
-            "parent_category_name": "電腦",
-            "tag_name": "新進",
-            "tutor_img": "http://tutor.ho2find.com/uploads/IMG_E0196.JPG",
-            "location": [
-                {
-                    "id": "47",
-                    "district_id": "4",
-                    "location_name": "金鐘",
-                    "location_seq": null
-                }
-            ],
-            "district": [
-                {
-                    "id": "4",
-                    "district_name": "南港島綫",
-                    "district_seq": null,
-                    "location_list": null,
-                    "create_user": null,
-                    "create_date": null,
-                    "update_user": null,
-                    "update_date": null,
-                    "version_no": null
-                }
-            ]
-        },
-        {
-            "id": "6",
-            "course_name": "鋼琴試",
-            "course_introduction": "演奏級導師指導",
-            "course_fee": "2000",
-            "course_ranking": "5",
-            "course_seq": "1",
-            "course_priority": "1",
-            "category_name": "鋼琴",
-            "parent_category_name": "音樂",
-            "tag_name": "得獎",
-            "tutor_img": "http://tutor.ho2find.com/uploads/IMG_E0196.JPG",
-            "location": [
-                {
-                    "id": "52",
-                    "district_id": "5",
-                    "location_name": "康城",
-                    "location_seq": null
-                }
-            ],
-            "district": [
-                {
-                    "id": "5",
-                    "district_name": "將軍澳綫",
-                    "district_seq": null,
-                    "location_list": null,
-                    "create_user": null,
-                    "create_date": null,
-                    "update_user": null,
-                    "update_date": null,
-                    "version_no": null
-                }
-            ]
-        }
-      ],
+
       
     }
   }
@@ -380,6 +212,7 @@ class NewsDetailView extends Component<Props> {
 
     return (
       <View style = {layout.styles.basicViewStyle}>
+        
         <ScrollView>
           <TutorProfileBlock
             allowEdit = {false}
