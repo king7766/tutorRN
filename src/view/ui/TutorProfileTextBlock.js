@@ -97,7 +97,7 @@ class TutorProfileTextBlock extends Component{
   descriptionContentStyle ()
   {
     return {
-      lineHeight:20,
+      lineHeight:layout.defaultLineHeight,
       fontSize: layout.stringsSizeSmall,
       //paddingTop: 10,
       margin:5,
@@ -147,17 +147,27 @@ class TutorProfileTextBlock extends Component{
             }
             </TouchableOpacity>
           </View>
-          <TextInput 
-            style = {[this.descriptionContentStyle(), {height:this.state.descriptionHeight + 10}]}
-            value = {this.state.descriptionContent}
-            multiline={true}
-            scrollEnabled = {false}
-            editable = {this.props.allowEdit}
-            //editable = {this.state.editmode}
-            onChangeText={(descriptionContent) => this.setState({descriptionContent})}
-            onChange={() => this.onChange.bind(this)}
-            onContentSizeChange={(event) => this.onContentSizeChange(event)}
-          />
+          {
+            this.props.allowEdit ? 
+              <TextInput 
+                style = {[this.descriptionContentStyle(), {height:this.state.descriptionHeight + 10}]}
+                value = {this.state.descriptionContent}
+                multiline={true}
+                scrollEnabled = {false}
+                editable = {this.props.allowEdit}
+                //editable = {this.state.editmode}
+                onChangeText={(descriptionContent) => this.setState({descriptionContent})}
+                onChange={() => this.onChange.bind(this)}
+                onContentSizeChange={(event) => this.onContentSizeChange(event)}
+              />
+            :
+              <Text
+                style = {this.descriptionContentStyle()}
+              >
+                {this.state.descriptionContent}
+              </Text>
+          }
+          
 
           
         </View>

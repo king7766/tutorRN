@@ -23,6 +23,8 @@ let stringsSizeBig = 18
 let stringsSizeMid = 16
 let stringsSizeSmall = 14
 
+let defaultLineHeight = 20
+
 const deviceInfo=()=>{
 	/*
 	8+
@@ -111,6 +113,7 @@ module.exports = {
 	backgroundColor, 
 	stringsSizeBig,
 	stringsSizeMid,
-	stringsSizeSmall
+	stringsSizeSmall,
+	defaultLineHeight
 };
 

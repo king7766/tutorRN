@@ -202,48 +202,30 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
 
     return(
 
-      <ScrollView
-        style = {{backgroundColor: 'white'}}
-        horizontal = {true}
-        showsHorizontalScrollIndicator={false}
+      <View
+        style = {{height:this.props.itemHeight + 10}}
       >
-      {
-        /*
-        this.props.firstItemShowIcon && 
-        <TouchableOpacity
-          key= {0}
-          onPress={ ()=>this.onPress(0) }
+        <ScrollView
+          style = {{backgroundColor: 'white'}}
+          horizontal = {true}
+          showsHorizontalScrollIndicator={false}
         >
-          <View
-            style = {{ borderColor : layout.themeTextColor,alignItems:'center', justifyContent:'center', height: itemHeight, width: itemWidth, borderWidth: 1 ,borderRadius:2,  margin: 5   }}
-          >
-            <Image style = {{
-              height:20, 
-              resizeMode:'contain', 
-              width: 20,  
-              alignItems:'center', 
-              //backgroundColor: index == this.state.selectedItem ? 'red' : 'gray'
-              }} 
-              source = {this.props.firstImageSource ? this.props.firstImageSource : Assets.actions.search} 
-            />
-          </View> 
-
-        </TouchableOpacity>
-        */
-      }
-      {
-        dataSource.map((item, index) =>
-          (
-            <TouchableOpacity
-              key= {index}
-              onPress={ ()=>this.onPress(index) }  
-            >
-              {this.itemComponent(item, index)}
-            </TouchableOpacity>    
+        {
+          dataSource.map((item, index) =>
+            (
+              <TouchableOpacity
+                key= {index}
+                onPress={ ()=>this.onPress(index) }  
+              >
+                {this.itemComponent(item, index)}
+              </TouchableOpacity>    
+            )
           )
-        )
-      }
-      </ScrollView>
+        }
+        </ScrollView>
+
+      </View>
+      
 
     )
   }

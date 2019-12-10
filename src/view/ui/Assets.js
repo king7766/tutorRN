@@ -30,6 +30,9 @@ const actions = {
 }
 
 const icon = {
+
+  close : require('tutorRN/image/icons/icons8-close.png'),
+
   bookmark : require('tutorRN/image/icons/bookmark.png'),
   ranking : require('tutorRN/image/icons/ranking.png'),
   distance : require('tutorRN/image/icons/distance.png'),

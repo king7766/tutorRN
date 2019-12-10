@@ -15,8 +15,9 @@ var NewsStack = StackNavigator({
 
   NewsHomeView: {
     screen: NewsHomeView ,
+    
     navigationOptions: {
-      
+      headerBackTitle: null,
       //header:{ visible:false },
       header: null,
       //tabBarVisible: true,
@@ -49,6 +50,7 @@ var NewsStack = StackNavigator({
   NewsDetailView: { 
     screen: NewsDetailView,
     navigationOptions: {
+      headerBackTitle: null,
       title: strings.home,
       tabBarIcon: ({ tintColor }) => (
         <Image

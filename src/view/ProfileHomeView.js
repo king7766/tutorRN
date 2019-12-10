@@ -16,7 +16,6 @@ import {
   Image,
   StatusBar,
   TouchableOpacity,
-  TouchableHighlight,
   ScrollView,
   ListView,
   AsyncStorage,
@@ -94,31 +93,24 @@ class ProfileHomeView extends Component<Props> {
     const params = navigation.state.params || {};
 
     return {
-      //headerLeft:<Button title="Info" onPress = {params.leftBtnOnClick}/>,
       headerRight: (
-
-        //<Button onPress={params.increaseCount} title="Info" />
-        <TouchableHighlight 
+        <TouchableOpacity
           onPress={params.leftBtnOnClick}
-          //onPress={params.increaseCount}
-          underlayColor = {layout.touchHighlightColor}
+          
+          //underlayColor = {layout.touchHighlightColor}
         >
           <View style = {{height: 30, width: 100, justifyContent: 'center', flexDirection: 'row'}}>
             <Image source={require('tutorRN/image/exit-100.png')} style={{height: 30, width: 30, marginLeft:10}} /> 
           </View>
 
-        </TouchableHighlight>
+        </TouchableOpacity>
       ),
     };
   };
   
   async componentDidMount() {
 
-    
-
     this.props.navigation.setParams({ leftBtnOnClick: this._signOutAsync });
-    
-
     const userToken = await AsyncStorage.getItem('userToken')
     if ( userToken == 'guest' || userToken == null)
     {
@@ -138,13 +130,6 @@ class ProfileHomeView extends Component<Props> {
   }
  
   _signOutAsync = async () => {
-
-   
-    ///this.props.navigation.navigate('ProfileHomeEditView',{ 
-      //}
-    //)
-
-    
 
     console.log('_signOutAsync from ProfileHome')
     //await AsyncStorage.clear();

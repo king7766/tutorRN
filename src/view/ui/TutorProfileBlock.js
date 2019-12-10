@@ -64,25 +64,41 @@ class TutorProfileBlock extends Component{
     */
     return (
       <View style = {{flex:2, backgroundColor:'white' }}>
-        <Text
-          style = {styles.profileTitleStyle}
-        >
+        {
+          /*
+          <Text style = {styles.profileTitleStyle}>
           自我介紹
-        </Text>
+          </Text>
+          */
+        }
+        
         <Text
           style = {styles.nameStyle}
         >
           {this.props.tutor.user_nickname}
         </Text>
-        <TextInput 
-          multiline
-          numberOfLines={4}
-          style = {styles.subtextStyle}
-          value = {this.state.user_introduction}
-          editable = {this.props.allowEdit}
-          //editable = {this.state.editmode}
-          onChangeText={(user_introduction) => this.setState({user_introduction})}
-        />
+        {
+          this.props.allowEdit ? 
+
+          <TextInput 
+            multiline
+            lineHeight= {40}
+            numberOfLines={4}
+            style = {styles.subtextStyle}
+            value = {this.state.user_introduction}
+            editable = {this.props.allowEdit}
+            //editable = {this.state.editmode}
+            onChangeText={(user_introduction) => this.setState({user_introduction})}
+          />
+          :
+            <Text
+              style = {styles.subtextStyle}
+              numberOfLines={4}
+            >
+              {this.state.user_introduction}
+            </Text>
+        }
+        
         
       </View>
     )
@@ -159,11 +175,10 @@ const styles = StyleSheet.create ({
     
   },
   subtextStyle:{
+    lineHeight:layout.defaultLineHeight,
+    margin:5,
     flex:4,
     fontSize: layout.stringsSizeSmall,
-    marginLeft:5,
-    //marginTop:10,
-    
 
   }
 })

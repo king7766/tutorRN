@@ -386,7 +386,7 @@ class NewsHomeView extends Component<Props> {
     //<View style = {layout.styles.basicViewStyle}>
     return (
       
-      <View style = {{height:layout.contentHeight}}>
+      <View style = {{height:layout.deviceHeight}}>
 
         {
           courseViewModel.getCourseList().length > 0 ?

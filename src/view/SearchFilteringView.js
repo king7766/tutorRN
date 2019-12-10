@@ -282,6 +282,7 @@ class SearchFilteringView extends Component<Props> {
                       </Text> 
                       
                     </View>
+                    <View style={{height:1, backgroundColor:layout.backgroundColor}}></View>
                     
                   </TouchableOpacity>
                 )
@@ -308,14 +309,14 @@ const styles = StyleSheet.create({
   textInputView: {
     flexDirection:'row',
     width: '100%',
-    height: 40,
+    height: 50,
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: 'white',
   },
 
   submitButtonBackground:{
-    backgroundColor : layout.shallowColor,
+    backgroundColor : layout.backgroundColor,
     height:80,
     justifyContent: 'center',
     alignItems:'center'  

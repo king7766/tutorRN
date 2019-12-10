@@ -7,7 +7,7 @@ import {
    FlatList,
    TouchableOpacity ,
 } from 'react-native';
-
+import LinearGradient from 'react-native-linear-gradient';
 import Assets from 'tutorRN/src/view/ui/Assets';
 import Dimensions from 'Dimensions';
 //import Hyperlink from 'react-native-hyperlink'
@@ -43,6 +43,12 @@ class PhotoThumbnailView extends Component{
     
   }
 
+  deleteBtnOnClicked(index)
+  {
+    console.log('deleteBtnOnClicked = ' + index)
+    this.props.deleteBtnOnClicked(index)
+  }
+
   render (){
 
     
@@ -53,8 +59,6 @@ class PhotoThumbnailView extends Component{
       // add last image here
       imageSource.push('add')
     }
-
- 
 
     return(
 
@@ -72,11 +76,33 @@ class PhotoThumbnailView extends Component{
             >
               {
                 item.media_file !== undefined ? 
-                  <Image 
-                    style = {{ height:90, width:90, margin:5}}
-                    source={{uri: item.media_file }}
-                    //source = { url.node ?  { uri: url.node.image.uri } : (typeof url) == 'string' ?  {uri:url} : url  }
-                  /> : 
+                  <View
+                    style = {{justifyContent:'center', alignItems:'center', height:100, width:100}}
+                  >  
+                    <Image 
+                      style = {{ height:90, width:90, margin:5}}
+                      source={{uri: item.media_file }}
+                      //source = { url.node ?  { uri: url.node.image.uri } : (typeof url) == 'string' ?  {uri:url} : url  }
+                    />
+                    {
+                      this.props.deleteBtnVisible && 
+                      <LinearGradient 
+                        colors={['rgba(0, 0, 0, 0.5)', 'rgba(0, 0, 0, 0.0)']} 
+                        style = {styles.topGradientStyle}
+                      >
+                        <TouchableOpacity
+                          onPress={()=>this.deleteBtnOnClicked(index)}
+                        >
+                          <Image 
+                            style = {{height: 20, width:20, margin:5}}
+                            source=  {Assets.icon.close}
+                          />
+                        </TouchableOpacity>
+                      </LinearGradient>
+                    }
+                    
+                  </View>
+                   : 
                   <View
                     style = {{justifyContent:'center', alignItems:'center', height:100, width:100}}
                   >
@@ -102,7 +128,16 @@ const styles = StyleSheet.create ({
   background:{
     flex:1,
   },
-  
+  topGradientStyle:{
+    position:'absolute', 
+    height:30,
+    right:5, 
+    top:5, 
+    left:5,
+    justifyContent: 'flex-end',
+    flexDirection:'row',
+
+  }
 })
 
 

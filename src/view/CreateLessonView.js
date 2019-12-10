@@ -121,13 +121,18 @@ export default class CreateLessonView extends React.Component {
 
   photoThumbnailImageOnClicked(index){
     console.log('photoThumbnailImageOnClicked : '+index )    
-    this.setState(this.state.imageSource.splice(index,1))
+    //this.setState(this.state.imageSource.splice(index,1))
   }
 
   photoThumbnailAddBtnOnClicked()
   {
     console.log('photoThumbnailAddBtnOnClicked')
     this.uploadPhoto()
+  }
+
+  deleteBtnOnClicked(index)
+  {
+    this.setState(this.state.imageSource.splice(index,1)) 
   }
 
   storeImages(data) {
@@ -513,9 +518,16 @@ export default class CreateLessonView extends React.Component {
 
 
         <View style={styles.navigationContent}>
-          
-          
-          <View style= {{flex:1,height:30, }}/>
+
+          <TouchableOpacity 
+            onPress={this.cancelBtnOnClicked}
+            style = {{flex:1, height:30}}
+          >
+            <Image 
+              style = {{height: 30, width:30}}
+              source= {require('tutorRN/image/icons8-back-100.png')} 
+            />
+          </TouchableOpacity>
           <View style = {{flex:1, height:30, alignItems:'center', justifyContent:'center'}}>
             <Text style = {{fontSize:layout.stringsSizeMid,}}> {strings.newClass} </Text>
           </View>
@@ -523,17 +535,8 @@ export default class CreateLessonView extends React.Component {
             //style = {{flex:1, height:30, alignItems:'center', flexDirection: 'column'}}
             style = {styles.confirmButtonBg}
           >
-            <TouchableOpacity  onPress={this.cancelBtnOnClicked}>
-              <Text 
-                style = {styles.confirmText}
-                adjustsFontSizeToFit= {true} // this amazing 
-              >
-                {strings.cancel} 
-              </Text>
-            </TouchableOpacity>
           </View>
         </View>
-
         {
           this.state.imageSource.length == 0 ? 
             <TouchableOpacity
@@ -558,12 +561,14 @@ export default class CreateLessonView extends React.Component {
                 addBtnOnClicked = {()=>this.photoThumbnailAddBtnOnClicked()}
                 imageSource = {this.state.imageSource}
                 addBtnVisible = {true}
+                deleteBtnVisible = {true}
+                deleteBtnOnClicked = {(index)=>this.deleteBtnOnClicked(index)}
               />
             </View>
 
         }
 
-          <View style={{height:40,justifyContent: 'center', backgroundColor:layout.shadowColor}}>
+          <View style={{height:40,justifyContent: 'center', backgroundColor:layout.backgroundColor}}>
             <Text style = {{color:layout.headingTextColor ,fontSize:layout.stringsSizeMid, paddingLeft: 10} }>
               {strings.detailInformation}
             </Text>
@@ -619,7 +624,7 @@ export default class CreateLessonView extends React.Component {
             }
           </View>
 
-          <Text style = {{ padding: 10, backgroundColor:layout.shadowColor}}>
+          <Text style = {{ padding: 10, backgroundColor:layout.backgroundColor}}>
             註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註
           </Text>
           <TouchableOpacity onPress={this.next}>

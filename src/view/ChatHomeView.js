@@ -286,7 +286,7 @@ class ChatHomeView extends Component<Props> {
     {
 
       return (
-        <View style = {{margin:5,borderRadius:5, borderWidth:1, borderColor:layout.shadowColor, height:70, alignItems:'center',flexDirection:'row', justifyContent:'space-around'}}>
+        <View style = {{margin:5,borderRadius:5, borderWidth:1, borderColor:layout.backgroundColor, height:70, alignItems:'center',flexDirection:'row', justifyContent:'space-around'}}>
         {
           1 && 
           <Avatar
@@ -324,7 +324,7 @@ class ChatHomeView extends Component<Props> {
     else
     {
       return (
-        <View style = {{margin:5,borderRadius:5, borderWidth:1, borderColor:layout.shadowColor, height:70, alignItems:'center', justifyContent:'center'}}>
+        <View style = {{margin:5,borderRadius:5, borderWidth:1, borderColor:layout.backgroundColor, height:70, alignItems:'center', justifyContent:'center'}}>
           <Text style = {{ textAlign:'center', fontSize:18, fontWeight:'bold'}}> {strings.startChat} </Text>
         </View>
         
@@ -445,7 +445,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor:'white',
     //borderColor: layout.themeTextColor,
-    borderColor: layout.shadowColor,
+    borderColor: layout.backgroundColor,
     //color: 'black',
     overflow: 'hidden',
   },
@@ -454,8 +454,8 @@ const styles = StyleSheet.create({
     padding:5,
     borderRadius:15,
     borderWidth: 1,
-    backgroundColor:layout.shadowColor,
-    borderColor: layout.shadowColor,
+    backgroundColor:layout.backgroundColor,
+    borderColor: layout.backgroundColor,
     //color: 'black',
     overflow: 'hidden',
   },
@@ -465,7 +465,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor:'white',
     //borderColor: layout.themeTextColor,
-    borderColor: layout.shadowColor,
+    borderColor: layout.backgroundColor,
     color: 'black',
   },
 

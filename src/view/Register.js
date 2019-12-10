@@ -638,7 +638,7 @@ class Register extends Component<Props> {
               )
             }
           </View>
-          <Text style = {{ padding: 10, backgroundColor:layout.shadowColor}}>
+          <Text style = {{ padding: 10, backgroundColor:layout.backgroundColor}}>
             註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註
           </Text>
           <TouchableOpacity onPress={this.next}>

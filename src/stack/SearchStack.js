@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { View, Image } from 'react-native';
-import { ScrollView} from 'react-native';
-
 import { TabNavigator, StackNavigator } from 'react-navigation';
 
 import SearchHomeView from 'tutorRN/src/view/SearchHomeView';
@@ -10,7 +8,6 @@ import SearchTutorDetailView from 'tutorRN/src/view/SearchTutorDetailView';
 import SearchFilteringView from 'tutorRN/src/view/SearchFilteringView';
 import NewsDetailView from 'tutorRN/src/view/NewsDetailView';
 
-//import * as Strings from 'tutorRN/src/service/strings'
 import strings from 'tutorRN/src/service/strings'
 
 const layout = require('tutorRN/src/Layout')
@@ -20,6 +17,7 @@ var SearchStack = StackNavigator({
   SearchHomeView: { 
     screen:  SearchHomeView,
     navigationOptions: {
+      headerBackTitle: null,
       title: strings.search,
       tabBarIcon: ({ tintColor }) => (
         <Image
@@ -38,6 +36,7 @@ var SearchStack = StackNavigator({
   SearchTutorView: { 
     screen: SearchTutorView,
     navigationOptions: {
+      headerBackTitle: null,
       title: strings.search,
       tabBarIcon: ({ tintColor }) => (
         <Image
@@ -54,6 +53,7 @@ var SearchStack = StackNavigator({
   SearchTutorDetailView: { 
     screen: SearchTutorDetailView,
     navigationOptions: {
+      headerBackTitle: null,
       title: strings.search,
       tabBarIcon: ({ tintColor }) => (
         <Image
@@ -70,6 +70,7 @@ var SearchStack = StackNavigator({
   SearchFilteringView:{
     screen: SearchFilteringView,
     navigationOptions:{
+      headerBackTitle: null,
       title: strings.search,
       tabBarIcon: ({ tintColor }) => (
         <Image
@@ -85,10 +86,11 @@ var SearchStack = StackNavigator({
   NewsDetailView: { 
     screen: NewsDetailView,
     navigationOptions: {
-      title: strings.home,
+      headerBackTitle: null,
+      title: strings.search,
       tabBarIcon: ({ tintColor }) => (
         <Image
-        source={require('tutorRN/image/icons8-home-100.png')}
+        source={require('tutorRN/image/icons8-search-filled-100.png')}
           //style={[styles.icon, { tintColor: tintColor }]}
           style={[layout.styles.icon, { tintColor: tintColor }]}
         />

@@ -19,9 +19,7 @@ import {
   TouchableHighlight,
   ScrollView
 } from 'react-native';
-
-//import SegmentControl from './ui/SegmentControl'
-//import TutorSelectCell from './ui/TutorSelectCell'
+import Assets from 'tutorRN/src/view/ui/Assets';
 
 import {
   LessonListCell,
@@ -130,11 +128,11 @@ class SearchTutorView extends Component<Props> {
 
     //console.log('getCategoryNameByID = ' + JSON.stringify(categoryViewModel.getCategoryNameByID( this.state.tag)))
     return (
-      <View>
-        
+      <View style = {layout.styles.basicViewStyle}>
         {
           <RowMenuListingBar 
-            firstItemShowIcon = {true} 
+            firstItemShowIcon = {true}
+            firstImageSource = {Assets.icon.advanceSearch} 
             //data = {['推介', '限時', '優惠', '熱門', '節日', '新到', '復古']}
             data = {rowListBarDataSource}
             

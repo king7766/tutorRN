@@ -50,18 +50,17 @@ class NewsItemCell extends Component{
   {
     return (
       <View style = {{flex: 1}}>
-        <LinearGradient colors={['rgba(0, 0, 0, 0.5)','rgba(0, 0, 0, 0.0)']} style = {styles.upperPartViewStyle}>
+        <LinearGradient colors={['rgba(0, 0, 0, 0.7)','rgba(0, 0, 0, 0.0)']} style = {styles.upperPartViewStyle}>
           <View style = {styles.tutorNameViewStyle}>
             <Image 
               //style = {styles.tutorImageStyle}
               style = {[layout.styles.homeIconSize, styles.tutorImageStyle]}
               source = {{uri: this.props.item.tutor_thumb}}
             />
-            <Text style = {[styles.tutorNameTextStyle, this.props.item.course_media_list.length > 0 ? {color:'white'} : {color:'black'}] }>
+            <Text style = {styles.tutorNameTextStyle }>
               {this.props.item.tutor_name}
             </Text>
           </View>
-
         </LinearGradient>
         <View style = {styles.lowerPartViewStyle}>
         
@@ -81,7 +80,7 @@ class NewsItemCell extends Component{
         </View>
         <LinearGradient colors={['rgba(0, 0, 0, 0.0)','rgba(0, 0, 0, 0.5)']} style = {styles.lowerPartViewStyle}>
           {
-            this.props.item.course_media_list.length == 0 &&
+            //this.props.item.course_media_list.length == 0 &&
             <View style = {styles.newsTextViewStyle}>
               <Text style = {styles.newsContentTextStyle} >{this.props.item.course_name}</Text>
               <Text 
@@ -93,7 +92,9 @@ class NewsItemCell extends Component{
             </View> 
           }
           
-        </LinearGradient>                                                     
+        </LinearGradient> 
+        <LinearGradient colors={['rgba(0, 0, 0, 0.5)','rgba(0, 0, 0, 0.0)']} style = {{flex:1}}></LinearGradient>  
+        
       </View>
     
     )
@@ -117,7 +118,7 @@ class NewsItemCell extends Component{
       }
 
       return (
-        <View style={{height:layout.contentHeight, width:'100%', position:'absolute',backgroundColor:'black' }} >
+        <View style={{height:layout.deviceHeight, width:'100%', position:'absolute',backgroundColor:'black' }} >
           <TimedSlideshow
             progressBarColor = {layout.themeTextColor}
             items={photos}
@@ -128,7 +129,7 @@ class NewsItemCell extends Component{
     else
     {
       return (
-        <View style={{height:layout.contentHeight, width:'100%', position:'absolute',backgroundColor:'black' }} >
+        <View style={{height:layout.deviceHeight, width:'100%', position:'absolute',backgroundColor:'black' }} >
           {this.defaultImage}
         </View>
       )
@@ -148,7 +149,7 @@ class NewsItemCell extends Component{
 
       <TouchableOpacity 
         onPress = {()=>this.props.onClicked(this.props.index)}
-        style = {{  height:layout.contentHeight}}
+        style = {{  height:layout.deviceHeight}}
       >
         {
           this.showContent()
@@ -201,7 +202,7 @@ const styles = StyleSheet.create ({
     //height: 30, 
     //width: 30, 
     borderRadius:20, 
-    borderColor:'white' ,
+    borderColor:'black' ,
     borderWidth:2
   },
 

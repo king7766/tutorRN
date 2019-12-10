@@ -331,14 +331,18 @@ const Tabs = TabNavigator({
       showIcon: true,
       showLabel: false,
       //activeTintColor: '#fff',
-      activeTintColor: '#808080',
-      inactiveTintColor: '#D3D3D3',
+      //activeTintColor: '#808080',
+      //inactiveTintColor: '#D3D3D3',
       //inactiveTintColor : '#696969',
+      activeTintColor: '#fff',
+      inactiveTintColor : '#696969',
       
       
       style: {
+        backgroundColor: 'rgba(22, 22, 22, 0.5)',
         //backgroundColor: 'rgba(22, 22, 22, 0.3)',
-        backgroundColor:'black',
+        //backgroundColor: 'rgba(22, 22, 22, 0.0)',
+        //backgroundColor:'black',
         borderTopWidth: 3,
         //borderTopColor: '#996600',
         position: 'absolute',

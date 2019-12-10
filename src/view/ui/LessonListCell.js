@@ -79,36 +79,37 @@ class LessonListCell extends Component{
 
 
   render (){
-    const content = this.props.content
   
-    const location = '\uE801  ' + '赤柱'
-    const course_fee = '\t\uF155  ' + this.props.item.course_fee
-    const rating = '4.5' + '  \uE803'
-
-    console.log('this.props.item.tutor_thumb = ' + this.props.item.tutor_thumb)
     return(
       <TouchableOpacity 
-
         onPress={ ()=>this.selectLesson(this.props.index)}
-        //onPress={this.selectTutor }
-        //underlayColor = {layout.touchHighlightColor}
-        //underlayColor = 'gray'
       >
         <View style = {styles.background}>
         
           <View style = {styles.photoViewStyle}>
-            <Avatar
+            <View
+              style = {{flex:2, justifyContent:'center' }}
+            >
+              <Avatar
+                round = {true}
+                size = {50}    
+                url = {this.props.item.tutor_thumb}
+                //url = {'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p80x80/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=831d0ee264e5772b4b15faa60c7d16c4&oe=5BD89683'}   
+              />
+            </View>
+            <View style={{alignItems: 'center', flexDirection:'row', justifyContent:'center', flex:1}}>
+              <Text style = {{fontSize: layout.stringsSizeSmall, padding : 5, fontFamily: "fontello"}}>
+                {this.props.item.course_ranking ? this.props.item.course_ranking : ' -- '}
+              </Text>
+              <Image
+                style = {{height:20, width:20}}
+                source={Assets.icon.star_filled}
+                resizeMode='contain'
+              />
+
               
-              round = {true}
-              size = {50}
-              //type = 'edit'      
-              url = {this.props.item.tutor_thumb}
-              //url = {'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p80x80/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=0&oh=831d0ee264e5772b4b15faa60c7d16c4&oe=5BD89683'}   
-            />
+            </View>
             
-            <Text style = {{fontSize: 14, padding : 5, fontFamily: "fontello"}}>
-              {this.props.item.course_ranking}
-            </Text>
           </View>
 
           <View style = {styles.tutorViewStyle}>
@@ -169,11 +170,6 @@ class LessonListCell extends Component{
             }
             
           </View>
-              
-            
-            
-            
-          
         </View>
       </TouchableOpacity>
       )
@@ -192,12 +188,8 @@ const styles = StyleSheet.create ({
     //borderTopColor: 'gray',
     //borderTopWidth: 0.5,
     backgroundColor: 'white',
-    borderBottomColor: 'gray',
+    borderBottomColor: layout.backgroundColor,
     borderBottomWidth: 0.5,
-    //padding: 5
-    //paddingTop:5,
-    //paddingBottom:5
-    //padding:5
   },
 
   typeViewStyle:{
@@ -225,16 +217,10 @@ const styles = StyleSheet.create ({
   },
 
   imageStyle :{
-
     marginTop:10,
     marginLeft: 5,
-    //backgroundColor: 'rgba(61,89,148,1)',
-    //backgroundColor: 'red',
     height:60,
     width: 60
-    
-    //width:layout.deviceWidth
-
   },
 
   tutorViewStyle:{
