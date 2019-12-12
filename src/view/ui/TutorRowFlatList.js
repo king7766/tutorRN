@@ -5,9 +5,7 @@ import {
    View, 
    StyleSheet, 
    ScrollView ,
-   ListView,
-   Linking,
-   TouchableHighlight
+   TouchableOpacity
 } from 'react-native';
 
 const layout = require('tutorRN/src/Layout')
@@ -49,6 +47,7 @@ class TutorRowFlatList extends React.Component{
   titleViewStyle()
   {
     return {
+      
       //flex:1,
       flexDirection: 'row',
       justifyContent: 'space-around',
@@ -65,7 +64,7 @@ class TutorRowFlatList extends React.Component{
   {
     return{
       textAlign: 'center',
-      margin:5,
+      marginTop:5,
       width:imageHeight, 
       fontSize:layout.stringsSizeSmall
     }
@@ -96,28 +95,25 @@ class TutorRowFlatList extends React.Component{
     
     
     console.log('height = ' + this.props.height)
-    var imageHeight = this.props.height - 60
+    var imageHeight = this.props.height - 70
 
     return(
       <View style = {this.backgroundStyle()}>
         <View style = {this.titleViewStyle()}>
           <Text style = {styles.title}>{this.props.title}</Text>
-          <View
-            style ={{backgroundColor:'green'}}
-          >
-          </View>
-          <TouchableHighlight 
+          
+          <TouchableOpacity 
               onPress={ ()=>this.seeAllAction()}
           >
             <Text style = {styles.seeAll}>
-              {''}
+              {strings.more}
             </Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
 
 
         </View>
         <ScrollView 
-          style = {{height: imageHeight, margin:5}}
+          style = {{height: imageHeight, marginTop:5}}
           horizontal = {true}
         >
           {this.renderAvatar(imageHeight)}
@@ -152,15 +148,15 @@ const styles = StyleSheet.create ({
     alignItems :'flex-start',
     flex:1, 
     marginLeft: 10,
-    marginTop: 5,
+    marginTop: 10,
     fontWeight:'bold',
-    fontSize:layout.stringsSizeMid,
+    fontSize:layout.stringsSizeBig,
   },
   seeAll:{
     alignItems :'flex-start',
     flex:1, 
-    marginRight: 10,
-    marginTop: 5,
+    marginRight: 15,
+    marginTop: 13,
     fontWeight:'bold',
     fontSize:layout.stringsSizeSmall,
   },

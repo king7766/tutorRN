@@ -414,7 +414,7 @@ class SearchHomeView extends Component<Props> {
           <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
           <TutorRowFlatList
             title = {courseViewModel.getCourseTagNameById(tag_id)}
-            height = {130}
+            height = {140}
             iconOnClick = {(itemDataSelected)=>this.iconOnClick(itemDataSelected)}
             //data = {this.state.tutorRowData}
             //id = {tag_id}
