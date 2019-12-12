@@ -7,7 +7,6 @@ import {
    ScrollView ,
    TouchableHighlight
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import Dimensions from 'Dimensions';
 //import Hyperlink from 'react-native-hyperlink'
 import ParsedText from 'react-native-parsed-text';

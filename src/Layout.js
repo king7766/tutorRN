@@ -16,9 +16,10 @@ let headingTextColor = 'rgba(231,121,98,1)'
 
 let backgroundColor = 'rgba(233,233,233,1)'
 let grayColor = 'rgba(180,180,180,1)'
+let blackColor = 'rgba(0,0,0,1)'
 
 
-
+let stringSizeXBig = 22
 let stringsSizeBig = 18
 let stringsSizeMid = 16
 let stringsSizeSmall = 14
@@ -110,7 +111,9 @@ module.exports = {
 	styles,
 	
 	grayColor,
-	backgroundColor, 
+	blackColor,
+	backgroundColor,
+	stringSizeXBig, 
 	stringsSizeBig,
 	stringsSizeMid,
 	stringsSizeSmall,

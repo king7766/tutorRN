@@ -233,7 +233,7 @@ const styles = StyleSheet.create ({
   nameStyle:{
     flex:1,
     marginTop:5,
-    fontSize: layout.stringsSizeBig,
+    fontSize: layout.stringSizeXBig,
     fontWeight: 'bold',
   },
 
@@ -260,12 +260,13 @@ const styles = StyleSheet.create ({
   },
   locationTextStyle:{
     backgroundColor:'transparent',
-    color:layout.themeTextColor,
+    color:layout.blackColor,
     fontSize: layout.stringsSizeSmall,
   },
 
   priceTextStyle:{
     backgroundColor:'transparent',
+    color:layout.blackColor,
     fontSize: layout.stringsSizeSmall,
   }
 })

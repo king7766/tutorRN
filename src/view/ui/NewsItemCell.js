@@ -37,6 +37,11 @@ class NewsItemCell extends Component{
     )
   } 
 
+  componentWillUnmount() {
+    console.log('NewsItemCell componentWillUnmount')
+    //clearInterval(this.state.interval);
+  }
+
   showUU()
   {
     return (
@@ -120,6 +125,7 @@ class NewsItemCell extends Component{
       return (
         <View style={{height:layout.deviceHeight, width:'100%', position:'absolute',backgroundColor:'black' }} >
           <TimedSlideshow
+            
             progressBarColor = {layout.themeTextColor}
             items={photos}
           />

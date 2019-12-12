@@ -74,16 +74,18 @@ export default class CreateLessonView extends React.Component {
       photos : [],
       
       //rowTitle:[strings.location, strings.category, strings.education, strings.price],
-      rowTitle:[strings.location, strings.category, strings.price],
-      rowDataChoosableArray : [
+      rowTitle:[strings.location, strings.category,strings.subcategory, strings.price],
+      optionData : [
         locationViewModel.getLocationName(),
         //['文員', '運輸','教學', '體育' ],
-        categoryViewModel.getCategories(),
+        //categoryViewModel.getCategories(),
+        categoryViewModel.getCategoriesNames(),
+        categoryViewModel.getSubCategoriesNameByCategoryKey(),
         //[strings.education_low, strings.education_mid,strings.education_high, strings.education_exHigh],
         [strings.price_low, strings.price_mid, strings.price_high]
       ],
-      rowDataSelectedArray :['','',''],
-      rowDataSelectedIndexArray : [-1, -1,-1],
+      pickerResults :['','',strings.selectCategoryFirst,''],
+      rowDataSelectedIndexArray : [-1, -1,-1,-1],
     }
 
   }
@@ -164,7 +166,7 @@ export default class CreateLessonView extends React.Component {
       return false
     }
     
-    if ( this.state.rowDataSelectedIndexArray[0] == -1){
+    if ( this.state.rowDataSelectedIndexArray[0] == -1 ){
       
       return false
     }
@@ -173,6 +175,10 @@ export default class CreateLessonView extends React.Component {
       return false
     }
     if ( this.state.rowDataSelectedIndexArray[2] == -1){
+      
+      return false
+    }
+    if ( this.state.rowDataSelectedIndexArray[3] == -1){
       
       return false
     }
@@ -200,18 +206,19 @@ export default class CreateLessonView extends React.Component {
       return 
     }
 
-    var location_id = locationViewModel.getLocationIdByName(this.state.rowDataSelectedArray[0])
+    var location_id = locationViewModel.getLocationIdByName(this.state.pickerResults[0])
     var district_id = locationViewModel.getDistrictIdByLocationId(location_id)
 
+    
     var rawData = {
       //token: 'xRW8DwqoIxZBSlF83b2P1',
       token: E.token,
-      course_fee: this.state.rowDataSelectedIndexArray[2],
+      course_fee: this.state.rowDataSelectedIndexArray[3],
       course_name : this.state.course_name,
       course_introduction: this.state.course_introduction,
       'course_district_ids[]': district_id,
       'course_location_ids[]': location_id,
-      'course_category_ids[]': categoryViewModel.getCategoryIDByName(this.state.rowDataSelectedArray[1]),
+      'course_category_ids[]': categoryViewModel.getCategoryIDByName(this.state.pickerResults[2]),
       course_tutor_id: userViewModel.getUser().user_id,
       //course_tutor_id: 16,
     }
@@ -298,42 +305,47 @@ export default class CreateLessonView extends React.Component {
 
   rowOnClick(index)
   {    
-    var rawArray = []
+    var rawArray 
 
-    if (index == 1)
+    if (index == 2 && this.state.rowDataSelectedIndexArray[1] == -1)
     {
-      for ( var i = 0; i < this.state.rowDataChoosableArray[index].length ; i ++)
-      {
-        rawArray.push(this.state.rowDataChoosableArray[index][i].category_name)
-      }
-      console.log(JSON.stringify(rawArray))
+      return
     }
-    else
-    {
-      rawArray = this.state.rowDataChoosableArray[index]
-    }
-
+  
     Picker.init({
-      pickerData: rawArray,
+      pickerData: this.state.optionData[index],
       pickerTitleText:strings.pleaseChoose,
       pickerConfirmBtnText:strings.confirm,
       pickerCancelBtnText: strings.cancel,
-      //selectedValue: this.state.rowDataChoosableArray[index],
+      //selectedValue: this.state.optionData[index],
       selectedValue : rawArray,
       onPickerConfirm: (pickedValue, pickedIndex) => {
           
           var pickerData = pickedValue[0]
           console.log('area : ' +  pickerData + ', i = ' + pickedIndex )
-          
-          var rowDataSelectedArray = this.state.rowDataSelectedArray.splice(index, 1, pickerData)
-          var rowDataSelectedIndexArray = this.state.rowDataSelectedIndexArray.splice(index, 1, pickedIndex[0])
-          this.setState(rowDataSelectedArray)
-          this.setState(rowDataSelectedIndexArray)
 
-          //this.setState({
-          //  rowDataSelectedArray : rowDataSelectedArray,
-          //  rowDataSelectedIndexArray: rowDataSelectedIndexArray
-          //})
+          var pickerResults = this.state.pickerResults
+          pickerResults.splice(index, 1, pickerData)
+
+          var rowDataSelectedIndexArray = this.state.rowDataSelectedIndexArray
+          rowDataSelectedIndexArray.splice(index, 1, pickedIndex[0])
+          var optionData = this.state.optionData
+
+          if ( index == 1)
+          {
+            
+            pickerResults[2] = strings.selectCategoryFirst
+            rowDataSelectedIndexArray[2] = -1
+            optionData[2] = categoryViewModel.getSubCategoriesNameByCategoryKey(categoryViewModel.getCategoryIDByName(pickedValue))
+          
+          }
+
+          this.setState({
+            optionData: optionData,
+            pickerResults : pickerResults,
+            rowDataSelectedIndexArray : rowDataSelectedIndexArray,
+          })
+
       },
       onPickerCancel: pickedValue => {
           console.log('area', pickedValue);
@@ -615,7 +627,7 @@ export default class CreateLessonView extends React.Component {
                         style = {{ paddingRight:10, color:layout.themeTextColor }}
                         //value = {this.state.rowData[index]}
                       >
-                        {this.state.rowDataSelectedArray[index]}
+                        {this.state.pickerResults[index]}
                       </Text> 
                     </View>
                   </TouchableHighlight>
@@ -624,8 +636,8 @@ export default class CreateLessonView extends React.Component {
             }
           </View>
 
-          <Text style = {{ padding: 10, backgroundColor:layout.backgroundColor}}>
-            註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註
+          <Text style = {{ textAlign: 'center', padding: 10, backgroundColor:layout.backgroundColor, color:layout.themeTextColor}}>
+            **閣下提供的資料只用於有助本程式了解學員的需要及用於有關事宜上，請盡量提供有關資料，以便學員更能準確地搜尋閣下**
           </Text>
           <TouchableOpacity onPress={this.next}>
             <View style = {styles.submitBotton}>

@@ -122,9 +122,16 @@ class SearchTutorView extends Component<Props> {
 
     //var condition = ['',categoryViewModel.getCategoryNameByID( this.state.tag)]
     //var dataSource = [categoryViewModel.getCategoryNameByID( this.state.tag)]
-    var name = categoryViewModel.getCategoryNameByID( this.state.tag)
-    var rowListBarDataSource = [name]
-    var rowMenuInitArray = [true, true]
+
+
+    //var name = categoryViewModel.getCategoryNameByID( this.state.tag)
+    //var rowListBarDataSource = [name]
+    var tagSelectedArray = []
+    for ( var i = 0 ; i <= this.state.tag.length; i ++)
+    {
+      tagSelectedArray.push(true)
+    }
+    //var rowMenuInitArray = [true, true]
 
     //console.log('getCategoryNameByID = ' + JSON.stringify(categoryViewModel.getCategoryNameByID( this.state.tag)))
     return (
@@ -134,13 +141,15 @@ class SearchTutorView extends Component<Props> {
             firstItemShowIcon = {true}
             firstImageSource = {Assets.icon.advanceSearch} 
             //data = {['推介', '限時', '優惠', '熱門', '節日', '新到', '復古']}
-            data = {rowListBarDataSource}
+            data = {this.state.tag}
+            //data = {rowListBarDataSource}
             
             itemHeight = {30}
             itemWidth = {50}
             selected = {0}
             multiSelect = {true}
-            multiSelectArray = {rowMenuInitArray}
+            //multiSelectArray = {rowMenuInitArray}
+            multiSelectArray = {tagSelectedArray}
             onClicked={ this.TopMenuBarOnClicked }
           />
           

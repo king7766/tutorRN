@@ -114,7 +114,7 @@ class FilteringToolsBar extends React.Component{
 
   render (){
     return(
-      <View style = {styles.ToolBarStyle}>
+     
         <View style = {styles.background}>
           {
              this.props.catName.map((item, index) =>{
@@ -146,7 +146,7 @@ class FilteringToolsBar extends React.Component{
         
 
         </View>
-      </View>
+      
 
     );
   }
@@ -173,7 +173,7 @@ const styles = StyleSheet.create ({
     flexWrap:'wrap',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    
+    flex:1,
     alignItems: 'center',
     paddingTop:5,
     paddingBottom:5,

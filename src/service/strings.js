@@ -17,6 +17,8 @@ const strings = new LocalizedStrings({
 
         lesson:'課堂',
 
+        applyDetail:'報名資料',
+
         // search
         errorTitle: '錯誤',
         hotSearch: '熱門搜尋',
@@ -82,7 +84,7 @@ const strings = new LocalizedStrings({
         messageHere :'發表信息 ...',
         
         startTime: '開始時間',
-        intervalTime: '課堂長度',
+        intervalTime: '課堂長度 (分鍾) ',
 
         startChat :'你們現在可以開始對話',
 

@@ -54,6 +54,7 @@ class TutorRowFlatList extends React.Component{
 
   iconOnClick(item)
   {
+    console.log('iconOnClick = ' + JSON.stringify( item) )
     this.props.iconOnClick(item)
   }
 

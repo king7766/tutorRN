@@ -391,8 +391,9 @@ class NewsHomeView extends Component<Props> {
         {
           courseViewModel.getCourseList().length > 0 ?
           <FlatList
+            windowSize = {1}
             onEndReached={this.fetchMore}
-            onEndReachedThreshold={0.7}
+            onEndReachedThreshold={0.3}
             showsVerticalScrollIndicator={false}
             ref={(ref) => { this.list = ref; }}
             onMomentumScrollEnd={this.onScrollEnd}

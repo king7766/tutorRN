@@ -169,6 +169,11 @@ export default class courseVM{
 		})
 	}
 
+	filterCourseByCategory(c_id)
+	{
+		
+	}
+
 	getCourseByCategory(c_id)
 	{
 		return this.refCoursesFromCategory[c_id]

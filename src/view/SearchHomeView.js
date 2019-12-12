@@ -75,8 +75,8 @@ class SearchHomeView extends Component<Props> {
       //courseTagSelection : [],
       courseTagSelection : courseViewModel.getCourseTagIdList(),
 
-      ccc: categoryViewModel.getCategories(), 
-      categories : ds.cloneWithRows(categoryViewModel.getCategories()),
+      categories: categoryViewModel.getCategories(), 
+      //categories : ds.cloneWithRows(categoryViewModel.getCategories()),
      
       districtData : ['中西區', '灣仔', '東區','南區','油尖旺', '深水埗', '九龍城','黃大仙','觀塘', '葵青', '荃灣', '屯門','元朗','北區','大埔','沙田','西貢','離島'],
       currentDistrictData:['中西區', '灣仔', '東區','南區'],
@@ -112,7 +112,7 @@ class SearchHomeView extends Component<Props> {
     this.TopMenuBarOnClicked = this.TopMenuBarOnClicked.bind(this)
     this.ListingCatBtnOnClick = this.ListingCatBtnOnClick.bind(this)
     this.categorysViewUI =this.categorysViewUI.bind(this)
-    this.categoryItemUI = this.categoryItemUI.bind(this)
+  
   }
 
   componentWillMount() {
@@ -264,8 +264,15 @@ class SearchHomeView extends Component<Props> {
 
   async ListingCatBtnOnClick (rowData)
   {
-    console.log('ListingCatBtnOnClick ' + rowData.id)
-    //const res = await courseViewModel.loadCourse('TAG',rowData.id)
+    console.log('ListingCatBtnOnClick ' + JSON.stringify (rowData.sub_category) )
+
+    var sub_categoryArray = rowData.sub_category
+    var tag_Array = []
+    for ( var i = 0 ; i < sub_categoryArray.length; i ++)
+    {
+      tag_Array.push(sub_categoryArray[i].category_name)
+    }
+
     const res = await courseViewModel.updateCourseByCategoryId(rowData.id)
     if (res == true)
     {
@@ -275,8 +282,7 @@ class SearchHomeView extends Component<Props> {
 
       this.props.navigation.navigate(
         'SearchTutorView',{
-
-          tag:rowData.id,
+          tag:tag_Array,
           data : submit_data,
         }
       )
@@ -376,10 +382,10 @@ class SearchHomeView extends Component<Props> {
 
   async iconOnClick(itemDataSelected)
   {
-    console.log('SearchHomeView : ' + itemDataSelected.selectedIndex + ' ' + itemDataSelected.courseID)
-    
     var tutor_id = itemDataSelected.tutor_id
     var lesson_id = itemDataSelected.id
+
+    console.log('SearchHomeView : ' + tutor_id + ', ' + lesson_id)
 
     const flag = await targetUserViewModel.setUserProfile(tutor_id)
     
@@ -423,7 +429,7 @@ class SearchHomeView extends Component<Props> {
     return (
       <View style = {styles.listViewStyle}>
         {
-          this.state.ccc.map((rowData, i )=>{
+          this.state.categories.map((rowData, i )=>{
             return (
               <TouchableOpacity 
                 key = {i}
@@ -447,55 +453,6 @@ class SearchHomeView extends Component<Props> {
     )
   }
 
-  categoryItemUI()
-  {
-    
-  }
-
-  
-
-  lessonIconUI()
-  {
-    console.log(':::')
-    
-    
-    return (
-      <ListView     //创建ListView     
-        //initialListSize={this.getRows().length} 
-        backgroundColor = 'white'     
-        dataSource={this.state.categories} //设置数据源               
-        //renderRow={this.renderRow} //设置cell               
-        renderRow={(rowData, rowID) =>
-          <TouchableOpacity 
-            key = {rowID}
-            onPress={()=>this.ListingCatBtnOnClick (rowData) }
-            //underlayColor = {layout.touchHighlightColor}
-          >
-            <View style={this.cellStyle(rowData)}>   
-              <View style = {this.iconImageStyle(rowData)}>
-                <Image 
-                  style = {{ width: 40, height: 40}}
-                  //source={(rowData.category_image)}
-                  //source = {{uri:'http://tutor.ho2find.com/icon/academic.png'}}
-                  //source = {{uri: 'https://facebook.github.io/react/logo-og.png'}}
-                  //source = {{uri: rowData.category_image}}
-                  source={rowData.category_image != null ? {uri: rowData.category_image} : null}
-                  //source = {require('tutorRN/image/icons/1.png')}
-                  //resizeMode =  'center'
-                  resizeMode =  'contain'
-                />
-              </View>
-              <Text style={this.iconTextStyle(rowData)}>{rowData.category_name}</Text>
-            </View>
-                
-          </TouchableOpacity>
-        }        
-        contentContainerStyle={styles.listViewStyle}//设置cell的样式
-      />
-    )
-    
-  }
-
   render() {
     
     var rowMenuInitArray = [true]
@@ -505,6 +462,7 @@ class SearchHomeView extends Component<Props> {
       rowMenuInitArray.push(true)
     }
     console.log('rowMenuInitArray = ' + rowMenuInitArray)
+
     return (
       <View style = {layout.styles.basicViewStyle}>
         <ScrollView style = {{backgroundColor:layout.backgroundColor}}>
@@ -528,11 +486,9 @@ class SearchHomeView extends Component<Props> {
           {
             this.categorysViewUI()
           }
-          
           {
             this.tutorRowListUI()
           }
-          
         </ScrollView>
       </View> 
     );

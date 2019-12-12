@@ -52,6 +52,7 @@ class SearchFilteringView extends Component<Props> {
  
       rowTitle:[strings.area, strings.category, strings.subcategory],
       pickerResults:['','',strings.selectCategoryFirst ],
+      pickerResultsIndex : [-1,-1,-1],
       optionData : [
         locationViewModel.getLocationName(),
         categoryViewModel.getCategoriesNames(),
@@ -84,14 +85,29 @@ class SearchFilteringView extends Component<Props> {
     console.log(categoryViewModel.getCategoryIDByName(this.state.pickerResults[1]))
     console.log(categoryViewModel.getSubCategoryIDByName(this.state.pickerResults[2]))
 
-    var cat_id = categoryViewModel.getCategoryIDByName(this.state.pickerResults[1])
+    var cat_id = -1
+    var cat_array = []
+    if (this.state.pickerResultsIndex[1] != -1 )
+    {
+      cat_array.push(this.state.pickerResults[1])
+      cat_id = categoryViewModel.getSubCategoryIDByName(this.state.pickerResults[1])
+    }
 
-    if ( cat_id == undefined)
+    if (this.state.pickerResultsIndex[2] != -1 )
+    {
+      cat_array.push(this.state.pickerResults[2])
+      cat_id = categoryViewModel.getSubCategoryIDByName(this.state.pickerResults[2])
+    }
+    console.log('cat_array = ' + JSON.stringify( cat_array) )
+
+    //return 
+    
+    if ( cat_id == -1 || undefined)
     {
       return 
     }
    
-    console.log('cat_id = ' + cat_id)
+    
     const res = await courseViewModel.updateCourseByCategoryId(cat_id)
     if (res == true)
     {
@@ -102,7 +118,7 @@ class SearchFilteringView extends Component<Props> {
       this.props.navigation.navigate(
         'SearchTutorView',{
 
-          tag: cat_id,
+          tag: cat_array,
           data : submit_data,
         }
       )
@@ -160,12 +176,15 @@ class SearchFilteringView extends Component<Props> {
         pickerConfirmBtnText: strings.confirm,
         pickerCancelBtnText: strings.cancel,
         selectedValue: tempArray,
-        onPickerConfirm: pickedValue => {
+        onPickerConfirm: (pickedValue,pickedIndex) => {
             console.log(index + ', area confirm : ', pickedValue);
             
             var tempArray = this.state.pickerResults
-            tempArray[index] = pickedValue
+            tempArray[index] = pickedValue[0]
             
+            var pickerResultsIndex = this.state.pickerResultsIndex
+            pickerResultsIndex.splice(index, 1, pickedIndex[0])
+
             if ( index == 1)
             {
               tempArray[2] = strings.selectCategoryFirst
@@ -176,7 +195,10 @@ class SearchFilteringView extends Component<Props> {
                 optionData: a,
               })
             }
-            this.setState({pickerResults:tempArray})
+            this.setState({
+              pickerResults:tempArray,
+              pickerResultsIndex: pickerResultsIndex
+            })
         },
         onPickerCancel: pickedValue => {
             console.log('area cancel : ', pickedValue);

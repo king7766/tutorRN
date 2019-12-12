@@ -18,13 +18,13 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   ScrollView,
-  ListView
+  Animated
 } from 'react-native';
 
 import {
   RowMenuListingBar,
 } from 'tutorRN/src/view/ui/UIComponent';
-
+import Picker from 'react-native-picker';
 import TutorProfileTextBlock from 'tutorRN/src/view/ui/TutorProfileTextBlock'
 import PhotoThumbnailView from 'tutorRN/src/view/ui/PhotoThumbnailView'
 import FilteringToolsBar from 'tutorRN/src/view/ui/FilteringToolsBar'
@@ -40,6 +40,57 @@ const courseViewModel = courseVM.getInstance()
 const locationViewModel = locationVM.getInstance()
 const layout = require('tutorRN/src/Layout')
 
+
+class SelectTimeView extends Component<Props>{
+
+  _defaultHeightValue = 50
+  _defaultTransition  = 500;
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      _rowHeight  : new Animated.Value(0),
+      _rowOpacity : new Animated.Value(0)
+    }
+  }
+ 
+  componentDidMount() {
+    console.log('componentDidMount SelectTimeView')
+  
+    Animated.timing(this.state._rowHeight, {
+      toValue  : this._defaultHeightValue,
+      duration : this._defaultTransition
+    }).start();
+
+    Animated.timing(this.state._rowOpacity, {
+      toValue  : 1,
+      duration : this._defaultTransition
+    }).start()
+  }
+
+  componentWillReceiveProps(nextProps){
+    if ( nextProps.startTime)
+    {
+      console.log('startTime : ' + nextProps.startTime)
+      this.setState({
+        startTime: nextProps.startTime
+      })
+    }
+  }
+
+  render(){
+    return (
+      <Animated.View style = {{height:this.state._rowHeight, width:'100%', opacity: this.state._rowOpacity}}>
+        <View style = {styles.textInputView}>
+          <Text style = {{flex:1, marginLeft:10, fontSize:strings.stringsSizeMid}}>{strings.startTime}</Text>
+          <Text style = {styles.resultTextStyle}>
+            {this.state.startTime ? this.state.startTime : strings.pleaseChoose}
+          </Text> 
+        </View>      
+      </Animated.View>
+    )
+  }
+}
 
 class LessonDetailView extends Component<Props> {
 
@@ -99,35 +150,49 @@ class LessonDetailView extends Component<Props> {
     console.log('onDayPress : ' + day.dateString);
     var dateArray = []
     let dates = {};
-    dates[day.dateString] = {selected: true, dotColor: 'green', selectedColor: 'green'}
-    this.setState({ mark:dates})
+    dates[day.dateString] = {selected: true, selectedColor: layout.themeTextColor}
+    this.setState({ 
+      mark:dates,
+      showSelectedTime:true
+    })
   }
 
-  timeSelected(index){
-    console.log('timeSelected : ' + index)
+  filteringToolsBtnOnClicked(index){
+    console.log('filteringToolsBtnOnClicked : ' +index)
+  }
+
+  selectTimeOnClicked()
+  {
+    var tempArray
+    var hours = []
+    for ( var i = 0; i < 12; i ++)
+    {
+      hours[i] = i.toString()
+    }
+    Picker.init({
+      pickerData: [hours,['00','15','30','45'],['am', 'pm']],
+      pickerTitleText: strings.pleaseChoose,
+      pickerConfirmBtnText: strings.confirm,
+      pickerCancelBtnText: strings.cancel,
+      selectedValue: tempArray,
+      onPickerConfirm: pickedValue => {
+        this.setState({
+          startTime:pickedValue[0] +':'+ pickedValue[1] + ' ' +pickedValue[2]
+        })
+        console.log('confirm : ', pickedValue);
+      },
+      onPickerCancel: pickedValue => {
+          console.log('area cancel : ', pickedValue);
+      },
+      onPickerSelect: pickedValue => {
+          console.log('area select : ', pickedValue);
+      }
+    });
+    Picker.show();
+
   }
 
   render() {
-    console.log('height = ' + layout.deviceHeight)
-    /*
-    return (
-      <View
-        style = {styles.background}
-      >
-        <View
-          style = {styles.container}
-        >
-          <View style ={{height:20, backgroundColor:'blue', flex:1}}/>
-          <View style ={{height:20, backgroundColor:'green', flex:8}}>
-            <ScrollView
-              //contentContainerStyle = {{backgroundColor:'green'}}
-            />
-          </View>
-          <View style ={{height:20, backgroundColor:'red', flex:1}}/>
-        </View>
-      </View>
-    )
-    */
     return (
       <View
         style = {styles.background}
@@ -154,7 +219,7 @@ class LessonDetailView extends Component<Props> {
                 imageSource = {this.props.imageSource}
                 addBtnVisible = {false}
               />
-              <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
+              
               <TutorProfileTextBlock
                 allowEdit = {false}
                 arrowOn = {false}
@@ -180,21 +245,32 @@ class LessonDetailView extends Component<Props> {
                 //description = {this.props.course.course_fee}
               />
               <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
-
+              
+              <View style={{height:40,justifyContent: 'center', backgroundColor:layout.backgroundColor}}>
+                <Text style = {{color:layout.headingTextColor ,fontSize:layout.stringsSizeMid, paddingLeft: 10} }>
+                  {strings.applyDetail}
+                </Text>
+              </View>
               
               <Calendar
+                theme={{
+                  selectedDayBackgroundColor: '#00adf5',
+                  selectedDayTextColor: '#ffffff',
+                  //selectedDayBackgroundColor:layout.themeTextColor
+                }}
                 style = {styles.calendarStyle}
                 // Initially visible month. Default = Date()
                 current={Date()}
                 // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
-                //minDate={'2012-05-10'}
+                minDate={Date()}
                 // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
                 //maxDate={'2019-04-11'}
                 // Handler which gets executed on day press. Default = undefined
                 //onDayPress={(day) => {console.log('selected day', day)}}
                 onDayPress={ (day) => {this.onDayPress(day)}}   
                 //onDayPress={ this.hihi() }
-
+                
+                
                 // Handler which gets executed on day long press. Default = undefined
                 onDayLongPress={(day) => {console.log('selected day', day)}}
                 // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
@@ -226,55 +302,46 @@ class LessonDetailView extends Component<Props> {
                 }
 
               />
-              <View style = {styles.rowContainerStyle}>
-                <Text style = {{flex:1, marginLeft:10, fontSize:strings.stringsSizeMid}}>{strings.startTime}</Text>
-                {
-                  /*
-                  <RowMenuListingBar 
-                  
-                  firstItemShowIcon = {false}
-                  style = {{flex:1}}
-                  data = {this.timeList}
-                  size = {30}
-                  itemHeight = {30}
-                  itemWidth = {50}
-                  
-                  onClicked={ this.timeSelected }
-                />
-                */
-                  /*
-                  <RowMenuListingBar 
-                  firstItemShowIcon = {false}
-                  style = {{flex:1, marginRight:20}}
-                  data = {["30", "60", "90"]}
-                  size = {30}
-                  itemHeight = {30}
-                  itemWidth = {50}
-                  onClicked={ this.timeSelected }
-                />
-                */
-                }
-                
-              </View>
-              <View style = {styles.rowContainerStyle}>
+              <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
+              
+              {
+                this.state.showSelectedTime && 
+                <TouchableOpacity 
+                  onPress={() => this.selectTimeOnClicked()}
+                >
+                  <SelectTimeView 
+                    startTime = {this.state.startTime}
+                    show={this.state.showSelectedTime}
+                  />
+                </TouchableOpacity>
+              }
+
+              <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
+
+              <View style = {{flexDirection:'row', alignItems:'center',justifyContent:'space-between'}}>
                 <Text style = {{flex:1, marginLeft:10, fontSize:strings.stringsSizeMid}}>{strings.intervalTime} </Text>
-                
+                <FilteringToolsBar 
+                  onClicked = {(index)=>this.filteringToolsBtnOnClicked(index)}
+                  catName = {['30', '45', '60']}
+                  imageSource = {[Assets.icon._30m, Assets.icon._45m, Assets.icon._60m]}  
+                />
               </View>
-              <View style = {styles.rowContainerStyle}>
-                <Text >!! 請先登入 !!</Text>
-              </View>
-              <TouchableOpacity
-              >
+
+              <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
+              <Text style = {{ textAlign: 'center', padding: 10, backgroundColor:layout.backgroundColor, color:layout.themeTextColor}}>
+                **完成首個課程後，請給予導師評分和建議，締造更好的學習體驗**
+              </Text>
+
+              
+              <TouchableOpacity>
                 <View style = {{
                   flexDirection:'row', 
                   height:50, 
                   alignItems:'center',
                   justifyContent:'center',
-                  backgroundColor:layout.themeTextColor}}
-                >
-                  
-                  <Text style = {{fontSize:layout.stringsSizeBig, color:'white', fontWeight:'bold'}}>立即報名</Text>
-                    
+                  backgroundColor:layout.grayColor}}
+                > 
+                  <Text style = {{fontSize:layout.stringsSizeBig, color:'white', fontWeight:'bold'}}>立即報名</Text>   
                 </View>
               </TouchableOpacity>
               
@@ -290,7 +357,6 @@ class LessonDetailView extends Component<Props> {
 
 const styles = StyleSheet.create({  
   background:{
-
     flex:1,
     backgroundColor:'rgba(52,52,52,0.8)',
     height:layout.deviceHeight,
@@ -300,7 +366,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   container:{
-    
     borderRadius:20,
     backgroundColor:'white',
     height:layout.deviceHeight - 100,
@@ -310,14 +375,26 @@ const styles = StyleSheet.create({
     //alignItems:'center',
     top:50,
     bottom:50,
-    
-    
     position:'absolute'
+  },
+
+  textInputView: {
+    flexDirection:'row',
+    width: '100%',
+    height: 50,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: 'white',
+  },
+  resultTextStyle:{
+    fontSize: layout.stringsSizeMid,
+    paddingRight:10,
+    color:layout.themeTextColor 
   },
 
   rowContainerStyle:{
     flexDirection:'row', 
-    height:50, 
+    height:60, 
     alignItems:'center',
     justifyContent:'center'
   },
@@ -344,13 +421,6 @@ const styles = StyleSheet.create({
   
   scrollViewStyle :{
     flex:1,
-
-    //backgroundColor:'blue',
-    //position: 'absolute',
-    //top: 40,
-    //left: 0,
-    //right: 0,
-    //bottom: 0
   }
   
 });

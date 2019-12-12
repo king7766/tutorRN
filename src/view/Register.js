@@ -638,8 +638,8 @@ class Register extends Component<Props> {
               )
             }
           </View>
-          <Text style = {{ padding: 10, backgroundColor:layout.backgroundColor}}>
-            註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註冊說明註
+          <Text style = {{ textAlign: 'center', padding: 10, backgroundColor:layout.backgroundColor, color:layout.themeTextColor}}>
+            **閣下提供的資料只用於有助本程式了解你的需要及用於有關事宜上，請盡量提供有關資料，以便閣下有更佳的用戶體驗**
           </Text>
           <TouchableOpacity onPress={this.next}>
             <View style={styles.registerButton}>
