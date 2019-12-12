@@ -204,6 +204,9 @@ class NewsHomeView extends Component<Props> {
     if ( pageNum == -1 ){
       this.list.scrollToIndex({animated: true,index:0})
     }
+    this.setState({
+      showingIndex : pageNum
+    })
     return 
 
     if ( pageNum == -1 ){
@@ -213,6 +216,7 @@ class NewsHomeView extends Component<Props> {
       }
       
     }
+
     console.log('scrolled to page ', pageNum);
 
     if ( pageNum != this.state.showingIndex )
@@ -391,7 +395,7 @@ class NewsHomeView extends Component<Props> {
         {
           courseViewModel.getCourseList().length > 0 ?
           <FlatList
-            windowSize = {1}
+            //windowSize = {1}
             onEndReached={this.fetchMore}
             onEndReachedThreshold={0.3}
             showsVerticalScrollIndicator={false}

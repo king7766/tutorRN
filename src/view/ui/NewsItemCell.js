@@ -109,7 +109,7 @@ class NewsItemCell extends Component{
   {
     
     var photos = []
-    if ( this.props.item.course_media_list.length > 0 )
+    if ( this.props.item.course_media_list.length > 0 && this.props.showingIndex == this.props.index )
     {
       for (var i = 0; i < this.props.item.course_media_list.length ; i ++)
       {
