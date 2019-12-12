@@ -254,6 +254,7 @@ class SearchHomeView extends Component<Props> {
       fontSize: 15,
       justifyContent: 'center',
       alignItems: 'center',
+      fontWeight: 'bold',
       //backgroundColor : 'green',
       marginTop: 5,
       //width: '100%',
@@ -473,8 +474,8 @@ class SearchHomeView extends Component<Props> {
             firstImageSource = {Assets.icon.advanceSearch} 
             data = {courseViewModel.getCourseTagNamesList()}
             //size = {50}
-            itemHeight = {30}
-            itemWidth = {50}
+            itemHeight = {40}
+            itemWidth = {60}
             selected = {1}
             multiSelectArray = {rowMenuInitArray}
             //multiSelected ={[0,1,2,3,4,5,6,7,8]}

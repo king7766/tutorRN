@@ -144,8 +144,8 @@ class SearchTutorView extends Component<Props> {
             data = {this.state.tag}
             //data = {rowListBarDataSource}
             
-            itemHeight = {30}
-            itemWidth = {50}
+            itemHeight = {40}
+            itemWidth = {60}
             selected = {0}
             multiSelect = {true}
             //multiSelectArray = {rowMenuInitArray}

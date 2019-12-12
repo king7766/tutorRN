@@ -112,9 +112,10 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
       justifyContent:'center', 
       height: itemHeight, 
       width: itemWidth, 
+      borderRadius: 5,
       //borderWidth: bWidth + selected * 1 ,
       borderWidth: bWidth ,
-      borderRadius:2, 
+      
     
     }
   }
@@ -203,7 +204,7 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
     return(
 
       <View
-        style = {{height:this.props.itemHeight + 10}}
+        style = {{height:this.props.itemHeight +10}}
       >
         <ScrollView
           style = {{backgroundColor: 'white'}}
