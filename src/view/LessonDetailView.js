@@ -155,6 +155,11 @@ class LessonDetailView extends Component<Props> {
       mark:dates,
       showSelectedTime:true
     })
+
+    setTimeout(() => {
+      this.scrollView.scrollToEnd({animated: true});  
+    }, 600);
+    
   }
 
   filteringToolsBtnOnClicked(index){
@@ -211,8 +216,14 @@ class LessonDetailView extends Component<Props> {
             <Text style = {styles.titleTextStyle}>{this.props.course.course_name}</Text>
             <View style = {{height:30, width:30}}/>
           </View>
-          <View style = {{flex:8}}>
-            <ScrollView style = {styles.scrollViewStyle}>
+          <View style = {{flex:9}}>
+            <ScrollView 
+              ref={ref => this.scrollView = ref}
+              //onContentSizeChange={(contentWidth, contentHeight)=>{        
+              //    this.scrollView.scrollToEnd({animated: true});
+              //}}
+              style = {styles.scrollViewStyle}
+            >
               <PhotoThumbnailView
                 imageOnClicked = {(index)=>this.photoThumbnailImageOnClicked(index)}
                 addBtnOnClicked = {()=>this.photoThumbnailAddBtnOnClicked()}
@@ -330,23 +341,15 @@ class LessonDetailView extends Component<Props> {
               <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
               <Text style = {{ textAlign: 'center', padding: 10, backgroundColor:layout.backgroundColor, color:layout.themeTextColor}}>
                 **完成首個課程後，請給予導師評分和建議，締造更好的學習體驗**
-              </Text>
-
-              
-              <TouchableOpacity>
-                <View style = {{
-                  flexDirection:'row', 
-                  height:50, 
-                  alignItems:'center',
-                  justifyContent:'center',
-                  backgroundColor:layout.grayColor}}
-                > 
-                  <Text style = {{fontSize:layout.stringsSizeBig, color:'white', fontWeight:'bold'}}>立即報名</Text>   
-                </View>
-              </TouchableOpacity>
-              
+              </Text>    
             </ScrollView>
           </View>
+          <TouchableOpacity>
+            <View style = {styles.nextViewStyle}> 
+              <Text style = {{fontSize:layout.stringsSizeBig, color:'white', fontWeight:'bold'}}>立即報名</Text>   
+            </View>
+          </TouchableOpacity>
+
           <View style = {{flex:1}}/>
         </View>
       </View>
@@ -421,6 +424,13 @@ const styles = StyleSheet.create({
   
   scrollViewStyle :{
     flex:1,
+  },
+  nextViewStyle:{
+    flexDirection:'row', 
+    height:50, 
+    alignItems:'center',
+    justifyContent:'center',
+    backgroundColor:layout.grayColor
   }
   
 });
