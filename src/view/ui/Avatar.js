@@ -107,7 +107,7 @@ class Avatar extends Component <AvaterProps>{
     return{
       height: size, 
       width: size , 
-      borderRadius: round ? size/2 : 0, 
+      borderRadius: round ? size/2 : 5, 
       flex:1,
       backgroundColor: 'gray'
       //borderColor: 'red',

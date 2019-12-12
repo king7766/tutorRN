@@ -3,6 +3,7 @@ package com.tutorrn;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.BV.LinearGradient.LinearGradientPackage;
 import com.babisoft.ReactNativeLocalization.ReactNativeLocalizationPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.inprogress.reactnativeyoutube.ReactNativeYouTube;
@@ -29,6 +30,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new LinearGradientPackage(),
             new ReactNativeLocalizationPackage(),
             new ImagePickerPackage(),
             new ReactNativeYouTube(),

@@ -22,6 +22,9 @@ class TutorRowFlatList extends React.Component{
   constructor (props){
     super(props);
     
+    //const { params } = this.props.navigation.state;
+    //const height = params ? params.height : null
+
   }
 
   componentWillMount(){
@@ -58,22 +61,32 @@ class TutorRowFlatList extends React.Component{
     this.props.iconOnClick(item)
   }
 
+  courseNameStyle(imageHeight)
+  {
+    return{
+      textAlign: 'center',
+      margin:5,
+      width:imageHeight, 
+      fontSize:layout.stringsSizeSmall
+    }
 
-  renderAvatar()
+  }
+
+  renderAvatar(imageHeight)
   {
     return this.props.data.map((item,i) =>{
       return(
         <View
           key = {i}
-          style = {{margin:5, alignItems:'center',width:100,}}
+          style = {{margin:5, alignItems:'center'}}
         >
           <Avatar
             onPress={() => {this.iconOnClick(item)}}
-            size = {70}
+            size = {imageHeight}
             url = {item.tutor_thumb}
             round = {true}
           />
-          <Text numberOfLines= {1} style = {styles.courseNameStyle}>{item.course_name}</Text>
+          <Text numberOfLines= {1} style = {this.courseNameStyle(imageHeight)}>{item.course_name}</Text>
         </View>
       )
     })
@@ -81,6 +94,9 @@ class TutorRowFlatList extends React.Component{
 
   render (){
     
+    
+    console.log('height = ' + this.props.height)
+    var imageHeight = this.props.height - 60
 
     return(
       <View style = {this.backgroundStyle()}>
@@ -93,18 +109,18 @@ class TutorRowFlatList extends React.Component{
           <TouchableHighlight 
               onPress={ ()=>this.seeAllAction()}
           >
-            <Text
-              style = {styles.seeAll}
-            >{strings.more}</Text>
+            <Text style = {styles.seeAll}>
+              {''}
+            </Text>
           </TouchableHighlight>
 
 
         </View>
         <ScrollView 
-          style = {{height: 70, margin:5}}
+          style = {{height: imageHeight, margin:5}}
           horizontal = {true}
         >
-          {this.renderAvatar()}
+          {this.renderAvatar(imageHeight)}
 
         </ScrollView>
       
@@ -125,6 +141,7 @@ TutorRowFlatList.defaultProps = {
   pressEnable: true,
   numberOfItem: 3,
   height: 100,
+
 };
 
 export default TutorRowFlatList;
@@ -150,7 +167,7 @@ const styles = StyleSheet.create ({
   courseNameStyle:{
     textAlign: 'center',
     margin:5,
-    width:100, 
+    width:70, 
     fontSize:layout.stringsSizeSmall
   }
 

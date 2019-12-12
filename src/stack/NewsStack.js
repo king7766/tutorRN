@@ -24,10 +24,10 @@ var NewsStack = StackNavigator({
       title: strings.home,
       tabBarOptions: { 
         showIcon: false,
-        activeTintColor: 'red',
-        inactiveTintColor: 'red',
+        //activeTintColor: 'red',
+        //inactiveTintColor: 'red',
         style: {
-          backgroundColor:'red',
+          //backgroundColor:'red',
         }
       },
       tabBarIcon: ({ tintColor }) => (
