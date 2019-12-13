@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import { 
-   Text, 
-   Image, 
-   View, 
-   StyleSheet, 
-   ScrollView ,
-   TouchableHighlight,
-   TouchableOpacity
+  
+  Text, 
+  Image, 
+  View, 
+  StyleSheet, 
+  FlatList,
+  TouchableOpacity,
+  Animated,
+  Easing
 } from 'react-native';
+
+//import Lightbox from 'react-images';
+
+
 import LinearGradient from 'react-native-linear-gradient';
 import TimedSlideshow from 'react-native-timed-slideshow';
 import Dimensions from 'Dimensions';
@@ -19,6 +25,133 @@ import Assets from 'tutorRN/src/view/ui/Assets'
 
 const layout = require('tutorRN/src/Layout')
 
+
+class ImageSlider extends Component{
+  _isMounted = false
+
+  constructor (props){
+    super(props);
+    this.animatedValue = new Animated.Value(0)
+
+    this.state = ({
+      currentIndex:0,
+    })
+    this.renderItem = this.renderItem.bind(this)
+    this.nextPhoto = this.nextPhoto.bind(this)
+  }
+
+  componentDidMount(){
+    this._isMounted = true
+    this.animate()
+
+  }
+  componentWillUnmount()
+  {
+    this._isMounted = false
+  }
+
+  animate () {
+    var rand = 5 - Math.floor(Math.random() * 3)
+    var time = rand * 1000
+    
+    this.animatedValue.setValue(0)
+    Animated.timing(
+      this.animatedValue,
+      {
+        toValue: 1,
+        duration: time ,
+        easing: Easing.linear
+      }
+    ).start(() => this.nextPhoto()) 
+  }
+
+  nextPhoto()
+  {
+    var nextIndex = this.state.currentIndex +1
+    if ( nextIndex == this.props.items.length)
+    {
+      nextIndex = 0
+    }
+    if ( this._isMounted ){
+      this.setState({
+        currentIndex : nextIndex
+      })
+      this.animate()
+    }
+    
+  }
+
+  renderItem(items) {
+
+    var rand = Math.floor(Math.random() * 4)
+
+    var animatedStyle;
+
+    if (rand == 0)
+    {
+      const opacity = this.animatedValue.interpolate({
+        inputRange: [0.5, 0.75, 1],
+        outputRange: [0.75, 1, 0.75]
+        })
+        
+        animatedStyle = {opacity,position:'absolute', height:layout.deviceHeight, width:layout.deviceWidth}
+
+    }
+    else if( rand == 1)
+    {
+      
+      const scaleDown = this.animatedValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: [2, 1]
+      })
+      animatedStyle = {transform: [{scale: scaleDown}],position:'absolute', height:layout.deviceHeight, width:layout.deviceWidth}
+      
+    }
+    else if ( rand == 2)
+    {
+      const movingMargin = this.animatedValue.interpolate({
+        inputRange: [0, 0.5, 1],
+        outputRange: [-50, 50, -50]
+      })
+      animatedStyle = {position:'absolute', marginLeft: movingMargin, height:layout.deviceHeight, width:layout.deviceWidth}
+    
+    }
+    else 
+    {
+      const scaleUp = this.animatedValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: [1, 2]
+      })
+      animatedStyle = {transform: [{scale: scaleUp}],position:'absolute', height:layout.deviceHeight, width:layout.deviceWidth}
+      
+    }
+    return (
+      <Animated.Image
+        style={animatedStyle}
+        source={{uri:items[this.state.currentIndex].uri}}
+        //style = {styles.defaultImage}
+        resizeMode = 'contain'
+      />    
+    )
+  }
+
+  render (){ 
+    return(
+      <View style = {{flex:1}}>
+        <Image 
+          style = {{flex:1}}
+          resizeMode='cover'
+          source= {{uri : this.props.items[this.state.currentIndex].uri}}
+          blurRadius={10}
+        />
+        {
+          this.renderItem(this.props.items)         
+        }
+      </View>
+    )
+  }
+
+}
 
 class NewsItemCell extends Component{
 
@@ -109,28 +242,45 @@ class NewsItemCell extends Component{
   {
     
     var photos = []
-    if ( this.props.item.course_media_list.length > 0 && this.props.showingIndex == this.props.index )
+    if ( this.props.item.course_media_list.length > 0  )
     {
-      for (var i = 0; i < this.props.item.course_media_list.length ; i ++)
+      if ( this.props.showingIndex == this.props.index)
       {
-        photos.push({
-          uri:this.props.item.course_media_list[i].media_file,
-          title:this.props.item.course_name,
-          text:this.props.item.course_introduction,
-          //fullWidth: true,
-          extraSpacing:300,
-        })
-      }
 
-      return (
-        <View style={{height:layout.deviceHeight, width:'100%', position:'absolute',backgroundColor:'black' }} >
-          <TimedSlideshow
+        for (var i = 0; i < this.props.item.course_media_list.length ; i ++)
+        {
+          photos.push({
+            uri:this.props.item.course_media_list[i].media_file,
+            title:this.props.item.course_name,
+            text:this.props.item.course_introduction,
+            //fullWidth: true,
+            extraSpacing:300,
+          })
+        }
+
+        return (
+          <View style={{height:layout.deviceHeight, width:'100%', position:'absolute',backgroundColor:'black' }} >
+            {
+              <ImageSlider items={photos} />
+            }
             
-            progressBarColor = {layout.themeTextColor}
-            items={photos}
-          />
-        </View>
-      )
+          </View>
+        )
+      }
+      else
+      {
+        return (
+          <View style={{height:layout.deviceHeight, width:'100%', position:'absolute',backgroundColor:'black' }} >
+            <Image 
+              style = {{flex:1}}
+              resizeMode='cover'
+              source= {{uri : this.props.item.course_media_list[0].media_file}}
+              blurRadius={10}
+            />  
+          </View>
+        )
+      }
+      
     }
     else
     {

@@ -97,7 +97,7 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
   borderStyle(index)
   {
     const { itemHeight, itemWidth, multiSelect} = this.props
-    var bWidth = 1
+    var bWidth = 2
     //console.log ('selected  = ' + selected)
 
     
@@ -155,15 +155,23 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
     if (index == 0 && (firstItemShowIcon == true) ){
       return (
         <View
-          //style = {this.borderStyle(index)}
-          style = {{ borderColor : layout.themeTextColor,alignItems:'center', justifyContent:'center', height: itemHeight, width: itemWidth, borderWidth: 1 ,borderRadius:2,  margin: 5   }}
+          style = {{ 
+            borderColor : layout.themeTextColor,
+            alignItems:'center',
+            justifyContent:'center', 
+            height: itemHeight, 
+            width: itemWidth, 
+            borderWidth: 2 ,
+            borderRadius:2,  
+            margin: 5   
+          }}
         >
-          <Image style = {{
-            height:20, 
-            resizeMode:'contain', 
-            width: 20,  
-            alignItems:'center', 
-            //backgroundColor: index == this.state.selectedItem ? 'red' : 'gray'
+          <Image 
+            style = {{
+              height:20, 
+              resizeMode:'contain', 
+              width: 20,  
+              alignItems:'center', 
             }} 
             source = {firstImageSource ? firstImageSource : Assets.actions.search} 
           />

@@ -21,7 +21,7 @@ import {
 } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
 
-import StarRatingBar from 'react-native-star-rating-view/StarRatingBar'
+
 import { Rating } from 'react-native-ratings';
 import { AirbnbRating } from 'react-native-ratings';
 

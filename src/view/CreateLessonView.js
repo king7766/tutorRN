@@ -85,7 +85,7 @@ export default class CreateLessonView extends React.Component {
         [strings.price_low, strings.price_mid, strings.price_high]
       ],
       pickerResults :['','',strings.selectCategoryFirst,''],
-      rowDataSelectedIndexArray : [-1, -1,-1,-1],
+      pickerResultsIndex : [-1, -1,-1,-1],
     }
 
   }
@@ -147,7 +147,7 @@ export default class CreateLessonView extends React.Component {
 
   rawDataChecking(rawData){
 
-    console.log(JSON.stringify(this.state.rowDataSelectedIndexArray))
+    console.log(JSON.stringify(this.state.pickerResultsIndex))
     if (this.state.course_name == undefined || this.state.course_name.length < 1)
     {
       this.course_name.setNativeProps({
@@ -166,19 +166,19 @@ export default class CreateLessonView extends React.Component {
       return false
     }
     
-    if ( this.state.rowDataSelectedIndexArray[0] == -1 ){
+    if ( this.state.pickerResultsIndex[0] == -1 ){
       
       return false
     }
-    if ( this.state.rowDataSelectedIndexArray[1] == -1){
+    if ( this.state.pickerResultsIndex[1] == -1){
       
       return false
     }
-    if ( this.state.rowDataSelectedIndexArray[2] == -1){
+    if ( this.state.pickerResultsIndex[2] == -1){
       
       return false
     }
-    if ( this.state.rowDataSelectedIndexArray[3] == -1){
+    if ( this.state.pickerResultsIndex[3] == -1){
       
       return false
     }
@@ -213,7 +213,7 @@ export default class CreateLessonView extends React.Component {
     var rawData = {
       //token: 'xRW8DwqoIxZBSlF83b2P1',
       token: E.token,
-      course_fee: this.state.rowDataSelectedIndexArray[3],
+      course_fee: this.state.pickerResultsIndex[3],
       course_name : this.state.course_name,
       course_introduction: this.state.course_introduction,
       'course_district_ids[]': district_id,
@@ -307,7 +307,7 @@ export default class CreateLessonView extends React.Component {
   {    
     var rawArray 
 
-    if (index == 2 && this.state.rowDataSelectedIndexArray[1] == -1)
+    if (index == 2 && this.state.pickerResultsIndex[1] == -1)
     {
       return
     }
@@ -327,15 +327,15 @@ export default class CreateLessonView extends React.Component {
           var pickerResults = this.state.pickerResults
           pickerResults.splice(index, 1, pickerData)
 
-          var rowDataSelectedIndexArray = this.state.rowDataSelectedIndexArray
-          rowDataSelectedIndexArray.splice(index, 1, pickedIndex[0])
+          var pickerResultsIndex = this.state.pickerResultsIndex
+          pickerResultsIndex.splice(index, 1, pickedIndex[0])
           var optionData = this.state.optionData
 
           if ( index == 1)
           {
             
             pickerResults[2] = strings.selectCategoryFirst
-            rowDataSelectedIndexArray[2] = -1
+            pickerResultsIndex[2] = -1
             optionData[2] = categoryViewModel.getSubCategoriesNameByCategoryKey(categoryViewModel.getCategoryIDByName(pickedValue))
           
           }
@@ -343,7 +343,7 @@ export default class CreateLessonView extends React.Component {
           this.setState({
             optionData: optionData,
             pickerResults : pickerResults,
-            rowDataSelectedIndexArray : rowDataSelectedIndexArray,
+            pickerResultsIndex : pickerResultsIndex,
           })
 
       },

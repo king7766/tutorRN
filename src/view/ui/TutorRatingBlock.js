@@ -10,8 +10,6 @@ import {
    TouchableHighlight
 } from 'react-native';
 
-//import Stars from 'react-native-stars';
-import StarRatingBar from 'react-native-star-rating-view/StarRatingBar'
 import { Rating } from 'react-native-ratings';
 
 import Assets from 'tutorRN/src/view/ui/Assets';

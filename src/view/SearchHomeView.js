@@ -234,9 +234,14 @@ class SearchHomeView extends Component<Props> {
       justifyContent: 'center',
       alignItems: 'center',
 
-      //borderColor: color,
-      //borderWidth: 0.5,
-      //borderRadius: width/2,
+      shadowColor: layout.grayColor,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.8,
+      shadowRadius: 2,
+
+      borderColor: layout.grayColor,
+      borderWidth: 0.5,
+      borderRadius: width/2,
       //backgroundColor : color,
 
       width: width,
@@ -495,57 +500,6 @@ class SearchHomeView extends Component<Props> {
     );
   }
 }
-/*
-<Image 
-                  style = {this.iconImageStyle(rowID)}
-                  source={rowData.image}
-                  //resizeMode =  'center'
-                  resizeMode =  'contain'
-                />
-
-<TutorRowFlatList
-          title = '熱門推介'
-          height = {120}
-          data = {this.state.tutorRowData}
-        />
-        <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
-
-        <TutorRowFlatList
-          title = '優惠'
-          height = {120}
-          data = {this.state.tutorRowData}
-        />
-
-
-                <SegmentControl
-          //onClicked = {this.tabOnClicked}
-          style = {{paddingTop:'5'}}
-          onClicked = {this.tabOnClicked}
-          tag = {1}
-          data = {this.state.locationData}
-          numberOfItem = {4}
-        />
-        <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
-
-        <SegmentControl
-          //onClicked = {this.tabOnClicked}
-          onClicked = {this.tabOnClicked}
-          tag = {2}
-          data = {this.state.currentDistrictData}
-          numberOfItem = {3}
-        />
-        <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
-
-        <SegmentControl
-          //onClicked = {this.tabOnClicked}
-          onClicked = {this.tabOnClicked}
-          tag = {3}
-          data = {this.state.educationData}
-          numberOfItem = {3}
-        />
-
-
-*/
 
 export default SearchHomeView;
 
