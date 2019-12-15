@@ -37,10 +37,12 @@ class TutorRowFlatList extends React.Component{
 
   backgroundStyle ()
   {
+    
     return {
       flexDirection : 'column',
       backgroundColor: 'white',
-      height: this.props.height,
+      height:this.props.height,
+
     }
   }
 
@@ -60,32 +62,89 @@ class TutorRowFlatList extends React.Component{
     this.props.iconOnClick(item)
   }
 
-  courseNameStyle(imageHeight)
+  courseNameStyle()
   {
     return{
       textAlign: 'center',
-      marginTop:5,
-      width:imageHeight, 
+      margin:5,
+      width:this.props.itemWidth,
+      height:this.props.textHeight, 
+      //backgroundColor:'blue',
       fontSize:layout.stringsSizeSmall
     }
-
   }
 
-  renderAvatar(imageHeight)
+  courseImageStyle ()
+  {
+    return {
+      margin:5,
+      height:this.props.imageHeight, 
+      width:this.props.itemWidth,
+      borderRadius:5,
+      borderWidth:1,
+      //backgroundColor:'yellow',
+      borderColor:'transparent'
+    }
+  }
+
+  itemStyle()
+  {
+    return {
+      height: this.props.imageHeight+ this.props.textHeight,
+      width:this.props.itemWidth,
+      alignItems:'center',
+      margin:5,
+      //backgroundColor:'red',
+      
+    }
+  }
+
+  renderItem()
   {
     return this.props.data.map((item,i) =>{
+      console.log('item.tutor_thumb = ' +item.tutor_thumb)
+      var imageURL
+      if (item.course_media_list.length == 0 ){
+        imageURL = item.tutor_thumb
+      }
+      else
+      {
+        imageURL = item.course_media_list[0].media_file
+      }
       return(
         <View
           key = {i}
-          style = {{margin:5, alignItems:'center'}}
+          style = {this.itemStyle()}
         >
-          <Avatar
+          <TouchableOpacity
+            onPress={() => {this.iconOnClick(item)}}
+          >
+          {
+           
+            
+            <Image
+              style = {this.courseImageStyle()}
+              //source={{uri:item.tutor_thumb}}
+              source = {{uri:imageURL}}
+            />
+            
+            /*
+            <Avatar
             onPress={() => {this.iconOnClick(item)}}
             size = {imageHeight}
             url = {item.tutor_thumb}
             round = {true}
           />
-          <Text numberOfLines= {1} style = {this.courseNameStyle(imageHeight)}>{item.course_name}</Text>
+          */
+          }
+          
+          {
+            //<View
+            //  style = {this.courseNameStyle()}
+            ///>
+            <Text numberOfLines= {2} style = {this.courseNameStyle()}>{item.course_name}</Text>
+          }
+          </TouchableOpacity>
         </View>
       )
     })
@@ -98,6 +157,7 @@ class TutorRowFlatList extends React.Component{
     var imageHeight = this.props.height - 70
 
     return(
+      
       <View style = {this.backgroundStyle()}>
         <View style = {this.titleViewStyle()}>
           <Text style = {styles.title}>{this.props.title}</Text>
@@ -113,10 +173,11 @@ class TutorRowFlatList extends React.Component{
 
         </View>
         <ScrollView 
-          style = {{height: imageHeight, marginTop:5}}
+          
+          //style = {{height: this.p, marginTop:5}}
           horizontal = {true}
         >
-          {this.renderAvatar(imageHeight)}
+          {this.renderItem()}
 
         </ScrollView>
       
@@ -136,7 +197,10 @@ TutorRowFlatList.defaultProps = {
   touchColor: 'rgba(237,182,202,1)',
   pressEnable: true,
   numberOfItem: 3,
-  height: 100,
+  height: 190,
+  imageHeight:100,
+  textHeight:30, 
+  itemWidth: layout.deviceWidth/2 - 20,
 
 };
 
@@ -160,12 +224,7 @@ const styles = StyleSheet.create ({
     fontWeight:'bold',
     fontSize:layout.stringsSizeSmall,
   },
-  courseNameStyle:{
-    textAlign: 'center',
-    margin:5,
-    width:70, 
-    fontSize:layout.stringsSizeSmall
-  }
+  
 
   /*
   background:{
