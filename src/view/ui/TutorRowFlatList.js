@@ -15,6 +15,9 @@ import Avatar from 'tutorRN/src/view/ui/Avatar';
 import Assets from 'tutorRN/src/view/ui/Assets';
 import strings from 'tutorRN/src/service/strings'
 
+
+const textHeight = 40
+
 class TutorRowFlatList extends React.Component{
 
   constructor (props){
@@ -70,7 +73,7 @@ class TutorRowFlatList extends React.Component{
       width:this.props.itemWidth,
       height:this.props.textHeight, 
       //backgroundColor:'blue',
-      fontSize:layout.stringsSizeSmall
+      fontSize:layout.stringsSizeMid
     }
   }
 
@@ -120,8 +123,7 @@ class TutorRowFlatList extends React.Component{
             onPress={() => {this.iconOnClick(item)}}
           >
           {
-           
-            
+ 
             <Image
               style = {this.courseImageStyle()}
               //source={{uri:item.tutor_thumb}}
@@ -197,9 +199,9 @@ TutorRowFlatList.defaultProps = {
   touchColor: 'rgba(237,182,202,1)',
   pressEnable: true,
   numberOfItem: 3,
-  height: 190,
-  imageHeight:100,
-  textHeight:30, 
+  height: (layout.deviceWidth/2 - 20)*9 /16 + textHeight + 50,
+  imageHeight: (layout.deviceWidth/2 - 20)*9 /16,
+  textHeight:textHeight, 
   itemWidth: layout.deviceWidth/2 - 20,
 
 };

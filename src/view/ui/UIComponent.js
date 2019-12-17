@@ -10,9 +10,15 @@ import AddBtnPopUpDialog from 'tutorRN/src/view/ui/AddBtnPopUpDialog'
 import CreateLessonView from 'tutorRN/src/view/CreateLessonView'
 import Assets from 'tutorRN/src/view/ui/Assets'
 
-//import * as V from 'tutorRN/src/view/ui'
+import PhotoThumbnailView from 'tutorRN/src/view/ui/PhotoThumbnailView'
+import LoadingScreen from 'tutorRN/src/view/LoadingScreen'
+import UploadImageCell from 'tutorRN/src/view/ui/UploadImageCell'
+import SelectableInputField from 'tutorRN/src/view/ui/SelectableInputField'
+import SeparatorBar from 'tutorRN/src/view/ui/SeparatorBar'
 
-
+import TutorRatingBlock from 'tutorRN/src/view/ui/TutorRatingBlock'
+import TutorProfileBlock from 'tutorRN/src/view/ui/TutorProfileBlock'
+import TutorProfileTextBlock from 'tutorRN/src/view/ui/TutorProfileTextBlock'
 
 export {
   Avatar,
@@ -24,4 +30,16 @@ export {
   FilteringToolsBar,
   AddBtnPopUpDialog,
   CreateLessonView,
+
+  PhotoThumbnailView,
+  LoadingScreen,
+  UploadImageCell,
+  SelectableInputField,
+  SeparatorBar,
+
+  TutorRatingBlock,
+  TutorProfileBlock,
+  TutorProfileTextBlock
+
+
 };

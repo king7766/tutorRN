@@ -24,6 +24,7 @@ export class userModel{
    
    //cert_list : any 
    course_list : [courseModel] 
+   cert_list : [string]
    //user_email : string  = ''
    
    
@@ -63,7 +64,7 @@ export class userModel{
             user_introduction : this.user_introduction
             user_age : this.user_age
             course_list : this.course_list
-    
+            cert_list : this.cert_list
 
             //model.user_email = jsonObject.result.email
     
@@ -100,7 +101,8 @@ export class userModel{
         model.user_thumb = jsonObject.user_thumb
         model.user_introduction = jsonObject.user_introduction
         //model.user_age = jsonObject.user_age
-
+        model.cert_list = jsonObject.cert_list
+        
         var temp = []
         if ( jsonObject.course_list ){
             for( var i = 0; i < jsonObject.course_list.length; i ++)

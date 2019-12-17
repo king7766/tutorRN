@@ -12,8 +12,7 @@ import {
    ActivityIndicator
 } from 'react-native';
 import Dimensions from 'Dimensions';
-//import Hyperlink from 'react-native-hyperlink'
-import ParsedText from 'react-native-parsed-text';
+
 const layout = require('tutorRN/src/Layout')
 
 

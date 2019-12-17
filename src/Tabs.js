@@ -10,7 +10,7 @@ import {
   TouchableHighlight,
   AsyncStorage
 } from 'react-native';
-import { TabNavigator, StackNavigator, SwitchNavigator, NavigationActions, createBottomTabNavigator} from 'react-navigation';
+import { TabBarTop, TabNavigator, StackNavigator, SwitchNavigator, NavigationActions, createBottomTabNavigator} from 'react-navigation';
 //import { BottomNavigation } from 'react-native-paper';
 
 
@@ -61,17 +61,15 @@ const backgroundColor = props.position.interpolate({
   outputRange: ['#e74c3c','#9b59b6','#3498db'],
 })
 */
-class onTopView2 extends TabNavigator{
 
-  constructor (props){
-    super(props);
 
-  }
+const indicatorStyle = (props, alignSelf) => ({
+	backgroundColor: props.activeTintColor,
+	alignSelf: 'flex-start',
+});
 
-  render(){
-    return <Tabs/>
-  }
-}
+const TabBarComponent = (props) => (<BottomTabBar {...props} />)
+
 
 class onTopView extends Component {
 
@@ -278,19 +276,22 @@ class onTopView extends Component {
         <Tabs 
           addBtnOnClicked={ this.addBtnOnClicked }
         />
-        
-        <View style = {{ left:(layout.deviceWidth - 30 )/2, top: -70, height: 30, width: 30,backgroundColor :'white', borderRadius:25  }} >
-          <TouchableHighlight style={{ backgroundColor: layout.touchHighlightColor, width: 30, height: 30, borderRadius: 15, borderWidth:1, borderColor:layout.touchHighlightColor ,alignItems: 'center'}} 
-            onPress={()=>{this.addBtnOnClick()}}  
-          >
-            <Text
-              style = {{color:'black', fontSize : 20, fontWeight:'bold' }}
+        {
+          /*
+          <View style = {{ left:(layout.deviceWidth - 30 )/2, top: -70, height: 30, width: 30,backgroundColor :'white', borderRadius:25  }} >
+            <TouchableHighlight style={{ backgroundColor: layout.touchHighlightColor, width: 30, height: 30, borderRadius: 15, borderWidth:1, borderColor:layout.touchHighlightColor ,alignItems: 'center'}} 
+              onPress={()=>{this.addBtnOnClick()}}  
             >
-              +
-            </Text>
-          </TouchableHighlight>
-        </View>
-          
+              <Text
+                style = {{color:'black', fontSize : 20, fontWeight:'bold' }}
+              >
+                +
+              </Text>
+            </TouchableHighlight>
+          </View>
+          */ 
+        }
+        
         
       </View>
       
@@ -300,38 +301,42 @@ class onTopView extends Component {
 
 const Tabs = TabNavigator({
 
-  //news: NewsHomeView,
   news: NewsStack,
-  search: SearchStack,
-  //news: NewsStack,
-  //search:animatedbasic,
+  search: SearchStack,  
   add: LessonStack,
-  //lesson : LessonStack,
-  //search : SearchStack,
   notice: NoticeStack,
   profile : ProfileStack,
 
   },
-
-  
-  
   {
-    lazy: true,
     
+    tabBarComponent: props => (
+      <TabBarTop {...props} 
+        indicatorStyle={{ 
+          backgroundColor: 'white',
+          height: 2,
+          bottom:25
+          //marginLeft: 30
+        }} 
+      />
+    ),
+    
+
+    
+
+    lazy: true,
+    //tabBarComponent: (props)=> <TabBarTop {...props} indicatorStyle={indicatorStyle(props, 'flex-end')} />,
     tabBarOptions: {
-      
-      /*
-      navigationOptions: ({ navigation }) => ({
-        tabBarOnPress: (scene) => {
-          console.log('onPress:', scene.route);
-          //jumpToIndex(scene.index);
-        },
-      }),
-      */
+      indicatorStyle: {
+        backgroundColor: 'white',
+        height: 10,
+        width:60,
+        marginLeft: 30
+      },
       showIcon: true,
       showLabel: false,
       iconStyle: {
-        width: 50,
+        //width: 50,
         height: 50
       },
       //activeTintColor: '#fff',
@@ -340,8 +345,18 @@ const Tabs = TabNavigator({
       //inactiveTintColor : '#696969',
       //activeTintColor: layout.touchHighlightColor,
       activeTintColor : '#FFFFFF',
-      inactiveTintColor : '#696969',
+      inactiveTintColor : '#FFFFFF',
       
+      
+      style: {
+        backgroundColor: 'rgba(22, 22, 22, 0.7)',
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        bottom: 20,
+        height: 90
+      }
+      /*
       style: {
         backgroundColor: 'rgba(22, 22, 22, 0.5)',
         //backgroundColor: 'rgba(22, 22, 22, 0.3)',
@@ -349,17 +364,18 @@ const Tabs = TabNavigator({
         //backgroundColor:'black',
         //borderTopWidth: 3,
         //borderTopColor: '#996600',
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        bottom: 0
+        //position: 'absolute',
+        //left: 0,
+        //right: 0,
+        //bottom: 0
 
       }
+      */
       //selectedTabFontSize: 12,
       //tintColor: '#fff',
       //activeTintColor: '#eee',
       //activeTintColor: 'red',
-
+      
       /*
       activeTintColor: '#fff',
       inactiveTintColor: '#A9A9A9',
@@ -469,7 +485,7 @@ Tabs.router.getStateForAction = (action, state) => {
   return defaultGetStateForAction(action, state)
 }
 
-//export default onTopView2;
+
 export default onTopView;
 //export default Tabs;
 

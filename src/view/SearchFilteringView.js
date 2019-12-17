@@ -27,7 +27,7 @@ import PopupDialog, {DialogTitle, SlideAnimation} from 'react-native-popup-dialo
 import Picker from 'react-native-picker';
 import Assets from 'tutorRN/src/view/ui/Assets';
 
-import FilteringToolsBar from 'tutorRN/src/view/ui/FilteringToolsBar';
+//import FilteringToolsBar from 'tutorRN/src/view/ui/FilteringToolsBar';
 import strings from 'tutorRN/src/service/strings'
 import locationVM from 'tutorRN/src/VM/locationVM'
 import categoryVM from 'tutorRN/src/VM/categoryVM'
@@ -37,6 +37,12 @@ const categoryViewModel = categoryVM.getInstance()
 const locationViewModel = locationVM.getInstance()
 const courseViewModel = courseVM.getInstance()
 const layout = require('tutorRN/src/Layout')
+
+import {
+  FilteringToolsBar,
+  SelectableInputField,
+  SeparatorBar,
+} from 'tutorRN/src/view/ui/UIComponent';
 
 class SearchFilteringView extends Component<Props> {
 
@@ -270,14 +276,16 @@ class SearchFilteringView extends Component<Props> {
       //>
       <View style = {{flex:1}}>
         <View style = {styles.upperPartContainer}>
-          <Text style = {{margin:10, color:layout.headingTextColor, fontSize:layout.stringsSizeMid}}>{strings.order}</Text>
+          
+          <SeparatorBar text={strings.order}/>
           <FilteringToolsBar 
             onClicked = {(index)=>this.filteringToolsBtnOnClicked(index)}
             catName = {['評分', '最多收藏', '收費','距離']}
             imageSource = {[Assets.icon.ranking, Assets.icon.bookmark, Assets.icon.price, Assets.icon.distance]}
             //imageSource = {[Assets.actions.doc, Assets.actions.doc, Assets.actions.doc, Assets.actions.doc]}
           />
-          <Text style = {{margin:10, color:layout.headingTextColor, fontSize:layout.stringsSizeMid}}>{strings.filter}</Text>
+          <SeparatorBar text={strings.filter}/>
+          
           <View>
             {
               this.state.rowTitle.map(
@@ -287,24 +295,15 @@ class SearchFilteringView extends Component<Props> {
                     onPress={() => this.rowOnClick(index)}
                     key = {index}
                   >
-                    <View
-                      style = {styles.textInputView}
-                      key = {index}
-                    >
-                      <Text
-                        style = {this.textInputStyle(index)}
-                      >
-                        {item}
-                      </Text> 
-                      
-                      <Text
-                        style = {styles.resultTextStyle}
-                      >
-                        {this.state.pickerResults[index]}
-                      </Text> 
-                      
+                    <View>
+                      <SelectableInputField 
+                        title = {item}
+                        data = {this.state.pickerResults[index]}
+                      />
                     </View>
-                    <View style={{height:1, backgroundColor:layout.backgroundColor}}></View>
+                    
+                    
+                    <SeparatorBar height={1}/>
                     
                   </TouchableOpacity>
                 )

@@ -22,6 +22,7 @@ import {
 import Assets from 'tutorRN/src/view/ui/Assets';
 
 import {
+  SeparatorBar,
   LessonListCell,
   RowMenuListingBar
 } from 'tutorRN/src/view/ui/UIComponent';
@@ -154,7 +155,7 @@ class SearchTutorView extends Component<Props> {
           />
           
         }
-        <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
+        <SeparatorBar />
         <ScrollView>
         {
           

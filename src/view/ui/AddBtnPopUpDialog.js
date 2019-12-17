@@ -106,34 +106,33 @@ class MovingView extends Component {
 class AddBtnPopUpDialog extends Component<Props> {
 
     // 构造
-    constructor(props) {
-        super(props);
-        this.state = {
-          fadeAnim: new Animated.Value(0),
-          
-        }
-        this.itemOnClick = this.itemOnClick.bind(this)
-        this.closeView = this.closeView.bind(this)
+  constructor(props) {
+    super(props);
+    this.state = {
+      fadeAnim: new Animated.Value(0),      
     }
+    this.itemOnClick = this.itemOnClick.bind(this)
+    this.closeView = this.closeView.bind(this)
+  }
 
-    componentDidMount() {
-      Animated.timing(                  // Animate over time
-        this.state.fadeAnim,            // The animated value to drive
-        {
-          toValue: 1,                   // Animate to opacity: 1 (opaque)
-          duration: 10000,              // Make it take a while
-        }
-      ).start();                        // Starts the animation
+  componentDidMount() {
+    Animated.timing(                  // Animate over time
+      this.state.fadeAnim,            // The animated value to drive
+      {
+        toValue: 1,                   // Animate to opacity: 1 (opaque)
+        duration: 10000,              // Make it take a while
+      }
+    ).start();                        // Starts the animation
 
-      Animated.timing(this.animatedValue, {
-        toValue: 1,
-        duration: 15000
-      }).start()
-    }
+    Animated.timing(this.animatedValue, {
+      toValue: 1,
+      duration: 15000
+    }).start()
+  }
 
-    componentWillMount() {
-      this.animatedValue = new Animated.Value(0);
-    }
+  componentWillMount() {
+    this.animatedValue = new Animated.Value(0);
+  }
 
     /*
     static propTypes = {
@@ -146,100 +145,76 @@ class AddBtnPopUpDialog extends Component<Props> {
         _dialogVisible: React.PropTypes.bool,       //显示还是隐藏
     }
     */
-    static defaultProps = {
-        _dialogTitle: '温馨提示',
-        _dialogContent: '是否退出',
-        _dialogLeftBtnTitle: '取消',
-        _dialogRightBtnTitle: '确定',
-        _dialogVisible: false,
-    }
+  static defaultProps = {
+    _dialogTitle: '温馨提示',
+    _dialogContent: '是否退出',
+    _dialogLeftBtnTitle: '取消',
+    _dialogRightBtnTitle: '确定',
+    _dialogVisible: false,
+  }
     
-    itemOnClick(index)
-    {
-      console.log('itemOnClick : ' + index)
+  itemOnClick(index)
+  {
+    console.log('itemOnClick : ' + index)
+    //back to parent view
+    this.props.onPress(index)
+  }
 
-      //back to parent view
-      this.props.onPress(index)
-    }
+  closeView ()
+  {
+    this.props.closeView()
+  }
 
-    closeView ()
-    {
-      this.props.closeView()
-    }
-
-    render() {
-        // onPress事件直接与父组件传递进来的属性挂接
-        let { fadeAnim } = this.state;
-
-        const interpolateRotation = this.animatedValue.interpolate({
-          inputRange: [0, 1],
-          outputRange: ['0rad', '13rad'],
-        })
-        const animatedStyle = {
-          transform: [
-            { rotate: interpolateRotation }
-          ]
-        }
-
-        return (
-          
-            <Modal
-                visible={this.props._dialogVisible}
-                transparent={true}
-                onRequestClose={() => {}} //如果是Android设备 必须有此方法
-            >
-
-              <TouchableHighlight underlayColor = {'transparent'} onPress={this.closeView}>
-                <View style={styles.bg}>
-                  <ScrollView
-                    horizontal = {true}
-                    ref='_scrollView'
+  render() {
+        
+      return (          
+        <Modal
+          visible={this.props._dialogVisible}
+          transparent={true}
+          onRequestClose={() => {}} //如果是Android设备 必须有此方法
+        >
+          <TouchableHighlight underlayColor = {'transparent'} onPress={this.closeView}>
+            <View style={styles.bg}>    
+              {
                     
-                    style = {{ width: SCREEN_WIDTH,
-                      height: SCREEN_HEIGHT, flex:1, flexDirection:'row'}}
-                  >
+                    
+                  
+                    /*
+                    <MovingView 
+                      style={{position: 'absolute', bottom: 0, width: 250, height: 50,left:20}}
+                      move={-250}
+                      title = {strings.newClass}
+                      index = {1}
+                      onClicked ={ this.itemOnClick}
+                    />
+                    */
+                    
+                    <MovingView 
+                      style={{position: 'absolute', bottom: 0, width: 250, height: 50,left:20}}
+                      move={-175}
+                      title = {strings.newClass}
+                      index = {2}
+                      onClicked ={ this.itemOnClick}
+                    />
+
+                    /*
+                    <MovingView 
+                      style={{position: 'absolute', bottom: 0, width: 250, height: 50,left:20, flexDirection:'row', alignItems:'center'}}
+                      move={-100}
+                      title = {strings.newClass}
+                      index = {3}
+                      onClicked ={ this.itemOnClick}
+                    />
+                    */
+
+              }
                 
-
-                  <View
-                    style = {{height:SCREEN_HEIGHT, width: SCREEN_WIDTH}}
-                  >
-                      
-                  <MovingView 
-                    style={{position: 'absolute', bottom: 0, width: 250, height: 50,left:20}}
-                    move={-250}
-                    title = {strings.newClass}
-                    index = {1}
-                    onClicked ={ this.itemOnClick}
-                  />
-                  
-                  <MovingView 
-                    style={{position: 'absolute', bottom: 0, width: 250, height: 50,left:20}}
-                    move={-175}
-                    title = {strings.newClass}
-                    index = {2}
-                    onClicked ={ this.itemOnClick}
-                  />
-                  <MovingView 
-                    style={{position: 'absolute', bottom: 0, width: 250, height: 50,left:20, flexDirection:'row', alignItems:'center'}}
-                    move={-100}
-                    title = {strings.newClass}
-                    index = {3}
-                    onClicked ={ this.itemOnClick}
-                  />
-
-                  
-                    </View>
-                    <CreateLessonView style ={{height: SCREEN_HEIGHT, width:SCREEN_WIDTH, left: SCREEN_WIDTH, position:'absolute'}}/>
-                 
-
-                  
-                  </ScrollView>
-                </View>
-              </TouchableHighlight>
-            </Modal>
+            </View>
+          </TouchableHighlight>
+        </Modal>
           
-        );
-    }
+      )
+  }
 }
 
 const styles = StyleSheet.create({

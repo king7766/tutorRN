@@ -27,6 +27,7 @@ import SegmentControl from './ui/SegmentControl'
 import {
   TutorRowFlatList,
   RowMenuListingBar,
+  SeparatorBar,
 } from 'tutorRN/src/view/ui/UIComponent';
 
 import Assets from 'tutorRN/src/view/ui/Assets';
@@ -36,11 +37,6 @@ import courseTagVM from 'tutorRN/src/VM/courseTagVM'
 import courseVM from 'tutorRN/src/VM/courseVM'
 import targetUserVM from 'tutorRN/src/VM/targetUserVM'
 import strings from 'tutorRN/src/service/strings'
-
-
-
-
-
 
 
 const layout = require('tutorRN/src/Layout')
@@ -196,7 +192,7 @@ class SearchHomeView extends Component<Props> {
       alignItems: 'center',
       //backgroundColor : 'red',
       width:width, //cell的宽度        
-      height: 80,
+      height: 90,
       marginLeft:5, 
       marginRight:5,        
       marginTop:10 
@@ -207,7 +203,7 @@ class SearchHomeView extends Component<Props> {
   {
     var cellWidth = (layout.deviceWidth - 50 )/numberOfItem
     var width = cellWidth - 10
-    width = 50
+    width = 60
     var color 
 
     //var rand = Math.floor(Math.random() * 4) 
@@ -256,7 +252,7 @@ class SearchHomeView extends Component<Props> {
     return {
       //flex:1,
       color: 'black',
-      fontSize: 15,
+      fontSize: layout.stringsSizeMid,
       justifyContent: 'center',
       alignItems: 'center',
       fontWeight: 'bold',
@@ -408,15 +404,11 @@ class SearchHomeView extends Component<Props> {
 
   tutorRowListUI()
   {
-
-
-    console.log('tutorRowListUI :' + JSON.stringify(this.state.courseTagSelection))
     return this.state.courseTagSelection.map((tag_id, i) =>{
       return (
         <View
           key = {i}
         >
-          <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
           <TutorRowFlatList
             title = {courseViewModel.getCourseTagNameById(tag_id)}
             //height = {140}
@@ -425,6 +417,7 @@ class SearchHomeView extends Component<Props> {
             //id = {tag_id}
             data = {courseViewModel.getCourseByTag(tag_id)}
           />   
+          <SeparatorBar />
         </View>
       )
     })
@@ -488,10 +481,11 @@ class SearchHomeView extends Component<Props> {
             onClicked={ this.TopMenuBarOnClicked }
           />
 
-          <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
+          <SeparatorBar />
           {
             this.categorysViewUI()
           }
+          <SeparatorBar />
           {
             this.tutorRowListUI()
           }

@@ -36,8 +36,13 @@ import userVM from 'tutorRN/src/VM/userVM'
 import strings from 'tutorRN/src/service/strings'
 import alert from 'tutorRN/src/service/alert'
 
-import PhotoThumbnailView from 'tutorRN/src/view/ui/PhotoThumbnailView'
-import LoadingScreen from 'tutorRN/src/view/LoadingScreen'
+import {
+  SeparatorBar,
+  SelectableInputField,
+  UploadImageCell,
+  LoadingScreen,
+  PhotoThumbnailView,
+} from 'tutorRN/src/view/ui/UIComponent';
 
 const layout = require('tutorRN/src/Layout')
 const locationViewModel = locationVM.getInstance()
@@ -462,6 +467,10 @@ export default class CreateLessonView extends React.Component {
     //this.next()
     //this.props.onClose()
   }
+  filteringToolsBtnOnClicked(index)
+  {
+    console.log('filteringToolsBtnOnClicked ' + index)
+  }
   
   renderItem = ({item, index}) =>
     <TouchableOpacity onPress={()=>this.selectedPhoto(index)}>
@@ -554,15 +563,7 @@ export default class CreateLessonView extends React.Component {
             <TouchableOpacity
               onPress={this.uploadPhoto}
             >
-              <View style={styles.uploadButton}>
-                <Image 
-                  style = {{height: 30, width:30, marginLeft:10}}
-                  source=  {Assets.icon.addImage}
-                />
-                <Text style = {styles.uploadText}>
-                  {strings.uploadPhoto}
-                </Text>
-              </View>
+              <UploadImageCell />
             </TouchableOpacity>
               :
             <View
@@ -579,12 +580,9 @@ export default class CreateLessonView extends React.Component {
             </View>
 
         }
-
-          <View style={{height:40,justifyContent: 'center', backgroundColor:layout.backgroundColor}}>
-            <Text style = {{color:layout.headingTextColor ,fontSize:layout.stringsSizeMid, paddingLeft: 10} }>
-              {strings.detailInformation}
-            </Text>
-          </View>
+        <SeparatorBar text = {strings.detailInformation} />
+        
+         
           <TextInput
             onChange= {this.handleInputChange}
             ref= {(course_name) => { this.course_name = course_name }}
@@ -618,23 +616,30 @@ export default class CreateLessonView extends React.Component {
                     onPress={() => this.rowOnClick(index)}
                     key = {index}
                   >
-                    <View style = {styles.textInputView} key = {index}>
-                      <Text style = {this.textInputStyle(index)}>
-                        {item}
-                      </Text> 
-                      <Text
-                        //ref= {"index" + index}
-                        style = {{ paddingRight:10, color:layout.themeTextColor }}
-                        //value = {this.state.rowData[index]}
-                      >
-                        {this.state.pickerResults[index]}
-                      </Text> 
+                    <View>
+                      <SelectableInputField 
+                        title = {item}
+                        data = {this.state.pickerResults[index]}
+                      />
                     </View>
                   </TouchableHighlight>
                 )
               )
             }
           </View>
+          <View style = {{flexDirection:'row', alignItems:'center',justifyContent:'space-between'}}>
+            <Text style = {{flex:1, marginLeft:10, fontSize:strings.stringsSizeMid}}>{strings.intervalTime} </Text>
+            <View style = {{flex:1}}>
+              <FilteringToolsBar 
+              onClicked = {(index)=>this.filteringToolsBtnOnClicked(index)}
+              catName = {['30', '45', '60']}
+              imageSource = {[Assets.icon._30m, Assets.icon._45m, Assets.icon._60m]}  
+            />
+
+            </View>
+            
+          </View>
+
 
           <Text style = {{ textAlign: 'center', padding: 10, backgroundColor:layout.backgroundColor, color:layout.themeTextColor}}>
             **閣下提供的資料只用於有助本程式了解學員的需要及用於有關事宜上，請盡量提供有關資料，以便學員更能準確地搜尋閣下**
@@ -686,19 +691,7 @@ const styles = StyleSheet.create({
     backgroundColor : 'rgba(242,242,242,1)'
   },
 
-  uploadButton: {
-    
-    //backgroundColor : layout.themeTextColor,
-    height:40,
-    justifyContent: 'flex-start',
-    flexDirection: 'row',
-    alignItems:'center'
-  },
-  uploadText:{
-    paddingLeft: 10,
-    color: 'black',
-    fontSize:layout.stringsSizeMid,
-  },
+
   confirmButtonBg:{
     flex:1, 
     height:30, 

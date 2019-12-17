@@ -23,13 +23,18 @@ import {
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
 import SegmentControl from './ui/SegmentControl'
-
 import TutorCVCell from './ui/TutorCVCell'
 import CalendarCell from './ui/CalendarCell'
-import TutorProfileBlock from 'tutorRN/src/view/ui/TutorProfileBlock'
-import TutorProfileTextBlock from './ui/TutorProfileTextBlock'
-import TutorRatingBlock from './ui/TutorRatingBlock'
+
 import strings from 'tutorRN/src/service/strings'
+
+import {
+  TutorRatingBlock,
+  TutorProfileBlock,
+  TutorProfileTextBlock,
+  PhotoThumbnailView,
+  SeparatorBar,
+} from 'tutorRN/src/view/ui/UIComponent';
 
 
 const layout = require('tutorRN/src/Layout')
@@ -96,7 +101,7 @@ class SearchTutorDetailView extends Component<Props> {
           />
         
 
-          <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>         
+          <SeparatorBar />
 
           <TutorProfileTextBlock
             allowEdit = {false}
@@ -105,7 +110,7 @@ class SearchTutorDetailView extends Component<Props> {
             description = {this.state.data.achievement}
           />
 
-          <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
+          <SeparatorBar />
 
           <TutorProfileTextBlock
             allowEdit = {false}

@@ -10,8 +10,6 @@ import {
    TouchableHighlight
 } from 'react-native';
 import Dimensions from 'Dimensions';
-//import Hyperlink from 'react-native-hyperlink'
-import ParsedText from 'react-native-parsed-text';
 
 import TutorProfileBlock from './TutorProfileBlock'
 import TutorProfileTextBlock from './TutorProfileTextBlock'

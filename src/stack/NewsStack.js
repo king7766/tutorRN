@@ -23,6 +23,9 @@ var NewsStack = StackNavigator({
       //tabBarVisible: true,
       title: strings.home,
       tabBarOptions: { 
+        indicatorStyle: {
+          backgroundColor: 'red',
+        },
         showIcon: false,
         //activeTintColor: 'red',
         //inactiveTintColor: 'red',

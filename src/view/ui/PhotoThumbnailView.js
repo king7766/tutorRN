@@ -10,8 +10,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import Assets from 'tutorRN/src/view/ui/Assets';
 import Dimensions from 'Dimensions';
-//import Hyperlink from 'react-native-hyperlink'
-import ParsedText from 'react-native-parsed-text';
+
 const layout = require('tutorRN/src/Layout')
 
 
@@ -64,7 +63,7 @@ class PhotoThumbnailView extends Component{
 
       <View style = {styles.background}>
         <FlatList
-          style={{ flex: 0 }}
+          //style={{ flex: 0 }}
           removeClippedSubviews={false}
           horizontal = {true}
           //data = {this.props.imageSource}
@@ -126,7 +125,7 @@ export default PhotoThumbnailView;
 
 const styles = StyleSheet.create ({
   background:{
-    flex:1,
+    backgroundColor:'white'
   },
   topGradientStyle:{
     position:'absolute', 

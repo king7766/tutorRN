@@ -76,15 +76,18 @@ const styles = StyleSheet.create({
 	},
 
 	icon: {
-	  marginTop: 10,
-	  width: 20,
-	  height: 20,
+	  marginTop: 5,
+	  width: 25,
+	  height: 25,
 	},
 
 	homeIconSize:{
 		height: 40,
     	width: 40
-	}
+	},
+
+
+
 });
 
 

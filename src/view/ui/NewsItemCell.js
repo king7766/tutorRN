@@ -11,14 +11,8 @@ import {
   Easing
 } from 'react-native';
 
-//import Lightbox from 'react-images';
-
-
 import LinearGradient from 'react-native-linear-gradient';
-import TimedSlideshow from 'react-native-timed-slideshow';
 import Dimensions from 'Dimensions';
-//import Hyperlink from 'react-native-hyperlink'
-import ParsedText from 'react-native-parsed-text';
 
 import strings from 'tutorRN/src/service/strings'
 import Assets from 'tutorRN/src/view/ui/Assets'

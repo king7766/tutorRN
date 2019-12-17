@@ -24,7 +24,7 @@ class FilteringToolsBar extends React.Component{
     this.state = {
       selectedItem: 0
     }
-    //this.handleSettingsPress = this.handleSettingsPress.bind(this)
+    this.backgroundStyle = this.backgroundStyle.bind(this)
   }
 
   componentWillMount(){
@@ -34,9 +34,15 @@ class FilteringToolsBar extends React.Component{
   backgroundStyle ()
   {
     return {
-      flexDirection : 'column',
-      //backgroundColor: 'red',
-      height: this.props.height,
+      backgroundColor:'red',
+      height:this.props.height,
+      backgroundColor: 'white',
+      flexWrap:'wrap',
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      alignItems: 'center',
+      paddingTop:5,
+      paddingBottom:5,
     }
   }
 
@@ -115,14 +121,17 @@ class FilteringToolsBar extends React.Component{
   render (){
     return(
      
-        <View style = {styles.background}>
+        <View 
+          style = {this.backgroundStyle()}
+          //style = {{height:100}}
+        >
           {
              this.props.catName.map((item, index) =>{
               return (
                 <TouchableOpacity 
                   //onPress={this.props.onClicked}
                   //underlayColor = {this.props.touchColor}
-                  underlayColor = { 'rgba(52, 52, 52, 0.0)'}
+                  //underlayColor = { 'rgba(52, 52, 52, 0.0)'}
                   onPress={ ()=>this.OnClicked(index, this.props.tag)}
                   //onPress={ ()=>this.props.onClicked(index)}
                   //<Image style = {this.imageStyle(index)} source = {Assets.actions.search} />
@@ -160,7 +169,7 @@ FilteringToolsBar.defaultProps = {
   touchColor: 'rgba(237,182,202,1)',
   pressEnable: true,
   numberOfItem: 3,
-  height: 120,
+  height: 100,
   imageSource : [Assets.actions.search,Assets.actions.search, Assets.actions.search, Assets.actions.search, Assets.actions.search],
   //catName: ['評分', '最多收藏', '收費','距離']
 };
@@ -168,22 +177,8 @@ FilteringToolsBar.defaultProps = {
 export default FilteringToolsBar;
 
 const styles = StyleSheet.create ({
-  background:{
-    backgroundColor: 'white',
-    flexWrap:'wrap',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    flex:1,
-    alignItems: 'center',
-    paddingTop:5,
-    paddingBottom:5,
-    
-  },
-  ToolBarStyle:{
-    flexDirection: 'column',
-    
-
-  }
+  
+  
   /*
   background:{
     backgroundColor: 'red',

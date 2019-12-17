@@ -22,12 +22,12 @@ import {
 } from 'react-native';
 
 import {
-  RowMenuListingBar,
+  TutorProfileTextBlock,
+  PhotoThumbnailView,
+  SeparatorBar,
 } from 'tutorRN/src/view/ui/UIComponent';
 import Picker from 'react-native-picker';
-import TutorProfileTextBlock from 'tutorRN/src/view/ui/TutorProfileTextBlock'
-import PhotoThumbnailView from 'tutorRN/src/view/ui/PhotoThumbnailView'
-import FilteringToolsBar from 'tutorRN/src/view/ui/FilteringToolsBar'
+
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars'
 import CalendarCell from 'tutorRN/src/view/ui/CalendarCell'
 import Assets from 'tutorRN/src/view/ui/Assets';
@@ -238,7 +238,7 @@ class LessonDetailView extends Component<Props> {
                 //description = {'於約30分鐘課堂內, 以自創的「5老師口訣」配合圖像記憶法幫助學生記憶及學習, 並以魔術手法引發學生學習興趣及貫穿整個課程, 同時於課堂內運用多種教學技巧及方法, 使學生快樂而有效地進行學習。'}
                 description = {this.props.course.course_introduction}
               />
-              <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
+              <SeparatorBar />
               <TutorProfileTextBlock
                 allowEdit = {false}
                 arrowOn = {false}
@@ -247,7 +247,7 @@ class LessonDetailView extends Component<Props> {
                 //description = {this.props.course.location[0].location_name}
                 description = {locationViewModel.getLocationNameById(this.props.course.location[0].id)}
               />
-              <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
+              <SeparatorBar />
               <TutorProfileTextBlock
                 allowEdit = {false}
                 arrowOn = {false}
@@ -255,14 +255,10 @@ class LessonDetailView extends Component<Props> {
                 description = {courseViewModel.getCourseFeeStringById(this.props.course.course_fee)}
                 //description = {this.props.course.course_fee}
               />
-              <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
+              <SeparatorBar />
               
-              <View style={{height:40,justifyContent: 'center', backgroundColor:layout.backgroundColor}}>
-                <Text style = {{color:layout.headingTextColor ,fontSize:layout.stringsSizeMid, paddingLeft: 10} }>
-                  {strings.applyDetail}
-                </Text>
-              </View>
-              
+              <SeparatorBar text = {strings.applyDetail} />
+
               <Calendar
                 theme={{
                   selectedDayBackgroundColor: '#00adf5',
@@ -326,19 +322,8 @@ class LessonDetailView extends Component<Props> {
                   />
                 </TouchableOpacity>
               }
+              <SeparatorBar />
 
-              <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
-
-              <View style = {{flexDirection:'row', alignItems:'center',justifyContent:'space-between'}}>
-                <Text style = {{flex:1, marginLeft:10, fontSize:strings.stringsSizeMid}}>{strings.intervalTime} </Text>
-                <FilteringToolsBar 
-                  onClicked = {(index)=>this.filteringToolsBtnOnClicked(index)}
-                  catName = {['30', '45', '60']}
-                  imageSource = {[Assets.icon._30m, Assets.icon._45m, Assets.icon._60m]}  
-                />
-              </View>
-
-              <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
               <Text style = {{ textAlign: 'center', padding: 10, backgroundColor:layout.backgroundColor, color:layout.themeTextColor}}>
                 **完成首個課程後，請給予導師評分和建議，締造更好的學習體驗**
               </Text>    

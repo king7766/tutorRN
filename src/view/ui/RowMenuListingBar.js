@@ -8,8 +8,7 @@ import {
    TouchableOpacity
 } from 'react-native';
 import Dimensions from 'Dimensions';
-//import Hyperlink from 'react-native-hyperlink'
-//import ParsedText from 'react-native-parsed-text';
+
 const layout = require('tutorRN/src/Layout')
 import Assets from 'tutorRN/src/view/ui/Assets';
 
@@ -90,6 +89,7 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
 
     return {
       color : multiSelect ? ( this.state.multiSelectArray[index] ? 'black' : 'gray' ) : ( this.state.selected == index ? 'black' : 'gray') ,
+      fontSize: layout.stringsSizeMid,
       fontWeight: 'bold'
     }
   }
@@ -97,21 +97,27 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
   borderStyle(index)
   {
     const { itemHeight, itemWidth, multiSelect} = this.props
-    var bWidth = 2
+    var bWidth = 1
     //console.log ('selected  = ' + selected)
 
-    
+    var borderColor = multiSelect ? (this.state.multiSelectArray[index] ? layout.themeTextColor : 'gray') : (this.state.selected == index ? layout.themeTextColor : 'gray')
+    if ( index == 0 )
+    {
+      borderColor = layout.themeTextColor
+    }
 
     return{
       //flex:1,
       //key: index,
+      padding:10, 
       margin: 5,
       //borderColor : this.state.selected == index ? layout.themeTextColor : 'gray',
-      borderColor : multiSelect ? (this.state.multiSelectArray[index] ? layout.themeTextColor : 'gray') : (this.state.selected == index ? layout.themeTextColor : 'gray'),
+      borderColor : borderColor,
       alignItems:'center',
       justifyContent:'center', 
       height: itemHeight, 
-      width: itemWidth, 
+      //width: itemWidth, 
+      alignSelf: 'flex-start' ,
       borderRadius: 5,
       //borderWidth: bWidth + selected * 1 ,
       borderWidth: bWidth ,
@@ -155,16 +161,7 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
     if (index == 0 && (firstItemShowIcon == true) ){
       return (
         <View
-          style = {{ 
-            borderColor : layout.themeTextColor,
-            alignItems:'center',
-            justifyContent:'center', 
-            height: itemHeight, 
-            width: itemWidth, 
-            borderWidth: 2 ,
-            borderRadius:2,  
-            margin: 5   
-          }}
+          style = {this.borderStyle(index)}
         >
           <Image 
             style = {{

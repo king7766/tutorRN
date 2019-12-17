@@ -34,6 +34,11 @@ import * as E from 'tutorRN/src/service/env-config'
 import ReactNativeComponentTree from 'react-native/Libraries/Renderer/src/renderers/native/ReactNativeComponentTree';
 
 
+import {
+  SeparatorBar,
+} from 'tutorRN/src/view/ui/UIComponent';
+
+
 //import { LoginManager } from 'react-native-fbsdk'
 const FBSDK = require('react-native-fbsdk');
 const {LoginButton, ShareDialog, AccessToken, GraphRequest,
@@ -435,10 +440,10 @@ class Welcome extends Component<Props> {
           <View style = {styles.upperPartContainer}></View>
           <View style = {styles.ButtonContainer}>
           
-            <View  style = {styles.emailField}>
+            <View  style = {styles.textFieldStyle}>
               <TextInput
                 ref= {(accountInput) => { this.accountInput = accountInput }}
-                style = {{paddingLeft : 5, paddingRight : 5, backgroundColor: 'rgba(200, 200, 200, 0.9)', height: '100%'}}
+                style = {{paddingLeft : 5, paddingRight : 5, height: '100%'}}
                 //style={{height: 40, borderColor: 'gray', borderWidth: 1}}
                 //onChangeText={(text) => this.setState({account: text})}
                 placeholder = {strings.emailPlaceHolder}
@@ -450,13 +455,14 @@ class Welcome extends Component<Props> {
                 onFocus = { (event) => this.onFocus(event)}
               />
             </View>
+            <SeparatorBar height={1}/>
 
             <View 
-              style = {styles.passwordField}
+              style = {styles.textFieldStyle}
             >
               <TextInput
                 ref= {(passwordInput) => { this.passwordInput = passwordInput }}
-                style = {{paddingLeft : 5, paddingRight : 5, backgroundColor: 'rgba(200, 200, 200, 0.9)', height: '100%'}}
+                style = {{paddingLeft : 5, paddingRight : 5, height:'100%'}}
                 //style={{height: 40, borderColor: 'gray', borderWidth: 1}}
                 name= "password"
                 secureTextEntry = {true}
@@ -468,32 +474,44 @@ class Welcome extends Component<Props> {
                 onFocus = { (event) => this.onFocus(event)}
               />
             </View>
+            <SeparatorBar height={1}/>
 
             <TouchableOpacity 
               onPress={()=>this.registerAction()} 
-              style = {styles.registerBtnStyle}
             >
-              <View>
+              <View style = {styles.btnStyle}>
                 <Text style = {styles.loginText}>
                   {strings.registrationText}
                 </Text>
               </View>
             </TouchableOpacity>
 
+            <SeparatorBar height={1}/>
 
             <TouchableOpacity 
               onPress={()=>this.loginAction(this.state.account, this.state.password, null)}
-              style = {styles.loginBtnStyle}
+              
             >
-              <View>
+              <View style = {styles.btnStyle}>
                 <Text style = {styles.loginText}>
                   {strings.loginText}
                 </Text>
               </View>
             </TouchableOpacity>
 
-            <View style = {styles.fbBtnStyle}>
-              <LoginButton 
+            <SeparatorBar height={1}/>
+
+            <TouchableOpacity onPress={this.guestInAction}>
+              <View style={styles.btnStyle}>
+                <Text style = {styles.guestBtnText}>
+                  {strings.guestLoginText}
+                </Text>
+              </View>
+            </TouchableOpacity>
+
+          </View>
+          <View style = {styles.lowerPartContainer}>
+            <LoginButton 
               
               readPermissions={[
                 "public_profile",
@@ -540,22 +558,7 @@ class Welcome extends Component<Props> {
               onLogoutFinished = {
                 this.logoutFinished
               }
-              />
-            
-            </View>
-
-
-            
-            
-          </View>
-          <View style = {styles.lowerPartContainer}>
-            <TouchableOpacity onPress={this.guestInAction}>
-                <View style={styles.guestButtonStyle}>
-                  <Text style = {styles.guestBtnText}>
-                    {strings.guestLoginText}
-                  </Text>
-                </View>
-              </TouchableOpacity>
+            />
           </View>
         </Image>
       </View>
@@ -565,86 +568,33 @@ class Welcome extends Component<Props> {
 
 const styles = StyleSheet.create({
 
-  emailField: {
-    //top:200,
-    marginTop:5,
-    width: '100%',
-    height: 40,
-    //backgroundColor : 'rgba(242,242,242,0.7)'
-
-  },
-  passwordField:{
-    //top:5,
-    //top:205,
-    marginTop:5,
-    width: '100%',
-    height: 40,
-    //backgroundColor : 'rgba(242,242,242,0.7)'
-  },
-
   background:{
     flex: 1,
 
   },
-
-  welcomeIcon:{
-    //top: layout.deviceHeight - 100,
-    
-    height:170,
-    width:170,
-    
-    //width: layout.deviceWidth - 100,
-    opacity:0.7,
-  },
-
+  
   defaultImage: {
     flex: 1,
-    resizeMode: 'cover',
-    //resizeMode: 'center',
-    //width: undefined,
-    //height: undefined,
-    //backgroundColor: '#889DAD',
-
+    resizeMode: 'cover',    
     width: '100%',
     height: '100%',
-    //resizeMode :'center',
-    //position: 'absolute',
-    //alignItems:'center', 
-    //backgroundColor:'transparent'
-    //justifyContent: 'center',
+
   },
 
-  registerBtnStyle:{
+  textFieldStyle:{
+    width: layout.deviceWidth,
+    height:50,
+    backgroundColor: 'rgba(200, 200, 200, 0.9)',
+  },
 
-    //top:10,
-    marginTop:5,
-    
-    justifyContent: 'center',
-    alignItems: 'center',
-    height:30,
-    //backgroundColor: layout.themeTextColor,
+  btnStyle:{
+    height:50,
     backgroundColor: 'rgba(200, 200, 200, 0.9)',
     width: layout.deviceWidth,
-
-  },
-  loginBtnStyle:{
-    //top:10,
-    
-    
     justifyContent: 'center',
     alignItems: 'center',
-    height:40,
-    //backgroundColor: layout.themeTextColor,
-    backgroundColor: 'rgba(200, 200, 200, 0.9)',
-    width: layout.deviceWidth,
   },
-
-
-
-  fbBtnStyle:{
-    //top:15,
-  },
-
+ 
   loginText:{
     color: 'white',
     fontSize:15
@@ -655,29 +605,11 @@ const styles = StyleSheet.create({
     fontSize: 15
     
   },
-  guestButtonStyle: {
-    //top:240,
-    width: '100%',
-    
-    justifyContent: 'center',
-    alignItems: 'center',
-    //backgroundColor : 'rgba(61,89,148,1)',
-    backgroundColor: 'rgba(200, 200, 200, 0.9)',
-    width: layout.deviceWidth,
-    height: 40,
-    
-  },
+  
 
   ButtonContainer: {
     flex:1,
-    
     flexDirection: 'column',
-    
-    //position: 'absolute',
-    //top: layout.deviceHeight - 500,
-    //height:layout.deviceHeight - 500,
-    //width: layout.deviceWidth,
-    //justifyContent: 'flex-start',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -686,6 +618,7 @@ const styles = StyleSheet.create({
   },
   lowerPartContainer:{
     flex:1,
+    alignItems:'center',
     justifyContent:'center',
   }
 

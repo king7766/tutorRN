@@ -22,8 +22,6 @@ import {
   CameraRoll,
   FlatList,
 } from 'react-native';
-
-
 import ReactNativeComponentTree from 'react-native/Libraries/Renderer/src/renderers/native/ReactNativeComponentTree';
 
 import PopupDialog, {DialogTitle, SlideAnimation} from 'react-native-popup-dialog';
@@ -34,27 +32,19 @@ import * as E from 'tutorRN/src/service/env-config'
 import * as M from 'tutorRN/src/service/membership'
 
 import alert from 'tutorRN/src/service/alert'
-import LoadingScreen from 'tutorRN/src/view/LoadingScreen'
 
 const layout = require('tutorRN/src/Layout')
-/*
-import Avatar from 'tutorRN/src/view/ui/Avatar';
-import Assets from 'tutorRN/src/view/ui/Assets';
-import TopMenuBar from 'tutorRN/src/view/ui/TopMenuBar';
-import TutorRowFlatList from 'tutorRN/src/view/ui/TutorRowFlatList';
-import FilteringToolsBar from 'tutorRN/src/view/ui/FilteringToolsBar';
-*/
-
 const locationViewModel = locationVM.getInstance()
+
+import strings from 'tutorRN/src/service/strings'
 
 import {
   Avatar,
-  Assets,
-  //TopMenuBar,
-  TutorRowFlatList,
-  FilteringToolsBar,
+  SeparatorBar,
+  SelectableInputField,
+  UploadImageCell,
+  LoadingScreen,
 } from 'tutorRN/src/view/ui/UIComponent';
-import strings from '../service/strings';
 
 @observer
 class Register extends Component<Props> {
@@ -557,32 +547,13 @@ class Register extends Component<Props> {
               <TouchableOpacity
                 onPress={this.uploadPhoto}
               >
-                <View style={styles.uploadButton}>
-                  <Image 
-                    style = {{height: 30, width:30, marginLeft:10}}
-                    source=  {Assets.icon.addImage}
-                  />
-                  <Text style = {styles.uploadText}>
-                    {strings.uploadPhoto}
-                  </Text>
-                </View>
+                <UploadImageCell />
               </TouchableOpacity>
             )
           }
             
           </TouchableHighlight>
-
-          <View style={{
-            //backgroundColor : 'rgba(255, 255, 255, 1.0)',
-            height:40,
-            flex:1,
-            justifyContent: 'center'
-          }}
-          >
-            <Text style = {styles.headingText}>
-              {strings.generalInformation}
-            </Text>
-          </View>
+          <SeparatorBar text = {strings.generalInformation}/>
 
           <TextInput 
             onChange= {this.handleInputChange}
@@ -604,11 +575,8 @@ class Register extends Component<Props> {
             style = {styles.inputTextFieldStyle}
             placeholder = {strings.name}
           />
-          <View style={{ height:40, flex:1, justifyContent: 'center'}}>
-            <Text style = {styles.headingText}>
-              {strings.detailInformation}
-            </Text>
-          </View>
+          <SeparatorBar text = {strings.detailInformation}/>
+
           <View>
             {
               this.state.rowTitle.map(
@@ -618,26 +586,18 @@ class Register extends Component<Props> {
                     onPress={() => this.rowOnClick(index)}
                     key = {index}
                   >
-                    <View
-                      style = {styles.textInputView}
-                      key = {index}
-                    >
-                      <Text
-                        style = {this.textInputStyle(index)}
-                      >
-                        {item}
-                      </Text> 
-                      <Text
-                        style = {styles.inputTextStyle}
-                      >
-                        {this.state.rowData[index]}
-                      </Text> 
+                    <View>
+                      <SelectableInputField 
+                        title = {item}
+                        data = {this.state.rowData[index]}
+                      />
                     </View>
                   </TouchableHighlight>
                 )
               )
             }
           </View>
+          
           <Text style = {{ textAlign: 'center', padding: 10, backgroundColor:layout.backgroundColor, color:layout.themeTextColor}}>
             **閣下提供的資料只用於有助本程式了解你的需要及用於有關事宜上，請盡量提供有關資料，以便閣下有更佳的用戶體驗**
           </Text>
@@ -676,7 +636,7 @@ const styles = StyleSheet.create({
 
   uploadButton: {
     backgroundColor:'white',
-    height:40,
+    height:50,
     justifyContent: 'flex-start',
     flexDirection: 'row',
     alignItems:'center'   

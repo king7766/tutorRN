@@ -10,8 +10,7 @@ import {
    TouchableHighlight
 } from 'react-native';
 import Dimensions from 'Dimensions';
-//import Hyperlink from 'react-native-hyperlink'
-import ParsedText from 'react-native-parsed-text';
+
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
 const layout = require('tutorRN/src/Layout')

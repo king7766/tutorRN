@@ -25,7 +25,7 @@ import {
 import * as E from 'tutorRN/src/service/env-config'
 import * as C from 'tutorRN/src/service/connection'
 
-import NewsVideoCell from './ui/NewsVideoCell'
+//import NewsVideoCell from './ui/NewsVideoCell'
 import NewsItemCell from 'tutorRN/src/view/ui/NewsItemCell'
 import LoadingScreen from 'tutorRN/src/view/LoadingScreen'
 

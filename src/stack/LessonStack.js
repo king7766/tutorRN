@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View,Icon } from 'react-native';
+import { View,Icon, Image } from 'react-native';
 import { ScrollView} from 'react-native';
 
 import { TabNavigator, StackNavigator } from 'react-navigation';
@@ -14,9 +14,17 @@ const LessonStack = StackNavigator({
 
   LessonHomeView: { 
     screen:  LessonHomeView,
+    //screen:  null,
     navigationOptions: {
       title: '',
-      
+      //iconLogoWhite
+      tabBarIcon: ({ tintColor }) => (
+        <Image
+          source={require('tutorRN/image/iconLogoWhite.png')}
+          //style={[styles.icon, { tintColor: tintColor }]}
+          style={[layout.styles.icon, { tintColor: tintColor }]}
+        />
+      ),
       
       headerStyle: {
         borderBottomColor: layout.themeTextColor,
