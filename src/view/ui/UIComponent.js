@@ -20,6 +20,8 @@ import TutorRatingBlock from 'tutorRN/src/view/ui/TutorRatingBlock'
 import TutorProfileBlock from 'tutorRN/src/view/ui/TutorProfileBlock'
 import TutorProfileTextBlock from 'tutorRN/src/view/ui/TutorProfileTextBlock'
 
+import BannerView from 'tutorRN/src/view/ui/BannerView'
+
 export {
   Avatar,
   Assets,
@@ -39,7 +41,8 @@ export {
 
   TutorRatingBlock,
   TutorProfileBlock,
-  TutorProfileTextBlock
+  TutorProfileTextBlock,
 
+  BannerView
 
 };

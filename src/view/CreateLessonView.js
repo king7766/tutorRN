@@ -133,8 +133,8 @@ export default class CreateLessonView extends React.Component {
 
   photoThumbnailAddBtnOnClicked()
   {
-    console.log('photoThumbnailAddBtnOnClicked')
-    this.uploadPhoto()
+    //console.log('photoThumbnailAddBtnOnClicked')
+    //this.uploadPhoto()
   }
 
   deleteBtnOnClicked(index)
@@ -394,7 +394,9 @@ export default class CreateLessonView extends React.Component {
 
   selectedPhoto(index)
   {
-    //console.log('selectedPhoto = ' + index)
+    var imageSource = this.state.imageSource
+
+    console.log('selectedPhoto bb = ' + JSON.stringify(imageSource))
 
     var photo = this.state.photos[index]
     var imageName = photo.node.image.uri.split("=")[1].split("&")[0] +'.' + photo.node.image.uri.split("=")[2]
@@ -402,12 +404,15 @@ export default class CreateLessonView extends React.Component {
     var uri = photo.node.image.uri
 
     
+    imageSource.push( {media_file:uri, name :imageName,type:photo.node.type  })
 
-    var imageSource = this.state.imageSource
-    imageSource.splice(0, 0, {media_file:uri, name :imageName,type:photo.node.type  })
+    
+    //imageSource = imageSource.splice(0, 0, {media_file:uri, name :imageName,type:photo.node.type  })
     //imageSource.push({url:uri})
 
-    console.log('selectedPhoto = ' + JSON.stringify(imageSource))
+    console.log('selectedPhoto aa = ' + JSON.stringify(imageSource))
+
+    
 
     this.defaultAnimationDialog.dismiss(() => {
       this.setState({
@@ -558,22 +563,31 @@ export default class CreateLessonView extends React.Component {
           >
           </View>
         </View>
+        <ScrollView>
         {
-          this.state.imageSource.length == 0 ? 
+          <TouchableOpacity
+            onPress={this.uploadPhoto}
+          >
+            <UploadImageCell />
+          </TouchableOpacity>
+        }
+        {
+          this.state.imageSource.length > 0 && 
+          //0 ?
+          /*
             <TouchableOpacity
               onPress={this.uploadPhoto}
             >
               <UploadImageCell />
             </TouchableOpacity>
               :
+              */
             <View
               style = {{height:100}}
             >
               <PhotoThumbnailView
                 imageOnClicked = {(index)=>this.photoThumbnailImageOnClicked(index)}
-                addBtnOnClicked = {()=>this.photoThumbnailAddBtnOnClicked()}
                 imageSource = {this.state.imageSource}
-                addBtnVisible = {true}
                 deleteBtnVisible = {true}
                 deleteBtnOnClicked = {(index)=>this.deleteBtnOnClicked(index)}
               />
@@ -651,6 +665,7 @@ export default class CreateLessonView extends React.Component {
               </Text>
             </View>
           </TouchableOpacity>
+        </ScrollView>
       </View>
     );
   }

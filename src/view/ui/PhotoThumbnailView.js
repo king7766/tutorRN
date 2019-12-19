@@ -4,6 +4,7 @@ import {
    Image, 
    View, 
    StyleSheet, 
+   ScrollView,
    FlatList,
    TouchableOpacity ,
 } from 'react-native';
@@ -31,14 +32,7 @@ class PhotoThumbnailView extends Component{
     
     console.log('imageOnClicked = ' + index)
     
-    if ( this.props.addBtnVisible && (index == this.props.imageSource.length-1) )
-    {
-      this.props.addBtnOnClicked()
-    }
-    else
-    {
-      this.props.imageOnClicked(index)
-    }
+    this.props.imageOnClicked(index)
     
   }
 
@@ -50,24 +44,60 @@ class PhotoThumbnailView extends Component{
 
   render (){
 
-    
-    var imageSource = this.props.imageSource
-    console.log('imageSource = ' + JSON.stringify(this.props.imageSource))
-    if ( this.props.addBtnVisible && imageSource[imageSource.length-1] != 'add' )
-    {
-      // add last image here
-      imageSource.push('add')
-    }
-
+    return (
+      <View style = {styles.background}>
+        <ScrollView
+          horizontal = {true}
+        >
+          {
+            this.props.imageSource.map(
+              (item, index)=>
+              (
+                <TouchableOpacity
+                  key = {index}
+                  onPress={()=>this.imageOnClicked(index)}
+                >
+                  <View
+                    style = {{justifyContent:'center', alignItems:'center', height:100, width:100}}
+                  >  
+                    <Image 
+                      style = {{ height:90, width:90, margin:5}}
+                      source={{uri: item.media_file }}
+                      //source = { url.node ?  { uri: url.node.image.uri } : (typeof url) == 'string' ?  {uri:url} : url  }
+                    />
+                    {
+                      this.props.deleteBtnVisible && 
+                      <LinearGradient 
+                        colors={['rgba(0, 0, 0, 0.5)', 'rgba(0, 0, 0, 0.0)']} 
+                        style = {styles.topGradientStyle}
+                      >
+                        <TouchableOpacity
+                          onPress={()=>this.deleteBtnOnClicked(index)}
+                        >
+                          <Image 
+                            style = {{height: 20, width:20, margin:5}}
+                            source=  {Assets.icon.close}
+                          />
+                        </TouchableOpacity>
+                      </LinearGradient>
+                    }
+                  </View>
+                </TouchableOpacity>
+              )
+            )
+          }
+        </ScrollView>
+      </View>
+    )
     return(
 
       <View style = {styles.background}>
         <FlatList
-          //style={{ flex: 0 }}
+          //extraData = {this.props.imageSource}
           removeClippedSubviews={false}
           horizontal = {true}
           //data = {this.props.imageSource}
-          data = {imageSource}
+          data = {this.props.imageSource}
           renderItem={({item, index, separators}) => 
             <TouchableOpacity
               //style = {{marginLeft:5, marginRight:5}}
@@ -115,6 +145,8 @@ class PhotoThumbnailView extends Component{
             </TouchableOpacity>
           }
         />
+        
+      
       </View>
 
     )
@@ -125,6 +157,7 @@ export default PhotoThumbnailView;
 
 const styles = StyleSheet.create ({
   background:{
+    flex:1,
     backgroundColor:'white'
   },
   topGradientStyle:{

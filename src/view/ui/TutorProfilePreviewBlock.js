@@ -16,6 +16,7 @@ import userVM from 'tutorRN/src/VM/userVM'
 
 import {
   Avatar,
+  TutorProfileTextBlock
 } from 'tutorRN/src/view/ui/UIComponent';
 
 const layout = require('tutorRN/src/Layout')
@@ -73,15 +74,16 @@ class TutorProfilePreviewBlock extends Component{
           <Avatar
             onPress={() => {this.avatarOnClicked()}}
             round = {true}
-            size = {60}
+            size = {80}
             //type = 'edit'
-            url = {'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p320x320/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=110&_nc_oc=AQm5NxA1rY7W4d8YqPG0djDuG9uowyIbyAUwRkq7JOcJ9huJWbhhO2YfJ-37dviIEtA&_nc_ht=scontent-hkg3-1.xx&oh=c643ddf949263ca18a4c0eead81e1da3&oe=5DD86A90'}
+            url = {userViewModel.getUser().user_thumb}
+            //url = {'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p320x320/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=110&_nc_oc=AQm5NxA1rY7W4d8YqPG0djDuG9uowyIbyAUwRkq7JOcJ9huJWbhhO2YfJ-37dviIEtA&_nc_ht=scontent-hkg3-1.xx&oh=c643ddf949263ca18a4c0eead81e1da3&oe=5DD86A90'}
           />
         </View>
         
         
         <View
-          style = {{flexDirection:'column',  flex:3}}
+          style = {{flexDirection:'column',  flex:2}}
         >
           <View style = {{ flex:1, flexDirection:'row', justifyContent:'center'}}>
             <View style = {{flex:1, flexDirection:'column', justifyContent:'center', alignItems:'center'}}> 
@@ -123,10 +125,15 @@ class TutorProfilePreviewBlock extends Component{
   {
     //E.stringsSizeBig
     return (
-      <View style = {{ flex:1, margin:5}}>
-        <Text style = {{margin: 10, fontSize:layout.stringsSizeMid, fontWeight:'bold'}} >{userViewModel.getUser().user_nickname}</Text>
-        <Text numberOfLines= {3} style = {{marginBottom: 10,marginLeft:10, marginRight:10, fontSize:layout.stringsSizeSmall}} >詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡詳細內容在這裡</Text>
-      </View>
+
+      <TutorProfileTextBlock
+        allowEdit = {false}
+        arrowOn = {false}
+        title = {userViewModel.getUser().user_nickname}
+        description = {userViewModel.getUser().user_introduction}
+      />
+
+     
     )
   }
 
@@ -134,7 +141,7 @@ class TutorProfilePreviewBlock extends Component{
 
 
     return (
-      <View style = {{ width:layout.deviceWidth, height:180,  backgroundColor:'white'}}>
+      <View style = {{ width:layout.deviceWidth, backgroundColor:'white'}}>
         
         {
           this.upperPartUI()
@@ -162,9 +169,10 @@ const styles = StyleSheet.create ({
 
   upperPartUIStyles:{
     
+    margin:15,
     flexDirection: 'row',
     alignItems:'center',
-    flex:1,
+    
   },
 
 

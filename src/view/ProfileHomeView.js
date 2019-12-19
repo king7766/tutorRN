@@ -40,7 +40,7 @@ import Assets from 'tutorRN/src/view/ui/Assets';
 import strings from '../service/strings'
 
 import {
-
+  SeparatorBar,
   LessonListCell,
 
 } from 'tutorRN/src/view/ui/UIComponent';

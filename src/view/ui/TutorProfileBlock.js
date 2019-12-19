@@ -106,7 +106,6 @@ class TutorProfileBlock extends Component{
 
   render (){
 
-    console.log('thumb = ' + JSON.stringify(this.props.tutor.user_thumb) )
     return (
       <View style = {{flexDirection:'row', width:layout.deviceWidth, height:130,  backgroundColor:'white'}}>
         <View style = {styles.imageStyle} >

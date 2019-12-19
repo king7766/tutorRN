@@ -28,6 +28,7 @@ import {
   TutorRowFlatList,
   RowMenuListingBar,
   SeparatorBar,
+  BannerView,
 } from 'tutorRN/src/view/ui/UIComponent';
 
 import Assets from 'tutorRN/src/view/ui/Assets';
@@ -108,6 +109,7 @@ class SearchHomeView extends Component<Props> {
     this.TopMenuBarOnClicked = this.TopMenuBarOnClicked.bind(this)
     this.ListingCatBtnOnClick = this.ListingCatBtnOnClick.bind(this)
     this.categorysViewUI =this.categorysViewUI.bind(this)
+    this.bannerOnClicked = this.bannerOnClicked.bind(this)
   
   }
 
@@ -308,6 +310,11 @@ class SearchHomeView extends Component<Props> {
     */
   }
 
+  bannerOnClicked(index)
+  {
+    console.log('bannerOnClicked = ' + index)
+  }
+
   async TopMenuBarOnClicked(input_index)
   {
     var index = input_index - 1
@@ -480,8 +487,20 @@ class SearchHomeView extends Component<Props> {
             multiSelect = {true}
             onClicked={ this.TopMenuBarOnClicked }
           />
+        
+          <BannerView
+            source = {[
+              'http://www.oneswimmingclub.com/getfile.php?id=252207',
+              'https://www.cheerfulkids.edu.hk/uploads/2/6/0/6/26064940/summer-course-2019-banner04_orig.png',
+              'https://www.cie.hkbu.edu.hk/main/images/main_banner/admission2020/ad_admission2020_b_mobile_tc.jpg',
+              'https://s3-ap-northeast-1.amazonaws.com/cgblogassets/wp-content/uploads/sites/3/2018/04/24162822/untitled-4.jpg',
+              'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-9/75625306_149840409733107_4461721995427446784_n.jpg?_nc_cat=104&_nc_ohc=ctZSpUYSRioAQlGxVqTqWPSw-8MgGf4_uG-0XgUHZd0esqioimWOn8ewA&_nc_ht=scontent-hkg3-1.xx&oh=2140eaf2810da4afb25038b3c96cc665&oe=5E796E86',
+              'https://www.cheerfulkids.edu.hk/uploads/2/6/0/6/26064940/summer-course-2019-banner04_orig.png',
+            ]}
+            bannerOnClicked = {this.bannerOnClicked}
 
-          <SeparatorBar />
+          />
+         
           {
             this.categorysViewUI()
           }

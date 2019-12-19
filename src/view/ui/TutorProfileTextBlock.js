@@ -17,14 +17,6 @@ import Dimensions from 'Dimensions';
 const layout = require('tutorRN/src/Layout')
 
 
-const leftArrow = (props) => {
-  return <Image 
-                    style = {{ width: 30, height: 30}}
-                    source= {require('tutorRN/image/left_arrow_icon_100.png')}
-                    //resizeMode =  'center'
-                    resizeMode =  'contain'
-                  />
-}
 
 class TutorProfileTextBlock extends Component{
 
@@ -98,7 +90,9 @@ class TutorProfileTextBlock extends Component{
       lineHeight:layout.defaultLineHeight,
       fontSize: layout.stringsSizeSmall,
       //paddingTop: 10,
-      margin:5,
+      //marginLeft:15,
+      //marginRight:15,
+      margin:15,
     }
     
   }
@@ -110,81 +104,32 @@ class TutorProfileTextBlock extends Component{
         
    
       <View style = {styles.background}>
-        {this.props.arrowOn && 
-          <TouchableHighlight 
-              underlayColor = {this.props.touchColor}
-              onPress={ ()=>this.arrowOnClick(this.props.tag-1)}
-            >
-            <Image 
-              style = {{ flex: 1,width: 30, height: 30}}
-              source= {require('tutorRN/image/left_arrow_icon_100.png')}
-              resizeMode =  'contain'
-            />
-          </TouchableHighlight>
-        }
-
-        <View style = {styles.descriptionBG}>
-          <View style = {{height:20, flexDirection:'row', justifyContent:'space-between'}}
-          >
-            <Text
-              style = {styles.descriptionTitle}   
-            >
-              {this.props.title}
-            </Text>
-            <TouchableOpacity
-              onPress={()=>this.editBtnOnClick()}
-            >
-            {
-              //this.props.allowEdit && 
-              false && 
-              <Image
-                style = {{width: 30, height:30}}
-                source= {this.state.editmode ? require('tutorRN/image/icons8-completed-90.png') : require('tutorRN/image/icons8-pencil-90.png')}
-                resizeMode =  'contain'
-              />
-            }
-            </TouchableOpacity>
-          </View>
-          {
-            this.props.allowEdit ? 
-              <TextInput 
-                style = {[this.descriptionContentStyle(), {height:this.state.descriptionHeight + 10}]}
-                value = {this.state.descriptionContent}
-                multiline={true}
-                scrollEnabled = {false}
-                editable = {this.props.allowEdit}
-                //editable = {this.state.editmode}
-                onChangeText={(descriptionContent) => this.setState({descriptionContent})}
-                onChange={() => this.onChange.bind(this)}
-                onContentSizeChange={(event) => this.onContentSizeChange(event)}
-              />
-            :
-              <Text
-                style = {this.descriptionContentStyle()}
-              >
-                {this.state.descriptionContent}
-              </Text>
-          }
-          
-
-          
-        </View>
-
-        {this.props.arrowOn && 
-          <TouchableHighlight 
-              underlayColor = {this.props.touchColor}
-              onPress={ ()=>this.arrowOnClick(this.props.tag+1)}
-            >
-            <Image 
-              style = {{ flex: 1,width: 30, height: 30}}
-              source= {require('tutorRN/image/right_arrow_icon_100.png')}
-              resizeMode =  'contain'
-            />
-          </TouchableHighlight>
+        <Text style = {styles.descriptionTitle}>
+          {this.props.title}
+        </Text>
+  
+        {
+          this.props.allowEdit ? 
+          <TextInput 
+            style = {[this.descriptionContentStyle(), {height:this.state.descriptionHeight + 10}]}
+            value = {this.state.descriptionContent}
+            multiline={true}
+            scrollEnabled = {false}
+            editable = {this.props.allowEdit}
+            //editable = {this.state.editmode}
+            onChangeText={(descriptionContent) => this.setState({descriptionContent})}
+            onChange={() => this.onChange.bind(this)}
+            onContentSizeChange={(event) => this.onContentSizeChange(event)}
+          />
+          :
+          <Text style = {this.descriptionContentStyle()}>
+            {this.state.descriptionContent}
+          </Text>
+            
         }
       </View>
       
-      )
+    )
   }
 }
 
@@ -199,33 +144,24 @@ export default TutorProfileTextBlock;
 const styles = StyleSheet.create ({
 
   background :{
-    flexDirection:'row',
+    flexDirection:'column',
     //width: layout.deviceWidth,
     //height: 150,
     justifyContent: 'space-between',
-    alignItems: 'center',
+    //alignItems: 'center',
     backgroundColor: 'white',
-  },
-
-  descriptionBG:{
-    flex: 8,
-    backgroundColor: 'white',
-    padding:10,
   },
 
   descriptionTitle:{
     color: 'rgba(41,62,107,1)',
     //backgroundColor: 'red',
-    
+    marginTop:10,
+    //marginBottom:10,
+    marginLeft:15,
     fontSize: layout.stringsSizeMid,
     fontWeight: 'bold',
   },
-  description:{
-    //backgroundColor: 'green',
-    lineHeight:20,
-    fontSize: layout.stringsSizeSmall,
-    paddingTop: 10,
-  },
+  
 })
 
 

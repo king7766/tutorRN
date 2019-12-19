@@ -395,6 +395,8 @@ class NewsHomeView extends Component<Props> {
         {
           courseViewModel.getCourseList().length > 0 ?
           <FlatList
+
+            keyExtractor= {(item, index)=>index.toString()}
             //windowSize = {1}
             onEndReached={this.fetchMore}
             onEndReachedThreshold={0.3}
