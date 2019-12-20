@@ -54,6 +54,32 @@ const targetUserViewModel = targetUserVM.getInstance()
 
 
 
+class LogoTitle extends React.Component {
+  render() {
+    return (
+      <View
+        style = {{backgroundColor:'white', }}
+      >
+        <View style = {{height:44}}/>
+        <Text
+          style= {{
+            marginLeft:10,
+            height:layout.headerHeight, 
+            backgroundColor:'white',
+            fontFamily:"ProximaNova-Bold", 
+            fontSize:layout.stringsSizeLogoName, 
+            color:layout.themeTextColor
+          }}
+
+        >WoleiLearn</Text>
+
+      </View>
+      
+
+    )
+  }
+}
+
 @observer
 class SearchHomeView extends Component<Props> {
 
@@ -194,7 +220,7 @@ class SearchHomeView extends Component<Props> {
       alignItems: 'center',
       //backgroundColor : 'red',
       width:width, //cell的宽度        
-      height: 90,
+      height: 100,
       marginLeft:5, 
       marginRight:5,        
       marginTop:10 
@@ -257,9 +283,10 @@ class SearchHomeView extends Component<Props> {
       fontSize: layout.stringsSizeMid,
       justifyContent: 'center',
       alignItems: 'center',
-      fontWeight: 'bold',
+      //fontWeight: 'bold',
       //backgroundColor : 'green',
-      marginTop: 5,
+      marginTop: 10,
+      marginBottom:10,
       //width: '100%',
 
     }
@@ -470,7 +497,14 @@ class SearchHomeView extends Component<Props> {
     console.log('rowMenuInitArray = ' + rowMenuInitArray)
 
     return (
-      <View style = {layout.styles.basicViewStyle}>
+      <View 
+        //style = {layout.styles.basicViewStyle}
+        style = {{height:layout.deviceHeight-80}}
+      >
+        {
+          <LogoTitle/>
+        }
+        
         <ScrollView style = {{backgroundColor:layout.backgroundColor}}>
 
           <RowMenuListingBar 
@@ -487,19 +521,24 @@ class SearchHomeView extends Component<Props> {
             multiSelect = {true}
             onClicked={ this.TopMenuBarOnClicked }
           />
-        
-          <BannerView
-            source = {[
-              'http://www.oneswimmingclub.com/getfile.php?id=252207',
-              'https://www.cheerfulkids.edu.hk/uploads/2/6/0/6/26064940/summer-course-2019-banner04_orig.png',
-              'https://www.cie.hkbu.edu.hk/main/images/main_banner/admission2020/ad_admission2020_b_mobile_tc.jpg',
-              'https://s3-ap-northeast-1.amazonaws.com/cgblogassets/wp-content/uploads/sites/3/2018/04/24162822/untitled-4.jpg',
-              'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-9/75625306_149840409733107_4461721995427446784_n.jpg?_nc_cat=104&_nc_ohc=ctZSpUYSRioAQlGxVqTqWPSw-8MgGf4_uG-0XgUHZd0esqioimWOn8ewA&_nc_ht=scontent-hkg3-1.xx&oh=2140eaf2810da4afb25038b3c96cc665&oe=5E796E86',
-              'https://www.cheerfulkids.edu.hk/uploads/2/6/0/6/26064940/summer-course-2019-banner04_orig.png',
-            ]}
-            bannerOnClicked = {this.bannerOnClicked}
+      
+          {
+            
+            <BannerView
+              source = {[
+                'http://www.oneswimmingclub.com/getfile.php?id=252207',
+                'https://www.cheerfulkids.edu.hk/uploads/2/6/0/6/26064940/summer-course-2019-banner04_orig.png',
+                'https://www.cie.hkbu.edu.hk/main/images/main_banner/admission2020/ad_admission2020_b_mobile_tc.jpg',
+                'https://s3-ap-northeast-1.amazonaws.com/cgblogassets/wp-content/uploads/sites/3/2018/04/24162822/untitled-4.jpg',
+                'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-9/75625306_149840409733107_4461721995427446784_n.jpg?_nc_cat=104&_nc_ohc=ctZSpUYSRioAQlGxVqTqWPSw-8MgGf4_uG-0XgUHZd0esqioimWOn8ewA&_nc_ht=scontent-hkg3-1.xx&oh=2140eaf2810da4afb25038b3c96cc665&oe=5E796E86',
+                'https://www.cheerfulkids.edu.hk/uploads/2/6/0/6/26064940/summer-course-2019-banner04_orig.png',
+              ]}
+              bannerOnClicked = {this.bannerOnClicked}
 
-          />
+            />
+            
+          }
+          
          
           {
             this.categorysViewUI()

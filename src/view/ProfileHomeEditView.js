@@ -275,6 +275,11 @@ class ProfileHomeEditView extends Component<Props> {
   }
 
 
+  avatarOnClicked()
+  {
+    console.log('avatarOnClicked')
+  }
+
   displayContent()
   {
 
@@ -288,26 +293,29 @@ class ProfileHomeEditView extends Component<Props> {
         <TutorProfileBlock
           allowEdit = {true}
           tag = {0}
-          tutor = {this.state.tutor}
+          tutor = {userViewModel.getUser()}
           //tutor = {userViewModel.getUser()}
           arrowOn = {false}
-          //onClicked = {this.arrowOnClicked}
+          avatarOnClicked = {() => {this.avatarOnClicked()}}
         />
 
         <SeparatorBar/>
 
-        <TutorProfileTextBlock
-          allowEdit = {true}
-          tag = {1}
-          arrowOn = {false}
-          title = {strings.description}
-          description = {userViewModel.getUser().user_introduction}
-          //description = {userViewModel.getUser().user_occupation}
-          onClicked = {this.arrowOnClicked}
-          
-        />
-
-        <SeparatorBar/>
+{
+  /*
+  <TutorProfileTextBlock
+  allowEdit = {true}
+  tag = {1}
+  arrowOn = {false}
+  title = {strings.description}
+  description = {userViewModel.getUser().user_introduction}
+  //description = {userViewModel.getUser().user_occupation}
+  onClicked = {this.arrowOnClicked}
+  
+/>
+*/
+}
+       
 
         <View>
           {

@@ -17,6 +17,7 @@ const ProfileStack = StackNavigator({
   ProfileHomeView: { 
     screen:  ProfileHomeView,
     navigationOptions: {
+      headerBackTitle: null,
       title: strings.profile,
       tabBarIcon: ({ tintColor }) => (
         <Image

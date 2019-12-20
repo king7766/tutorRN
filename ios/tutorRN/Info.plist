@@ -65,13 +65,14 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Upload Image</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>fontello.ttf</string>
 		<string>vincHand.ttf</string>
+		<string>ProximaNova-Bold.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

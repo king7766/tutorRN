@@ -54,7 +54,6 @@ const slideAnimation = new SlideAnimation({ slideFrom: 'bottom',useNativeDriver:
 const scaleAnimation = new ScaleAnimation();
 const fadeAnimation = new FadeAnimation({ animationDuration: 150 });
 
-
 @observer
 class NewsHomeView extends Component<Props> {
 
@@ -391,7 +390,6 @@ class NewsHomeView extends Component<Props> {
     return (
       
       <View style = {{height:layout.deviceHeight}}>
-
         {
           courseViewModel.getCourseList().length > 0 ?
           <FlatList

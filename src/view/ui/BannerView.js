@@ -25,11 +25,12 @@ class BannerView extends Component{
 
   imageStyle ()
   {
-    var margin = 5
+    var margin = 15
     return {
-      marginLeft:margin,
-      marginRight:margin,
-      height:this.props.height, 
+      margin:margin,
+      //marginLeft:margin,
+      //marginRight:margin,
+      height:this.props.height - (margin*2 ), 
       width:this.props.width - (margin*2 ),
       borderRadius:10,
       borderWidth:1,
@@ -88,20 +89,13 @@ class BannerView extends Component{
 
 BannerView.defaultProps = {
   width : layout.deviceWidth,
-  height : layout.deviceWidth * 5 /16 ,
+  height : layout.deviceWidth * 6 /16 ,
   
 };
 
 export default BannerView;
 
 const styles = StyleSheet.create ({
-  backgroundStyle: {
-    backgroundColor:'white',
-    height:60,
-    justifyContent: 'flex-start',
-    flexDirection: 'row',
-    alignItems:'center'   
-  },
   
 })
 

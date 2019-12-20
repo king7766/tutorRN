@@ -82,9 +82,8 @@ class TutorProfileBlock extends Component{
 
           <TextInput 
             multiline
-            lineHeight= {40}
             numberOfLines={4}
-            style = {styles.subtextStyle}
+            style = {[this.subtextStyle(), {borderColor:layout.grayColor, borderWidth:1}]}
             value = {this.state.user_introduction}
             editable = {this.props.allowEdit}
             //editable = {this.state.editmode}
@@ -92,7 +91,7 @@ class TutorProfileBlock extends Component{
           />
           :
             <Text
-              style = {styles.subtextStyle}
+              style = {this.subtextStyle()}
               numberOfLines={4}
             >
               {this.state.user_introduction}
@@ -104,6 +103,22 @@ class TutorProfileBlock extends Component{
     )
   } 
 
+  subtextStyle(){
+    return {
+      lineHeight:layout.defaultLineHeight,
+      margin:5,
+      flex:4,
+      fontSize: layout.stringsSizeSmall,
+    }
+  }
+
+  avatarOnClicked()
+  {
+    
+    this.props.avatarOnClicked && this.props.avatarOnClicked()
+  }
+
+
   render (){
 
     return (
@@ -111,9 +126,9 @@ class TutorProfileBlock extends Component{
         <View style = {styles.imageStyle} >
 
           <Avatar
-            //onPress={() => {this.avatarOnClicked()}}
+            onPress={() => {this.avatarOnClicked()}}
             round = {true}
-            size = {80}
+            size = {90}
             type = {this.props.allowEdit == true ? 'edit' :''}
             //type = 'edit'
             url = {this.props.tutor.user_thumb}
@@ -170,14 +185,9 @@ const styles = StyleSheet.create ({
     flex:1,
     fontSize: layout.stringsSizeMid,
     fontWeight: 'bold',
-    margin:5, 
+    margin:5,
+    marginTop:10, 
     
   },
-  subtextStyle:{
-    lineHeight:layout.defaultLineHeight,
-    margin:5,
-    flex:4,
-    fontSize: layout.stringsSizeSmall,
-
-  }
+  
 })

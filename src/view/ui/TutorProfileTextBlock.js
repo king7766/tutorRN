@@ -87,6 +87,7 @@ class TutorProfileTextBlock extends Component{
   descriptionContentStyle ()
   {
     return {
+      //backgroundColor:'black',
       lineHeight:layout.defaultLineHeight,
       fontSize: layout.stringsSizeSmall,
       //paddingTop: 10,
@@ -111,7 +112,7 @@ class TutorProfileTextBlock extends Component{
         {
           this.props.allowEdit ? 
           <TextInput 
-            style = {[this.descriptionContentStyle(), {height:this.state.descriptionHeight + 10}]}
+            style = {[this.descriptionContentStyle(), {borderColor:layout.grayColor, borderWidth:1}]}
             value = {this.state.descriptionContent}
             multiline={true}
             scrollEnabled = {false}

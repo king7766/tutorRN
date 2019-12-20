@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -59,6 +60,7 @@
 		E37089612265849F00771641 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = E370895E2265849F00771641 /* main.jsbundle */; };
 		E3E2CCB721EDD1C2009B5307 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3E2CC9B21EDD1A4009B5307 /* libRCTCameraRoll.a */; };
 		E3E2CCCA21EDD29F009B5307 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3E2CCC921EDD271009B5307 /* libRNImagePicker.a */; };
+		E3E6B38323AC7B0E00C46559 /* ProximaNova-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3E6B38223AC7B0E00C46559 /* ProximaNova-Bold.ttf */; };
 		F1DEB75501EC4738A5C09B04 /* fontello.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 94B7C53AB2934EE58CF69E82 /* fontello.ttf */; };
 /* End PBXBuildFile section */
 
@@ -381,6 +383,7 @@
 		E370895E2265849F00771641 /* main.jsbundle */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		E3E2CC9221EDD1A4009B5307 /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		E3E2CCC421EDD271009B5307 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
+		E3E6B38223AC7B0E00C46559 /* ProximaNova-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ProximaNova-Bold.ttf"; path = "../assets/fonts/ProximaNova-Bold.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -626,6 +629,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				E3E6B38223AC7B0E00C46559 /* ProximaNova-Bold.ttf */,
 				E36CC5C1237E59460023EAFB /* assets */,
 				E370895E2265849F00771641 /* main.jsbundle */,
 				E370895D2265849E00771641 /* main.jsbundle.meta */,
@@ -1212,6 +1216,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3E6B38323AC7B0E00C46559 /* ProximaNova-Bold.ttf in Resources */,
 				E36CC5E3237E59480023EAFB /* assets in Resources */,
 				E37089602265849F00771641 /* main.jsbundle.meta in Resources */,
 				E37089612265849F00771641 /* main.jsbundle in Resources */,

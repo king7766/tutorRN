@@ -18,13 +18,14 @@ let backgroundColor = 'rgba(233,233,233,1)'
 let grayColor = 'rgba(180,180,180,1)'
 let blackColor = 'rgba(0,0,0,1)'
 
-
+let stringsSizeLogoName = 35
 let stringSizeXBig = 22
 let stringsSizeBig = 18
 let stringsSizeMid = 16
 let stringsSizeSmall = 14
 
 let defaultLineHeight = 20
+let headerHeight = 50
 
 const deviceInfo=()=>{
 	/*
@@ -116,10 +117,13 @@ module.exports = {
 	grayColor,
 	blackColor,
 	backgroundColor,
+	stringsSizeLogoName,
 	stringSizeXBig, 
 	stringsSizeBig,
 	stringsSizeMid,
 	stringsSizeSmall,
+
+	headerHeight,
 	defaultLineHeight
 };
 

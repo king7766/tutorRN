@@ -299,7 +299,23 @@ class onTopView extends Component {
   }
 }
 
-const Tabs = TabNavigator({
+const tabOptions = {    
+  tabBarOptions: {
+      activeTintColor:'white',
+      inactiveTintColor:'#D3D3D3',
+      style:{
+          backgroundColor:'green',
+          borderTopWidth:1,
+          borderTopColor:'#D3D3D3'
+      },
+      indicatorStyle: {
+          backgroundColor: 'red',
+      },
+  },
+}
+
+const Tabs = TabNavigator(
+  {
 
   news: NewsStack,
   search: SearchStack,  
@@ -315,15 +331,11 @@ const Tabs = TabNavigator({
         indicatorStyle={{ 
           backgroundColor: 'white',
           height: 2,
-          bottom:25
-          //marginLeft: 30
+          bottom:25,
         }} 
       />
     ),
-    
-
-    
-
+  
     lazy: true,
     //tabBarComponent: (props)=> <TabBarTop {...props} indicatorStyle={indicatorStyle(props, 'flex-end')} />,
     tabBarOptions: {
@@ -356,59 +368,8 @@ const Tabs = TabNavigator({
         bottom: 20,
         height: 90
       }
-      /*
-      style: {
-        backgroundColor: 'rgba(22, 22, 22, 0.5)',
-        //backgroundColor: 'rgba(22, 22, 22, 0.3)',
-        //backgroundColor: 'rgba(22, 22, 22, 0.0)',
-        //backgroundColor:'black',
-        //borderTopWidth: 3,
-        //borderTopColor: '#996600',
-        //position: 'absolute',
-        //left: 0,
-        //right: 0,
-        //bottom: 0
-
-      }
-      */
-      //selectedTabFontSize: 12,
-      //tintColor: '#fff',
-      //activeTintColor: '#eee',
-      //activeTintColor: 'red',
-      
-      /*
-      activeTintColor: '#fff',
-      inactiveTintColor: '#A9A9A9',
-      showIcon: true,
-      showLabel: false,
-      lazyLoad: true,
-      upperCaseLabel: false,
-      indicatorStyle: {
-        backgroundColor: 'transparent'
-      },
-      style: {
-        backgroundColor: 'rgba(22, 22, 22, 0.3)',
-        borderTopWidth: 3,
-        //borderTopColor: '#996600',
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        bottom: 0
-      }
-      */
     }
-    
-    /*
-    navigationOptions: {
-      header: <View 
-        style = {{height:500, width:500, backgroundColor:'red'}}
-      />
-      }
-    */
-  }
-
-  
-);
+});
 
 const defaultGetStateForAction = Tabs.router.getStateForAction
 

@@ -18,6 +18,7 @@ var SearchStack = StackNavigator({
     screen:  SearchHomeView,
     navigationOptions: {
       headerBackTitle: null,
+      header: null,
       title: strings.search,
       tabBarIcon: ({ tintColor }) => (
         <Image

@@ -31,7 +31,7 @@ class PhotoThumbnailView extends Component{
   imageOnClicked(index) {
     
     console.log('imageOnClicked = ' + index)
-    
+
     this.props.imageOnClicked(index)
     
   }
@@ -157,7 +157,6 @@ export default PhotoThumbnailView;
 
 const styles = StyleSheet.create ({
   background:{
-    flex:1,
     backgroundColor:'white'
   },
   topGradientStyle:{
