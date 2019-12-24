@@ -31,6 +31,11 @@ const actions = {
 
 const icon = {
 
+  pendingLesson : require('tutorRN/image/icons/pendingLesson.png'),
+  confirmedLesson : require('tutorRN/image/icons/confirmedLesson.png'),
+  completedLesson : require('tutorRN/image/icons/completedLesson.png'),
+
+
   _30m : require('tutorRN/image/icons/30m.png'),
   _45m : require('tutorRN/image/icons/45m.png'),
   _60m : require('tutorRN/image/icons/60m.png'),
@@ -50,6 +55,13 @@ const icon = {
   price : require('tutorRN/image/icons/price.png'),
   addImage : require('tutorRN/image/addImageIcon.png'),
   addImage1 : require('tutorRN/image/addImageIcon1.png'),
+
+
+  student : require('tutorRN/image/icons/icon_student.png'),
+  tutor : require('tutorRN/image/icons/icon_tutor.png'),
+
+  //icon_student.png
+  //icon_tutor.png
 }
 
 const Assets = {

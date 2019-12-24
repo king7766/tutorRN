@@ -35,11 +35,13 @@ import courseVM from 'tutorRN/src/VM/courseVM'
 import categoryVM from 'tutorRN/src/VM/categoryVM'
 import courseTagVM from 'tutorRN/src/VM/courseTagVM'
 import targetUserVM from 'tutorRN/src/VM/targetUserVM'
+import userVM from 'tutorRN/src/VM/userVM'
 
 const layout = require('tutorRN/src/Layout')
 const courseViewModel = courseVM.getInstance()
 const categoryViewModel = categoryVM.getInstance()
 const targetUserViewModel = targetUserVM.getInstance()
+const userViewModel = userVM.getInstance()
 
 class SearchTutorView extends Component<Props> {
 
@@ -67,6 +69,19 @@ class SearchTutorView extends Component<Props> {
 
   tabOnClicked(index, key ){
     console.log('tabOnClicked ' + index + ' , ' + key)
+  }
+
+  async actionBtnOnClicked(index)
+  {
+    const flag = await userViewModel.addFavourite(index)
+    if ( flag )
+    {
+      console.log('likeBtnOnClicked succes')
+    }
+    else
+    {
+      console.log('likeBtnOnClicked fail')
+    }
   }
 
   async selectedLesson (index ){
@@ -167,6 +182,7 @@ class SearchTutorView extends Component<Props> {
                 key = {index}
                 action = {"LIKE"}
                 onClicked = {()=>this.selectedLesson(index) }
+                actionBtnOnClicked = {(index)=>this.actionBtnOnClicked(index)}
                 id = {item.id}
                 item = {item}
                   /*

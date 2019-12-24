@@ -87,6 +87,11 @@ export default class userVM{
 		return this.userProfile
 	}
 
+	getUserFavourite()
+	{
+		return [1,2,3,4,5,6,7,8,9,10]
+	}
+
 	getFacebookPhotos()
 	{
 		return this.facebookPhotos
@@ -112,7 +117,7 @@ export default class userVM{
 		
 		return C.getResponseFromApi(E.CHECK_FAVOURITE, 'POST', data)
 		.then ( (json)=>{
-			if ( json.statusCode == 200)
+			if ( json.statusCode == 200 && json.data != -200)
 			{
 				return json
 			}
@@ -123,23 +128,25 @@ export default class userVM{
 		})
 	}
 
-	async addFavourite(user_id, course_id)
+	async addFavourite(course_id)
 	{
 		var data = {
 			token:'xRW8DwqoIxZBSlF83b2P',
-			user_id: user_id,
+			user_id: this.getUser().user_id,
 			course_id : course_id
 		}
 
 		return C.getResponseFromApi(E.ADD_FAVOURITE, 'POST', data)
 		.then ( (json)=>{
-			if ( json.statusCode == 200)
+			if ( json.statusCode == 200 && json.data != -200)
 			{
-				return json
+				
+				return true
 			}
 			else
          	{
 				console.log('this is error code : ' + json.data);	
+				return false
          	}
 		})
 	}
@@ -155,7 +162,7 @@ export default class userVM{
 
 		return C.getResponseFromApi(E.ADD_RATING, 'POST', data)
 		.then ( (json)=>{
-			if ( json.statusCode == 200)
+			if ( json.statusCode == 200 && json.data != -200)
 			{
 				return json
 			}
@@ -173,7 +180,7 @@ export default class userVM{
       
     	return C.getResponseFromApi(E.REGISTER_USER, 'POST', data)
       	.then( (json ) =>{
-			if( json.statusCode == 200)
+			if( json.statusCode == 200 && json.data != -200)
 			{
 				if ( isNaN(json.data) ){
 					
@@ -227,9 +234,9 @@ export default class userVM{
 		return C.getResponseFromApi(E.LOGIN_AUTH, 'POST', data ).then( (json ) =>{
 
 			
-			if( json.statusCode == 200)	
+			if( json.statusCode == 200 && json.data != -200)	
          	{
-				
+
 				console.log('login data = ' + JSON.stringify(json.data, null, 2) )
 				
 			

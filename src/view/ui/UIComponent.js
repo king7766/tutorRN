@@ -19,6 +19,7 @@ import SeparatorBar from 'tutorRN/src/view/ui/SeparatorBar'
 import TutorRatingBlock from 'tutorRN/src/view/ui/TutorRatingBlock'
 import TutorProfileBlock from 'tutorRN/src/view/ui/TutorProfileBlock'
 import TutorProfileTextBlock from 'tutorRN/src/view/ui/TutorProfileTextBlock'
+import TutorProfilePreviewBlock from 'tutorRN/src/view/ui/TutorProfilePreviewBlock'
 
 import BannerView from 'tutorRN/src/view/ui/BannerView'
 
@@ -42,6 +43,7 @@ export {
   TutorRatingBlock,
   TutorProfileBlock,
   TutorProfileTextBlock,
+  TutorProfilePreviewBlock,
 
   BannerView
 

@@ -46,7 +46,12 @@ var SearchStack = StackNavigator({
           style={[layout.styles.icon, { tintColor: tintColor }]}
         />
       ),
-      //title: '搜尋22',
+      headerStyle: {
+        borderBottomColor: layout.themeTextColor,
+        borderBottomWidth: 1,
+        backgroundColor: 'white',
+      },
+
     },
   },
 
@@ -63,7 +68,12 @@ var SearchStack = StackNavigator({
           style={[layout.styles.icon, { tintColor: tintColor }]}
         />
       ),
-      //title: '搜尋33',
+      headerStyle: {
+        borderBottomColor: layout.themeTextColor,
+        borderBottomWidth: 1,
+        backgroundColor: 'white',
+      },
+      
     },
   },
   
@@ -80,7 +90,12 @@ var SearchStack = StackNavigator({
           style={[layout.styles.icon, { tintColor: tintColor }]}
         />
       ),
-      //title: '搜尋44',
+      headerStyle: {
+        borderBottomColor: layout.themeTextColor,
+        borderBottomWidth: 1,
+        backgroundColor: 'white',
+      },
+      
     },
   },
 
@@ -96,7 +111,12 @@ var SearchStack = StackNavigator({
           style={[layout.styles.icon, { tintColor: tintColor }]}
         />
       ),
-      //title: '搜尋33',
+      headerStyle: {
+        borderBottomColor: layout.themeTextColor,
+        borderBottomWidth: 1,
+        backgroundColor: 'white',
+      },
+      
     },
   },
 });

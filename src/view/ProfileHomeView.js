@@ -25,12 +25,6 @@ import {
 import * as M from 'tutorRN/src/service/membership'
 
 import SegmentControl from './ui/SegmentControl'
-
-import FilteringToolsBar from 'tutorRN/src/view/ui/FilteringToolsBar';
-import TutorProfileBlock from 'tutorRN/src/view/ui/TutorProfileBlock'
-import TutorProfileTextBlock from 'tutorRN/src/view/ui/TutorProfileTextBlock'
-import TutorRatingBlock from 'tutorRN/src/view/ui/TutorRatingBlock'
-import TutorProfilePreviewBlock from 'tutorRN/src/view/ui/TutorProfilePreviewBlock'
 import PhotoShowView from 'tutorRN/src/view/PhotoShowView'
 
 import courseVM from 'tutorRN/src/VM/courseVM'
@@ -41,6 +35,8 @@ import strings from '../service/strings'
 
 import {
   SeparatorBar,
+  FilteringToolsBar,
+  TutorProfilePreviewBlock,
   LessonListCell,
 
 } from 'tutorRN/src/view/ui/UIComponent';
@@ -74,9 +70,19 @@ class ProfileHomeView extends Component<Props> {
         'user_occupation':'功力深厚：學士一級榮譽畢業，中文科各範疇基本功毋庸置疑，文、史、哲兼精，猶精於文言文。\n探囊取物：大學攻讀學士期間，奪A無數，多次入選「院長優秀學生」名單。\n專業分析：精研試題出題模式及走勢，自擬教材，對症下藥。\n百川匯海：精簡創意寫作、修辭學、現代漢語、古典漢語等科目之大學教材，融入筆記，讓門生學習正宗語文、寫作手法、修辭手法、文言閱讀技巧等。\n字字珠機：筆記內容絕不假手他人，所有教材、作文均由黃海星博士一人負責，當中暗藏玄機，並於課堂逐一解說。',
         'achievement': '連續兩年現代教育中文科最多5**/5*/5之導師^\n連續兩年5科5**尖子選報^',
 
-      }
+      },
+      currentType:0, // 0 = tutor, 1 = student
 
-      
+      filteringIconArray:[
+        [Assets.icon.pendingLesson,Assets.icon.confirmedLesson, Assets.icon.completedLesson ],
+        [Assets.actions.like, Assets.icon.pendingLesson,Assets.icon.confirmedLesson, Assets.icon.completedLesson]
+      ],
+      filteringTitleArray :[
+        [strings.pendingLesson,strings.confirmedLesson,strings.completedLesson],
+        
+        //[strings.pendingLesson,strings.confirmedLesson,strings.completedLesson]
+        [strings.favouritTutor,strings.pendingLesson, strings.confirmedLesson,strings.completedLesson ]
+      ]      
     }
 
     this.ListingCatBtnOnClick = this.ListingCatBtnOnClick.bind(this)
@@ -179,6 +185,25 @@ class ProfileHomeView extends Component<Props> {
     this.props.navigation.navigate('ProfileHomeEditView',{})
   }
 
+  separatorBtnStyle(index)
+  {
+    
+    return {
+      flex:1,
+      justifyContent:'center',
+      alignItems:'center',
+      opacity: this.state.currentType == index ? 0.7 : 0.3,
+      backgroundColor:layout.grayColor,
+    }
+  }  
+
+  separatorBtnOnClicked(index)
+  {
+    this.setState({
+      currentType: index
+    })
+  }
+
 
   displayContent()
   {
@@ -193,13 +218,34 @@ class ProfileHomeView extends Component<Props> {
         <TutorProfilePreviewBlock 
           onClicked = {()=> this.startEdit()}
         />
-        <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
+        <View style={{flexDirection:'row', height:50 }}> 
+          <TouchableOpacity
+            style={{flex:1}}
+            onPress={()=>this.separatorBtnOnClicked(0)}
+          >
+            <View style={this.separatorBtnStyle(0)}>
+              <Image source={Assets.icon.tutor } style={layout.styles.homeIconSize} resizeMode = 'contain'/>
+            </View>
+          </TouchableOpacity>
+          
+          <TouchableOpacity
+            style={{flex:1}}
+            onPress={()=>this.separatorBtnOnClicked(1)}
+          >
+            <View style={this.separatorBtnStyle(1)}>
+              <Image source={Assets.icon.student } style={layout.styles.homeIconSize} resizeMode = 'contain'/>
+            </View>
+          </TouchableOpacity>
+        </View>
+
         <FilteringToolsBar 
           onClicked = {(index)=>this.ListingCatBtnOnClick(index)}
-          catName = {[strings.favouritTutor, strings.appliedLesson, strings.confirmedLesson, strings.teachedLesson]}
-          imageSource = {[Assets.actions.doc, Assets.actions.doc, Assets.actions.doc, Assets.actions.doc]}
+          catName = {this.state.filteringTitleArray[this.state.currentType]}
+          imageSource = {this.state.filteringIconArray[this.state.currentType]}
+          //catName = {[strings.favouritTutor, strings.appliedLesson, strings.confirmedLesson, strings.teachedLesson]}
+          //imageSource = {[Assets.actions.doc, Assets.actions.doc, Assets.actions.doc, Assets.actions.doc]}
         />
-        <View style = {{backgroundColor:layout.backgroundColor, height: 5}}/>
+        <SeparatorBar/>
         <ScrollView>
           {
             this.state.data ? this.state.data.map((item, index) =>

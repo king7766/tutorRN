@@ -59,23 +59,6 @@ class NewsHomeView extends Component<Props> {
 
   constructor(props) {
     super(props);
-
-    //const { navigate } = this.props.navigation;
-    // /this.handleFacebookLogin = this.handleFacebookLogin.bind(this)
-    //props.navigation.setParams({
-    //  onTabFocus: this.handleTabFocus
-    //});
-
-    //console.log('viewModel = ' + viewModel.getNews()[0])
-
-    /*
-    var data = []
-    for ( var i = 0; i < 2; i ++){
-      
-      data.push(viewModel.getNews()[i])
-    }
-    */
-
     this.state = {
       
       //dataSource : viewModel.getNews(),
@@ -234,12 +217,19 @@ class NewsHomeView extends Component<Props> {
     console.log('soundBtnOnClicked : ' + index)
   }
 
-  likeBtnOnClicked(index)
+  async likeBtnOnClicked(index)
   {
-    console.log('likeBtnOnClicked : ' + index)
-    return 
-    //userViewModel.addFavourite(userViewModel.getUser().user_id, this.state.newsVM[index].id)
-    userViewModel.addFavourite(userViewModel.getUser().user_id, this.state.dataSource[index].id)
+    
+    const flag = await userViewModel.addFavourite(index)
+    if ( flag)
+    {
+      
+      console.log('likeBtnOnClicked succes')
+    }
+    else
+    {
+      console.log('likeBtnOnClicked fail')
+    }
   }
 
   commentBtnOnClicked(index)
@@ -266,26 +256,6 @@ class NewsHomeView extends Component<Props> {
     //lesson_id = 2
     
     const flag = await targetUserViewModel.setUserProfile(tutor_id)
-    /*
-    if ( flag )
-    {
-      const res = await targetUserViewModel.getLessonById(lesson_id)
-
-      if ( res )
-      {
-        console.log('ddd = ' + JSON.stringify(targetUserViewModel.getLessonById(lesson_id)) )
-
-        this.props.navigation.navigate('NewsDetailView',{
-          lessonDetailShow: true,
-          tutor : targetUserViewModel.getUserProfile(),
-          //tutor_id : 3,
-          tutor_id : targetUserViewModel.getUserProfile().user_id,
-          lesson_id : lesson_id,
-          //lesson_list : targetUserViewModel.getUserProfile().course_list,
-        })
-      }
-    }
-    */
     
     if ( flag ){
 
@@ -301,26 +271,7 @@ class NewsHomeView extends Component<Props> {
       })
 
       //console.log(targetUserViewModel.getUserProfile().user_id)
-    }
-    
-
-    /*
-    this.props.navigation.navigate('NewsDetailView',{
-      lessonDetailShow: true,
-      tutor_id : this.state.newsVM[index].tutor_id,
-      lesson_id : this.state.newsVM[index].id
-    })
-    */
-
-    //this.props.navigation.navigate('SearchTutorDetailView');
-    /*
-    this.props.navigation.navigate('SearchTutorDetailView',{
-      id :'121',
-      allowEdit: false,
-    });
-    */
-    
-    
+    }    
   }
 
  

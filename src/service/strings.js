@@ -89,13 +89,20 @@ const strings = new LocalizedStrings({
         startChat :'你們現在可以開始對話',
 
 
-
-        //profile page :
-        favouritTutor : '收藏導師',
-        confirmedLesson : '已確認',
-        appliedLesson: '已上課程',
-        teachedLesson: '已教課程',
+        // profile page - tutor :
         
+        //confirmedLesson : '已確認',
+
+        // profile page - student :
+        favouritTutor : '收藏導師',
+        pendingLesson : '待確認', 
+        confirmedLesson : '已確認',
+        completedLesson: '已完成',
+        //teachedLesson: '已教課程',
+        
+        
+
+
         startEditProfile: '編輯個人資料',
     },
 

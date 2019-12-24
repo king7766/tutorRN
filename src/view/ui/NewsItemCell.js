@@ -16,6 +16,9 @@ import Dimensions from 'Dimensions';
 
 import strings from 'tutorRN/src/service/strings'
 import Assets from 'tutorRN/src/view/ui/Assets'
+import userVM from 'tutorRN/src/VM/userVM'
+
+const userViewModel = userVM.getInstance()
 
 const layout = require('tutorRN/src/Layout')
 
@@ -151,7 +154,13 @@ class NewsItemCell extends Component{
 
   constructor (props){
     super(props);
-
+    
+    const fav_Array = userViewModel.getUserFavourite()
+    console.log('fav_Array = ' + fav_Array)
+    console.log('item_id = ' + this.props.item.id)
+    this.state = {
+      like: userViewModel.getUserFavourite().includes(this.props.item.id)
+    }
     this.displayViewOnClicked = this.displayViewOnClicked.bind(this)
   }
   componentWillMount(){
@@ -180,6 +189,7 @@ class NewsItemCell extends Component{
 
   showUI()
   {
+    console.log('like = ' + this.state.like)
     return (
       <View style = {{flex: 1}}>
         <LinearGradient colors={['rgba(0, 0, 0, 0.7)','rgba(0, 0, 0, 0.0)']} style = {styles.upperPartViewStyle}>
@@ -205,7 +215,7 @@ class NewsItemCell extends Component{
 
           <TouchableOpacity
             style ={[layout.styles.homeIconSize, {left:layout.deviceWidth - 50}]}
-            onPress = {()=>this.props.likeBtnOnClicked(this.props.index)}
+            onPress = {()=>this.props.likeBtnOnClicked(this.props.item.id)}
           >
             <Image style = {layout.styles.homeIconSize} source={Assets.actions.like} />
           </TouchableOpacity>
