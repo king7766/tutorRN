@@ -154,13 +154,14 @@ class NewsItemCell extends Component{
 
   constructor (props){
     super(props);
-    
+    /*
     const fav_Array = userViewModel.getUserFavourite()
     console.log('fav_Array = ' + fav_Array)
     console.log('item_id = ' + this.props.item.id)
     this.state = {
-      like: userViewModel.getUserFavourite().includes(this.props.item.id)
+      like: userViewModel.getUserFavourite().includes(parseInt(this.props.item.id) )
     }
+    */
     this.displayViewOnClicked = this.displayViewOnClicked.bind(this)
   }
   componentWillMount(){
@@ -189,7 +190,7 @@ class NewsItemCell extends Component{
 
   showUI()
   {
-    console.log('like = ' + this.state.like)
+    //console.log('like = ' + this.state.like)
     return (
       <View style = {{flex: 1}}>
         <LinearGradient colors={['rgba(0, 0, 0, 0.7)','rgba(0, 0, 0, 0.0)']} style = {styles.upperPartViewStyle}>
@@ -217,7 +218,13 @@ class NewsItemCell extends Component{
             style ={[layout.styles.homeIconSize, {left:layout.deviceWidth - 50}]}
             onPress = {()=>this.props.likeBtnOnClicked(this.props.item.id)}
           >
-            <Image style = {layout.styles.homeIconSize} source={Assets.actions.like} />
+            {
+              this.props.like ? 
+              <Image style = {layout.styles.homeIconSize} source={Assets.actions.like_filled} />
+              :
+              <Image style = {layout.styles.homeIconSize} source={Assets.actions.like} />
+            }
+            
           </TouchableOpacity>
         </View>
         <LinearGradient colors={['rgba(0, 0, 0, 0.0)','rgba(0, 0, 0, 0.5)']} style = {styles.lowerPartViewStyle}>
@@ -236,7 +243,6 @@ class NewsItemCell extends Component{
           
         </LinearGradient> 
         <LinearGradient colors={['rgba(0, 0, 0, 0.5)','rgba(0, 0, 0, 0.0)']} style = {{flex:1}}></LinearGradient>  
-        
       </View>
     
     )

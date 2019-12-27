@@ -374,9 +374,9 @@ class NewsHomeView extends Component<Props> {
                 index = {index}
                 showingIndex = {this.state.showingIndex}
                 onClicked = {()=>this.cellOnPressed(index)}
-                commentBtnOnClicked = {()=>this.commentBtnOnClicked(index)}
-                likeBtnOnClicked = {()=>this.likeBtnOnClicked(index)}
-                
+                commentBtnOnClicked = {(index)=>this.commentBtnOnClicked(index)}
+                likeBtnOnClicked = {(index)=>this.likeBtnOnClicked(index)}
+                like = {userViewModel.getUserFavouritedByCourseID(item.id)}
               />
             }
           />

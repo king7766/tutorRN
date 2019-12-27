@@ -75,7 +75,7 @@ class ProfileHomeView extends Component<Props> {
 
       filteringIconArray:[
         [Assets.icon.pendingLesson,Assets.icon.confirmedLesson, Assets.icon.completedLesson ],
-        [Assets.actions.like, Assets.icon.pendingLesson,Assets.icon.confirmedLesson, Assets.icon.completedLesson]
+        [Assets.actions.like_filled, Assets.icon.pendingLesson,Assets.icon.confirmedLesson, Assets.icon.completedLesson]
       ],
       filteringTitleArray :[
         [strings.pendingLesson,strings.confirmedLesson,strings.completedLesson],

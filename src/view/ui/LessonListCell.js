@@ -68,7 +68,12 @@ class LessonListCell extends Component{
             style ={layout.styles.homeIconSize}
             onPress = {()=>this.props.actionBtnOnClicked(this.props.item.id)}
           >
-            <Image style = {layout.styles.homeIconSize} source={Assets.actions.like} />
+            {
+              this.props.like ? 
+              <Image style = {layout.styles.homeIconSize} source={Assets.actions.like_filled} />
+              :
+              <Image style = {layout.styles.homeIconSize} source={Assets.actions.like} />
+            }
           </TouchableOpacity>
         </View>
       )

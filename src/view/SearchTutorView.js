@@ -185,6 +185,8 @@ class SearchTutorView extends Component<Props> {
                 actionBtnOnClicked = {(index)=>this.actionBtnOnClicked(index)}
                 id = {item.id}
                 item = {item}
+                like = {userViewModel.getUserFavouritedByCourseID(item.id)}
+                
                   /*
                   imageURL = {item.image}
                   name = {item.name}

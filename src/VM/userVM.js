@@ -92,6 +92,11 @@ export default class userVM{
 		return [1,2,3,4,5,6,7,8,9,10]
 	}
 
+	getUserFavouritedByCourseID(course_id)
+	{
+		return [1,2,3,4,5,6,7,8,9,10].includes(parseInt(course_id) )
+	}
+
 	getFacebookPhotos()
 	{
 		return this.facebookPhotos
