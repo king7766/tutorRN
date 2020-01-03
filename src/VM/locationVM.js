@@ -58,6 +58,17 @@ export default class locationVM{
 		return this.refDistrictArray;
 	}
 
+	getDistrictNames()
+	{
+		var districtNames = []
+		for (var i = 0; i < this.refDistrictArray.length; i ++)
+		{
+			districtNames.push(this.refDistrictArray[i].district_name)
+		}
+		return districtNames
+
+	}
+
 	getDistrict()
 	{
 		var districtArray = []
@@ -68,15 +79,37 @@ export default class locationVM{
 		return districtArray;
 	}
 
-	getLocationListFromDistrict( districtIndex )
+	getLocationNamesFromDistrict( districtIndex )
 	{
-		//var selectedNewsItem = this.refDistrictArray[this.refDistrictArray.id.map(function (item) { return item.location_list; }).indexOf(districtIndex)];
+
+		if ( this.refDistrictArray.length == 0 )
+		{
+			return
+		}
+		
+		var locationList = []
+		this.refDistrictArray[districtIndex].location_list.map((item, j )=>{
+			locationList.push(item.location_name)
+		})
+		//console.log('getLocationListFromDistrict = ' + JSON.stringify(locationList))
 
 		//var selectedNewsItem = this.refArray[this.refArray.map(function (item) { return item.id; }).indexOf(newsID)];
-		var item = this.refDistrictArray[districtIndex].location_list;
-		return item;
+		//return this.refDistrictArray[districtIndex].location_list;
+		return locationList
 
 	
+	}
+
+	getDistrictIdByDistrictName( d_name )
+	{
+		console.log('getDistrictIdByDistrictName = ' + d_name)
+		for ( var i = 0; i < this.refDistrictArray.length ; i ++)
+		{
+			if ( this.refDistrictArray[i].district_name == d_name)
+			{
+				return this.refDistrictArray[i].id
+			}
+		}
 	}
 
 	getDistrictIdByLocationId(location_Index)

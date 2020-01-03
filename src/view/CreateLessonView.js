@@ -73,24 +73,42 @@ export default class CreateLessonView extends React.Component {
     this.cancelBtnOnClicked = this.cancelBtnOnClicked.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
 
+
+    var locationPickerData = []
+    for ( var i = 0 ; i < locationViewModel.getDistrictNames().length; i ++)
+    {
+      var d = locationViewModel.getDistrictNames()[i]
+      locationPickerData.push({[d]:locationViewModel.getLocationNamesFromDistrict(i)})
+    }
+    var categoryPickerData = []
+    for ( var i = 0; i < categoryViewModel.getCategoriesNames().length; i ++)
+    {
+      var d = categoryViewModel.getCategoriesNames()[i]
+      categoryPickerData.push({[d]:categoryViewModel.getSubCategoriesNamesByCategoryId(categoryViewModel.getCategoryIDByName(d)) })
+    }
+
     this.state = {
       loadingVisible : false,
       imageSource : [],
       photos : [],
       
       //rowTitle:[strings.location, strings.category, strings.education, strings.price],
-      rowTitle:[strings.location, strings.category,strings.subcategory, strings.price],
+      rowTitle:[strings.location, strings.category, strings.price],
       optionData : [
-        locationViewModel.getLocationName(),
+        //locationViewModel.getLocationName(),
+        //locationViewModel.getDistrictNames(),
+        locationPickerData,
         //['文員', '運輸','教學', '體育' ],
         //categoryViewModel.getCategories(),
-        categoryViewModel.getCategoriesNames(),
-        categoryViewModel.getSubCategoriesNameByCategoryKey(),
-        //[strings.education_low, strings.education_mid,strings.education_high, strings.education_exHigh],
+        //categoryViewModel.getCategoriesNames(),
+        categoryPickerData,
+        //categoryViewModel.getSubCategoriesNamesByCategoryId(),
+        
         [strings.price_low, strings.price_mid, strings.price_high]
       ],
-      pickerResults :['','',strings.selectCategoryFirst,''],
-      pickerResultsIndex : [-1, -1,-1,-1],
+      pickerResults :['','',''],
+      pickerResultsIndex : [-1, -1,-1],
+
     }
 
   }
@@ -211,25 +229,50 @@ export default class CreateLessonView extends React.Component {
       return 
     }
 
-    var location_id = locationViewModel.getLocationIdByName(this.state.pickerResults[0])
-    var district_id = locationViewModel.getDistrictIdByLocationId(location_id)
+    var district_array_index = this.state.pickerResultsIndex[0][0]
+    var location_array_index = this.state.pickerResultsIndex[0][1]
+
+    //console.log('district_array_index = ' + JSON.stringify(district_array_index) )
+    //console.log('location_array_index = ' + JSON.stringify(this.state.pickerResultsIndex[0][1]) )    
+
+    //console.log(locationViewModel.getDistrictIdByDistrictName(locationViewModel.getDistrictNames()[district_array_index]))
+
+    var district_id = locationViewModel.getDistrictIdByDistrictName(locationViewModel.getDistrictNames()[district_array_index])
+    var location_id = locationViewModel.getLocationIdByName(locationViewModel.getLocationNamesFromDistrict(district_array_index)[location_array_index])
+    
+    //console.log('district_id = ' + district_id)
+    //console.log('location_id = ' + location_id)
+
+
+    var cat_array_index = this.state.pickerResultsIndex[1][0]
+    var sub_cat_array_index = this.state.pickerResultsIndex[1][1]
+
+    var cat_name = categoryViewModel.getCategoriesNames()[cat_array_index]
+    var cat_id = categoryViewModel.getCategoryIDByName(cat_name)
+    var sub_cat_name = categoryViewModel.getSubCategoriesNamesByCategoryId(cat_id)[sub_cat_array_index]
+    var sub_cat_id = categoryViewModel.getSubCategoryIDByName(sub_cat_name)
+    //console.log('sub_cat_id = ' + sub_cat_id)
+    //locationViewModel.getLocationNamesFromDistrict(district_array_index)[location_array_index]
 
     
     var rawData = {
       //token: 'xRW8DwqoIxZBSlF83b2P1',
       token: E.token,
-      course_fee: this.state.pickerResultsIndex[3],
+      course_fee: this.state.pickerResultsIndex[2],
       course_name : this.state.course_name,
       course_introduction: this.state.course_introduction,
       'course_district_ids[]': district_id,
       'course_location_ids[]': location_id,
-      'course_category_ids[]': categoryViewModel.getCategoryIDByName(this.state.pickerResults[2]),
+      //'course_category_ids[]': categoryViewModel.getCategoryIDByName(this.state.pickerResults[1][1]),
+      'course_category_ids[]': sub_cat_id,
       course_tutor_id: userViewModel.getUser().user_id,
       //course_tutor_id: 16,
     }
 
     console.log('rawData = ' + JSON.stringify(rawData))
     
+    return
+
     if ( this.rawDataChecking(rawData) ){
       this.setState({loadingVisible: true})
     }
@@ -310,54 +353,87 @@ export default class CreateLessonView extends React.Component {
 
   rowOnClick(index)
   {    
-    var rawArray 
+    var pickerData = this.state.optionData[index] 
 
     if (index == 2 && this.state.pickerResultsIndex[1] == -1)
     {
       return
     }
+
   
     Picker.init({
-      pickerData: this.state.optionData[index],
+      pickerData: pickerData,
       pickerTitleText:strings.pleaseChoose,
       pickerConfirmBtnText:strings.confirm,
       pickerCancelBtnText: strings.cancel,
       //selectedValue: this.state.optionData[index],
-      selectedValue : rawArray,
+      //selectedValue : rawArray,
       onPickerConfirm: (pickedValue, pickedIndex) => {
+        var pickerData
+        if ( index == 0 || index == 1)
+        {
+          pickerData = pickedValue[0] + ' - ' + pickedValue[1]
+        }  
+        else
+        {
+          pickerData = pickedValue[0]
+        }
+        
           
-          var pickerData = pickedValue[0]
-          console.log('area : ' +  pickerData + ', i = ' + pickedIndex )
+          console.log('pickerData : ' +  pickerData + ', i = ' + pickedIndex )
 
           var pickerResults = this.state.pickerResults
           pickerResults.splice(index, 1, pickerData)
 
+
           var pickerResultsIndex = this.state.pickerResultsIndex
-          pickerResultsIndex.splice(index, 1, pickedIndex[0])
+          pickerResultsIndex.splice(index, 1, pickedIndex)
           var optionData = this.state.optionData
 
+          /*
           if ( index == 1)
           {
             
             pickerResults[2] = strings.selectCategoryFirst
             pickerResultsIndex[2] = -1
-            optionData[2] = categoryViewModel.getSubCategoriesNameByCategoryKey(categoryViewModel.getCategoryIDByName(pickedValue))
+            optionData[2] = categoryViewModel.getSubCategoriesNamesByCategoryId(categoryViewModel.getCategoryIDByName(pickedValue))
           
           }
+          */
+          this.setState({
+            pickerResultsIndex: pickerResultsIndex,
+            pickerResults : pickerResults,
+          })
 
+          console.log('pickerResultsIndex = ' + JSON.stringify(this.state.pickerResultsIndex))
+          console.log('pickerResults = ' + JSON.stringify(this.state.pickerResults))
+          
+          /*
           this.setState({
             optionData: optionData,
             pickerResults : pickerResults,
             pickerResultsIndex : pickerResultsIndex,
+            //locationData : new_location
           })
-
+          */
       },
       onPickerCancel: pickedValue => {
           console.log('area', pickedValue);
       },
       onPickerSelect: pickedValue => {
           //Picker.select(['山东', '青岛', '黄岛区'])
-          console.log('area', pickedValue);
+/*
+          var new_location
+          if( index == 0 )
+          {
+            new_location = locationViewModel.getLocationListFromDistrict(1)
+          }
+
+          this.setState({ locationData: new_location})
+*/
+          //console.log('ll = ' +JSON.stringify(locationViewModel.getLocationListFromDistrict(1)))
+
+          //console.log('area', pickedValue);
       }
     });
     Picker.show();

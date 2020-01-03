@@ -179,6 +179,23 @@ export default class courseVM{
 		return this.refCoursesFromCategory[c_id]
 	}
 
+	getCourseByCategoryAndFiltering(c_id, filter_id_array)
+	{
+		//console.log('c = ' + c_id)
+		console.log('filter_id_array = ' + filter_id_array)
+		var array = []
+		//console.log(JSON.stringify(this.refCoursesFromCategory[c_id]))
+
+		this.refCoursesFromCategory[c_id].map((item, i )=>{
+			console.log('item.id = ' + item.id)
+			if (filter_id_array.includes(item.id) ){
+				array.push[item]
+			}
+		})
+		
+		return array
+	}
+
 	getCourseByTag (t_id)
 	{
 		return this.refCoursesFromTag[t_id]

@@ -70,12 +70,12 @@ class Register extends Component<Props> {
       brithday:'',
       location: '',
       photos : [],
-      rowTitle:[strings.gender, strings.job, strings.education,strings.location ,'出生日期'],
+      rowTitle:[strings.gender, strings.job, strings.education ,'出生日期'],
       rowDataChoose: [
         [strings.gender_m, strings.gender_f],
         ['文員', '運輸','教學', '體育' ],
         [strings.education_low, strings.education_mid, strings.education_high, strings.education_exHigh],
-        [locationViewModel.getLocationName()]
+        //[locationViewModel.getLocationName()]
       ],
       
       rowData :['','','','',''],
@@ -86,21 +86,6 @@ class Register extends Component<Props> {
   componentWillMount() {
     this.mounted = true
 
-    var tmp = []
-    for ( var i = 0; i < locationViewModel.getFullList().length ; i ++)
-    {
-      tmp.push ('=== ' + locationViewModel.getDistrict()[i].district_name  + ' ===')
-  
-      for (var j = 0 ; j < locationViewModel.getLocationListFromDistrict(i).length ; j ++ )
-      {
-        var item = locationViewModel.getLocationListFromDistrict(i)[j].location_name
-        tmp.push(item)
-      }
-    }
-
-    this.setState({
-      locationSelectArray: tmp,
-    })
   }
 
   textInputStyle(index)
@@ -165,8 +150,8 @@ class Register extends Component<Props> {
       sex: this.state.rowData[0],
       occupation: this.state.rowData[1],
       education : this.state.rowData[2],
-      location : locationViewModel.getLocationIdByName(this.state.rowData[3]),
-      birth : this.state.rowData[4],
+      //location : locationViewModel.getLocationIdByName(this.state.rowData[3]),
+      birth : this.state.rowData[3],
     }
     
     /*
@@ -333,10 +318,13 @@ class Register extends Component<Props> {
     if ( index < 3)
     {
       tempArray = this.state.rowDataChoose[index]
-    }else if ( index == 3)
+    }
+    /*
+    else if ( index == 3)
     {
       tempArray = locationViewModel.getLocationName()
     }
+    */
     else{
       tempArray = this._createDateData()
     }
@@ -348,7 +336,7 @@ class Register extends Component<Props> {
       selectedValue: tempArray,
       onPickerConfirm: pickedValue => {
         var pickerData = ''
-        if ( index == 4){
+        if ( index == 3){
           pickerData = pickedValue[0] + '' + pickedValue[1] +''+ pickedValue[2]
         }else {
           pickerData = pickedValue[0]
@@ -518,6 +506,7 @@ class Register extends Component<Props> {
         
 
         <ScrollView>
+        <SeparatorBar />
           <TouchableHighlight
             onPress={this.uploadPhoto}
             //underlayColor = {layout.themeTextColor}

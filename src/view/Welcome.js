@@ -80,6 +80,7 @@ class Welcome extends Component<Props> {
 
   componentWillMount() {
 
+    console.log('Welcome componentWillMount')
     //LoginManager.logOut()
 
     this.mounted = true

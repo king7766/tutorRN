@@ -65,7 +65,7 @@ export default class categoryVM{
 	}
 
 
-	getSubCategoriesByCategoryKey( key )
+	getSubCategoriesByCategoryId( key )
 	{
 		//var item = this.refCategories[key].sub_category;
 
@@ -132,7 +132,7 @@ export default class categoryVM{
 		}
 	}
 
-	getSubCategoriesNameByCategoryKey(key)
+	getSubCategoriesNamesByCategoryId(key)
 	{
 		
 		var names = []

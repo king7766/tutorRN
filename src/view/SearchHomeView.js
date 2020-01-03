@@ -309,12 +309,15 @@ class SearchHomeView extends Component<Props> {
     {
       
       var submit_data = courseViewModel.getCourseByCategory(rowData.id)
-      console.log('getCourseByCategory : ' +JSON.stringify(submit_data) )
+      var c_id = rowData.id
+      console.log(c_id + ' getCourseByCategory : ' +JSON.stringify(submit_data) )
 
       this.props.navigation.navigate(
         'SearchTutorView',{
+          sub_categoryArray: sub_categoryArray,
           tag:tag_Array,
           data : submit_data,
+          c_id: c_id,
         }
       )
       

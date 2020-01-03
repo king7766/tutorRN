@@ -53,6 +53,12 @@ class SearchFilteringView extends Component<Props> {
     // /this.handleFacebookLogin = this.handleFacebookLogin.bind(this)
     //this.next = this.next.bind(this)
   
+    var locationPickerData = []
+    for ( var i = 0 ; i < locationViewModel.getDistrictNames().length; i ++)
+    {
+      var d = locationViewModel.getDistrictNames()[i]
+      locationPickerData.push({[d]:locationViewModel.getLocationNamesFromDistrict(i)})
+    }
 
     this.state = {
  
@@ -60,9 +66,10 @@ class SearchFilteringView extends Component<Props> {
       pickerResults:['','',strings.selectCategoryFirst ],
       pickerResultsIndex : [-1,-1,-1],
       optionData : [
-        locationViewModel.getLocationName(),
+        //locationViewModel.getLocationName(),
+        locationPickerData,
         categoryViewModel.getCategoriesNames(),
-        categoryViewModel.getSubCategoriesNameByCategoryKey()
+        categoryViewModel.getSubCategoriesNamesByCategoryId()
         
         
       ],
@@ -85,35 +92,45 @@ class SearchFilteringView extends Component<Props> {
     //this.props.navigator.navigate('SearchHomeView',{});
     //this.props.navigation.popToTop()
 
-    //return ;
-    
-    console.log(locationViewModel.getLocationIdByName(this.state.pickerResults[0]))
-    console.log(categoryViewModel.getCategoryIDByName(this.state.pickerResults[1]))
-    console.log(categoryViewModel.getSubCategoryIDByName(this.state.pickerResults[2]))
+    var district_array_index = this.state.pickerResultsIndex[0][0]
+    var location_array_index = this.state.pickerResultsIndex[0][1]
+    var district_id = locationViewModel.getDistrictIdByDistrictName(locationViewModel.getDistrictNames()[district_array_index])
+    var location_id = locationViewModel.getLocationIdByName(locationViewModel.getLocationNamesFromDistrict(district_array_index)[location_array_index])
 
+    
     var cat_id = -1
-    var cat_array = []
+    var subcat_id = -1
+    var tag_Array = []
+    var sub_categoryArray 
+
     if (this.state.pickerResultsIndex[1] != -1 )
     {
-      cat_array.push(this.state.pickerResults[1])
-      cat_id = categoryViewModel.getSubCategoryIDByName(this.state.pickerResults[1])
+      //cat_id = this.state.pickerResultsIndex[1]
+      //cat_array.push(this.state.pickerResults[1])
+      cat_id = categoryViewModel.getCategoryIDByName(this.state.pickerResults[1])
+
+      var sub_categoryArray = categoryViewModel.getSubCategoriesByCategoryId(cat_id)
+      for ( var i = 0 ; i < sub_categoryArray.length; i ++)
+      {
+        tag_Array.push(sub_categoryArray[i].category_name)
+      }
     }
 
     if (this.state.pickerResultsIndex[2] != -1 )
     {
-      cat_array.push(this.state.pickerResults[2])
-      cat_id = categoryViewModel.getSubCategoryIDByName(this.state.pickerResults[2])
+      subcat_id = categoryViewModel.getSubCategoryIDByName(this.state.pickerResults[2])
     }
-    console.log('cat_array = ' + JSON.stringify( cat_array) )
 
-    //return 
+    console.log('district_id = ' + district_id)
+    console.log('location_id = ' + location_id)
+    console.log('c_id = ' + cat_id )
+    console.log('subcat_id = ' + subcat_id )
     
     if ( cat_id == -1 || undefined)
     {
       return 
     }
    
-    
     const res = await courseViewModel.updateCourseByCategoryId(cat_id)
     if (res == true)
     {
@@ -123,9 +140,11 @@ class SearchFilteringView extends Component<Props> {
 
       this.props.navigation.navigate(
         'SearchTutorView',{
-
-          tag: cat_array,
+          sub_categoryArray: sub_categoryArray,
+          tag: tag_Array,
           data : submit_data,
+          c_id: cat_id,
+          subcat_id : subcat_id,
         }
       )
       
@@ -162,7 +181,7 @@ class SearchFilteringView extends Component<Props> {
   rowOnClick(index)
   {
     console.log('rowOnClick ' + index )
-    var tempArray 
+    var pickerData = this.state.optionData[index] 
     
     if ( index == 2)
     {
@@ -177,34 +196,44 @@ class SearchFilteringView extends Component<Props> {
       
       Picker.init({
         //pickerData: tempArray,
-        pickerData: this.state.optionData[index],
+        pickerData: pickerData,
         pickerTitleText: strings.pleaseChoose,
         pickerConfirmBtnText: strings.confirm,
         pickerCancelBtnText: strings.cancel,
-        selectedValue: tempArray,
+        //selectedValue: tempArray,
         onPickerConfirm: (pickedValue,pickedIndex) => {
-            console.log(index + ', area confirm : ', pickedValue);
-            
-            var tempArray = this.state.pickerResults
-            tempArray[index] = pickedValue[0]
-            
-            var pickerResultsIndex = this.state.pickerResultsIndex
-            pickerResultsIndex.splice(index, 1, pickedIndex[0])
+          console.log(index + ', area confirm : ', pickedValue);
+          var pickerData
+          if ( index == 0 )
+          {
+            pickerData = pickedValue[0] + ' - ' + pickedValue[1]
+          }
+          else
+          {
+            pickerData = pickedValue[0]
+          }
 
-            if ( index == 1)
-            {
-              tempArray[2] = strings.selectCategoryFirst
+          var pickerResults = this.state.pickerResults
+          pickerResults.splice(index, 1, pickerData)
+            
+          var pickerResultsIndex = this.state.pickerResultsIndex
+          pickerResultsIndex.splice(index, 1, pickedIndex)
 
-              var a = this.state.optionData
-              a[2] = categoryViewModel.getSubCategoriesNameByCategoryKey(categoryViewModel.getCategoryIDByName(pickedValue))
-              this.setState({
-                optionData: a,
-              })
-            }
+          if ( index == 1)
+          {
+            pickerResults[2] = strings.selectCategoryFirst
+
+            var a = this.state.optionData
+            a[2] = categoryViewModel.getSubCategoriesNamesByCategoryId(categoryViewModel.getCategoryIDByName(pickedValue))
             this.setState({
-              pickerResults:tempArray,
-              pickerResultsIndex: pickerResultsIndex
+              optionData: a,
             })
+          }
+          this.setState({
+            pickerResults:pickerResults,
+            pickerResultsIndex: pickerResultsIndex
+          })
+            
         },
         onPickerCancel: pickedValue => {
             console.log('area cancel : ', pickedValue);
