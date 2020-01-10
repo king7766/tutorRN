@@ -20,9 +20,12 @@ export default class courseVM{
 	@observable refCourseTags = []
 
 	@observable courseList = []
-	refCoursesFromCategory = []
-	refCoursesFromTag = []
+	@observable refCoursesFromCategory = []
+	@observable refCoursesFromTag = {}
 	
+	@observable courseTagNames = []
+
+	@observable searchHomeViewTopBarSelectedTags = []
 	
 
 	static getInstance() {
@@ -46,32 +49,43 @@ export default class courseVM{
 	
 	}
 
-	setupTagLisingArray()
+	setupTagCourseLisingArray()
 	{
+		//console.log('refCourseTags length = ' + this.refCourseTags.length)
+		console.log('refCoursesFromTag = ' + JSON.stringify(this.refCoursesFromTag) )
 		var temp = []
-		var tagList = []
+		var temp_courseTagNames = []
+		
 		for ( var i = 0; i < this.refCourseTags.length; i ++)
 		//for ( var i = 0; i < courseTagViewModel.getCourseTags().length; i++)
 		{
-			
+			var tagList = []
 			var tagName = this.refCourseTags[i].name
 			var tagId = this.refCourseTags[i].id
 
-			if ( this.refCoursesFromTag[tagId] == null){
-				this.refCoursesFromTag[tagId] = []
-			}
-
+			this.courseTagNames.push(tagName)
+			//temp_courseTagNames.push(tagName)
+			
 			for ( var j = 0; j < this.refAllCourse.length; j ++)
 			{
+				
 				if ( tagName == this.refAllCourse[j].tag_name)
 				{
-					//tagList.push(this.refAllCourse[j])
-					this.refCoursesFromTag[tagId].push(this.refAllCourse[j])
+					
+					tagList.push(this.refAllCourse[j])
+					
+					//this.refCoursesFromTag.tagId.push(this.refAllCourse[j])
 				}
 			}
 
+			this.refCoursesFromTag[tagId] = tagList
+			
 			
 		}
+
+		//console.log('refCoursesFromTag = ' + JSON.stringify(this.refCoursesFromTag) )
+
+		//this.courseTagNames = temp_courseTagNames
 		
 		//console.log('setupTagLisingArray : ' +JSON.stringify(this.refCoursesFromTag))
 	}
@@ -92,7 +106,8 @@ export default class courseVM{
 					var c =  json.data[i]
 					temp.push(courseModel.deserialize(c) )
 				}
-				this.refCoursesFromCategory[cat_id] = temp
+				console.log('refCoursesFromCategory = ' + JSON.stringify(this.refCoursesFromCategory))
+				this.refCoursesFromCategory.cat_id= temp
 				
 				return true
 			}
@@ -101,6 +116,32 @@ export default class courseVM{
 				return false
 			}
 		})
+	}
+
+	async courseTagSelectedAction (index)
+	{
+		var tag_id = this.getCourseTagsList()[index -1].id
+		const res = await this.updateCourseByTagId(tag_id)
+		if (res == true)
+		{
+			var submit_data = this.getCourseByTag(tag_id)
+			console.log('getCourseByCategory : ' +JSON.stringify(submit_data) )
+
+        	var t = this.searchHomeViewTopBarSelectedTags
+        	if ( t.includes(tag_id)){
+          		for ( var i = 0; i < t.length; i ++){
+            		if (t[i] == tag_id){
+              			t.splice(i, 1);
+            		}
+          		}
+        	}
+        	else
+        	{
+				t.push(tag_id)
+			}
+			this.searchHomeViewTopBarSelectedTags = t
+        }
+        console.log('t = ' +JSON.stringify(t))
 	}
 
 	async updateCourseByTagId(tag_id)
@@ -176,6 +217,7 @@ export default class courseVM{
 
 	getCourseByCategory(c_id)
 	{
+		console.log('getCourseByCategory = ' +JSON.stringify(this.refCoursesFromCategory[c_id]))
 		return this.refCoursesFromCategory[c_id]
 	}
 
@@ -214,6 +256,11 @@ export default class courseVM{
 		else{
 			return strings.price_high
 		}
+	}
+
+	getSearchHomeViewTopBarSelectedTag()
+	{
+		return this.searchHomeViewTopBarSelectedTags
 	}
 
 	async createCourse (post_body)
@@ -258,14 +305,14 @@ export default class courseVM{
 	}
 	
 	@action
-	callAllCourseAPI()
+	async callAllCourseAPI()
 	{
 		//var temp = []
 		this.refAllCourse = []
 		this.courseList = []
 		
 		return C.getResponseFromApi(E.GET_COURSE, 'POST', {token:'xRW8DwqoIxZBSlF83b2P'} ).then( (json ) =>{
-			if( json.statusCode == 200)	
+			if( json.statusCode == 200 && json.data.length !== undefined)	
          	{
 				for ( var i = 0; i < json.data.length; i ++)
 				{		
@@ -321,22 +368,37 @@ export default class courseVM{
 
 	/* COURSE TAG METHOD HERE */
 
+
 	async callcourseTagAPI()
 	{	
 		
-		C.getResponseFromApi(E.GET_COURSE_TAG_LIST, 'POST', {token:E.token} ).then( (json ) =>{
+		var temp_refCourseTags = []
+		var temp_searchHomeViewTopBarSelectedTags = []
+		return C.getResponseFromApi(E.GET_COURSE_TAG_LIST, 'POST', {token:E.token} ).then( (json ) =>{
 			if( json.statusCode == 200)	
          	{
 				for ( var i = 0; i < json.data.length; i ++)
 				{		
-					this.refCourseTags.push(courseTagModel.deserialize( json.data[i] ) )
-
+					var tagItem = courseTagModel.deserialize( json.data[i] )
+					var tagItem_id = tagItem.id
+					temp_refCourseTags.push(tagItem)
+					temp_searchHomeViewTopBarSelectedTags.push(tagItem_id)
+					//this.refCourseTags.push(tagItem)
+					//this.refCoursesFromTag.push({
+					//	[tagItem.id]: []
+					//})
+					//this.refCoursesFromTag[tagItem_id] = []
 				}
-				this.setupTagLisingArray()
+				
+				this.refCourseTags = temp_refCourseTags
+				this.setupTagCourseLisingArray()
+				this.searchHomeViewTopBarSelectedTags = temp_searchHomeViewTopBarSelectedTags
+
+				return true
          	}
          	else
          	{
-             		
+				return false
          	}
 		})
 	}
@@ -346,15 +408,20 @@ export default class courseVM{
 		return this.refCourseTags
 	}
 
-	getCourseTagNamesList()
+	getCourseTagNameById(_id)
 	{
-		var names = []
 		for ( var i = 0; i < this.refCourseTags.length; i ++)
 		{
-			var name = this.refCourseTags[i].name
-			names.push(name)
+			if ( this.refCourseTags[i].id == _id)
+			{
+				return this.refCourseTags[i].name
+			}
 		}
-		return names 
+	}
+
+	getCourseTagNames()
+	{
+		return this.courseTagNames
 	}
 
 	getCourseTagIdList()

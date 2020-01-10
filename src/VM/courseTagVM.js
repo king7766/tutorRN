@@ -2,12 +2,13 @@
 import {courseTagModel} from 'tutorRN/src/Model/courseTagModel'
 import * as C from 'tutorRN/src/service/connection'
 import * as E from 'tutorRN/src/service/env-config'
+import {observable, action, computed} from 'mobx'
 
 export default class courseTagVM{
 
 	static myInstance = null;
 
-	refCourseTags = []
+	@observable refCourseTags = []
 	
 
 	static getInstance() {
@@ -81,7 +82,7 @@ export default class courseTagVM{
 	}
 
 	
-	callAPI()
+	async callAPI()
 	{	
 		
 		C.getResponseFromApi(E.GET_COURSE_TAG_LIST, 'POST', {token:'xRW8DwqoIxZBSlF83b2P'} ).then( (json ) =>{

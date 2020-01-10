@@ -87,16 +87,30 @@ class SearchHomeView extends Component<Props> {
     super(props);
     
     var ds = new  ListView.DataSource({rowHasChanged:(r1,r2) => r1 !== r2})   
-    var courseTagNames = courseViewModel.getCourseTagNamesList()
+    
     //courseTagNames.splice(0,0, '')
-    var courseTagSelection = new Array(courseTagNames.length).fill(false)
+
+    
+    //var courseTagSelection = new Array(courseTagNames.length).fill(false)
+
+    /* 
+    var tagSelectedArray = [true] // init
+    for ( var i =0; i < courseViewModel.getCourseTagNames().length; i ++)
+    {
+      tagSelectedArray.push(true)
+    }
+    */
+
+    //console.log('courseTagNames = ' + JSON.stringify(courseTagNames))
+    //console.log('courseTagNames = ' + JSON.stringify(courseTagNames))
 
     this.state = {
-      //courseTagNames : courseTagNames,
-      courseTagNames : courseViewModel.getCourseTagNamesList(),
+      //tagSelectedArray: tagSelectedArray,
+      //courseTagNames : courseViewModel.getCourseTagNames(),
+      //courseTagNames : [],
       //courseTagSelection : courseTagSelection,
-      //courseTagSelection : [],
-      courseTagSelection : courseViewModel.getCourseTagIdList(),
+      courseTagSelection : [],
+      //courseTagSelection : courseViewModel.getCourseTagIdList(),
 
       categories: categoryViewModel.getCategories(), 
       //categories : ds.cloneWithRows(categoryViewModel.getCategories()),
@@ -130,17 +144,25 @@ class SearchHomeView extends Component<Props> {
       
     }
 
+    //console.log('categories = ' + this.state.categories)
+    //console.log('courseTagNames = ' + this.state.courseTagNames)
+
     this.cellStyle = this.cellStyle.bind(this)
     this.tabOnClicked = this.tabOnClicked.bind(this)
     this.TopMenuBarOnClicked = this.TopMenuBarOnClicked.bind(this)
     this.ListingCatBtnOnClick = this.ListingCatBtnOnClick.bind(this)
     this.categorysViewUI =this.categorysViewUI.bind(this)
     this.bannerOnClicked = this.bannerOnClicked.bind(this)
-  
+    this.topBarUI = this.topBarUI.bind(this)
   }
 
   componentWillMount() {
+    
+  }
 
+  componentDidMount()
+  {
+     
   }
 
   static navigationOptions = ({ navigation }) => ({
@@ -295,8 +317,9 @@ class SearchHomeView extends Component<Props> {
 
   async ListingCatBtnOnClick (rowData)
   {
-    console.log('ListingCatBtnOnClick ' + JSON.stringify (rowData.sub_category) )
+    //console.log('ListingCatBtnOnClick ' + JSON.stringify (rowData.sub_category) )
 
+    
     var sub_categoryArray = rowData.sub_category
     var tag_Array = []
     for ( var i = 0 ; i < sub_categoryArray.length; i ++)
@@ -304,7 +327,13 @@ class SearchHomeView extends Component<Props> {
       tag_Array.push(sub_categoryArray[i].category_name)
     }
 
+    console.log('tag_Array ' + JSON.stringify (tag_Array) )
+    console.log(rowData.id)
+
+    
     const res = await courseViewModel.updateCourseByCategoryId(rowData.id)
+      
+
     if (res == true)
     {
       
@@ -312,6 +341,7 @@ class SearchHomeView extends Component<Props> {
       var c_id = rowData.id
       console.log(c_id + ' getCourseByCategory : ' +JSON.stringify(submit_data) )
 
+      
       this.props.navigation.navigate(
         'SearchTutorView',{
           sub_categoryArray: sub_categoryArray,
@@ -356,8 +386,11 @@ class SearchHomeView extends Component<Props> {
     }
     else
     {
+      courseViewModel.courseTagSelectedAction(input_index)
+      
+      return
 
-      var tagName = courseViewModel.getCourseTagNamesList()[index]
+      var tagName = courseViewModel.getCourseTagNames()[index]
       var tag_id = courseViewModel.getCourseTagIdByName(tagName)
       
       //const res = await courseViewModel.loadCourse('TAG',rowData.id)
@@ -383,6 +416,7 @@ class SearchHomeView extends Component<Props> {
           t.push(tag_id)
         }
 
+        console.log('t = ' +JSON.stringify(t))
         this.setState({
           courseTagSelection: t
         })
@@ -441,23 +475,34 @@ class SearchHomeView extends Component<Props> {
 
   tutorRowListUI()
   {
-    return this.state.courseTagSelection.map((tag_id, i) =>{
-      return (
-        <View
-          key = {i}
-        >
-          <TutorRowFlatList
-            title = {courseViewModel.getCourseTagNameById(tag_id)}
-            //height = {140}
-            iconOnClick = {(itemDataSelected)=>this.iconOnClick(itemDataSelected)}
-            //data = {this.state.tutorRowData}
-            //id = {tag_id}
-            data = {courseViewModel.getCourseByTag(tag_id)}
-          />   
-          <SeparatorBar />
-        </View>
-      )
-    })
+    //console.log('getSearchHomeViewTopBarSelectedTag = ' + JSON.stringify(courseViewModel.getSearchHomeViewTopBarSelectedTag()))
+    //return this.state.courseTagSelection.map((tag_id, i) =>{
+    console.log('getSearchHomeViewTopBarSelectedTag = ' + JSON.stringify(courseViewModel.getSearchHomeViewTopBarSelectedTag()))
+    if ( courseViewModel.getSearchHomeViewTopBarSelectedTag().length > 0)
+    {
+      
+      
+      return courseViewModel.getSearchHomeViewTopBarSelectedTag().map((tag_id,i)=>{
+
+        console.log('courseViewModel.getCourseByTag(tag_id) = ' + courseViewModel.getCourseByTag(tag_id))
+        return (
+          <View
+            key = {i}
+          >
+            <TutorRowFlatList
+              title = {courseViewModel.getCourseTagNameById(tag_id)}
+              //height = {140}
+              iconOnClick = {(itemDataSelected)=>this.iconOnClick(itemDataSelected)}
+              //data = {this.state.tutorRowData}
+              //id = {tag_id}
+              data = {courseViewModel.getCourseByTag(tag_id)}
+            />   
+            <SeparatorBar />
+          </View>
+        )
+      })
+    }
+    
   }
 
   categorysViewUI()
@@ -489,15 +534,53 @@ class SearchHomeView extends Component<Props> {
     )
   }
 
+  topBarUI()
+  {
+    console.log('topBarUI')
+    
+    //var a = this.state.courseTagNames
+    var a = [""]
+    var tagSelectedArray = [true] // init
+
+    for ( var i = 0; i < courseViewModel.getCourseTagsList().length; i ++)
+    {
+      a.push(courseViewModel.getCourseTagsList()[i].name)
+      tagSelectedArray.push(true)
+    }
+
+    console.log('tagSelectedArray = '+ JSON.stringify(tagSelectedArray))
+    console.log('title = '+ JSON.stringify(a))
+
+    if ( courseViewModel.getCourseTagsList().length > 0)
+    {
+      return (
+        <RowMenuListingBar 
+          data = {a}
+          itemHeight = {40}
+          itemWidth = {60}
+          multiSelectArray = {tagSelectedArray}
+          onClicked={ this.TopMenuBarOnClicked }      
+        />
+      )
+    }
+
+    
+    
+  }
+
   render() {
     
-    var rowMenuInitArray = [true]
+
     
+    /*
     for (var i = 0; i < courseViewModel.getCourseTagNamesList().length; i ++)
     {
-      rowMenuInitArray.push(true)
+      console.log('i = ' + courseViewModel.getCourseTagNamesList()[i])
     }
-    console.log('rowMenuInitArray = ' + rowMenuInitArray)
+    */
+    //console.log('rowMenuInitArray = ' + rowMenuInitArray)
+    //console.log('courseTagNames = ' + JSON.stringify(this.state.courseTagNames))
+    //const courseViewModel = courseViewModel
 
     return (
       <View 
@@ -509,21 +592,11 @@ class SearchHomeView extends Component<Props> {
         }
         
         <ScrollView style = {{backgroundColor:layout.backgroundColor}}>
-
-          <RowMenuListingBar 
-            
-            firstItemShowIcon = {true}
-            firstImageSource = {Assets.icon.advanceSearch} 
-            data = {courseViewModel.getCourseTagNamesList()}
-            //size = {50}
-            itemHeight = {40}
-            itemWidth = {60}
-            selected = {1}
-            multiSelectArray = {rowMenuInitArray}
-            //multiSelected ={[0,1,2,3,4,5,6,7,8]}
-            multiSelect = {true}
-            onClicked={ this.TopMenuBarOnClicked }
-          />
+        {
+          //this.state.courseTagNames.length > 0 && 
+          this.topBarUI()
+        }
+          
       
           {
             

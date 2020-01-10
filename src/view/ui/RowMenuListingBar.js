@@ -33,32 +33,21 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
   constructor (props: TopMenuBarProps){
     super(props);
     //this.onPress = this.onPress.bind(this)
-    console.log('data = '+ this.props.data)
-    var array = []
-    for ( var i = 0; i < this.props.data.length; i ++)
-    {
-      array.push(false)
-    }
-    console.log('multiSelectArray = ' + this.props.multiSelectArray)
-
-    // /console.log('multiSelectArray = '+array)
+    
+    
     
     this.state = {...props}
-    /*
-    this.state = {
-      imageSource: '',
-      selected: this.props.selected,
-      //multiSelectArray :[],
-      //multiSelectArray: array,
-      //multiSelectArray: props.rowMenuInitArray,
-    };
-    */
+    console.log('data = '+ this.props.data)
     console.log('multiSelectArray = ' + this.state.multiSelectArray)
 
   }
   componentWillMount(){
     this.init()
   } 
+
+  componentWillReceiveProps(nextProps){
+    
+  }
 
   init ()
   {
@@ -88,7 +77,8 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
 
 
     return {
-      color : multiSelect ? ( this.state.multiSelectArray[index] ? 'black' : 'gray' ) : ( this.state.selected == index ? 'black' : 'gray') ,
+      //color : multiSelect ? ( this.state.multiSelectArray[index] ? 'black' : 'gray' ) : ( this.state.selected == index ? 'black' : 'gray') ,
+      color :  this.state.multiSelectArray[index] ? 'black' : 'gray',
       fontSize: layout.stringsSizeMid,
       fontWeight: 'bold'
     }
@@ -96,11 +86,13 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
 
   borderStyle(index)
   {
-    const { itemHeight, itemWidth, multiSelect} = this.props
+    const { itemHeight, itemWidth, multiSelect, multiSelectArray} = this.props
     var bWidth = 1
     //console.log ('selected  = ' + selected)
 
-    var borderColor = multiSelect ? (this.state.multiSelectArray[index] ? layout.themeTextColor : 'gray') : (this.state.selected == index ? layout.themeTextColor : 'gray')
+    //var borderColor = multiSelect ? (this.state.multiSelectArray[index] ? layout.themeTextColor : 'gray') : (this.state.selected == index ? layout.themeTextColor : 'gray')
+    var borderColor = this.state.multiSelectArray[index] ? layout.themeTextColor : 'gray'
+
     if ( index == 0 )
     {
       borderColor = layout.themeTextColor
@@ -135,6 +127,14 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
     
     var tmpArray = this.state.multiSelectArray
 
+    tmpArray[index] = !tmpArray[index]
+
+    this.setState({
+      multiSelectArray: tmpArray
+    })
+
+    return 
+
     if ( multiSelect )
     {
       tmpArray[index] = !tmpArray[index]
@@ -158,7 +158,8 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
   {
     const { firstImageSource, firstItemShowIcon,multiSelect, itemHeight, itemWidth } = this.props;
     
-    if (index == 0 && (firstItemShowIcon == true) ){
+    //if (index == 0 && (firstItemShowIcon == true) ){
+    if( index == 0 ){
       return (
         <View
           style = {this.borderStyle(index)}
@@ -170,7 +171,7 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
               width: 20,  
               alignItems:'center', 
             }} 
-            source = {firstImageSource ? firstImageSource : Assets.actions.search} 
+            source = {firstImageSource ? firstImageSource : Assets.icon.advanceSearch} 
           />
         </View> 
       )
@@ -197,14 +198,16 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
 
     const {  firstItemShowIcon, badge, url, size, style, badgeStyle, avatarStyle, text, selected, data, itemHeight, itemWidth, multiSelect } = this.props;
 
+
     var dataSource = this.props.data
+    /*
     if ( this.props.firstItemShowIcon && !dataSource.includes(""))
     {
       dataSource.splice(0, 0, '')
     }
     
     var multiSelectArray = this.props.multiSelectArray
-    
+    */
 
     return(
 

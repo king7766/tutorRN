@@ -316,12 +316,12 @@ const tabOptions = {
 
 const Tabs = TabNavigator(
   {
-
-  news: NewsStack,
-  search: SearchStack,  
-  add: LessonStack,
-  notice: NoticeStack,
-  profile : ProfileStack,
+    search: SearchStack,  
+    news: NewsStack,
+    //search: SearchStack,  
+    add: LessonStack,
+    notice: NoticeStack,
+    profile : ProfileStack,
 
   },
   {
