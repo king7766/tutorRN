@@ -141,18 +141,9 @@ const styles = StyleSheet.create ({
     padding:10,
   },
 
-  descriptionTitle:{
-    color: 'rgba(41,62,107,1)',
-    //backgroundColor: 'red',
-    fontSize: 18,
-    fontWeight: 'bold',
-    //padding : 10,
-    //paddingLeft : 10,
-
-  },
   description:{
-    lineHeight:20,
-    fontSize: 14,
+    lineHeight:layout.defaultLineHeight,
+    fontSize: layout.stringsSizeSmall,
     paddingTop: 10,
     //paddingLeft: 10,
     // paddingLeft: 10,

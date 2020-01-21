@@ -89,12 +89,24 @@ export default class userVM{
 
 	getUserFavourite()
 	{
+		//console.log('getUserFavourite : ' + JSON.stringify(this.userProfile.user_favorite_list))
 		return [1,2,3,4,5,6,7,8,9,10]
 	}
 
 	getUserFavouritedByCourseID(course_id)
 	{
-		return [1,2,3,4,5,6,7,8,9,10].includes(parseInt(course_id) )
+		if (this.userProfile == undefined )
+		{
+			return false
+		}
+		
+		console.log('getUserFavouritedByCourseID = ' + course_id)
+		//console.log(JSON.stringify(this.userProfile.user_favorite_list))
+		var _flag = this.userProfile.user_favorite_list.some(function (item){
+			console.log('item id = ' + item.id)
+			return parseInt(item.id ) == parseInt(course_id)
+		})	
+		return _flag
 	}
 
 	getFacebookPhotos()
@@ -242,7 +254,7 @@ export default class userVM{
 			if( json.statusCode == 200 && json.data != -200)	
          	{
 
-				console.log('login data = ' + JSON.stringify(json.data, null, 2) )
+				console.log('userVM login data = ' + JSON.stringify(json.data, null, 2) )
 				
 			
 				this.userProfile = userModel.deserialize(json.data)

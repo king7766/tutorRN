@@ -217,7 +217,7 @@ export async function loginAction(id, password, result)
     //if ( res.data.verify_status == 'success')
     if ( res.data.user_login)
     {
-        //console.log(data)
+        
         userViewModel.setUserProfile(res.data)
         //if ( result.photos)
         //{
@@ -259,7 +259,7 @@ async function callLoginAPI (login, password)
         if( json.statusCode == 200)	
          {
             
-            console.log('login data = ' + JSON.stringify(json.data, null, 2) )
+            console.log('membership login data = ' + JSON.stringify(json.data, null, 2) )
             console.log('writing to userVM at here')
             
             //this.userProfile = userModel.deserialize(json.data)

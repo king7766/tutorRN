@@ -122,13 +122,13 @@ class TutorProfileBlock extends Component{
   render (){
 
     return (
-      <View style = {{flexDirection:'row', width:layout.deviceWidth, height:130,  backgroundColor:'white'}}>
+      <View style = {{flexDirection:'row', width:layout.deviceWidth, height:140,  backgroundColor:'white'}}>
         <View style = {styles.imageStyle} >
 
           <Avatar
             onPress={() => {this.avatarOnClicked()}}
             round = {true}
-            size = {90}
+            size = {100}
             type = {this.props.allowEdit == true ? 'edit' :''}
             //type = 'edit'
             url = {this.props.tutor.user_thumb}
@@ -186,6 +186,7 @@ const styles = StyleSheet.create ({
     fontSize: layout.stringsSizeMid,
     fontWeight: 'bold',
     margin:5,
+    marginBottom:0,
     marginTop:10, 
     
   },

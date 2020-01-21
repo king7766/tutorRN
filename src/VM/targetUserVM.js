@@ -279,7 +279,7 @@ export default class targetUserVM{
 			if( json.statusCode == 200)	
          	{
 				
-				console.log('login data = ' + JSON.stringify(json.data, null, 2) )
+				console.log('targetUser login data = ' + JSON.stringify(json.data, null, 2) )
 				
 			
 				this.userProfile = userModel.deserialize(json.data)

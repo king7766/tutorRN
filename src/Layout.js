@@ -16,6 +16,7 @@ let headingTextColor = 'rgba(231,121,98,1)'
 
 let backgroundColor = 'rgba(233,233,233,1)'
 let grayColor = 'rgba(180,180,180,1)'
+let darkGray = 'rgba(125,125,125,1)'
 let blackColor = 'rgba(0,0,0,1)'
 
 let stringsSizeLogoName = 35
@@ -24,7 +25,7 @@ let stringsSizeBig = 18
 let stringsSizeMid = 16
 let stringsSizeSmall = 14
 
-let defaultLineHeight = 20
+let defaultLineHeight = 25
 let headerHeight = 50
 
 const deviceInfo=()=>{
@@ -114,6 +115,7 @@ module.exports = {
 	
 	styles,
 	
+	darkGray,
 	grayColor,
 	blackColor,
 	backgroundColor,

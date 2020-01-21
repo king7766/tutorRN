@@ -21,6 +21,8 @@ import TutorProfileBlock from 'tutorRN/src/view/ui/TutorProfileBlock'
 import TutorProfileTextBlock from 'tutorRN/src/view/ui/TutorProfileTextBlock'
 import TutorProfilePreviewBlock from 'tutorRN/src/view/ui/TutorProfilePreviewBlock'
 
+import NewsDetailLessonListCell from 'tutorRN/src/view/ui/NewsDetailLessonListCell'
+
 import BannerView from 'tutorRN/src/view/ui/BannerView'
 
 export {
@@ -45,6 +47,8 @@ export {
   TutorProfileTextBlock,
   TutorProfilePreviewBlock,
 
-  BannerView
+  BannerView,
+  NewsDetailLessonListCell,
+
 
 };

@@ -24,6 +24,7 @@ import {
   DeviceEventEmitter
 } from 'react-native';
 
+import { Rating } from 'react-native-ratings';
 import * as M from 'tutorRN/src/service/membership'
 import Assets from 'tutorRN/src/view/ui/Assets';
 import strings from '../service/strings'
@@ -118,9 +119,24 @@ class CommentPageView extends Component<Props> {
         
         <View style ={styles.cellTextBoxStyle}>
           <Text style = {{margin:5}}>{item.user}</Text>
+          <View style = {{flexDirection:'column'}}>
+          <Text style = {{margin:5, color:'gray'}} >{item.date}</Text>
+            <Rating
+                    type="star"
+                    fractions={1}
+                    startingValue={item.rate}
+                    readonly
+                    imageSize={25}
+                    ratingTextColor="black"
+                    onFinishRating={this.ratingCompleted}
+                    style={{ paddingVertical: 10 }}
+            />
+
+          </View>
+          
+
           <Text style = {{margin:5, fontWeight: 'bold'}}>{item.lesson}</Text>
           <Text style = {{margin:5}}>{item.comment}</Text>
-          <Text style = {{margin:5, color:'gray'}} >{item.date}</Text>
         </View>  
       </View>
     )

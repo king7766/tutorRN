@@ -28,7 +28,7 @@ import {
 } from 'tutorRN/src/view/ui/UIComponent';
 
 
-
+import {observer} from 'mobx-react'
 
 
 import courseVM from 'tutorRN/src/VM/courseVM'
@@ -43,6 +43,7 @@ const categoryViewModel = categoryVM.getInstance()
 const targetUserViewModel = targetUserVM.getInstance()
 const userViewModel = userVM.getInstance()
 
+@observer
 class SearchTutorView extends Component<Props> {
 
   constructor(props) {
@@ -53,11 +54,17 @@ class SearchTutorView extends Component<Props> {
     const tag = params ? params.tag : null
     const data = params ? params.data : null
     const sub_categoryArray = params ? params.sub_categoryArray : null
-    const c_id = params ? params.c_id : null
+    const cat_id = params ? params.cat_id : null
     const subcat_id = params ? params.subcat_id : null
     console.log('sub_categoryArray = ' + JSON.stringify (sub_categoryArray) )
 
     console.log('subcat_id = ' + subcat_id)
+    console.log('cat_id = ' + cat_id)
+
+    //console.log('c = ' + JSON.stringify(courseViewModel.getCourseByCategory(c_id)))
+
+    
+    /*
     var sub_categoryNames = []
     var tagSelectedArray = [true] // init
     //tagSelectedArray.push(true)
@@ -83,7 +90,7 @@ class SearchTutorView extends Component<Props> {
     }
     
 
-    this.selectedLesson = this.selectedLesson.bind(this)
+    
     this.state = {
       tag: tag,
       sub_categoryArray : sub_categoryArray,
@@ -94,7 +101,16 @@ class SearchTutorView extends Component<Props> {
       c_id : c_id,
       data : courseViewModel.getCourseByCategory(c_id)
     };
+    */
 
+    this.state = {
+      cat_id : cat_id,
+      subcat_id : subcat_id,
+      data : courseViewModel.getCourseByCategory(cat_id),
+      topbarDataSource: categoryViewModel.getSubCategoriesByCategoryId(cat_id)
+    }
+    this.topBarUI = this.topBarUI.bind(this)
+    this.selectedLesson = this.selectedLesson.bind(this)
     this.TopMenuBarOnClicked = this.TopMenuBarOnClicked.bind(this)
   }
 
@@ -147,15 +163,20 @@ class SearchTutorView extends Component<Props> {
     */
   }
 
-  TopMenuBarOnClicked(index)
+  async TopMenuBarOnClicked(index)
   {
    
-    if ( index == 0 )
+    
+    if ( index == -1 )
     {
 
     }
     else
     {
+      await categoryViewModel.updateSelectedSubcategoriesFlagList(index)
+
+      console.log(JSON.stringify(categoryViewModel.getSelectedSubcategoriesFlagList()))
+      return 
       const tagSelectedArray = this.state.tagSelectedArray.map((item, i) => {
         return (i != index ? item : !item)
       })
@@ -168,6 +189,38 @@ class SearchTutorView extends Component<Props> {
       
     }
     //console.log('TopMenuBarOnClicked :' + index)  
+  }
+
+  topBarUI()
+  {
+    //const cat_id = this.props.navigation.state.params.cat_id
+    var names = []
+    var tagSelectedArray = [] // init
+
+    console.log('topBarUI')
+    //console.log(JSON.stringify(data[0].category_name))
+
+     
+    for ( var i = 0; i < categoryViewModel.getSubCategoryNamesBySelectedCategories().length; i ++)
+    {
+      names.push(categoryViewModel.getSubCategoryNamesBySelectedCategories()[i].category_name)
+      tagSelectedArray.push(true)
+    }
+
+    if ( this.state.topbarDataSource.length > 0)
+    {
+      return (
+        <RowMenuListingBar 
+          showConfigIcon = {false}
+          data = {names}
+          itemHeight = {40}
+          itemWidth = {60}
+          multiSelectArray = {categoryViewModel.getSelectedSubcategoriesFlagList()}
+          onClicked={ this.TopMenuBarOnClicked }      
+        />
+      )
+    }
+
   }
 
   render() {
@@ -191,14 +244,20 @@ class SearchTutorView extends Component<Props> {
     //var rowMenuInitArray = [true, true]
 
     //console.log('getCategoryNameByID = ' + JSON.stringify(categoryViewModel.getCategoryNameByID( this.state.tag)))
+    //userViewModel.getUserFavourite()
     return (
       <View style = {layout.styles.basicViewStyle}>
         {
+          this.topBarUI()
+        }
+        {
+          /* 
           <RowMenuListingBar 
             firstItemShowIcon = {true}
             firstImageSource = {Assets.icon.advanceSearch} 
             //data = {['推介', '限時', '優惠', '熱門', '節日', '新到', '復古']}
-            data = {this.state.sub_categoryNames}
+            //data = {this.state.sub_categoryNames}
+            data = {categoryViewModel.getSubCategoriesNamesByCategoryId(this.state.cat_id)}
             //data = {rowListBarDataSource}
             
             itemHeight = {40}
@@ -209,13 +268,14 @@ class SearchTutorView extends Component<Props> {
             multiSelectArray = {this.state.tagSelectedArray}
             onClicked={this.TopMenuBarOnClicked }
           />
-          
+          */
         }
         <SeparatorBar />
         <ScrollView>
         {
           
           //this.state.data.map((item, index) =>
+          
           this.state.data.map((item, index) =>
             (
               
@@ -228,14 +288,7 @@ class SearchTutorView extends Component<Props> {
                 item = {item}
                 like = {userViewModel.getUserFavouritedByCourseID(item.id)}
                 
-                  /*
-                  imageURL = {item.image}
-                  name = {item.name}
-                  subject = {item.subject}
-                  rating = {item.rating}
-                  location = {item.location}
-                  price = {item.price}
-                  */
+                  
               />
 
             )

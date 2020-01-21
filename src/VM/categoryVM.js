@@ -25,6 +25,11 @@ export default class categoryVM{
 	refCategories = []
 	refSubCategories = []
 
+
+	selectedCategorySubcategoryList = []
+	selectedCategories = 0
+	@observable selectedSubcategoriesFlagList = []
+
 	static getInstance() {
 
         if (categoryVM.myInstance == null) {	
@@ -47,6 +52,45 @@ export default class categoryVM{
 	load()
 	{
 		this.callAPI ()
+	}
+
+	setSelectedCategories(cat_id)
+	{
+		this.selectedCategories = cat_id
+
+		var array = []
+		var temp_selectedSubcategoriesFlagList = []
+		for (var i = 0; i < this.refSubCategories.length; i ++)
+		{
+			
+			if (this.refSubCategories[i].parent_category_id == cat_id)
+			{
+				array.push(this.refSubCategories[i])
+				temp_selectedSubcategoriesFlagList.push(true)
+			}
+		}
+		this.selectedSubcategoriesFlagList = temp_selectedSubcategoriesFlagList
+		this.selectedCategorySubcategoryList = array
+	}
+
+	updateSelectedSubcategoriesFlagList(index)
+	{
+		var temp_selectedSubcategoriesFlagList = this.selectedSubcategoriesFlagList
+		temp_selectedSubcategoriesFlagList.map((item, i)=>{
+			return (i != index ? item : !item)
+		})
+
+		this.selectedSubcategoriesFlagList = temp_selectedSubcategoriesFlagList
+	}
+
+	getSelectedSubcategoriesFlagList()
+	{
+		return this.selectedSubcategoriesFlagList
+	}
+
+	getSubCategoryNamesBySelectedCategories()
+	{
+		return this.selectedCategorySubcategoryList
 	}
 
 	getFullList()

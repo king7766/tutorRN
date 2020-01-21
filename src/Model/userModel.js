@@ -24,6 +24,8 @@ export class userModel{
    
    //cert_list : any 
    course_list : [courseModel] 
+   user_favorite_list : []
+   rating_list : []
    cert_list : [string]
    //user_email : string  = ''
    
@@ -68,8 +70,9 @@ export class userModel{
 
             //model.user_email = jsonObject.result.email
     
+            rating_list : this.rating_list
+            user_favorite_list : this.user_favorite_list
             
-    
             create_user : this.create_user
             create_date : this.create_date
             update_user : this.update_user
@@ -102,16 +105,26 @@ export class userModel{
         model.user_introduction = jsonObject.user_introduction
         //model.user_age = jsonObject.user_age
         model.cert_list = jsonObject.cert_list
-        
-        var temp = []
+        model.rating_list = jsonObject.rating_list
+
+        var temp_course_list = []
         if ( jsonObject.course_list ){
             for( var i = 0; i < jsonObject.course_list.length; i ++)
             {
-                temp.push(courseModel.deserialize(jsonObject.course_list[i]) )
+                temp_course_list.push(courseModel.deserialize(jsonObject.course_list[i]) )
+            }
+        }
+        var temp_user_favorite_list = []
+        if (jsonObject.user_favorite_list )
+        {
+            for ( var i = 0; i < jsonObject.user_favorite_list.length; i ++)
+            {
+                temp_user_favorite_list.push(jsonObject.user_favorite_list[i].course)
             }
         }
 
-        model.course_list = temp
+        model.user_favorite_list = temp_user_favorite_list
+        model.course_list = temp_course_list
         
 
         //temp.push(courseModel.deserialize(c) )

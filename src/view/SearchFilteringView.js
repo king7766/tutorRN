@@ -132,6 +132,7 @@ class SearchFilteringView extends Component<Props> {
     }
    
     const res = await courseViewModel.updateCourseByCategoryId(cat_id)
+    categoryViewModel.setSelectedCategories(cat_id)
     if (res == true)
     {
       
@@ -140,10 +141,10 @@ class SearchFilteringView extends Component<Props> {
 
       this.props.navigation.navigate(
         'SearchTutorView',{
-          sub_categoryArray: sub_categoryArray,
-          tag: tag_Array,
+          //sub_categoryArray: sub_categoryArray,
+          //tag: tag_Array,
           data : submit_data,
-          c_id: cat_id,
+          cat_id: cat_id,
           subcat_id : subcat_id,
         }
       )

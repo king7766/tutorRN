@@ -20,7 +20,7 @@ export default class courseVM{
 	@observable refCourseTags = []
 
 	@observable courseList = []
-	@observable refCoursesFromCategory = []
+	@observable refCoursesFromCategory = {}
 	@observable refCoursesFromTag = {}
 	
 	@observable courseTagNames = []
@@ -97,6 +97,7 @@ export default class courseVM{
 
 	async updateCourseByCategoryId(cat_id)
 	{
+		console.log('updateCourseByCategoryId cat_id = ' + cat_id)
 		var temp = []
 		return await C.getResponseFromApi(E.GET_COURSE_BY_CATEGORY, 'POST', {token:E.token, category_id:cat_id} ).then( (json ) =>{
 			if ( json.statusCode == 200 && json.data.length !== undefined)
@@ -106,9 +107,10 @@ export default class courseVM{
 					var c =  json.data[i]
 					temp.push(courseModel.deserialize(c) )
 				}
-				console.log('refCoursesFromCategory = ' + JSON.stringify(this.refCoursesFromCategory))
-				this.refCoursesFromCategory.cat_id= temp
 				
+				this.refCoursesFromCategory[cat_id] = temp
+				console.log('refCoursesFromCategory = ' + JSON.stringify(this.refCoursesFromCategory))
+
 				return true
 			}
 			else
@@ -120,7 +122,7 @@ export default class courseVM{
 
 	async courseTagSelectedAction (index)
 	{
-		var tag_id = this.getCourseTagsList()[index -1].id
+		var tag_id = this.getCourseTagsList()[index].id
 		const res = await this.updateCourseByTagId(tag_id)
 		if (res == true)
 		{
@@ -215,10 +217,10 @@ export default class courseVM{
 		
 	}
 
-	getCourseByCategory(c_id)
+	getCourseByCategory(cat_id)
 	{
-		console.log('getCourseByCategory = ' +JSON.stringify(this.refCoursesFromCategory[c_id]))
-		return this.refCoursesFromCategory[c_id]
+		//console.log('getCourseByCategory = ' +JSON.stringify(this.refCoursesFromCategory[cat_id]))
+		return this.refCoursesFromCategory[cat_id]
 	}
 
 	getCourseByCategoryAndFiltering(c_id, filter_id_array)

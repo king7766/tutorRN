@@ -203,22 +203,4 @@ const styles = StyleSheet.create ({
     //alignItems: 'center'
     justifyContent: 'flex-start'
   },
-
-  nameStyle:{
-    color: 'rgba(41,62,107,1)',
-    //backgroundColor: 'red',
-    fontSize: 18,
-    fontWeight: 'bold',
-    padding : 5,
-    height:30,
-  },
-
-  subtextStyle:{
-    //backgroundColor: 'green',
-    color: 'rgba(107,157,242,1)',
-    fontSize: 12,
-    padding : 2,
-    paddingLeft : 10,
-    height:20,
-  }
 })

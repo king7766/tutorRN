@@ -190,7 +190,7 @@ class NewsItemCell extends Component{
 
   showUI()
   {
-    //console.log('like = ' + this.state.like)
+    console.log(this.props.item.id + ' like = ' + this.props.like)
     return (
       <View style = {{flex: 1}}>
         <LinearGradient colors={['rgba(0, 0, 0, 0.7)','rgba(0, 0, 0, 0.0)']} style = {styles.upperPartViewStyle}>
@@ -219,7 +219,7 @@ class NewsItemCell extends Component{
             onPress = {()=>this.props.likeBtnOnClicked(this.props.item.id)}
           >
             {
-              this.props.like ? 
+              this.props.like ?
               <Image style = {layout.styles.homeIconSize} source={Assets.actions.like_filled} />
               :
               <Image style = {layout.styles.homeIconSize} source={Assets.actions.like} />
@@ -422,7 +422,7 @@ const styles = StyleSheet.create ({
     paddingLeft:10,
     paddingRight:10,
     color:'white',
-    lineHeight: 20,
+    lineHeight: layout.defaultLineHeight,
     fontSize:layout.stringsSizeSmall
   },
   defaultImage: {

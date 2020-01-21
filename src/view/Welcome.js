@@ -598,12 +598,12 @@ const styles = StyleSheet.create({
  
   loginText:{
     color: 'white',
-    fontSize:15
+    fontSize:layout.stringsSizeMid
   },
 
   guestBtnText:{
     color: 'white',
-    fontSize: 15
+    fontSize: layout.stringsSizeMid
     
   },
   

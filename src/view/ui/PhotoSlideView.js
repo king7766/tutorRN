@@ -479,12 +479,6 @@ const styles = StyleSheet.create ({
     flexDirection:'row'
   },
 
-  tagTextStyle:{
-    padding : 5, 
-    backgroundColor : layout.touchHighlightColor,
-    fontSize: 13,
-    color: 'white'
-  }
 })
 
 

@@ -93,7 +93,7 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
     //var borderColor = multiSelect ? (this.state.multiSelectArray[index] ? layout.themeTextColor : 'gray') : (this.state.selected == index ? layout.themeTextColor : 'gray')
     var borderColor = this.state.multiSelectArray[index] ? layout.themeTextColor : 'gray'
 
-    if ( index == 0 )
+    if ( index == -1 )
     {
       borderColor = layout.themeTextColor
     }
@@ -121,7 +121,7 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
   onPress(index)
   {
     
-    const { multiSelect } = this.props;
+    //const { multiSelect } = this.props;
 
     this.props.onClicked(index)
     
@@ -159,7 +159,7 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
     const { firstImageSource, firstItemShowIcon,multiSelect, itemHeight, itemWidth } = this.props;
     
     //if (index == 0 && (firstItemShowIcon == true) ){
-    if( index == 0 ){
+    if( index == -1 ){
       return (
         <View
           style = {this.borderStyle(index)}
@@ -219,18 +219,27 @@ class RowMenuListingBar extends Component <TopMenuBarProps>{
           horizontal = {true}
           showsHorizontalScrollIndicator={false}
         >
-        {
-          dataSource.map((item, index) =>
-            (
-              <TouchableOpacity
-                key= {index}
-                onPress={ ()=>this.onPress(index) }  
-              >
-                {this.itemComponent(item, index)}
-              </TouchableOpacity>    
+          {
+            this.props.showConfigIcon && 
+            <TouchableOpacity
+              onPress={ ()=>this.onPress(-1) }  
+            >
+              {this.itemComponent("",-1)}
+            </TouchableOpacity>  
+
+          }
+          {
+            dataSource.map((item, index) =>
+              (
+                <TouchableOpacity
+                  key= {index}
+                  onPress={ ()=>this.onPress(index) }  
+                >
+                  {this.itemComponent(item, index)}
+                </TouchableOpacity>    
+              )
             )
-          )
-        }
+          }
         </ScrollView>
 
       </View>

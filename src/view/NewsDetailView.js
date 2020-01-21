@@ -52,7 +52,9 @@ import {
   TutorRatingBlock,
   SeparatorBar,
   PhotoThumbnailView,
+  NewsDetailLessonListCell,
 } from 'tutorRN/src/view/ui/UIComponent';
+import NewsItemCell from './ui/NewsItemCell';
 
 
 class NewsDetailView extends Component<Props> {
@@ -284,27 +286,9 @@ class NewsDetailView extends Component<Props> {
               <TouchableOpacity 
                 onPress = {()=>this.listItemOnPressed(item.id)}
               >
-                <View style = {{backgroundColor:'white', marginTop:5}}>
-                  <View>
-                    <Text style={{flex:1, margin:10, fontSize:layout.stringsSizeMid, fontWeight:'bold'}}>{item.course_name}</Text>
-                  </View>
-                  <View style = {{flexDirection:'row'}}>
-                    <View style = {styles.infoBlockStyle}>
-                      <Image source={Assets.icon.location} style={{height:30, width:30}} resizeMode='contain'/>
-                      <Text style={{ color:layout.blackColor}}>
-                        {locationViewModel.getLocationNameById(item.location[0].id)}
-                      </Text>
-                    </View>
-
-                    <View style = {styles.infoBlockStyle}>
-                      <Image source={Assets.icon.price} style={{height:30, width:30}} resizeMode='contain'/>
-                      <Text >
-                        {courseViewModel.getCourseFeeStringById(item.course_fee)}
-                      </Text>
-                    </View>
-                    <View style = {styles.infoBlockStyle}/>
-                  </View>
-                </View>
+                <NewsDetailLessonListCell 
+                  item = {item} 
+                />
               </TouchableOpacity>
 
             }
@@ -335,7 +319,7 @@ export default NewsDetailView;
 const styles = StyleSheet.create ({
   
   description:{
-    lineHeight:20,
+    lineHeight:layout.defaultLineHeight,
     fontSize: layout.stringsSizeSmall,
     paddingTop: 10,
   },
