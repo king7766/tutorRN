@@ -115,9 +115,7 @@ class SearchHomeView extends Component<Props> {
       categories: categoryViewModel.getCategories(), 
       //categories : ds.cloneWithRows(categoryViewModel.getCategories()),
      
-      districtData : ['中西區', '灣仔', '東區','南區','油尖旺', '深水埗', '九龍城','黃大仙','觀塘', '葵青', '荃灣', '屯門','元朗','北區','大埔','沙田','西貢','離島'],
-      currentDistrictData:['中西區', '灣仔', '東區','南區'],
-      educationData : ['小學', '中學', '大學以上'],
+      
       
       locationSelected : 0,
       districtSelected : 0,
@@ -148,7 +146,6 @@ class SearchHomeView extends Component<Props> {
     //console.log('courseTagNames = ' + this.state.courseTagNames)
 
     this.cellStyle = this.cellStyle.bind(this)
-    this.tabOnClicked = this.tabOnClicked.bind(this)
     this.TopMenuBarOnClicked = this.TopMenuBarOnClicked.bind(this)
     this.ListingCatBtnOnClick = this.ListingCatBtnOnClick.bind(this)
     this.categorysViewUI =this.categorysViewUI.bind(this)
@@ -168,53 +165,6 @@ class SearchHomeView extends Component<Props> {
   static navigationOptions = ({ navigation }) => ({
     title: strings.home,
   });
-
-
-  tabOnClicked(index, key ){
-    var arr = []
-    if ( key === 1)
-    {
-      if ( index === 0 )
-      {
-        for ( var i = 0; i < 4; i ++){
-          arr.push(this.state.districtData[i])
-        }
-      }
-      else if ( index === 1)
-      {
-        for ( var i = 4; i < 9; i ++){
-          arr.push(this.state.districtData[i])
-        }
-
-      }
-      else if ( index === 2)
-      {
-        for ( var i = 9; i < 17; i ++){
-          arr.push(this.state.districtData[i])
-        }
-
-      }
-      this.setState({
-        locationSelected: index,
-        currentDistrictData:arr
-      })
-    }
-    else if ( key === 2 )
-    {
-      this.setState({
-        districtSelected: index
-      })
-    }
-    else if ( key === 3 )
-    {
-      this.setState({
-        educationSelected: index
-      })
-    }
-
-    
-
-  }
 
   getRows(){        
     var Arr = [];        

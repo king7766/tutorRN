@@ -30,7 +30,12 @@ const AuthStack = StackNavigator({
     navigationOptions: {
       tabBarVisible: false,
       title:'註冊',
-      activeTintColor: '#e91e63'
+      activeTintColor: '#e91e63',
+      headerStyle: {
+        borderBottomColor: layout.themeTextColor,
+        borderBottomWidth: 1,
+        backgroundColor: 'white',
+      },
 
     },
   },

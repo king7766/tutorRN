@@ -7,6 +7,7 @@ import SearchTutorView from 'tutorRN/src/view/SearchTutorView';
 import SearchTutorDetailView from 'tutorRN/src/view/SearchTutorDetailView';
 import SearchFilteringView from 'tutorRN/src/view/SearchFilteringView';
 import NewsDetailView from 'tutorRN/src/view/NewsDetailView';
+import CommentPageView from 'tutorRN/src/view/CommentPageView'
 
 import strings from 'tutorRN/src/service/strings'
 
@@ -96,6 +97,25 @@ var SearchStack = StackNavigator({
         backgroundColor: 'white',
       },
       
+    },
+  },
+
+  CommentPageView:{
+    screen:  CommentPageView,
+    navigationOptions: {
+      title: strings.profile,
+      tabBarIcon: ({ tintColor }) => (
+        <Image
+          source={require('tutorRN/image/icons8-customer-filled-100.png')}
+          //style={[styles.icon, { tintColor: tintColor }]}
+          style={[layout.styles.icon, { tintColor: tintColor }]}
+        />
+      ),
+      headerStyle: {
+        borderBottomColor: layout.themeTextColor,
+        borderBottomWidth: 1,
+        backgroundColor: 'white',
+      },
     },
   },
 

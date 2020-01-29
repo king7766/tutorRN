@@ -39,10 +39,10 @@ const strings = new LocalizedStrings({
         loginText: '登入',
         registrationText: '註冊',
         guestLoginText: '遊客登入',
-        emailPlaceHolder : '電郵地址',
-        passwordPlaceHolder : '密碼',
+        emailPlaceHolder : '電郵地址 *',
+        passwordPlaceHolder : '密碼 *',
         more: '更多',
-        name: '名字',
+        name: '名字 *',
         lessonName: '課程名稱',
 
         // lesson 
@@ -138,10 +138,10 @@ const strings = new LocalizedStrings({
         loginText: '登入',
         registrationText: '注册',
         guestLoginText: '游客登入',
-        emailPlaceHolder : '电邮地址',
-        passwordPlaceHolder : '密码',
+        emailPlaceHolder : '电邮地址 *',
+        passwordPlaceHolder : '密码 *',
         more: '更多',
-        name: '名字',
+        name: '名字 *',
         lessonName: '课程名称',
 
         relatedPhoto : '相关照片',

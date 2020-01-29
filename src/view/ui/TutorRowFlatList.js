@@ -15,6 +15,12 @@ import Avatar from 'tutorRN/src/view/ui/Avatar';
 import Assets from 'tutorRN/src/view/ui/Assets';
 import strings from 'tutorRN/src/service/strings'
 
+import locationVM from 'tutorRN/src/VM/locationVM'
+import courseVM from 'tutorRN/src/VM/courseVM'
+
+const courseViewModel = courseVM.getInstance()
+const locationViewModel = locationVM.getInstance()
+
 
 const textHeight = 40
 
@@ -44,7 +50,7 @@ class TutorRowFlatList extends React.Component{
     return {
       flexDirection : 'column',
       backgroundColor: 'white',
-      height:this.props.height,
+      //height:this.props.height,
 
     }
   }
@@ -68,10 +74,9 @@ class TutorRowFlatList extends React.Component{
   courseNameStyle()
   {
     return{
-      textAlign: 'center',
-      margin:5,
+      textAlign: 'left',    
+      marginTop:5,
       width:this.props.itemWidth,
-      height:this.props.textHeight, 
       //backgroundColor:'blue',
       fontSize:layout.stringsSizeMid
     }
@@ -80,7 +85,8 @@ class TutorRowFlatList extends React.Component{
   courseImageStyle ()
   {
     return {
-      margin:5,
+      
+      //margin:5,
       height:this.props.imageHeight, 
       width:this.props.itemWidth,
       borderRadius:5,
@@ -93,10 +99,11 @@ class TutorRowFlatList extends React.Component{
   itemStyle()
   {
     return {
-      height: this.props.imageHeight+ this.props.textHeight,
+      //height: this.props.imageHeight+ this.props.textHeight,
       width:this.props.itemWidth,
       alignItems:'center',
-      margin:5,
+      marginRight:10,
+      //paddingRight:10,
       //backgroundColor:'red',
       
     }
@@ -129,23 +136,31 @@ class TutorRowFlatList extends React.Component{
               //source={{uri:item.tutor_thumb}}
               source = {{uri:imageURL}}
             />
+          }
+          { 
+            <Text numberOfLines= {1} style = {this.courseNameStyle()}>{item.course_name}</Text>
+          }
+          {
             
-            /*
-            <Avatar
-            onPress={() => {this.iconOnClick(item)}}
-            size = {imageHeight}
-            url = {item.tutor_thumb}
-            round = {true}
-          />
-          */
+            <View style ={{flexDirection:'row', justifyContent:'flex-start', height:40}}>
+              <View style = {styles.infoBlockStyle}>
+                <Image source={Assets.icon.location} style={layout.styles.icon} resizeMode='contain'/>
+                <Text style={{ color:layout.darkGray}}>
+                  {locationViewModel.getLocationNameById(item.location[0].id)}
+                </Text>
+              </View>
+              <View style = {styles.infoBlockStyle}>
+                <Image source={Assets.icon.price} style={layout.styles.icon} resizeMode='contain'/>
+                <Text style={{ color:layout.darkGray}}>
+                  {courseViewModel.getCourseFeeStringById(item.course_fee)}
+                </Text>
+              </View>
+          
+            </View>
+            
           }
           
-          {
-            //<View
-            //  style = {this.courseNameStyle()}
-            ///>
-            <Text numberOfLines= {2} style = {this.courseNameStyle()}>{item.course_name}</Text>
-          }
+          
           </TouchableOpacity>
         </View>
       )
@@ -155,8 +170,8 @@ class TutorRowFlatList extends React.Component{
   render (){
     
     
-    console.log('height = ' + this.props.height)
-    var imageHeight = this.props.height - 70
+    //console.log('height = ' + this.props.height)
+    //var imageHeight = this.props.height - 70
 
     return(
       
@@ -174,14 +189,20 @@ class TutorRowFlatList extends React.Component{
 
 
         </View>
-        <ScrollView 
-          
-          //style = {{height: this.p, marginTop:5}}
-          horizontal = {true}
-        >
-          {this.renderItem()}
+        <View style = {{marginLeft:10, marginTop:10}}>
+          {
+            
+            <ScrollView 
+              contentContainerStyle = {{marginLeft:5}}
+              horizontal = {true}
+            >
+              {this.renderItem()}
+            </ScrollView>
+            
+          }
+        </View>
 
-        </ScrollView>
+        
       
       
 
@@ -198,11 +219,12 @@ TutorRowFlatList.defaultProps = {
   colorTheme: 'rgba(216,72,118,1)',
   touchColor: 'rgba(237,182,202,1)',
   pressEnable: true,
-  numberOfItem: 3,
-  height: (layout.deviceWidth/2 - 20)*9 /16 + textHeight + 50,
-  imageHeight: (layout.deviceWidth/2 - 20)*9 /16,
+  //height: (layout.deviceWidth/2 - 20)*9 /16 + textHeight + 50,
+
+  itemWidth: layout.deviceWidth/2 - 30,
+  imageHeight: (layout.deviceWidth/2 - 30)*9 /16,
   textHeight:textHeight, 
-  itemWidth: layout.deviceWidth/2 - 20,
+  
 
 };
 
@@ -225,6 +247,13 @@ const styles = StyleSheet.create ({
     marginTop: 13,
     fontWeight:'bold',
     fontSize:layout.stringsSizeSmall,
+  },
+  infoBlockStyle:{
+    height:30,
+    alignItems:'center',
+    justifyContent:'flex-start',
+    flexDirection:'row',
+    
   },
   
 

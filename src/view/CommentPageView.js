@@ -112,30 +112,29 @@ class CommentPageView extends Component<Props> {
             onPress={() => {this.AvatarOnClicked(index)}}
             round = {true}
             size = {50}
-            type = 'edit'
+            //type = 'edit'
             url = {'https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/p320x320/13614994_10154250137598745_5801203470222158522_n.jpg?_nc_cat=110&_nc_oc=AQm5NxA1rY7W4d8YqPG0djDuG9uowyIbyAUwRkq7JOcJ9huJWbhhO2YfJ-37dviIEtA&_nc_ht=scontent-hkg3-1.xx&oh=c643ddf949263ca18a4c0eead81e1da3&oe=5DD86A90'}
           />
         </View>
         
         <View style ={styles.cellTextBoxStyle}>
           <Text style = {{margin:5}}>{item.user}</Text>
-          <View style = {{flexDirection:'column'}}>
-          <Text style = {{margin:5, color:'gray'}} >{item.date}</Text>
+          <View style = {{flexDirection:'row', justifyContent:'space-between'}}>  
+            <Text style = {{margin:5, color:'gray'}} >{item.date}</Text>
             <Rating
-                    type="star"
-                    fractions={1}
-                    startingValue={item.rate}
-                    readonly
-                    imageSize={25}
-                    ratingTextColor="black"
-                    onFinishRating={this.ratingCompleted}
-                    style={{ paddingVertical: 10 }}
+              type="star" 
+              fractions={1}
+              startingValue={ parseInt(item.rate)}
+              readonly
+              imageSize={25}
+              ratingTextColor="black"
+              onFinishRating={this.ratingCompleted}
             />
-
           </View>
+          {
+            //<Text style = {{margin:5, fontWeight: 'bold'}}>{item.lesson}</Text>
+          }
           
-
-          <Text style = {{margin:5, fontWeight: 'bold'}}>{item.lesson}</Text>
           <Text style = {{margin:5}}>{item.comment}</Text>
         </View>  
       </View>
@@ -150,7 +149,8 @@ class CommentPageView extends Component<Props> {
         style = {{flex: 1}}
         data={this.state.data}
         //data={this.state.data}
-        renderItem={({item, index}) => this.cellContent(item, index)}
+        renderItem = {({item, index}) => this.cellContent(item, index)}
+        keyExtractor = {(item, index) => index.toString()}
         removeClippedSubviews={false}
         //renderRow = {(rowData, sectionID, rowID, higlightRow) => this.cellContent(rowData, sectionID, rowID, higlightRow)} 
       >
@@ -164,7 +164,7 @@ class CommentPageView extends Component<Props> {
     console.log('count  = ' + this.state.data.length )
     return (
       <View 
-        style = {{flex:1}}
+        style = {{flex:1, backgroundColor:'white'}}
       >
       {
         this.displayContent()
@@ -180,12 +180,14 @@ const styles = StyleSheet.create({
   
 
   cellContainer:{
+    backgroundColor:'white',
     margin:10,
     flexDirection:'row',
     
   },
   cellImageBoxStyle:{
     flex:1,
+    alignItems:'center'
   },
   cellTextBoxStyle:{
     flex:4,

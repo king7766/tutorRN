@@ -281,6 +281,7 @@ class NewsDetailView extends Component<Props> {
             data = {this.state.params.tutor.course_list}
             //data = {this.state.lessonData}
             //data = {targetUserViewModel.getUserProfile().course_list}
+            keyExtractor = {(item, index) => index.toString()}
             renderItem = {
               ({item, index, separators})=>
               <TouchableOpacity 

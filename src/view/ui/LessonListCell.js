@@ -265,13 +265,13 @@ const styles = StyleSheet.create ({
   },
   locationTextStyle:{
     backgroundColor:'transparent',
-    color:layout.blackColor,
+    color:layout.darkGray,
     fontSize: layout.stringsSizeSmall,
   },
 
   priceTextStyle:{
     backgroundColor:'transparent',
-    color:layout.blackColor,
+    color:layout.darkGray,
     fontSize: layout.stringsSizeSmall,
   }
 })
